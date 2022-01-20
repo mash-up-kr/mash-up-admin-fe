@@ -35,11 +35,21 @@ yarn-error.log*
 
 .env
 
-# yarn berry - zero install
+# yarn berry
+# - non zero install
 .yarn/*
-!.yarn/cache
 !.yarn/patches
-!.yarn/plugins
 !.yarn/releases
+!.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+.pnp.*
+
+# - zero install
+# .yarn/*
+# !.yarn/patches
+# !.yarn/releases
+# !.yarn/plugins
+# !.yarn/sdks
+# !.yarn/versions
+# .pnp.*
