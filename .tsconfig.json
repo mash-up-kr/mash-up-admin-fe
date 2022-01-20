@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es2021",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "strict": true,
+    "rootDir": "./",
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "skipLibCheck": true,
+    "paths": {
+      "@src/*": ["./src/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./@types/*"],
+    "resolveJsonModule": true
+  },
+  "exclude": ["./node_modules", "./dist"],
+  "include": ["./src", "./@types", "**/*.config.js"]
+}

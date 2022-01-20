@@ -5,7 +5,7 @@ const DIST_PATH = path.resolve(PROJECT_ROOT, 'dist');
 const SRC_PATH = path.resolve(PROJECT_ROOT, 'src');
 
 module.exports = {
-  entry: path.resolve(SRC_PATH, 'index.jsx'),
+  entry: path.resolve(SRC_PATH, 'index.tsx'),
   output: {
     path: DIST_PATH,
     filename: '[name].js',
