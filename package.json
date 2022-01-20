@@ -1,0 +1,23 @@
+{
+  "name": "mashup-admin-fe",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mash-up-kr/mashup-admin-fe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mash-up-kr/mashup-admin-fe/issues"
+  },
+  "homepage": "https://github.com/mash-up-kr/mashup-admin-fe#readme",
+  "devDependencies": {
+    "@babel/core": "^7.16.10",
+    "@babel/plugin-transform-runtime": "^7.16.10",
+    "@babel/preset-env": "^7.16.10",
+    "@babel/preset-react": "^7.16.7",
+    "@babel/runtime-corejs3": "^7.16.8",
+    "babel-loader": "^8.2.3"
+  }
+}
