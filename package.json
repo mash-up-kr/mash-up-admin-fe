@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack serve --config ./webpack/webpack.dev.js",
     "build-dev": "tsc && webpack --config ./webpack/webpack.dev.js",
-    "build-prod": "tsc && webpack --config ./webpack/webpack.prod.js"
+    "build-prod": "tsc && webpack --config ./webpack/webpack.prod.js",
+    "lint": "eslint --fix --ext .js,.jsx,.tx,.tsx src"
   },
   "repository": {
     "type": "git",
