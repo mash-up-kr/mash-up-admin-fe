@@ -1,7 +1,5 @@
 import React from 'react';
 
-const Test = () => {
-  return <>hihihi</>;
-};
+const Test = () => <>hihihi</>;
 
 export default Test;

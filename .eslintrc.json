@@ -25,6 +25,7 @@
         "namedComponents": "arrow-function",
         "unnamedComponents": "arrow-function"
       }
-    ]
+    ],
+    "import/no-unresolved": "off"
   }
 }
