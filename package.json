@@ -5,9 +5,9 @@
   "main": "src/index.tsx",
   "scripts": {
     "start": "webpack serve --config ./webpack/webpack.dev.js",
-    "build-dev": "tsc && webpack --config ./webpack/webpack.dev.js",
-    "build-prod": "tsc && webpack --config ./webpack/webpack.prod.js",
-    "lint": "eslint --fix --ext .js,.jsx,.tx,.tsx src"
+    "build-dev": "webpack --config ./webpack/webpack.dev.js",
+    "build-prod": "webpack --config ./webpack/webpack.prod.js",
+    "type-check": "tsc src/*.(ts|tsx) --noEmit"
   },
   "repository": {
     "type": "git",
@@ -20,12 +20,6 @@
   },
   "homepage": "https://github.com/mash-up-kr/mashup-admin-fe#readme",
   "devDependencies": {
-    "@babel/core": "^7.16.10",
-    "@babel/plugin-transform-runtime": "^7.16.10",
-    "@babel/preset-env": "^7.16.10",
-    "@babel/preset-react": "^7.16.7",
-    "@babel/preset-typescript": "^7.16.7",
-    "@babel/runtime-corejs3": "^7.16.8",
     "@svgr/webpack": "^6.2.0",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.10",
@@ -35,6 +29,7 @@
     "@typescript-eslint/parser": "^5.10.0",
     "babel-loader": "^8.2.3",
     "clean-webpack-plugin": "^4.0.0",
+    "dotenv-webpack": "^7.0.3",
     "eslint": "^8.7.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.3.0",
@@ -48,6 +43,7 @@
     "html-webpack-plugin": "^5.5.0",
     "json5-loader": "^4.0.1",
     "prettier": "^2.5.1",
+    "ts-loader": "^9.2.6",
     "webpack": "^5.66.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.7.3",

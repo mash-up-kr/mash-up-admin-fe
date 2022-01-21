@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const DIST_PATH = path.resolve(PROJECT_ROOT, 'dist');
@@ -14,15 +15,7 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.(ts|js)x?$/,
-        include: path.resolve('src'),
-
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
-      },
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       {
         test: /\.(png|jpg|gif)$/,
         use: ['file-loader'],
@@ -43,10 +36,9 @@ module.exports = {
     ],
   },
   resolve: {
+    preferRelative: true,
     extensions: ['.js', '.ts', '.jsx', '.tsx'],
-    alias: {
-      '@src': SRC_PATH,
-    },
     modules: ['node_modules'],
   },
+  plugins: [new Dotenv()],
 };
