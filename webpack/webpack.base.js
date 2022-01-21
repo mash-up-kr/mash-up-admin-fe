@@ -15,7 +15,18 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: 'ts-loader' },
+      {
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+          {
+            loader: 'ts-loader',
+          },
+        ],
+        exclude: /node_modules/,
+      },
       {
         test: /\.(png|jpg|gif)$/,
         use: ['file-loader'],
