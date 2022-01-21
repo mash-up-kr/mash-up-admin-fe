@@ -15,15 +15,7 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.(ts|js)x?$/,
-        include: path.resolve('src'),
-
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
-      },
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       {
         test: /\.(png|jpg|gif)$/,
         use: ['file-loader'],
@@ -44,10 +36,8 @@ module.exports = {
     ],
   },
   resolve: {
+    preferRelative: true,
     extensions: ['.js', '.ts', '.jsx', '.tsx'],
-    alias: {
-      '@src': SRC_PATH,
-    },
     modules: ['node_modules'],
   },
   plugins: [new Dotenv()],
