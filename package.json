@@ -7,9 +7,11 @@
     "start": "webpack serve --config ./webpack/webpack.dev.js",
     "build-dev": "webpack --config ./webpack/webpack.dev.js",
     "build-prod": "webpack --config ./webpack/webpack.prod.js",
+    "type-check": "tsc src/*.(ts|tsx) --noEmit",
     "lint:code": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
     "lint:code-fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
-    "type-check": "tsc src/*.(ts|tsx) --noEmit"
+    "lint:style": "stylelint **/*.(ts|tsx)",
+    "lint:style-fix": "stylelint **/*.(ts|tsx) --fix"
   },
   "repository": {
     "type": "git",
@@ -50,6 +52,11 @@
     "html-webpack-plugin": "^5.5.0",
     "json5-loader": "^4.0.1",
     "prettier": "^2.5.1",
+    "stylelint": "^14.2.0",
+    "stylelint-config-recommended": "^6.0.0",
+    "stylelint-config-standard": "^24.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.10.0",
     "ts-loader": "^9.2.6",
     "webpack": "^5.66.0",
     "webpack-cli": "^4.9.1",
