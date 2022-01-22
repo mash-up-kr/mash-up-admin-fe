@@ -1,0 +1,33 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: yarn install --immutable # --immutable-cache
+
+      - name: Lint code
+        run: yarn lint:code
+
+      - name: Lint style
+        run: yarn lint:style
+
+      - name: Build for dev
+        run: yarn build-dev
+
+      - name: Build for prod
+        run: yarn build-prod
+        if: contains(github.ref, 'master') || contains(github.ref, 'release')
