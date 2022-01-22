@@ -36,8 +36,11 @@ module.exports = {
     ],
   },
   resolve: {
-    preferRelative: true,
     extensions: ['.js', '.ts', '.jsx', '.tsx'],
+    alias: {
+      "@components": `${SRC_PATH}/components`,
+      "@pages": `${SRC_PATH}/pages`,
+    },
     modules: ['node_modules'],
   },
   plugins: [new Dotenv()],

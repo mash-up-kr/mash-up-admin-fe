@@ -9,7 +9,11 @@
     "strict": true,
     "rootDir": "./",
     "outDir": "./dist",
-    "baseUrl": "./src",
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"]
+    },
     "skipLibCheck": true,
     "typeRoots": ["./node_modules/@types", "./@types/*"],
     "resolveJsonModule": true
