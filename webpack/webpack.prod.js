@@ -1,7 +1,6 @@
 const { merge } = require('webpack-merge');
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const baseConfig = require('./webpack.base');
 
@@ -16,6 +15,5 @@ module.exports = merge(baseConfig, {
       template: path.resolve(TEMPLATE_PATH, 'index.html'),
       minify: true,
     }),
-    new CleanWebpackPlugin(),
   ],
 });
