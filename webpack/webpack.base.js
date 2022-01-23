@@ -72,8 +72,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx'],
     alias: {
-      "@components": `${SRC_PATH}/components`,
-      "@pages": `${SRC_PATH}/pages`,
+      '@components': `${SRC_PATH}/components`,
+      '@pages': `${SRC_PATH}/pages`,
+      '@styles': `${SRC_PATH}/styles`,
     },
     modules: ['node_modules'],
   },
