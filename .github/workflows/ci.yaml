@@ -25,6 +25,9 @@ jobs:
       - name: Lint style
         run: yarn lint:style
 
+      - name: Test
+        run: yarn test:ci
+
       - name: Build for dev
         run: yarn build-dev
         if: "!(contains(github.ref, 'main') || contains(github.ref, 'release'))"
