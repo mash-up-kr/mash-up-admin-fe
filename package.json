@@ -12,6 +12,7 @@
     "test:ci": "jest",
     "lint:code": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
     "lint:code-fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
+    "prettier:code-fix": "prettier --write",
     "lint:style": "stylelint **/*.(ts|tsx)",
     "lint:style-fix": "stylelint **/*.(ts|tsx) --fix",
     "postinstall": "husky install",
@@ -98,9 +99,10 @@
   },
   "packageManager": "yarn@3.1.1",  
   "lint-staged": {
-    "*.{js, jsx, ts, tsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "yarn lint:code-fix --cache",
-      "yarn lint:style-fix --cache"
+      "yarn lint:style-fix",
+      "yarn prettier:code-fix"
     ]    
   }
 }
