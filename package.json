@@ -13,7 +13,10 @@
     "lint:code": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
     "lint:code-fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
     "lint:style": "stylelint **/*.(ts|tsx)",
-    "lint:style-fix": "stylelint **/*.(ts|tsx) --fix"
+    "lint:style-fix": "stylelint **/*.(ts|tsx) --fix",
+    "postinstall": "husky install",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable"
   },
   "repository": {
     "type": "git",
@@ -61,11 +64,12 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.4",
     "jest": "^27.4.7",
     "jest-plugin-context": "^2.9.0",
     "json5-loader": "^4.0.1",
-    "postcss": "^8.4.5",
-    "postcss-syntax": "^0.36.2",
+    "lint-staged": "^12.3.1",
+    "pinst": "^2.1.6",
     "prettier": "^2.5.1",
     "stylelint": "^14.2.0",
     "stylelint-config-prettier": "^9.0.3",
