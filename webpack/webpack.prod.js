@@ -2,7 +2,8 @@ const { merge } = require('webpack-merge');
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
-const baseConfig = require('./webpack.base.js');
+const baseConfig = require('./webpack.base');
+
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const TEMPLATE_PATH = path.resolve(PROJECT_ROOT, 'public');
 
