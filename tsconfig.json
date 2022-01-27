@@ -12,9 +12,6 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@pages/*": ["src/pages/*"],
-      "@styles/*": ["src/styles/*"]
     },
     "skipLibCheck": true,
     "typeRoots": ["./node_modules/@types", "./@types/*"],
