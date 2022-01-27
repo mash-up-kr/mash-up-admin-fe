@@ -1417,7 +1417,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/babel-plugin@npm:^11.7.1":
+"@emotion/babel-plugin@npm:^11.3.0, @emotion/babel-plugin@npm:^11.7.1":
   version: 11.7.2
   resolution: "@emotion/babel-plugin@npm:11.7.2"
   dependencies:
@@ -1477,6 +1477,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@emotion/is-prop-valid@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@emotion/is-prop-valid@npm:1.1.1"
+  dependencies:
+    "@emotion/memoize": ^0.7.4
+  checksum: 5816696dae6ac79537a31fe95256e0c1f55651507204676dd9903542b102f727c16a68924e6634a89b0972f0d15b0803bb9d4e14bd0fb8a49da8a2e3956e6639
+  languageName: node
+  linkType: hard
+
 "@emotion/memoize@npm:^0.7.4, @emotion/memoize@npm:^0.7.5":
   version: 0.7.5
   resolution: "@emotion/memoize@npm:0.7.5"
@@ -1524,6 +1533,28 @@ __metadata:
   version: 1.1.0
   resolution: "@emotion/sheet@npm:1.1.0"
   checksum: a4b74e16a8fea1157413efe4904f5f679d724323cb605d66d20a0b98744422f5d411fca927ceb52e4de454a0a819c5273ca9496db9f011b4ecd17b9f1b212007
+  languageName: node
+  linkType: hard
+
+"@emotion/styled@npm:^11.6.0":
+  version: 11.6.0
+  resolution: "@emotion/styled@npm:11.6.0"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@emotion/babel-plugin": ^11.3.0
+    "@emotion/is-prop-valid": ^1.1.1
+    "@emotion/serialize": ^1.0.2
+    "@emotion/utils": ^1.0.0
+  peerDependencies:
+    "@babel/core": ^7.0.0
+    "@emotion/react": ^11.0.0-rc.0
+    react: ">=16.8.0"
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    "@types/react":
+      optional: true
+  checksum: 612bbf114a4ca49e5b3ec4554bea1cd5aad9eeb2371babc3e6b79eab5020bd0300b9904108b621837fe715e221ba09dd131dc29918c1fd966e082d8e74fca833
   languageName: node
   linkType: hard
 
@@ -8439,6 +8470,7 @@ __metadata:
     "@babel/runtime": ^7.16.7
     "@emotion/css": ^11.7.1
     "@emotion/react": ^11.7.1
+    "@emotion/styled": ^11.6.0
     "@stylelint/postcss-css-in-js": ^0.37.2
     "@svgr/webpack": ^6.2.0
     "@testing-library/jest-dom": ^5.16.1
