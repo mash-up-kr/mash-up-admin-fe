@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "react-jsx",
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es2021",
@@ -17,7 +17,8 @@
     },
     "skipLibCheck": true,
     "typeRoots": ["./node_modules/@types", "./@types/*"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "jsxImportSource": "@emotion/react"
   },
   "exclude": ["./node_modules", "./dist"],
   "include": ["./src", "./@types", "**/*.config.js"]
