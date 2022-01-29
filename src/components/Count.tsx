@@ -2,7 +2,7 @@ import React from 'react';
 import { useRecoilState } from 'recoil';
 import { countState } from '@/atoms';
 
-export default () => {
+const Count = () => {
   const [count, setCount] = useRecoilState(countState);
   return (
     <div>
@@ -16,3 +16,5 @@ export default () => {
     </div>
   );
 };
+
+export default Count;
