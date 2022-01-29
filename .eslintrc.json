@@ -1,9 +1,10 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "jest": true
   },
-  "extends": ["plugin:react/recommended", "airbnb", "airbnb/hooks", "prettier"],
+  "extends": [ "airbnb", "plugin:react/recommended", "airbnb/hooks", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -26,7 +27,12 @@
         "unnamedComponents": "arrow-function"
       }
     ],
-    "import/no-unresolved": "off",
+    "react/jsx-props-no-spreading": 0,
+    "arrow-body-style": 0,
+    "prefer-arrow-callback": 0,
+    "import/no-unresolved": 0,
+    "import/extensions": 0,
+    "import/prefer-default-export": 0,
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
   }
