@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx",
+    "jsx": "react",
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es2021",
@@ -11,6 +11,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
+      "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@styles/*": ["src/styles/*"]
@@ -18,7 +19,7 @@
     "skipLibCheck": true,
     "typeRoots": ["./node_modules/@types", "./@types/*"],
     "resolveJsonModule": true,
-    "jsxImportSource": "@emotion/react"
+    "types": ["jest", "node"],
   },
   "exclude": ["./node_modules", "./dist"],
   "include": ["./src", "./@types", "**/*.config.js"]
