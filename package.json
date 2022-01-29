@@ -104,7 +104,9 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "yarn lint:code-fix --cache",
-      "yarn lint:style-fix",
+      "yarn lint:style-fix"
+    ],
+    "*.json": [
       "yarn prettier:code-fix"
     ]
   }
