@@ -26,12 +26,6 @@
   },
   "homepage": "https://github.com/mash-up-kr/mashup-admin-fe#readme",
   "devDependencies": {
-    "@babel/core": "^7.16.12",
-    "@babel/plugin-transform-modules-commonjs": "^7.16.8",
-    "@babel/plugin-transform-runtime": "^7.16.10",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/preset-react": "^7.16.7",
-    "@babel/preset-typescript": "^7.16.7",
     "@babel/runtime": "^7.16.7",
     "@emotion/css": "^11.7.1",
     "@emotion/react": "^11.7.1",
