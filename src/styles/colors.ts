@@ -14,4 +14,4 @@ export const Colors = {
   purple40: '#C2B6FF',
   purple20: '#E8E4FF',
   red70: '#FC4162',
-};
+} as const;
