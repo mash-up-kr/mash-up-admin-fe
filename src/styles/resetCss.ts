@@ -89,10 +89,10 @@ export default css`
   video {
     margin: 0;
     padding: 0;
-    border: 0;
     font-size: 100%;
     font-family: inherit;
     vertical-align: baseline;
+    border: 0;
   }
   /* HTML5 display-role reset for older browsers */
   article,
