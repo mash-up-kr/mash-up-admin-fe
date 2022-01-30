@@ -71,4 +71,6 @@ export const font = {
     font-size: 1.5rem;
     line-height: 1.8rem;
   `,
-};
+} as const;
+
+export type FontTheme = typeof font;
