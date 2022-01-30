@@ -50,7 +50,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/parser", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
             ["clean-webpack-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:4.0.0"],
             ["dotenv-webpack", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.1.0"],
-            ["emotion-reset", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:3.0.1"],
             ["emotion-ts-plugin", "npm:1.1.0"],
             ["eslint", "npm:8.8.0"],
             ["eslint-config-airbnb", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:19.0.4"],
@@ -7239,28 +7238,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["emotion-reset", [
-        ["npm:3.0.1", {
-          "packageLocation": "./.yarn/cache/emotion-reset-npm-3.0.1-061e1e27b7-788cfbf6f3.zip/node_modules/emotion-reset/",
-          "packageDependencies": [
-            ["emotion-reset", "npm:3.0.1"]
-          ],
-          "linkType": "SOFT",
-        }],
-        ["virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:3.0.1", {
-          "packageLocation": "./.yarn/__virtual__/emotion-reset-virtual-8525672a50/0/cache/emotion-reset-npm-3.0.1-061e1e27b7-788cfbf6f3.zip/node_modules/emotion-reset/",
-          "packageDependencies": [
-            ["emotion-reset", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:3.0.1"],
-            ["@emotion/react", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:11.7.1"],
-            ["@types/emotion__react", null]
-          ],
-          "packagePeers": [
-            "@emotion/react",
-            "@types/emotion__react"
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["emotion-ts-plugin", [
         ["npm:1.1.0", {
           "packageLocation": "./.yarn/cache/emotion-ts-plugin-npm-1.1.0-38ed47dda0-6175a5736e.zip/node_modules/emotion-ts-plugin/",
@@ -11300,7 +11277,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/parser", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
             ["clean-webpack-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:4.0.0"],
             ["dotenv-webpack", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.1.0"],
-            ["emotion-reset", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:3.0.1"],
             ["emotion-ts-plugin", "npm:1.1.0"],
             ["eslint", "npm:8.8.0"],
             ["eslint-config-airbnb", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:19.0.4"],
