@@ -9,7 +9,7 @@
     "build-prod": "webpack --config ./webpack/webpack.prod.js",
     "type-check": "tsc src/*.(ts|tsx) --noEmit",
     "test": "jest --watchAll --coverage",
-    "test:ci": "jest",    
+    "test:ci": "jest",
     "lint:code": "eslint --ext .js,.jsx,.ts,.tsx src",
     "lint:code-fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
     "prettier:code-fix": "prettier --write",
@@ -30,9 +30,6 @@
   },
   "homepage": "https://github.com/mash-up-kr/mashup-admin-fe#readme",
   "devDependencies": {
-    "@babel/runtime": "^7.16.7",
-    "@emotion/css": "^11.7.1",
-    "@emotion/react": "^11.7.1",
     "@stylelint/postcss-css-in-js": "^0.37.2",
     "@svgr/webpack": "^6.2.0",
     "@testing-library/jest-dom": "^5.16.1",
@@ -45,7 +42,6 @@
     "@typescript-eslint/parser": "^5.10.0",
     "clean-webpack-plugin": "^4.0.0",
     "dotenv-webpack": "^7.0.3",
-    "emotion-reset": "^3.0.1",
     "emotion-ts-plugin": "^1.1.0",
     "eslint": "^8.7.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -82,6 +78,8 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@emotion/css": "^11.7.1",
+    "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -94,7 +92,7 @@
     "npm": "please-use-yarn",
     "yarn": "^3.1.1"
   },
-  "packageManager": "yarn@3.1.1",  
+  "packageManager": "yarn@3.1.1",
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "yarn lint:code-fix --cache",
