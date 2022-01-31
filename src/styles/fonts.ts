@@ -72,7 +72,6 @@ export const fonts = {
     extrabold15: css`
       font-weight: 800;
       font-size: 1.5rem;
-      line-height: normal;
     `,
   },
 } as const;

@@ -2,8 +2,8 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import { Global, ThemeProvider } from '@emotion/react';
-import { theme } from '@/styles/theme';
-import resetCss from '@/styles/resetCss';
+import { theme, resetCss } from '@/styles';
+
 import Count from '@/components/Count';
 
 const App = () => (
