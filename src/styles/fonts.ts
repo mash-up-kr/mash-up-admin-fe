@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-export const font = {
+export const fonts = {
   kr_46_bold: css`
     font-weight: 700;
     font-size: 4.6rem;
@@ -73,4 +73,4 @@ export const font = {
   `,
 } as const;
 
-export type FontTheme = typeof font;
+export type FontTheme = typeof fonts;

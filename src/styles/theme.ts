@@ -1,5 +1,5 @@
-import { font } from './font';
+import { fonts } from './fonts';
 
 export const theme = {
-  font,
+  font: fonts,
 };
