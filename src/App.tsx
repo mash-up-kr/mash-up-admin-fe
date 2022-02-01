@@ -1,16 +1,19 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import { Global } from '@emotion/react';
-import resetCss from '@/styles/resetCss';
+import { Global, ThemeProvider } from '@emotion/react';
+import { theme, resetCss } from '@/styles';
+
 import Count from '@/components/Count';
 
 const App = () => (
   <>
     <Global styles={resetCss} />
-    <Routes>
-      <Route path="/" element={<Count />} />
-    </Routes>
+    <ThemeProvider theme={theme}>
+      <Routes>
+        <Route path="/" element={<Count />} />
+      </Routes>
+    </ThemeProvider>
   </>
 );
 
