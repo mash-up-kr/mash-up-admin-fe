@@ -1,4 +1,4 @@
-const colors = {
+export const colors = {
   white: '#FFFFFF',
   gray5: '#F8F9FA',
   gray10: '#F1F3F5',
@@ -16,4 +16,4 @@ const colors = {
   red70: '#FC4162',
 } as const;
 
-export default colors;
+export type ColorTheme = typeof colors;
