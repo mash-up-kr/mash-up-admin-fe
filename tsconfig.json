@@ -1,23 +1,26 @@
 {
   "compilerOptions": {
-    "jsx": "react",
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "target": "es2021",
-    "moduleResolution": "node",
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "strict": true,
-    "rootDir": "./",
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"],
-    },
     "skipLibCheck": true,
-    "typeRoots": ["./node_modules/@types", "./@types/*"],
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "rootDir": ".",
+    "typeRoots": ["./@types/*"],
     "types": ["jest", "node"]
   },
-  "exclude": ["./node_modules", "./dist"],
-  "include": ["./src", "./@types", "**/*.config.js"]
+  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./@types", "**/*.config.js"]
 }
