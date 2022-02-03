@@ -5,9 +5,9 @@
   "main": "src/index.tsx",
   "scripts": {
     "start": "webpack serve --config ./webpack/webpack.dev.js",
-    "build-dev": "webpack --config ./webpack/webpack.dev.js",
-    "build-prod": "webpack --config ./webpack/webpack.prod.js",
-    "type-check": "tsc src/*.(ts|tsx) --noEmit",
+    "build-dev": "yarn type-check && webpack --config ./webpack/webpack.dev.js",
+    "build-prod": "yarn type-check && webpack --config ./webpack/webpack.prod.js",
+    "type-check": "tsc --build ./tsconfig.json",
     "test": "jest --watchAll --coverage",
     "test:ci": "jest",
     "lint:code": "eslint --ext .js,.jsx,.ts,.tsx src",

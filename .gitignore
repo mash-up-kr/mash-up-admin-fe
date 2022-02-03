@@ -48,3 +48,6 @@ yarn-error.log*
 
 .stylelintcache
 .eslintcache
+
+# TS
+tsconfig.tsbuildinfo
