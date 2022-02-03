@@ -55,7 +55,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-dom", "npm:17.0.11"],
             ["@typescript-eslint/eslint-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
             ["@typescript-eslint/parser", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
-            ["babel-loader", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:8.2.3"],
             ["clean-webpack-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:4.0.0"],
             ["dotenv-webpack", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.1.0"],
             ["emotion-ts-plugin", "npm:1.1.0"],
@@ -4355,7 +4354,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/storybook__vue", null],
             ["@types/storybook__web-components", null],
             ["@types/webpack", null],
-            ["babel-loader", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:8.2.3"],
+            ["babel-loader", null],
             ["core-js", "npm:3.20.3"],
             ["lit-html", null],
             ["react", "npm:17.0.2"],
@@ -8698,27 +8697,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["make-dir", "npm:3.1.0"],
             ["schema-utils", "npm:2.7.1"],
             ["webpack", "virtual:268f23ab2f489dae0bd9fa8a04a910dc6541fdfa2c39e2af6b9b659c8b1958be1ece9885a888007f29d20e6b00d7c5dfd51410513363496f3d8d97e3a6921123#npm:4.46.0"]
-          ],
-          "packagePeers": [
-            "@babel/core",
-            "@types/babel__core",
-            "@types/webpack",
-            "webpack"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:8.2.3", {
-          "packageLocation": "./.yarn/__virtual__/babel-loader-virtual-77f1b2f285/0/cache/babel-loader-npm-8.2.3-855681b984-78e1e1a919.zip/node_modules/babel-loader/",
-          "packageDependencies": [
-            ["babel-loader", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:8.2.3"],
-            ["@babel/core", "npm:7.16.12"],
-            ["@types/babel__core", null],
-            ["@types/webpack", null],
-            ["find-cache-dir", "npm:3.3.2"],
-            ["loader-utils", "npm:1.4.0"],
-            ["make-dir", "npm:3.1.0"],
-            ["schema-utils", "npm:2.7.1"],
-            ["webpack", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.67.0"]
           ],
           "packagePeers": [
             "@babel/core",
@@ -16932,7 +16910,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-dom", "npm:17.0.11"],
             ["@typescript-eslint/eslint-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
             ["@typescript-eslint/parser", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
-            ["babel-loader", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:8.2.3"],
             ["clean-webpack-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:4.0.0"],
             ["dotenv-webpack", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.1.0"],
             ["emotion-ts-plugin", "npm:1.1.0"],
