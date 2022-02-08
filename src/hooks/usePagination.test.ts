@@ -11,7 +11,7 @@ jest.mock('react-router-dom', () => {
 });
 
 describe('usePagination', () => {
-  it('아이템의 수가 없는 경우, 속성값들은 전부 0으로 초기화됩니다.', () => {
+  it('아이템의 수가 없는 경우, 속성값들은 전부 0으로 초기화된다.', () => {
     // Given
     const totalCount = 0;
 
@@ -29,7 +29,7 @@ describe('usePagination', () => {
     });
   });
 
-  it('아이템의 수가 한 페이지에 표시되는 경우, 현재/시작/끝/전체 페이지는 전부 1이어야 합니다.', () => {
+  it('아이템의 수가 한 페이지에 표시되는 경우, 현재/시작/끝/전체 페이지는 전부 1이어야 한다.', () => {
     // Given
     const totalCount = 10;
 
@@ -47,7 +47,7 @@ describe('usePagination', () => {
     });
   });
 
-  it('아이템의 수가 충분히 많은 경우, 시작~끝 페이지 구간은 10이어야 합니다.', () => {
+  it('아이템의 수가 충분히 많은 경우, 시작~끝 페이지 구간은 10이어야 한다.', () => {
     // Given
     const totalCount = 550;
 
@@ -65,7 +65,7 @@ describe('usePagination', () => {
     });
   });
 
-  it('query string에 page/size 정보가 있을 경우, 현재 페이지와 페이징 크기는 해당 값으로 설정되어야 합니다.', () => {
+  it('query string에 page/size 정보가 있을 경우, 현재 페이지와 페이징 크기는 해당 값으로 설정되어야 한다.', () => {
     // Given
     const totalCount = 1330;
     const page = 13;
@@ -86,7 +86,7 @@ describe('usePagination', () => {
     });
   });
 
-  it('속성값과 함께 반환되는 함수로 페이징 속성값을 변경할 수 있어야 합니다.', async () => {
+  it('속성값과 함께 반환되는 함수로 페이징 속성값을 변경할 수 있어야 한다.', async () => {
     // Given
     const totalCount = 550;
 
