@@ -1,5 +1,5 @@
 import React from 'react';
-import Styled from './styled';
+import Styled from './Input.styled';
 import { InputProps } from './types';
 
 const Input = ({ className, $size, label, errorMessage, ...resetProps }: InputProps) => {
