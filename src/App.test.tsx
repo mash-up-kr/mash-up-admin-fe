@@ -2,10 +2,13 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { render } from '@testing-library/react';
-
 import App from '@/App';
 
-const renderApp = ({ path }) =>
+interface Prameters {
+  path: string;
+}
+
+const renderApp = ({ path }: Prameters) =>
   render(
     <MemoryRouter initialEntries={[path]}>
       <RecoilRoot>

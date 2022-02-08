@@ -17,12 +17,11 @@
     "downlevelIteration": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "#/*": ["test/*"]
+      "@/*": ["src/*"]
     },
     "rootDir": ".",
     "typeRoots": ["./@types/*"],
-    "types": ["@types/jest", "node"]
+    "types": ["@types/jest", "node", "@testing-library/jest-dom"]
   },
-  "include": ["src", "test", "./@types", "./.eslintrc.json"]
+  "include": ["src", "./@types", "./.eslintrc.json"]
 }

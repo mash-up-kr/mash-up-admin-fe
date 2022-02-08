@@ -5,7 +5,6 @@ const { createEmotionPlugin } = require('emotion-ts-plugin');
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const DIST_PATH = path.resolve(PROJECT_ROOT, 'dist');
 const SRC_PATH = path.resolve(PROJECT_ROOT, 'src');
-const TEST_PATH = path.resolve(PROJECT_ROOT, 'test');
 
 module.exports = {
   entry: path.resolve(SRC_PATH, 'index.tsx'),
@@ -71,7 +70,6 @@ module.exports = {
     extensions: ['.js', '.ts', '.jsx', '.tsx'],
     alias: {
       '@': SRC_PATH,
-      '#': TEST_PATH,
     },
     modules: ['node_modules'],
   },
