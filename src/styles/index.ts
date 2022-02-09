@@ -1,5 +1,4 @@
-export * from './colors';
-export * from './fonts';
-export { default as resetCss } from './resetCss';
-export * from './theme';
+export * from './themes';
 export * from './globalStyles';
+
+export { default as resetCss } from './resetCss';
