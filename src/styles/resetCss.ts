@@ -1,6 +1,10 @@
 import { css } from '@emotion/react';
 
 const resetCss = css`
+  * {
+    font-family: SpoqaHanSansNeo, sans-serif;
+  }
+
   html {
     /* 1rem = 10px */
     font-size: 62.5%;
