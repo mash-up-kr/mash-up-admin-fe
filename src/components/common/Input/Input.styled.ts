@@ -1,7 +1,7 @@
 import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { neverExpected } from '@/utils/errors';
-import { InputSize, InputSizeType } from './types';
+import { InputSize, InputSizeType } from './Input';
 
 interface StyledInputProps {
   $size: InputSizeType;
