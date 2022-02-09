@@ -18,11 +18,20 @@ const InputLabel = styled.label`
 
     return css`
       ${fonts.kr.medium15}
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.6rem;
       color: ${colors.gray70};
     `;
   }}
+`;
 
-  margin-bottom: 6px;
+const RequiredDot = styled.span`
+  width: 0.6rem;
+  height: 0.6rem;
+  margin-left: 0.6rem;
+  background-color: #eb6963;
+  border-radius: 50%;
 `;
 
 const getInputSizeStyle = (size: InputSizeType, theme: Theme) => {
@@ -94,4 +103,5 @@ export default {
   InputLabel,
   Input,
   InputErrorMessage,
+  RequiredDot,
 };

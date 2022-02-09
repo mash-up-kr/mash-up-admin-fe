@@ -12,14 +12,18 @@ export type InputSizeType = ValueOf<typeof InputSize>;
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   $size: InputSizeType;
-  label?: string;
+  label: string;
   errorMessage?: string;
 }
 
-const Input = ({ className, $size, label, errorMessage, ...resetProps }: InputProps) => {
+const Input = ({ className, $size, label, errorMessage, required, ...resetProps }: InputProps) => {
   return (
     <Styled.InputWrapper>
-      {label && <Styled.InputLabel>{label}</Styled.InputLabel>}
+      <Styled.InputLabel>
+        <span>{label}</span>
+        {required && <Styled.RequiredDot />}
+      </Styled.InputLabel>
+
       <Styled.Input className={className} $size={$size} {...resetProps} />
       {errorMessage && <Styled.InputErrorMessage>{errorMessage}</Styled.InputErrorMessage>}
     </Styled.InputWrapper>
