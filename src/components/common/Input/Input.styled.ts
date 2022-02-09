@@ -11,17 +11,17 @@ const getInputSizeStyle = (size: InputSizeType, theme: Theme) => {
   switch (size) {
     case InputSize.xs:
       return css`
-        ${theme.fonts.kr.regular13};
+        ${theme.fonts.regular13};
         padding: 8px 12px;
       `;
     case InputSize.sm:
       return css`
-        ${theme.fonts.kr.regular15};
+        ${theme.fonts.regular15};
         padding: 8px 12px;
       `;
     case InputSize.md:
       return css`
-        ${theme.fonts.kr.regular15};
+        ${theme.fonts.regular15};
         padding: 12px 14px;
       `;
     default:
@@ -39,7 +39,7 @@ export const InputLabel = styled.label`
     const { colors, fonts } = theme;
 
     return css`
-      ${fonts.kr.medium15}
+      ${fonts.medium15}
       display: flex;
       align-items: center;
       margin-bottom: 0.6rem;
@@ -90,7 +90,7 @@ export const InputErrorMessage = styled.span`
     const { colors, fonts } = theme;
 
     return css`
-      ${fonts.kr.regular15};
+      ${fonts.regular15};
 
       margin-top: 6px;
       color: ${colors.gray60};
