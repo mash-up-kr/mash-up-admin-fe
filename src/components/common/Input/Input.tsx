@@ -1,4 +1,5 @@
 import React from 'react';
+import { ValueOf } from '@/types';
 import Styled from './Input.styled';
 
 export const InputSize = {
@@ -7,7 +8,7 @@ export const InputSize = {
   md: 'md',
 } as const;
 
-export type InputSizeType = typeof InputSize[keyof typeof InputSize];
+export type InputSizeType = ValueOf<typeof InputSize>;
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   $size: InputSizeType;
