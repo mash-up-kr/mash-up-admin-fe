@@ -1,6 +1,6 @@
 import React from 'react';
 import { ValueOf } from '@/types';
-import Styled from './Input.styled';
+import * as Styled from './Input.styled';
 
 export const InputSize = {
   xs: 'xs',

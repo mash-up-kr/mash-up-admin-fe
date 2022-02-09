@@ -7,33 +7,6 @@ interface StyledInputProps {
   $size: InputSizeType;
 }
 
-const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const InputLabel = styled.label`
-  ${({ theme }) => {
-    const { colors, fonts } = theme;
-
-    return css`
-      ${fonts.kr.medium15}
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.6rem;
-      color: ${colors.gray70};
-    `;
-  }}
-`;
-
-const RequiredDot = styled.span`
-  width: 0.6rem;
-  height: 0.6rem;
-  margin-left: 0.6rem;
-  background-color: #eb6963;
-  border-radius: 50%;
-`;
-
 const getInputSizeStyle = (size: InputSizeType, theme: Theme) => {
   switch (size) {
     case InputSize.xs:
@@ -56,7 +29,34 @@ const getInputSizeStyle = (size: InputSizeType, theme: Theme) => {
   }
 };
 
-const Input = styled.input<StyledInputProps>`
+export const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const InputLabel = styled.label`
+  ${({ theme }) => {
+    const { colors, fonts } = theme;
+
+    return css`
+      ${fonts.kr.medium15}
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.6rem;
+      color: ${colors.gray70};
+    `;
+  }}
+`;
+
+export const RequiredDot = styled.span`
+  width: 0.6rem;
+  height: 0.6rem;
+  margin-left: 0.6rem;
+  background-color: #eb6963;
+  border-radius: 50%;
+`;
+
+export const Input = styled.input<StyledInputProps>`
   ${({ theme, $size }) => {
     const { colors } = theme;
 
@@ -85,7 +85,7 @@ const Input = styled.input<StyledInputProps>`
   }}
 `;
 
-const InputErrorMessage = styled.span`
+export const InputErrorMessage = styled.span`
   ${({ theme }) => {
     const { colors, fonts } = theme;
 
@@ -97,11 +97,3 @@ const InputErrorMessage = styled.span`
     `;
   }}
 `;
-
-export default {
-  InputWrapper,
-  InputLabel,
-  Input,
-  InputErrorMessage,
-  RequiredDot,
-};
