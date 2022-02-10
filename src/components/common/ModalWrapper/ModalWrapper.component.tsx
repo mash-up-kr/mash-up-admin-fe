@@ -63,7 +63,7 @@ const ModalWrapper = ({ children, headerText, footer, handleCloseModal }: ModalP
         <Styled.ModalCard>
           {headerText && (
             <Styled.ModalHeader>
-              <span>{headerText}</span>
+              <h1>{headerText}</h1>
               <Button Icon={CloseIcon} shape={ButtonShape.icon} />
             </Styled.ModalHeader>
           )}
