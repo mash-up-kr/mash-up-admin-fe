@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { ButtonSize, ButtonShape } from '@/components/common/Button/Button';
+import { ButtonSize, ButtonShape } from '@/components/common/Button/Button.component';
 import { fonts, colors } from '.';
 
 export const button = {

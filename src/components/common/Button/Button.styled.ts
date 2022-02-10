@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ButtonSizeType, ButtonShapeType } from './Button';
+import { ButtonSizeType, ButtonShapeType } from './Button.component';
 
 interface StyledButtonProps {
   $size: ButtonSizeType;
