@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactPortal, useLayoutEffect, useState } from 'react';
+import React, { MouseEventHandler, ReactNode, ReactPortal, useLayoutEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import * as Styled from './ModalWrapper.styled';
 
@@ -21,15 +21,15 @@ export interface ModalProps extends Children {
     leftButton: {
       shape?: ButtonShapeType;
       label?: string;
-      onClick: () => void;
+      onClick: MouseEventHandler<HTMLButtonElement>;
     };
     rightButton?: {
       shape?: ButtonShapeType;
       label?: string;
-      onClick: () => void;
+      onClick: MouseEventHandler<HTMLButtonElement>;
     };
   };
-  handleCloseModal: () => void;
+  handleCloseModal: MouseEventHandler<HTMLDivElement>;
 }
 
 const PORTAL_ID = 'portal';
