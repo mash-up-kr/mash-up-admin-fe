@@ -49,6 +49,13 @@ export const Portal = ({ children }: Children): ReactPortal | null => {
     }
 
     setElement(document.getElementById(PORTAL_ID));
+
+    return () => {
+      const selectedPortalElement = document.getElementById(PORTAL_ID);
+      if (selectedPortalElement) {
+        document.body.removeChild(selectedPortalElement);
+      }
+    };
   }, []);
 
   if (!element) return null;
