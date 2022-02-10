@@ -4,7 +4,7 @@ import { PageOptions } from '@/types';
 import { DEFAULT_PAGING_SIZE, DEFAULT_PAGE_BUTTONS_SIZE, FIRST_PAGE } from '@/constants';
 import useMount from './useMount';
 
-interface Parameters {
+interface GetPageOptionsParams {
   totalCount: number;
   pageIndex: number;
   pagingSize: number;
@@ -16,7 +16,7 @@ const getPageOptions = ({
   pagingSize,
   pageIndex,
   pageButtonsSize,
-}: Parameters): PageOptions => {
+}: GetPageOptionsParams): PageOptions => {
   const totalPages = Math.ceil(totalCount / pagingSize);
   const startPage = Math.floor(pageIndex / pageButtonsSize) * pageButtonsSize;
   const endPage = startPage + pageButtonsSize;
@@ -41,6 +41,8 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
   });
 
   const handleChangePage = (page: number) => () => {
+    if (page === 0) return;
+
     const newPageOptions = getPageOptions({
       totalCount,
       pageIndex: page - 1,
@@ -54,9 +56,8 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
   };
 
   useMount(() => {
-    if (totalCount === 0) {
-      return;
-    }
+    if (totalCount === 0) return;
+
     const currentPage = searchParams.get('page');
     const currentSize = searchParams.get('size');
     const newPageOptions = getPageOptions({
