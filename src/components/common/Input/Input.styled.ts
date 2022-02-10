@@ -1,33 +1,11 @@
-import { css, Theme } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { neverExpected } from '@/utils/errors';
-import { InputSize, InputSizeType } from './Input.component';
+
+import { InputSizeType } from './Input.component';
 
 interface StyledInputProps {
   $size: InputSizeType;
 }
-
-const getInputSizeStyle = (size: InputSizeType, theme: Theme) => {
-  switch (size) {
-    case InputSize.xs:
-      return css`
-        ${theme.fonts.regular13};
-        padding: 0.8rem 1.2rem;
-      `;
-    case InputSize.sm:
-      return css`
-        ${theme.fonts.regular15};
-        padding: 0.8rem 1.2rem;
-      `;
-    case InputSize.md:
-      return css`
-        ${theme.fonts.regular15};
-        padding: 1.2rem 1.4rem;
-      `;
-    default:
-      neverExpected(size);
-  }
-};
 
 export const InputWrapper = styled.div`
   display: flex;
@@ -54,7 +32,7 @@ export const RequiredDot = styled.span`
 
 export const Input = styled.input<StyledInputProps>`
   ${({ theme, $size }) => css`
-    ${getInputSizeStyle($size, theme)}
+    ${theme.input.size[$size]};
 
     color: ${theme.colors.gray70};
     border: 0.1rem solid ${theme.colors.gray30};
