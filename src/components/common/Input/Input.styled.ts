@@ -56,7 +56,6 @@ export const Input = styled.input<StyledInputProps>`
   ${({ theme, $size }) => css`
     ${getInputSizeStyle($size, theme)}
 
-    flex: 1;
     color: ${theme.colors.gray70};
     border: 0.1rem solid ${theme.colors.gray30};
     border-radius: 0.9rem;
