@@ -28,6 +28,9 @@ jobs:
       - name: Test
         run: yarn test:ci
 
+      - name: Build Storybook
+        run: yarn build-storybook
+
       - name: Build for dev
         run: yarn build-dev
         if: "!(contains(github.ref, 'main') || contains(github.ref, 'release'))"

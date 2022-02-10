@@ -4,7 +4,7 @@
     "es2021": true,
     "jest": true
   },
-  "extends": [ "airbnb", "plugin:react/recommended", "airbnb/hooks", "prettier"],
+  "extends": ["airbnb", "plugin:react/recommended", "airbnb/hooks", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -34,6 +34,7 @@
     "import/extensions": 0,
     "import/prefer-default-export": 0,
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "consistent-return": 0
   }
 }
