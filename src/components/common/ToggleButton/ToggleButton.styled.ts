@@ -7,8 +7,12 @@ interface StyledToggleButtonLabelProps {
 
 export const ToggleButtonLabel = styled.label<StyledToggleButtonLabelProps>`
   ${({ disabled }) => css`
-    ${disabled && 'pointer-events: none; opacity: 0.5;'}
-    position: relative;
+    ${disabled
+      ? css`
+          opacity: 0.5;
+          pointer-events: none;
+        `
+      : ''} position: relative;
     display: inline-block;
     width: 4rem;
     height: 2.4rem;
