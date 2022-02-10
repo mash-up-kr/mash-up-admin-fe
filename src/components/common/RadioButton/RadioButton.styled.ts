@@ -7,7 +7,12 @@ interface StyledRadioButtonLabelProps {
 
 export const RadioButtonWrapper = styled.label<StyledRadioButtonLabelProps>`
   ${({ disabled }) => css`
-    ${disabled && 'pointer-events: none; opacity: 0.5;'}
+    ${disabled
+      ? css`
+          opacity: 0.5;
+          pointer-events: none;
+        `
+      : ''}
     position: relative;
     display: flex;
     align-items: center;
@@ -21,10 +26,13 @@ export const RadioButtonWrapper = styled.label<StyledRadioButtonLabelProps>`
 `;
 
 export const RadioButtonInput = styled.input`
-  position: absolute;
-  width: 0;
-  height: 0;
-  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: polygon(0 0, 0 0, 0 0);
 `;
 
 export const RadioButtonMark = styled.span`
@@ -48,7 +56,7 @@ export const RadioButtonMark = styled.span`
     label input:checked ~ & {
       border-color: ${theme.colors.purple70};
 
-      > span {
+      & > span {
         width: 0.5rem;
         height: 0.5rem;
         background-color: ${theme.colors.purple70};
