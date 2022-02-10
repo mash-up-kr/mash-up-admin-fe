@@ -65,7 +65,9 @@ export const button = {
       }
     `,
     [ButtonShape.icon]: css`
-      padding: 0.8rem;
+      width: 4.4rem;
+      height: 4.4rem;
+      padding: 0 0;
       line-height: 0;
       background-color: ${colors.white};
       border-color: ${colors.gray40};
