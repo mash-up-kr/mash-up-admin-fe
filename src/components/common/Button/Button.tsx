@@ -1,4 +1,5 @@
 import React, { ReactElement, SVGProps } from 'react';
+import { ValueOf } from '@/types';
 import * as Styled from './Button.styled';
 
 export const ButtonSize = {
@@ -16,8 +17,8 @@ export const ButtonShape = {
   icon: 'icon',
 } as const;
 
-export type ButtonSizeType = typeof ButtonSize[keyof typeof ButtonSize];
-export type ButtonShapeType = typeof ButtonShape[keyof typeof ButtonShape];
+export type ButtonSizeType = ValueOf<typeof ButtonSize>;
+export type ButtonShapeType = ValueOf<typeof ButtonShape>;
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   $size?: ButtonSizeType;
