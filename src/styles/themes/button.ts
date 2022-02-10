@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { ButtonSize, ButtonShape } from '@/components/common/Button/Button';
+import { ButtonSize, ButtonShape } from '@/components/common/Button/Button.component';
 import { fonts, colors } from '.';
 
 export const button = {
@@ -74,6 +74,7 @@ export const button = {
     `,
     [ButtonShape.icon]: css`
       width: 4.4rem;
+      min-width: auto;
       height: 4.4rem;
       padding: 0 0;
       line-height: 0;

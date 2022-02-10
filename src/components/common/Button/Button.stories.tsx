@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import Button, { ButtonSize, ButtonProps, ButtonShape } from './Button';
+import Button, { ButtonSize, ButtonProps, ButtonShape } from './Button.component';
 import OpenExternal from '@/assets/svg/open-external.svg';
 
 export default {
