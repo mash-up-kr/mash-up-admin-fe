@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { ReactNode, ReactPortal, useLayoutEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import * as Styled from './ModalWrapper.styled';
 
@@ -12,7 +12,7 @@ import {
 import CloseIcon from '@/assets/svg/close-icon.svg';
 
 interface Children {
-  children?: React.ReactChild;
+  children?: ReactNode;
 }
 
 export interface ModalProps extends Children {
@@ -34,7 +34,7 @@ export interface ModalProps extends Children {
 
 const PORTAL_ID = 'portal';
 
-export const Portal = ({ children }: Children): React.ReactPortal | null => {
+export const Portal = ({ children }: Children): ReactPortal | null => {
   const [element, setElement] = useState<HTMLElement | null>(null);
 
   useLayoutEffect(() => {
