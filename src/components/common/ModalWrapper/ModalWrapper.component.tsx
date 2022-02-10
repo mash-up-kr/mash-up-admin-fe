@@ -3,7 +3,11 @@ import ReactDOM from 'react-dom';
 import * as Styled from './ModalWrapper.styled';
 
 import { Button } from '@/components';
-import { ButtonSize, ButtonShape, ButtonShapeType } from '@/components/common/Button/Button';
+import {
+  ButtonSize,
+  ButtonShape,
+  ButtonShapeType,
+} from '@/components/common/Button/Button.component';
 
 import CloseIcon from '@/assets/svg/close-icon.svg';
 

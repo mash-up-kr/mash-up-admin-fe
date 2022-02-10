@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import ModalWrapper from './ModalWrapper';
+import ModalWrapper from './ModalWrapper.component';
 
 export default {
   title: 'common',
