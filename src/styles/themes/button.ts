@@ -6,25 +6,33 @@ export const button = {
   size: {
     [ButtonSize.xs]: css`
       ${fonts.regular13};
-      padding: 0.8rem 1.8rem;
-      line-height: 1.95rem;
+      min-width: 6rem;
+      height: 3.6rem;
+      padding: 0 1.1rem;
+      line-height: 1.9rem;
       border-radius: 0.9rem;
     `,
     [ButtonSize.sm]: css`
       ${fonts.regular15};
-      padding: 0.85rem 2.05rem;
-      line-height: 2.25rem;
+      min-width: 6.8rem;
+      height: 4rem;
+      padding: 0 1.1rem;
+      line-height: 2.2rem;
       border-radius: 1rem;
     `,
     [ButtonSize.md]: css`
       ${fonts.regular16};
-      padding: 1.2rem 1.95rem;
+      min-width: 9.6rem;
+      height: 4.8rem;
+      padding: 0 1.1rem;
       line-height: 2.4rem;
       border-radius: 1.2rem;
     `,
     [ButtonSize.lg]: css`
       ${fonts.regular16};
-      padding: 1.6rem 1.95rem;
+      min-width: 9.6rem;
+      height: 5.6rem;
+      padding: 0 1.1rem;
       line-height: 2.4rem;
       border-radius: 1.6rem;
     `,
