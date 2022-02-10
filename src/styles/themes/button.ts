@@ -74,6 +74,7 @@ export const button = {
     `,
     [ButtonShape.icon]: css`
       width: 4.4rem;
+      min-width: auto;
       height: 4.4rem;
       padding: 0 0;
       line-height: 0;
