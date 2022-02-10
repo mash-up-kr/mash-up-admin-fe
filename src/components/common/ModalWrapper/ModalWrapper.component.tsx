@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import * as Styled from './ModalWrapper.styled';
 
@@ -37,7 +37,7 @@ const PORTAL_ID = 'portal';
 export const Portal = ({ children }: Children): React.ReactPortal | null => {
   const [element, setElement] = useState<HTMLElement | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const portalElement = document.getElementById(PORTAL_ID);
 
     if (!portalElement) {
