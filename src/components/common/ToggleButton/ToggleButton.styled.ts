@@ -12,7 +12,8 @@ export const ToggleButtonLabel = styled.label<StyledToggleButtonLabelProps>`
           opacity: 0.5;
           pointer-events: none;
         `
-      : ''} position: relative;
+      : ''}
+    position: relative;
     display: inline-block;
     width: 4rem;
     height: 2.4rem;
@@ -20,9 +21,13 @@ export const ToggleButtonLabel = styled.label<StyledToggleButtonLabelProps>`
 `;
 
 export const ToggleButtonInput = styled.input`
-  width: 0;
-  height: 0;
-  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: polygon(0 0, 0 0, 0 0);
 `;
 
 export const ToggleButtonSlider = styled.span`
