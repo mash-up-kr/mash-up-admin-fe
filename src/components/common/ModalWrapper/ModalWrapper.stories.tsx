@@ -4,10 +4,10 @@ import { Story, Meta } from '@storybook/react';
 import ModalWrapper from './ModalWrapper.component';
 
 export default {
-  title: 'common',
+  title: 'ModalWrapper',
 } as Meta;
 
-export const overlay: Story<React.HTMLAttributes<HTMLDivElement>> = () => {
+export const modalWrapper: Story<React.HTMLAttributes<HTMLDivElement>> = () => {
   return (
     <ModalWrapper
       headerText="모달 테스트"
