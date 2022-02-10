@@ -4,9 +4,10 @@ import usePagination from '@/hooks/usePagination';
 
 // usePagination 내부에서 사용하는 useSearchParams 모킹
 const mockSearchParams = { get: jest.fn() };
+const mockSetSearchParams = jest.fn();
 jest.mock('react-router-dom', () => {
   return {
-    useSearchParams: jest.fn().mockImplementation(() => [mockSearchParams, jest.fn()]),
+    useSearchParams: jest.fn().mockImplementation(() => [mockSearchParams, mockSetSearchParams]),
   };
 });
 
@@ -86,7 +87,7 @@ describe('usePagination', () => {
     });
   });
 
-  it('속성값과 함께 반환되는 함수로 페이징 속성값을 변경할 수 있어야 한다.', async () => {
+  it('속성값과 함께 반환되는 함수로 page/size에 대한 query string을 변경할 수 있어야 한다.', async () => {
     // Given
     const totalCount = 550;
 
@@ -104,13 +105,9 @@ describe('usePagination', () => {
 
     // When, Then
     act(() => handleChangePage(13)());
-
-    expect(result.current.pageOptions).toEqual({
-      currentPage: 13,
-      endPage: 20,
-      pagingSize: 20,
-      startPage: 11,
-      totalPages: 28,
+    expect(mockSetSearchParams).toHaveBeenCalledWith({
+      page: '13',
+      size: '20',
     });
   });
 });

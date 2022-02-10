@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { PageOptions } from '@/components/common/Pagination/Pagination.component';
 import { DEFAULT_PAGING_SIZE, DEFAULT_PAGE_BUTTONS_SIZE, FIRST_PAGE } from '@/constants';
-import useMount from './useMount';
 
 interface GetPageOptionsParams {
   totalCount: number;
@@ -51,11 +50,10 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
     });
     const { currentPage, pagingSize } = newPageOptions;
 
-    setPageOptions(newPageOptions);
     setSearchParams({ page: currentPage.toString(), size: pagingSize.toString() });
   };
 
-  useMount(() => {
+  useEffect(() => {
     if (totalCount === 0) return;
 
     const currentPage = searchParams.get('page');
@@ -68,7 +66,8 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
     });
 
     setPageOptions(newPageOptions);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   return {
     pageOptions,
