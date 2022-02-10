@@ -1,8 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { RadioButtonProps } from './RadioButton.component';
 
-export const RadioButtonWrapper = styled.label<Pick<RadioButtonProps, 'disabled'>>`
+interface StyledRadioButtonLabelProps {
+  disabled: boolean;
+}
+
+export const RadioButtonWrapper = styled.label<StyledRadioButtonLabelProps>`
   ${({ disabled }) => css`
     ${disabled && 'pointer-events: none; opacity: 0.5;'}
     position: relative;
