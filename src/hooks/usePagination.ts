@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { PageOptions } from '@/types';
+import { PageOptions } from '@/components/common/Pagination/Pagination.component';
 import { DEFAULT_PAGING_SIZE, DEFAULT_PAGE_BUTTONS_SIZE, FIRST_PAGE } from '@/constants';
 import useMount from './useMount';
 
