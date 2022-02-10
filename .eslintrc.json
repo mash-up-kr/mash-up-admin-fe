@@ -42,9 +42,12 @@
     "arrow-body-style": 0,
     "prefer-arrow-callback": 0,
     "import/no-unresolved": 0,
+    "import/no-cycle": 1,
     "import/extensions": 0,
     "import/prefer-default-export": 0,
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "consistent-return": 0,
+    "@typescript-eslint/no-unused-vars": ["error"]
   }
 }
