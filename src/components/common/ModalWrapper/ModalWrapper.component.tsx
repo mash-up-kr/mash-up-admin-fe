@@ -63,25 +63,23 @@ const ModalWrapper = ({ children, headerText, footer, handleCloseModal }: ModalP
         <Styled.ModalCard>
           {headerText && (
             <Styled.ModalHeader>
-              <h1>{headerText}</h1>
+              <h2>{headerText}</h2>
               <Button Icon={CloseIcon} shape={ButtonShape.icon} />
             </Styled.ModalHeader>
           )}
           <Styled.ModalContent>{children}</Styled.ModalContent>
-          {footer && (
-            <Styled.ModalFooter>
-              {footer?.leftButton && (
-                <Button
-                  $size={ButtonSize.sm}
-                  shape={ButtonShape.defaultLine}
-                  {...footer.leftButton}
-                />
-              )}
-              {footer?.rightButton && (
-                <Button $size={ButtonSize.sm} shape={ButtonShape.primary} {...footer.rightButton} />
-              )}
-            </Styled.ModalFooter>
-          )}
+          <Styled.ModalFooter>
+            {footer?.leftButton && (
+              <Button
+                $size={ButtonSize.sm}
+                shape={ButtonShape.defaultLine}
+                {...footer.leftButton}
+              />
+            )}
+            {footer?.rightButton && (
+              <Button $size={ButtonSize.sm} shape={ButtonShape.primary} {...footer.rightButton} />
+            )}
+          </Styled.ModalFooter>
         </Styled.ModalCard>
       </Styled.Overlay>
     </Portal>
