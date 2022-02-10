@@ -18,12 +18,12 @@ interface Children {
 export interface ModalProps extends Children {
   headerText?: string;
   footer: {
-    leftButton: {
+    cancelButton: {
       shape?: ButtonShapeType;
       label?: string;
       onClick: MouseEventHandler<HTMLButtonElement>;
     };
-    rightButton?: {
+    confirmButton?: {
       shape?: ButtonShapeType;
       label?: string;
       onClick: MouseEventHandler<HTMLButtonElement>;
@@ -69,15 +69,13 @@ const ModalWrapper = ({ children, headerText, footer, handleCloseModal }: ModalP
           )}
           <Styled.ModalContent>{children}</Styled.ModalContent>
           <Styled.ModalFooter>
-            {footer?.leftButton && (
-              <Button
-                $size={ButtonSize.sm}
-                shape={ButtonShape.defaultLine}
-                {...footer.leftButton}
-              />
-            )}
-            {footer?.rightButton && (
-              <Button $size={ButtonSize.sm} shape={ButtonShape.primary} {...footer.rightButton} />
+            <Button
+              $size={ButtonSize.sm}
+              shape={ButtonShape.defaultLine}
+              {...footer.cancelButton}
+            />
+            {footer?.confirmButton && (
+              <Button $size={ButtonSize.sm} shape={ButtonShape.primary} {...footer.confirmButton} />
             )}
           </Styled.ModalFooter>
         </Styled.ModalCard>

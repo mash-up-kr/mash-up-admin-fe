@@ -13,11 +13,11 @@ export const Template: ComponentStory<typeof ModalWrapper> = (args: ModalProps) 
 Template.args = {
   headerText: '모달 테스트',
   footer: {
-    leftButton: {
+    cancelButton: {
       label: '취소',
       onClick: () => {},
     },
-    rightButton: {
+    confirmButton: {
       label: '저장',
       onClick: () => {},
     },

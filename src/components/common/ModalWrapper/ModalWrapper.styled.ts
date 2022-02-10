@@ -31,7 +31,7 @@ export const ModalHeader = styled.div`
     width: 100%;
     padding: 2.95rem 2.4rem;
 
-    & > h1 {
+    & > h2 {
       ${theme.fonts.bold28}
     }
 
