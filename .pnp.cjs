@@ -47,14 +47,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@storybook/react", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:6.4.17"],
             ["@stylelint/postcss-css-in-js", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:0.37.2"],
             ["@svgr/webpack", "npm:5.5.0"],
+            ["@testing-library/dom", "npm:8.11.3"],
             ["@testing-library/jest-dom", "npm:5.16.1"],
             ["@testing-library/react", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:12.1.2"],
             ["@testing-library/react-hooks", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.0.2"],
-            ["@testing-library/user-event", "virtual:2c78914728c6eaefb56fe286752640faa965b4ed58eb129018e3a32af216f6b29e387fdfa0d787246762be5f49605c2b1b954a51c1370eb1ea8ba21a1f916ec0#npm:13.5.0"],
+            ["@testing-library/user-event", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:13.5.0"],
             ["@types/jest", "npm:27.4.0"],
             ["@types/node", "npm:17.0.13"],
             ["@types/react", "npm:17.0.38"],
             ["@types/react-dom", "npm:17.0.11"],
+            ["@types/testing-library__dom", "npm:7.5.0"],
             ["@types/testing-library__jest-dom", "npm:5.14.2"],
             ["@types/testing-library__react", "npm:10.2.0"],
             ["@types/testing-library__user-event", "npm:4.2.0"],
@@ -6413,6 +6415,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/testing-library__dom"
           ],
           "linkType": "HARD",
+        }],
+        ["virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:13.5.0", {
+          "packageLocation": "./.yarn/__virtual__/@testing-library-user-event-virtual-b9253b4ccf/0/cache/@testing-library-user-event-npm-13.5.0-1ff89b703a-16319de685.zip/node_modules/@testing-library/user-event/",
+          "packageDependencies": [
+            ["@testing-library/user-event", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:13.5.0"],
+            ["@babel/runtime", "npm:7.16.7"],
+            ["@testing-library/dom", "npm:8.11.3"],
+            ["@types/testing-library__dom", "npm:7.5.0"]
+          ],
+          "packagePeers": [
+            "@testing-library/dom",
+            "@types/testing-library__dom"
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@tootallnate/once", [
@@ -6996,6 +7012,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-tapable-npm-1.0.8-4986892b9f-b4b754dd08.zip/node_modules/@types/tapable/",
           "packageDependencies": [
             ["@types/tapable", "npm:1.0.8"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/testing-library__dom", [
+        ["npm:7.5.0", {
+          "packageLocation": "./.yarn/cache/@types-testing-library__dom-npm-7.5.0-ed4d624eaf-fe38a1f42c.zip/node_modules/@types/testing-library__dom/",
+          "packageDependencies": [
+            ["@types/testing-library__dom", "npm:7.5.0"],
+            ["@testing-library/dom", "npm:8.11.3"]
           ],
           "linkType": "HARD",
         }]
@@ -17099,14 +17125,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@storybook/react", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:6.4.17"],
             ["@stylelint/postcss-css-in-js", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:0.37.2"],
             ["@svgr/webpack", "npm:5.5.0"],
+            ["@testing-library/dom", "npm:8.11.3"],
             ["@testing-library/jest-dom", "npm:5.16.1"],
             ["@testing-library/react", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:12.1.2"],
             ["@testing-library/react-hooks", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.0.2"],
-            ["@testing-library/user-event", "virtual:2c78914728c6eaefb56fe286752640faa965b4ed58eb129018e3a32af216f6b29e387fdfa0d787246762be5f49605c2b1b954a51c1370eb1ea8ba21a1f916ec0#npm:13.5.0"],
+            ["@testing-library/user-event", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:13.5.0"],
             ["@types/jest", "npm:27.4.0"],
             ["@types/node", "npm:17.0.13"],
             ["@types/react", "npm:17.0.38"],
             ["@types/react-dom", "npm:17.0.11"],
+            ["@types/testing-library__dom", "npm:7.5.0"],
             ["@types/testing-library__jest-dom", "npm:5.14.2"],
             ["@types/testing-library__react", "npm:10.2.0"],
             ["@types/testing-library__user-event", "npm:4.2.0"],
