@@ -39,6 +39,10 @@ export const Input = styled.input<StyledInputProps>`
     border-radius: 0.9rem;
     outline: none;
 
+    &::placeholder {
+      color: ${theme.colors.gray50};
+    }
+
     &:hover {
       border: 0.1rem solid ${theme.colors.purple40};
     }
