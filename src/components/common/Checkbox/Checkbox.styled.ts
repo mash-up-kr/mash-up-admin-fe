@@ -1,8 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { CheckboxProps } from './Checkbox.component';
 
-export const CheckboxWrapper = styled.label<Pick<CheckboxProps, 'disabled'>>`
+interface StyledCheckboxLabelProps {
+  disabled: boolean;
+}
+
+export const CheckboxWrapper = styled.label<StyledCheckboxLabelProps>`
   ${({ disabled }) => css`
     ${disabled && 'pointer-events: none; opacity: 0.5;'}
     position: relative;
@@ -41,10 +44,12 @@ export const CheckboxMark = styled.span`
     label:hover input ~ & {
       opacity: 0.9;
     }
+
     label input:checked ~ & {
       background-color: ${theme.colors.purple70};
       border-color: ${theme.colors.purple70};
     }
+
     label input:checked ~ &::after {
       display: block;
     }
