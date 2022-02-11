@@ -5,5 +5,6 @@ declare module '@emotion/react' {
     fonts: import('@/styles').FontTheme;
     colors: import('@/styles').ColorTheme;
     input: import('@/styles').InputTheme;
+    navigation: import('@/styles').NavigationTheme;
   }
 }
