@@ -63,6 +63,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
             ["@typescript-eslint/parser", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
             ["clean-webpack-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:4.0.0"],
+            ["dayjs", "npm:1.10.7"],
             ["dotenv-webpack", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.1.0"],
             ["emotion-ts-plugin", "npm:1.1.0"],
             ["eslint", "npm:8.8.0"],
@@ -10945,6 +10946,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["dayjs", [
+        ["npm:1.10.7", {
+          "packageLocation": "./.yarn/cache/dayjs-npm-1.10.7-34318a8e39-a0a4ca95ab.zip/node_modules/dayjs/",
+          "packageDependencies": [
+            ["dayjs", "npm:1.10.7"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["debug", [
         ["npm:2.6.9", {
           "packageLocation": "./.yarn/cache/debug-npm-2.6.9-7d4cb597dc-d2f51589ca.zip/node_modules/debug/",
@@ -17141,6 +17151,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
             ["@typescript-eslint/parser", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
             ["clean-webpack-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:4.0.0"],
+            ["dayjs", "npm:1.10.7"],
             ["dotenv-webpack", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.1.0"],
             ["emotion-ts-plugin", "npm:1.1.0"],
             ["eslint", "npm:8.8.0"],
