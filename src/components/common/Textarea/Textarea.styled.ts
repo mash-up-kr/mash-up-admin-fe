@@ -8,7 +8,7 @@ export const TextareaWrapper = styled.div`
 
 export const TextareaLabel = styled.label`
   ${({ theme }) => css`
-    ${theme.fonts.medium15}
+    ${theme.fonts.medium15};
     display: flex;
     align-items: center;
     margin-bottom: 0.6rem;
@@ -26,7 +26,7 @@ export const RequiredDot = styled.span`
 
 export const Textarea = styled.textarea`
   ${({ theme }) => css`
-    ${theme.fonts.regular15}
+    ${theme.fonts.regular15};
 
     min-height: 20rem;
     padding: 1.2rem 1.4rem;
