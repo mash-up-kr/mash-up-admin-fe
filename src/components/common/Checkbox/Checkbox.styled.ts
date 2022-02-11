@@ -25,16 +25,6 @@ export const CheckboxWrapper = styled.label<StyledCheckboxLabelProps>`
   `}
 `;
 
-export const CheckboxInput = styled.input`
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  white-space: nowrap;
-  clip: rect(0 0 0 0);
-  clip-path: polygon(0 0, 0 0, 0 0);
-`;
-
 export const CheckboxMark = styled.span`
   ${({ theme }) => css`
     position: absolute;

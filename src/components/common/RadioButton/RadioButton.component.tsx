@@ -1,4 +1,5 @@
 import React, { MouseEventHandler } from 'react';
+import { VisuallyHidden } from '@/components';
 import * as Styled from './RadioButton.styled';
 
 export interface RadioButtonProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
@@ -17,11 +18,7 @@ const RadioButton = ({
 }: RadioButtonProps) => {
   return (
     <Styled.RadioButtonWrapper {...resetProps} disabled={disabled}>
-      <Styled.RadioButtonInput
-        type="radio"
-        onClick={handleClickButton}
-        defaultChecked={defaultChecked}
-      />
+      <VisuallyHidden type="radio" onClick={handleClickButton} defaultChecked={defaultChecked} />
       <Styled.RadioButtonMark>
         <span />
       </Styled.RadioButtonMark>

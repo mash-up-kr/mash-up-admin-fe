@@ -1,6 +1,7 @@
 import React, { ChangeEventHandler } from 'react';
 import * as Styled from './Checkbox.styled';
 import CheckboxChecked from '@/assets/svg/checkbox-checked.svg';
+import { VisuallyHidden } from '@/components';
 
 export interface CheckboxProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   handleToggle: ChangeEventHandler<HTMLInputElement>;
@@ -18,7 +19,7 @@ const Checkbox = ({
 }: CheckboxProps) => {
   return (
     <Styled.CheckboxWrapper {...resetProps} disabled={disabled}>
-      <Styled.CheckboxInput type="checkbox" onChange={handleToggle} checked={isChecked} />
+      <VisuallyHidden type="checkbox" onChange={handleToggle} checked={isChecked} />
       <Styled.CheckboxMark>
         <CheckboxChecked />
       </Styled.CheckboxMark>
