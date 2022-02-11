@@ -1,10 +1,18 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ToggleButtonProps } from './ToggleButton.component';
 
-export const ToggleButtonLabel = styled.label<Pick<ToggleButtonProps, 'disabled'>>`
+interface StyledToggleButtonLabelProps {
+  disabled: boolean;
+}
+
+export const ToggleButtonLabel = styled.label<StyledToggleButtonLabelProps>`
   ${({ disabled }) => css`
-    ${disabled && 'pointer-events: none; opacity: 0.5;'}
+    ${disabled
+      ? css`
+          opacity: 0.5;
+          pointer-events: none;
+        `
+      : ''}
     position: relative;
     display: inline-block;
     width: 4rem;
@@ -13,9 +21,13 @@ export const ToggleButtonLabel = styled.label<Pick<ToggleButtonProps, 'disabled'
 `;
 
 export const ToggleButtonInput = styled.input`
-  width: 0;
-  height: 0;
-  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: polygon(0 0, 0 0, 0 0);
 `;
 
 export const ToggleButtonSlider = styled.span`
@@ -29,6 +41,7 @@ export const ToggleButtonSlider = styled.span`
     border-radius: 2.45rem;
     cursor: pointer;
     transition: 0.4s;
+
     &::before {
       position: absolute;
       bottom: 0.2rem;
@@ -40,9 +53,11 @@ export const ToggleButtonSlider = styled.span`
       transition: 0.4s;
       content: '';
     }
+
     input:checked + & {
       background-color: ${theme.colors.purple70};
     }
+
     input:checked + &::before {
       background-color: ${theme.colors.white};
       transform: translateX(1.6rem);
