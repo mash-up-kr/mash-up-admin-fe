@@ -40,7 +40,7 @@
     "@storybook/addon-links": "^6.4.17",
     "@storybook/react": "^6.4.17",
     "@stylelint/postcss-css-in-js": "^0.37.2",
-    "@svgr/webpack": "^6.2.0",
+    "@svgr/webpack": "5.5",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@types/jest": "^27.4.0",
