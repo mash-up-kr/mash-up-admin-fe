@@ -7,10 +7,11 @@ export default {
 } as ComponentMeta<typeof RadioButton>;
 
 export const Template: ComponentStory<typeof RadioButton> = (args: RadioButtonProps) => {
-  return <RadioButton {...args} handleClickButton={() => console.log('clicked')} />;
+  return <RadioButton {...args} />;
 };
 
 Template.args = {
+  handleClickButton: () => {},
   disabled: false,
   defaultChecked: false,
   label: 'test',

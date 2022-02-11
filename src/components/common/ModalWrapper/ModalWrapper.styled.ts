@@ -7,7 +7,7 @@ export const Overlay = styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 export const ModalCard = styled.div`
@@ -18,7 +18,7 @@ export const ModalCard = styled.div`
     justify-content: center;
     min-width: 30rem;
     min-height: 10rem;
-    background: ${theme.colors.white};
+    background-color: ${theme.colors.white};
     border-radius: 3rem;
   `}
 `;
@@ -31,20 +31,20 @@ export const ModalHeader = styled.div`
     width: 100%;
     padding: 2.95rem 2.4rem;
 
-    > h1 {
+    & > h2 {
       ${theme.fonts.bold28}
     }
 
-    > button {
+    & > button {
       background-color: ${theme.colors.gray10};
-      border: transparent;
+      border-width: 0;
     }
   `}
 `;
 
 export const ModalContent = styled.div`
   width: 100%;
-  padding: 2.4rem 2.4rem;
+  padding: 2.4rem;
 `;
 
 export const ModalFooter = styled.div`

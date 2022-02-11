@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { MouseEventHandler, ReactNode, ReactPortal, useLayoutEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import * as Styled from './ModalWrapper.styled';
 
@@ -12,29 +12,29 @@ import {
 import CloseIcon from '@/assets/svg/close-icon.svg';
 
 interface Children {
-  children?: React.ReactChild;
+  children?: ReactNode;
 }
 
 export interface ModalProps extends Children {
   headerText?: string;
   footer: {
-    leftButton: {
+    cancelButton: {
       shape?: ButtonShapeType;
       label?: string;
-      onClick: () => void;
+      onClick: MouseEventHandler<HTMLButtonElement>;
     };
-    rightButton?: {
+    confirmButton?: {
       shape?: ButtonShapeType;
       label?: string;
-      onClick: () => void;
+      onClick: MouseEventHandler<HTMLButtonElement>;
     };
   };
-  handleCloseModal: () => void;
+  handleCloseModal: MouseEventHandler<HTMLDivElement>;
 }
 
 const PORTAL_ID = 'portal';
 
-export const Portal = ({ children }: Children): React.ReactPortal | null => {
+export const Portal = ({ children }: Children): ReactPortal | null => {
   const [element, setElement] = useState<HTMLElement | null>(null);
 
   useLayoutEffect(() => {
@@ -49,6 +49,13 @@ export const Portal = ({ children }: Children): React.ReactPortal | null => {
     }
 
     setElement(document.getElementById(PORTAL_ID));
+
+    return () => {
+      const selectedPortalElement = document.getElementById(PORTAL_ID);
+      if (selectedPortalElement) {
+        document.body.removeChild(selectedPortalElement);
+      }
+    };
   }, []);
 
   if (!element) return null;
@@ -63,25 +70,21 @@ const ModalWrapper = ({ children, headerText, footer, handleCloseModal }: ModalP
         <Styled.ModalCard>
           {headerText && (
             <Styled.ModalHeader>
-              <h1>{headerText}</h1>
+              <h2>{headerText}</h2>
               <Button Icon={CloseIcon} shape={ButtonShape.icon} />
             </Styled.ModalHeader>
           )}
           <Styled.ModalContent>{children}</Styled.ModalContent>
-          {footer && (
-            <Styled.ModalFooter>
-              {footer?.leftButton && (
-                <Button
-                  $size={ButtonSize.sm}
-                  shape={ButtonShape.defaultLine}
-                  {...footer.leftButton}
-                />
-              )}
-              {footer?.rightButton && (
-                <Button $size={ButtonSize.sm} shape={ButtonShape.primary} {...footer.rightButton} />
-              )}
-            </Styled.ModalFooter>
-          )}
+          <Styled.ModalFooter>
+            <Button
+              $size={ButtonSize.sm}
+              shape={ButtonShape.defaultLine}
+              {...footer.cancelButton}
+            />
+            {footer?.confirmButton && (
+              <Button $size={ButtonSize.sm} shape={ButtonShape.primary} {...footer.confirmButton} />
+            )}
+          </Styled.ModalFooter>
         </Styled.ModalCard>
       </Styled.Overlay>
     </Portal>

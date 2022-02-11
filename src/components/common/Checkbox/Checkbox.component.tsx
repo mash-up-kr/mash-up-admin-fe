@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
 import * as Styled from './Checkbox.styled';
 import CheckboxChecked from '@/assets/svg/checkbox-checked.svg';
 
 export interface CheckboxProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
-  handleToggle: () => void;
+  handleToggle: ChangeEventHandler<HTMLInputElement>;
   disabled?: boolean;
   isChecked?: boolean;
   label?: string;

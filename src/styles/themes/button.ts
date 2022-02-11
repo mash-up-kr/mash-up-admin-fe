@@ -42,7 +42,7 @@ export const button = {
       color: ${colors.white};
       background-color: ${colors.gray60};
 
-      svg > path {
+      & > svg > path {
         stroke: ${colors.white};
       }
     `,
@@ -51,7 +51,7 @@ export const button = {
       background-color: ${colors.white};
       border-color: ${colors.gray40};
 
-      svg > path {
+      & > svg > path {
         stroke: ${colors.gray70};
       }
     `,
@@ -59,7 +59,7 @@ export const button = {
       color: ${colors.white};
       background-color: ${colors.purple70};
 
-      svg > path {
+      & > svg > path {
         stroke: ${colors.white};
       }
     `,
@@ -68,7 +68,7 @@ export const button = {
       background-color: ${colors.purple10};
       border-color: ${colors.purple60};
 
-      svg > path {
+      & > svg > path {
         stroke: ${colors.purple60};
       }
     `,
@@ -82,7 +82,7 @@ export const button = {
       border-color: ${colors.gray40};
       border-radius: 0.9rem;
 
-      svg > path {
+      & > svg > path {
         stroke: ${colors.gray60};
       }
     `,
