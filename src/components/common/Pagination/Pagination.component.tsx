@@ -15,11 +15,12 @@ export interface PageOptions {
 
 interface Props {
   pageOptions: PageOptions;
+  selectableSize: boolean;
   handleChangePage: (page: number) => (e: React.MouseEvent<HTMLButtonElement>) => void;
   handleChangeSize: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const Pagination = ({ pageOptions, handleChangePage, handleChangeSize }: Props) => {
+const Pagination = ({ pageOptions, selectableSize, handleChangePage, handleChangeSize }: Props) => {
   const { currentPage, startPage, endPage, totalPages, pagingSize } = pageOptions;
   return (
     <Styled.Navigation aria-label="Pagination">
@@ -34,7 +35,9 @@ const Pagination = ({ pageOptions, handleChangePage, handleChangeSize }: Props) 
         />
       </Styled.PageButtonListWrapper>
       <Styled.Box width="16rem">
-        <PagingSizeSelector pagingSize={pagingSize} handleChangeSize={handleChangeSize} />
+        {selectableSize && (
+          <PagingSizeSelector pagingSize={pagingSize} handleChangeSize={handleChangeSize} />
+        )}
       </Styled.Box>
     </Styled.Navigation>
   );
