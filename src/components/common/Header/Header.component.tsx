@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import * as Styled from './Header.styled';
 
 import Logo from '@/assets/svg/logo-admin-272.svg';
@@ -32,7 +33,9 @@ const Header = () => {
   return (
     <Styled.HeaderContainer>
       <Styled.HeaderContainerInner>
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
         <Navigation
           size={NavigationSize.md}
           items={navigationItems}

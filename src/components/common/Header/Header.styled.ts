@@ -1,9 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { HEADER_HEIGHT } from '@/constants';
 
 export const HeaderContainer = styled.header`
   ${({ theme }) => css`
-    height: 7rem;
+    height: ${HEADER_HEIGHT};
     border-bottom: 0.1rem solid ${theme.colors.gray30};
   `}
 `;
