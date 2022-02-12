@@ -23,14 +23,19 @@ const Pagination = ({ pageOptions, handleChangePage, handleChangeSize }: Props) 
   const { currentPage, startPage, endPage, totalPages, pagingSize } = pageOptions;
   return (
     <Styled.Navigation aria-label="Pagination">
-      <PageButtonList
-        currentPage={currentPage}
-        startPage={startPage}
-        endPage={endPage}
-        totalPages={totalPages}
-        handleChangePage={handleChangePage}
-      />
-      <PagingSizeSelector pagingSize={pagingSize} handleChangeSize={handleChangeSize} />
+      <Styled.Box width="16rem" />
+      <Styled.PageButtonListWrapper>
+        <PageButtonList
+          currentPage={currentPage}
+          startPage={startPage}
+          endPage={endPage}
+          totalPages={totalPages}
+          handleChangePage={handleChangePage}
+        />
+      </Styled.PageButtonListWrapper>
+      <Styled.Box width="16rem">
+        <PagingSizeSelector pagingSize={pagingSize} handleChangeSize={handleChangeSize} />
+      </Styled.Box>
     </Styled.Navigation>
   );
 };
