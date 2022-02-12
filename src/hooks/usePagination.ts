@@ -56,7 +56,23 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
   };
 
   const handleChangeSize = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSearchParams({ page: pageOptions.currentPage.toString(), size: e.target.value });
+    const pagingSize = e.target.value;
+    let newPageOptions = getPageOptions({
+      totalCount,
+      pageIndex: pageOptions.currentPage - 1,
+      pagingSize: parseInt(pagingSize, 10),
+      pageButtonsSize,
+    });
+
+    const { currentPage, endPage } = newPageOptions;
+    if (currentPage > endPage) {
+      newPageOptions = {
+        ...newPageOptions,
+        currentPage: newPageOptions.endPage,
+      };
+    }
+
+    setSearchParams({ page: newPageOptions.currentPage.toString(), size: pagingSize });
   };
 
   useEffect(() => {
@@ -70,6 +86,14 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
       pagingSize: currentSize ? parseInt(currentSize, 10) : DEFAULT_PAGING_SIZE,
       pageButtonsSize,
     });
+
+    if (newPageOptions.currentPage > newPageOptions.endPage) {
+      setSearchParams({
+        page: newPageOptions.endPage.toString(),
+        size: newPageOptions.pagingSize.toString(),
+      });
+      return;
+    }
 
     setPageOptions(newPageOptions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
