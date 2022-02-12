@@ -117,6 +117,9 @@
       "yarn lint:code-fix --cache",
       "yarn lint:style-fix"
     ],
+    "*.test.{js,jsx,ts,tsx}": [
+      "yarn test:ci"
+    ],
     "*.json": [
       "yarn prettier:code-fix"
     ]
