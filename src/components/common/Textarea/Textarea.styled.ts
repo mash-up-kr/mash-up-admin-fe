@@ -1,20 +1,14 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { InputSizeType } from './Input.component';
-
-interface StyledInputProps {
-  $size: InputSizeType;
-}
-
-export const InputWrapper = styled.div`
+export const TextareaWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-export const InputLabel = styled.label`
+export const TextareaLabel = styled.label`
   ${({ theme }) => css`
-    ${theme.fonts.medium15}
+    ${theme.fonts.medium15};
     display: flex;
     align-items: center;
     margin-bottom: 0.6rem;
@@ -30,14 +24,17 @@ export const RequiredDot = styled.span`
   border-radius: 50%;
 `;
 
-export const Input = styled.input<StyledInputProps>`
-  ${({ theme, $size }) => css`
-    ${theme.input.size[$size]};
+export const Textarea = styled.textarea`
+  ${({ theme }) => css`
+    ${theme.fonts.regular15};
 
-    color: ${theme.colors.gray70};
+    min-height: 20rem;
+    padding: 1.2rem 1.4rem;
+    background-color: ${theme.colors.white};
     border: 0.1rem solid ${theme.colors.gray30};
-    border-radius: 0.9rem;
+    border-radius: 1.2rem;
     outline: none;
+    resize: none;
 
     &::placeholder {
       color: ${theme.colors.gray50};
@@ -58,7 +55,7 @@ export const Input = styled.input<StyledInputProps>`
   `}
 `;
 
-export const InputErrorMessage = styled.span`
+export const TextareaErrorMessage = styled.span`
   ${({ theme }) => css`
     ${theme.fonts.regular15};
 
