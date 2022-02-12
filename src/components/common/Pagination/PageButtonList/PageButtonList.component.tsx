@@ -4,16 +4,23 @@ import ChevronDoubleLeft from '@/assets/svg/chevrondouble-left-24.svg';
 import ChevronRight from '@/assets/svg/chevron-right-24.svg';
 import ChevronDoubleRight from '@/assets/svg/chevrondouble-right-24.svg';
 import { FIRST_PAGE } from '@/constants';
-import { PageOptions } from '../Pagination.component';
 import * as Styled from './PageButtonList.styled';
 
 interface Props {
-  pageOptions: PageOptions;
-  handleClickPage: (page: number) => (e: React.MouseEvent<HTMLButtonElement>) => void;
+  currentPage: number;
+  startPage: number;
+  endPage: number;
+  totalPages: number;
+  handleChangePage: (page: number) => (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const PageButtonList = ({ pageOptions, handleClickPage }: Props) => {
-  const { currentPage, startPage, endPage, totalPages } = pageOptions;
+const PageButtonList = ({
+  currentPage,
+  startPage,
+  endPage,
+  totalPages,
+  handleChangePage,
+}: Props) => {
   const prevPage = startPage <= FIRST_PAGE ? 0 : startPage - 1;
   const nextPage = endPage >= totalPages ? 0 : endPage + 1;
   const pages = [...Array(endPage - startPage + 1).keys()].map((diff) => startPage + diff);
@@ -23,18 +30,20 @@ const PageButtonList = ({ pageOptions, handleClickPage }: Props) => {
   }
 
   return (
-    <Styled.Navigation aria-label="Pagination">
+    <>
       <Styled.ArrowButton
+        role="link"
         aria-label="First page"
         disabled={currentPage === FIRST_PAGE}
-        onClick={handleClickPage(FIRST_PAGE)}
+        onClick={handleChangePage(FIRST_PAGE)}
       >
         <ChevronDoubleLeft />
       </Styled.ArrowButton>
       <Styled.ArrowButton
+        role="link"
         aria-label="Previous page"
         disabled={startPage === FIRST_PAGE}
-        onClick={handleClickPage(prevPage)}
+        onClick={handleChangePage(prevPage)}
       >
         <ChevronLeft />
       </Styled.ArrowButton>
@@ -44,11 +53,11 @@ const PageButtonList = ({ pageOptions, handleClickPage }: Props) => {
           return (
             <li key={`page${page}`}>
               <Styled.PageButton
-                type="button"
+                role="link"
                 aria-label={`Page ${page}`}
                 aria-current={isActive && 'page'}
                 disabled={isActive}
-                onClick={handleClickPage(page)}
+                onClick={handleChangePage(page)}
               >
                 {page}
               </Styled.PageButton>
@@ -57,20 +66,22 @@ const PageButtonList = ({ pageOptions, handleClickPage }: Props) => {
         })}
       </Styled.OrderedList>
       <Styled.ArrowButton
+        role="link"
         aria-label="Next page"
         disabled={endPage === totalPages}
-        onClick={handleClickPage(nextPage)}
+        onClick={handleChangePage(nextPage)}
       >
         <ChevronRight />
       </Styled.ArrowButton>
       <Styled.ArrowButton
+        role="link"
         aria-label="Last page"
         disabled={currentPage === totalPages}
-        onClick={handleClickPage(totalPages)}
+        onClick={handleChangePage(totalPages)}
       >
         <ChevronDoubleRight />
       </Styled.ArrowButton>
-    </Styled.Navigation>
+    </>
   );
 };
 

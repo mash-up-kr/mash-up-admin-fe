@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { PageOptions } from '@/components/common/Pagination/Pagination.component';
 import { DEFAULT_PAGING_SIZE, DEFAULT_PAGE_BUTTONS_SIZE, FIRST_PAGE } from '@/constants';
@@ -53,6 +53,10 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
     setSearchParams({ page: currentPage.toString(), size: pagingSize.toString() });
   };
 
+  const handleChangeSize = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearchParams({ page: pageOptions.currentPage.toString(), size: e.target.value });
+  };
+
   useEffect(() => {
     if (totalCount === 0) return;
 
@@ -72,6 +76,7 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
   return {
     pageOptions,
     handleChangePage,
+    handleChangeSize,
   };
 };
 
