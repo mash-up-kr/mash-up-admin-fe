@@ -6,7 +6,7 @@ import { colors } from '@/styles';
 import { NavigationSizeType } from './Navigation.component';
 
 interface NavigationContainerProps {
-  showBorder: boolean;
+  showBottomBorder: boolean;
 }
 
 interface StyledNavigationItemProps {
@@ -16,10 +16,10 @@ interface StyledNavigationItemProps {
 }
 
 export const NavigationContainer = styled.nav<NavigationContainerProps>`
-  ${({ showBorder, theme }) => css`
+  ${({ showBottomBorder, theme }) => css`
     display: flex;
 
-    ${showBorder
+    ${showBottomBorder
       ? css`
           border-bottom: 0.1rem solid ${theme.colors.gray30};
         `

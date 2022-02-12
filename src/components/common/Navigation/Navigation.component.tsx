@@ -21,14 +21,14 @@ export interface NavigationProps {
   size: NavigationSizeType;
   inActiveColor: ValueOf<typeof colors>;
   items: NavigationItem[];
-  showBorder?: boolean;
+  showBottomBorder?: boolean;
 }
 
-const Navigation = ({ size, inActiveColor, items, showBorder = true }: NavigationProps) => {
+const Navigation = ({ size, inActiveColor, items, showBottomBorder = true }: NavigationProps) => {
   const { pathname } = useLocation();
 
   return (
-    <Styled.NavigationContainer showBorder={showBorder}>
+    <Styled.NavigationContainer showBottomBorder={showBottomBorder}>
       {items.map((item) => (
         <Styled.NavigationItem
           key={item.to}
