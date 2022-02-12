@@ -12,6 +12,7 @@ import { colors } from '@/styles';
 
 import { Navigation, UserProfile } from '@/components';
 
+// TODO: (@mango90): router 변경해주기
 const navigationItems: NavigationItem[] = [
   {
     label: '지원서 내역',
