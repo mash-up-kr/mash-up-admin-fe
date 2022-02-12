@@ -36,7 +36,7 @@ export const NavigationItem = styled(Link)<StyledNavigationItemProps>`
     align-items: center;
     justify-content: center;
     color: ${active ? theme.colors.purple70 : inActiveColor};
-    letter-spacing: -0.05em;
+    letter-spacing: -0.08rem;
 
     ${active
       ? css`
