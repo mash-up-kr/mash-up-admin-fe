@@ -6,7 +6,7 @@ interface StyledCheckboxLabelProps {
 }
 
 export const CheckboxWrapper = styled.label<StyledCheckboxLabelProps>`
-  ${({ disabled }) => css`
+  ${({ theme, disabled }) => css`
     ${disabled
       ? css`
           opacity: 0.5;
@@ -22,6 +22,10 @@ export const CheckboxWrapper = styled.label<StyledCheckboxLabelProps>`
     padding: 0 0;
     cursor: pointer;
     user-select: none;
+
+    & > input {
+      ${theme.a11y.visuallyHidden}
+    }
   `}
 `;
 

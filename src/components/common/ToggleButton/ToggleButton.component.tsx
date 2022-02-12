@@ -1,5 +1,4 @@
 import React, { ChangeEventHandler } from 'react';
-import { VisuallyHidden } from '@/components';
 import * as Styled from './ToggleButton.styled';
 
 export interface ToggleButtonProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
@@ -16,7 +15,7 @@ const ToggleButton = ({
 }: ToggleButtonProps) => {
   return (
     <Styled.ToggleButtonLabel {...resetProps} disabled={disabled}>
-      <VisuallyHidden type="checkbox" onChange={handleToggle} checked={isChecked} />
+      <input type="checkbox" onChange={handleToggle} checked={isChecked} />
       <Styled.ToggleButtonSlider />
     </Styled.ToggleButtonLabel>
   );

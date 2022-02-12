@@ -6,5 +6,6 @@ declare module '@emotion/react' {
     colors: import('@/styles').ColorTheme;
     button: import('@/styles').ButtonTheme;
     input: import('@/styles').InputTheme;
+    a11y: import('@/styles').A11yTheme;
   }
 }

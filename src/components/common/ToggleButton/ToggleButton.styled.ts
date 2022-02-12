@@ -6,7 +6,7 @@ interface StyledToggleButtonLabelProps {
 }
 
 export const ToggleButtonLabel = styled.label<StyledToggleButtonLabelProps>`
-  ${({ disabled }) => css`
+  ${({ theme, disabled }) => css`
     ${disabled
       ? css`
           opacity: 0.5;
@@ -17,6 +17,10 @@ export const ToggleButtonLabel = styled.label<StyledToggleButtonLabelProps>`
     display: inline-block;
     width: 4rem;
     height: 2.4rem;
+
+    & > input {
+      ${theme.a11y.visuallyHidden}
+    }
   `}
 `;
 
