@@ -1,16 +1,15 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import { Header } from '@/components';
 import * as Styled from './Layout.styled';
 
-interface LayoutProps {
-  children: ReactNode;
-}
-
-const Layout = ({ children }: LayoutProps) => {
+const Layout = () => {
   return (
     <>
       <Header />
-      <Styled.Main>{children}</Styled.Main>
+      <Styled.Main>
+        <Outlet />
+      </Styled.Main>
     </>
   );
 };

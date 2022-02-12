@@ -11,11 +11,11 @@ const App = () => (
   <>
     <Global styles={globalStyles} />
     <ThemeProvider theme={theme}>
-      <Layout>
-        <Routes>
+      <Routes>
+        <Route path="/" element={<Layout />}>
           <Route path="/" element={<Count />} />
-        </Routes>
-      </Layout>
+        </Route>
+      </Routes>
     </ThemeProvider>
   </>
 );
