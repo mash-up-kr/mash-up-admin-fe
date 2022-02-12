@@ -22,7 +22,7 @@ export const DatePickerHeader = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 4rem;
+    height: 4.8rem;
     padding: 0 1.2rem;
     border-bottom: 0.1rem solid ${theme.colors.gray30};
 
