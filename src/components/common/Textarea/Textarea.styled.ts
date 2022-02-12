@@ -31,7 +31,7 @@ export const Textarea = styled.textarea`
     min-height: 20rem;
     padding: 1.2rem 1.4rem;
     background-color: ${theme.colors.white};
-    border: 1px solid ${theme.colors.gray30};
+    border: 0.1rem solid ${theme.colors.gray30};
     border-radius: 1.2rem;
     outline: none;
     resize: none;
