@@ -1,8 +1,8 @@
 import { addDecorator } from '@storybook/react';
 import { Global, ThemeProvider } from '@emotion/react';
 import { RecoilRoot } from 'recoil';
-import { MemoryRouter } from 'react-router-dom';
 import { theme, globalStyles } from '@/styles';
+import { BrowserRouter } from 'react-router-dom';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -16,11 +16,11 @@ export const parameters = {
 
 addDecorator((Story) => (
   <RecoilRoot>
-    <MemoryRouter initialEntries={['/']}>
-      <Global styles={globalStyles} />
-      <ThemeProvider theme={theme}>
+    <Global styles={globalStyles} />
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
         <Story />
-      </ThemeProvider>
-    </MemoryRouter>
+      </BrowserRouter>
+    </ThemeProvider>
   </RecoilRoot>
 ));

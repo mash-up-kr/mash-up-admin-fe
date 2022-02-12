@@ -183,6 +183,10 @@ const resetCss = css`
   path {
     pointer-events: none;
   }
+
+  li {
+    list-style-type: none;
+  }
 `;
 
 export default resetCss;
