@@ -3,7 +3,7 @@ import ChevronLeft from '@/assets/svg/chevron-left-24.svg';
 import ChevronDoubleLeft from '@/assets/svg/chevrondouble-left-24.svg';
 import ChevronRight from '@/assets/svg/chevron-right-24.svg';
 import ChevronDoubleRight from '@/assets/svg/chevrondouble-right-24.svg';
-import { FIRST_PAGE } from '@/constants';
+import { FIRST_PAGE } from '../Pagination.component';
 import * as Styled from './PageButtonList.styled';
 
 interface Props {

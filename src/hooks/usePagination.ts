@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { PageOptions } from '@/components/common/Pagination/Pagination.component';
-import { DEFAULT_PAGING_SIZE, DEFAULT_PAGE_BUTTONS_SIZE, FIRST_PAGE } from '@/constants';
+import { PageOptions, FIRST_PAGE } from '@/components/common/Pagination/Pagination.component';
+
+const DEFAULT_PAGING_SIZE = 20;
+const DEFAULT_PAGE_BUTTONS_SIZE = 10;
 
 interface GetPageOptionsParams {
   totalCount: number;

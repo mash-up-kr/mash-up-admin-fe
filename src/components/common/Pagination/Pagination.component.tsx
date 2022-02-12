@@ -3,6 +3,8 @@ import PagingSizeSelector from './PagingSizeSelector/PagingSizeSelector';
 import PageButtonList from './PageButtonList/PageButtonList.component';
 import * as Styled from './Pagination.styled';
 
+export const FIRST_PAGE = 1;
+
 export interface PageOptions {
   currentPage: number;
   startPage: number;
