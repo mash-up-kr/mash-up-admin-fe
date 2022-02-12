@@ -21,7 +21,7 @@ export const NavigationContainer = styled.nav<NavigationContainerProps>`
 
     ${showBorder
       ? css`
-          border-bottom: 1px solid ${theme.colors.gray30};
+          border-bottom: 0.1rem solid ${theme.colors.gray30};
         `
       : ''}
   `}
@@ -39,7 +39,7 @@ export const NavigationItem = styled(Link)<StyledNavigationItemProps>`
 
     ${active
       ? css`
-          border-bottom: 2px solid ${theme.colors.purple70};
+          border-bottom: 0.2rem solid ${theme.colors.purple70};
         `
       : ''}
   `}
