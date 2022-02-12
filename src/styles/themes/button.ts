@@ -42,6 +42,14 @@ export const button = {
       color: ${colors.white};
       background-color: ${colors.gray60};
 
+      &:hover {
+        background-color: ${colors.gray70};
+      }
+
+      &:disabled {
+        background-color: ${colors.gray40};
+      }
+
       & > svg > path {
         stroke: ${colors.white};
       }
@@ -51,6 +59,15 @@ export const button = {
       background-color: ${colors.white};
       border-color: ${colors.gray40};
 
+      &:hover {
+        background-color: ${colors.gray10};
+      }
+
+      &:disabled {
+        color: ${colors.gray50};
+        background-color: ${colors.gray40};
+      }
+
       & > svg > path {
         stroke: ${colors.gray70};
       }
@@ -58,6 +75,14 @@ export const button = {
     [ButtonShape.primary]: css`
       color: ${colors.white};
       background-color: ${colors.purple70};
+
+      &:hover {
+        background-color: ${colors.purple80};
+      }
+
+      &:disabled {
+        background-color: ${colors.purple40};
+      }
 
       & > svg > path {
         stroke: ${colors.white};
@@ -67,6 +92,16 @@ export const button = {
       color: ${colors.purple60};
       background-color: ${colors.purple10};
       border-color: ${colors.purple60};
+
+      &:hover {
+        background-color: ${colors.purple20};
+      }
+
+      &:disabled {
+        color: ${colors.purple40};
+        background-color: ${colors.purple40};
+        border-color: ${colors.purple20};
+      }
 
       & > svg > path {
         stroke: ${colors.purple60};
@@ -81,6 +116,10 @@ export const button = {
       background-color: ${colors.white};
       border-color: ${colors.gray40};
       border-radius: 0.9rem;
+
+      &:hover {
+        background-color: ${colors.gray10};
+      }
 
       & > svg > path {
         stroke: ${colors.gray60};
