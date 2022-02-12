@@ -1,8 +1,8 @@
 import React from 'react';
-import ChevronLeft from '@/assets/svg/chevron-left.svg';
-import ChevronDoubleLeft from '@/assets/svg/chevrondouble-left.svg';
-import ChevronRight from '@/assets/svg/chevron-right.svg';
-import ChevronDoubleRight from '@/assets/svg/chevrondouble-right.svg';
+import ChevronLeft from '@/assets/svg/chevron-left-24.svg';
+import ChevronDoubleLeft from '@/assets/svg/chevrondouble-left-24.svg';
+import ChevronRight from '@/assets/svg/chevron-right-24.svg';
+import ChevronDoubleRight from '@/assets/svg/chevrondouble-right-24.svg';
 import { FIRST_PAGE } from '@/constants';
 import { PageOptions } from '../Pagination.component';
 import * as Styled from './PageButtonList.styled';
