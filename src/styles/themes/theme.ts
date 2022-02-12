@@ -3,6 +3,7 @@ import { fonts } from './fonts';
 import { button } from './button';
 import { input } from './input';
 import { userProfile } from './userProfile';
+import { navigation } from './navigation';
 
 export const theme = {
   fonts,
@@ -10,4 +11,5 @@ export const theme = {
   button,
   input,
   userProfile,
+  navigation,
 };
