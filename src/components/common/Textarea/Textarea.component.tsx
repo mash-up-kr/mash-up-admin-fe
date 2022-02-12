@@ -7,7 +7,7 @@ export interface TextareaProps extends React.InputHTMLAttributes<HTMLTextAreaEle
   errorMessage?: string;
 }
 
-const Textarea = ({ id, required, label, errorMessage, ...restProps }: TextareaProps) => {
+const Textarea = ({ id, required, label, errorMessage = '', ...restProps }: TextareaProps) => {
   return (
     <Styled.TextareaWrapper>
       <Styled.TextareaLabel htmlFor={id}>
@@ -21,7 +21,3 @@ const Textarea = ({ id, required, label, errorMessage, ...restProps }: TextareaP
 };
 
 export default Textarea;
-
-Textarea.defaultProps = {
-  errorMessage: '',
-};
