@@ -1,4 +1,4 @@
-import React, { Dispatch, MouseEventHandler, SetStateAction } from 'react';
+import React, { Dispatch, MouseEventHandler, MutableRefObject, SetStateAction } from 'react';
 import { ModalWrapper } from '@/components';
 import * as Styled from './AlertModalDialog.styled';
 
@@ -9,6 +9,7 @@ export interface AlertModalDialogProps {
   confirmButtonLabel?: string;
   handleApprovalButton: MouseEventHandler<HTMLButtonElement>;
   handleCloseModal: Dispatch<SetStateAction<void>>;
+  beforeRef?: MutableRefObject<HTMLButtonElement>;
 }
 
 const AlertModalDialog = ({
@@ -31,6 +32,7 @@ const AlertModalDialog = ({
     },
     handleCloseModal,
   };
+
   return (
     <ModalWrapper {...props}>
       <Styled.AlertModalDialogWrapper>

@@ -8,6 +8,7 @@ import React, {
   useRef,
   Dispatch,
   SetStateAction,
+  MutableRefObject,
 } from 'react';
 import ReactDOM from 'react-dom';
 import * as Styled from './ModalWrapper.styled';
@@ -40,6 +41,7 @@ export interface ModalProps extends Children {
     };
   };
   handleCloseModal: Dispatch<SetStateAction<void>>;
+  beforeRef?: MutableRefObject<HTMLButtonElement>;
 }
 
 const PORTAL_ID = 'portal';
@@ -73,7 +75,7 @@ export const Portal = ({ children }: Children): ReactPortal | null => {
   return ReactDOM.createPortal(children, element);
 };
 
-const ModalWrapper = ({ children, heading, footer, handleCloseModal }: ModalProps) => {
+const ModalWrapper = ({ children, heading, footer, handleCloseModal, beforeRef }: ModalProps) => {
   const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -122,14 +124,18 @@ const ModalWrapper = ({ children, heading, footer, handleCloseModal }: ModalProp
 
     window.addEventListener('keydown', handleFocusTrap);
 
+    const beforeRefInEffect = beforeRef;
+
     return () => {
       $rootNode?.removeAttribute('aria-hidden');
       document.body.style.overflow = 'unset';
 
       window.removeEventListener('keyup', handleModalCloseWithEscHandler);
       window.removeEventListener('keydown', handleFocusTrap);
+
+      beforeRefInEffect?.current.focus();
     };
-  }, [handleCloseModal]);
+  }, [beforeRef, handleCloseModal]);
 
   return (
     <Portal>
