@@ -84,7 +84,7 @@ export interface DatePickerProps {
 }
 
 const DatePicker = ({ handleSelectDate, selectedDate }: DatePickerProps) => {
-  const [date, setDate] = useState<Dayjs>(dayjs());
+  const [date, setDate] = useState<Dayjs>(selectedDate || dayjs());
   const rows = handleGenerateDateRows(date);
 
   const handleChangeMonth = (by: 'next' | 'prev') => {
