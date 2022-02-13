@@ -15,6 +15,7 @@ export const Overlay = styled.div`
 
 export const ModalCard = styled.div`
   ${({ theme }) => css`
+    z-index: ${theme.zIndex.dialog};
     display: flex;
     flex-direction: column;
     align-items: flex-start;
