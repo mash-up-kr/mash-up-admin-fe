@@ -1,4 +1,14 @@
-import React, { MouseEventHandler, ReactNode, ReactPortal, useLayoutEffect, useState } from 'react';
+import React, {
+  MouseEventHandler,
+  ReactNode,
+  ReactPortal,
+  useLayoutEffect,
+  useState,
+  useEffect,
+  useRef,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import ReactDOM from 'react-dom';
 import * as Styled from './ModalWrapper.styled';
 
@@ -16,12 +26,12 @@ interface Children {
 }
 
 export interface ModalProps extends Children {
-  headerText?: string;
+  heading?: string;
   footer: {
     cancelButton: {
       shape?: ButtonShapeType;
       label?: string;
-      onClick: MouseEventHandler<HTMLButtonElement>;
+      onClick?: MouseEventHandler<HTMLButtonElement>;
     };
     confirmButton?: {
       shape?: ButtonShapeType;
@@ -29,7 +39,7 @@ export interface ModalProps extends Children {
       onClick: MouseEventHandler<HTMLButtonElement>;
     };
   };
-  handleCloseModal: MouseEventHandler<HTMLDivElement>;
+  handleCloseModal: Dispatch<SetStateAction<void>>;
 }
 
 const PORTAL_ID = 'portal';
@@ -63,15 +73,81 @@ export const Portal = ({ children }: Children): ReactPortal | null => {
   return ReactDOM.createPortal(children, element);
 };
 
-const ModalWrapper = ({ children, headerText, footer, handleCloseModal }: ModalProps) => {
+const ModalWrapper = ({ children, heading, footer, handleCloseModal }: ModalProps) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const $rootNode = document.getElementById(PORTAL_ID);
+    $rootNode?.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = 'hidden';
+
+    const handleModalCloseWithEscHandler = ({ key }: KeyboardEvent) => {
+      let scheduledAnimationFrame = false;
+
+      if (scheduledAnimationFrame) {
+        return;
+      }
+
+      scheduledAnimationFrame = true;
+
+      if (key === 'Escape') {
+        handleCloseModal();
+        scheduledAnimationFrame = false;
+      }
+    };
+
+    window.addEventListener('keyup', handleModalCloseWithEscHandler);
+
+    const handleFocusTrap = (e: KeyboardEvent) => {
+      const focusableNodeList = dialogRef.current?.querySelectorAll<HTMLElement>(
+        'input, button, textarea, select, [href] [tabindex]',
+      );
+
+      if (focusableNodeList) {
+        const firstFocusableNode = focusableNodeList[0];
+        const lastFocusableNode = focusableNodeList[focusableNodeList.length - 1];
+
+        if (e.target === firstFocusableNode && e.shiftKey && e.key === 'Tab') {
+          e.preventDefault();
+          lastFocusableNode.focus();
+        }
+        if (e.target === lastFocusableNode && !e.shiftKey && e.key === 'Tab') {
+          e.preventDefault();
+          firstFocusableNode.focus();
+        }
+      }
+    };
+
+    dialogRef.current?.focus();
+
+    window.addEventListener('keydown', handleFocusTrap);
+
+    return () => {
+      $rootNode?.removeAttribute('aria-hidden');
+      document.body.style.overflow = 'unset';
+
+      window.removeEventListener('keyup', handleModalCloseWithEscHandler);
+      window.removeEventListener('keydown', handleFocusTrap);
+    };
+  }, [handleCloseModal]);
+
   return (
     <Portal>
-      <Styled.Overlay onClick={handleCloseModal}>
-        <Styled.ModalCard>
-          {headerText && (
+      <Styled.Overlay
+        onClick={(e) => {
+          if (e.target === e.currentTarget) handleCloseModal();
+        }}
+        tabIndex={-1}
+      >
+        <Styled.ModalCard ref={dialogRef} tabIndex={0}>
+          {heading && (
             <Styled.ModalHeader>
-              <h2>{headerText}</h2>
-              <Button Icon={CloseIcon} shape={ButtonShape.icon} />
+              <h2>{heading}</h2>
+              <Button
+                Icon={CloseIcon}
+                shape={ButtonShape.icon}
+                onClick={() => handleCloseModal()}
+              />
             </Styled.ModalHeader>
           )}
           <Styled.ModalContent>{children}</Styled.ModalContent>
@@ -80,6 +156,9 @@ const ModalWrapper = ({ children, headerText, footer, handleCloseModal }: ModalP
               $size={ButtonSize.sm}
               shape={ButtonShape.defaultLine}
               {...footer.cancelButton}
+              onClick={
+                footer.cancelButton.onClick ? footer.cancelButton.onClick : () => handleCloseModal()
+              }
             />
             {footer?.confirmButton && (
               <Button $size={ButtonSize.sm} shape={ButtonShape.primary} {...footer.confirmButton} />

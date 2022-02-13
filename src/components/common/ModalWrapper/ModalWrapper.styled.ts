@@ -2,6 +2,9 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,7 +19,7 @@ export const ModalCard = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    min-width: 30rem;
+    min-width: 40rem;
     min-height: 10rem;
     background-color: ${theme.colors.white};
     border-radius: 3rem;
@@ -44,7 +47,6 @@ export const ModalHeader = styled.div`
 
 export const ModalContent = styled.div`
   width: 100%;
-  padding: 2.4rem;
 `;
 
 export const ModalFooter = styled.div`
