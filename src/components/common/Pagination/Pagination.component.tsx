@@ -1,5 +1,9 @@
 import React from 'react';
+import PagingSizeSelector from './PagingSizeSelector/PagingSizeSelector';
 import PageButtonList from './PageButtonList/PageButtonList.component';
+import * as Styled from './Pagination.styled';
+
+export const FIRST_PAGE = 1;
 
 export interface PageOptions {
   currentPage: number;
@@ -9,16 +13,38 @@ export interface PageOptions {
   pagingSize: number;
 }
 
-interface Props {
+export interface PaginationProps {
   pageOptions: PageOptions;
-  handleClickPage: (page: number) => (e: React.MouseEvent<HTMLButtonElement>) => void;
+  selectableSize: boolean;
+  handleChangePage: (page: number) => (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleChangeSize: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const Pagination = ({ pageOptions, handleClickPage }: Props) => {
+const Pagination = ({
+  pageOptions,
+  selectableSize,
+  handleChangePage,
+  handleChangeSize,
+}: PaginationProps) => {
+  const { currentPage, startPage, endPage, totalPages, pagingSize } = pageOptions;
   return (
-    <div>
-      <PageButtonList pageOptions={pageOptions} handleClickPage={handleClickPage} />
-    </div>
+    <Styled.Navigation aria-label="Pagination">
+      <Styled.Box width="16rem" />
+      <Styled.PageButtonListWrapper>
+        <PageButtonList
+          currentPage={currentPage}
+          startPage={startPage}
+          endPage={endPage}
+          totalPages={totalPages}
+          handleChangePage={handleChangePage}
+        />
+      </Styled.PageButtonListWrapper>
+      <Styled.Box width="16rem">
+        {selectableSize && (
+          <PagingSizeSelector pagingSize={pagingSize} handleChangeSize={handleChangeSize} />
+        )}
+      </Styled.Box>
+    </Styled.Navigation>
   );
 };
 

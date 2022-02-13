@@ -9,6 +9,10 @@ export const fonts = {
   bold24: css`
     font-weight: 700;
     font-size: 2.4rem;
+  `,
+  bold28: css`
+    font-weight: 700;
+    font-size: 2.8rem;
     line-height: 1.5;
   `,
   bold22: css`
@@ -24,6 +28,11 @@ export const fonts = {
   bold18: css`
     font-weight: 700;
     font-size: 1.8rem;
+    line-height: 1.5;
+  `,
+  bold16: css`
+    font-weight: 700;
+    font-size: 1.6rem;
     line-height: 1.5;
   `,
   medium16: css`

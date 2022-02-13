@@ -5,10 +5,6 @@ interface StyledPageCommonButtonProps {
   disabled: boolean;
 }
 
-export const Navigation = styled.nav`
-  display: flex;
-`;
-
 export const OrderedList = styled.ol`
   display: flex;
 `;

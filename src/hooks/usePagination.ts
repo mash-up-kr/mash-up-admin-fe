@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { PageOptions } from '@/components/common/Pagination/Pagination.component';
-import { DEFAULT_PAGING_SIZE, DEFAULT_PAGE_BUTTONS_SIZE, FIRST_PAGE } from '@/constants';
+import { PageOptions, FIRST_PAGE } from '@/components/common/Pagination/Pagination.component';
+
+const DEFAULT_PAGING_SIZE = 20;
+const DEFAULT_PAGE_BUTTONS_SIZE = 10;
 
 interface GetPageOptionsParams {
   totalCount: number;
@@ -53,6 +55,26 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
     setSearchParams({ page: currentPage.toString(), size: pagingSize.toString() });
   };
 
+  const handleChangeSize = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const pagingSize = e.target.value;
+    let newPageOptions = getPageOptions({
+      totalCount,
+      pageIndex: pageOptions.currentPage - 1,
+      pagingSize: parseInt(pagingSize, 10),
+      pageButtonsSize,
+    });
+
+    const { currentPage, endPage } = newPageOptions;
+    if (currentPage > endPage) {
+      newPageOptions = {
+        ...newPageOptions,
+        currentPage: newPageOptions.endPage,
+      };
+    }
+
+    setSearchParams({ page: newPageOptions.currentPage.toString(), size: pagingSize });
+  };
+
   useEffect(() => {
     if (totalCount === 0) return;
 
@@ -65,6 +87,14 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
       pageButtonsSize,
     });
 
+    if (newPageOptions.currentPage > newPageOptions.endPage) {
+      setSearchParams({
+        page: newPageOptions.endPage.toString(),
+        size: newPageOptions.pagingSize.toString(),
+      });
+      return;
+    }
+
     setPageOptions(newPageOptions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
@@ -72,6 +102,7 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
   return {
     pageOptions,
     handleChangePage,
+    handleChangeSize,
   };
 };
 

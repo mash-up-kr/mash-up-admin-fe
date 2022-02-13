@@ -2,18 +2,29 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from '@emotion/react';
-import { PageOptions } from '../Pagination.component';
 import PageButtonList from './PageButtonList.component';
 import { theme } from '@/styles';
 
-const renderPageButtonList = (pageOptions: PageOptions) => {
+interface Params {
+  currentPage: number;
+  startPage: number;
+  endPage: number;
+  totalPages: number;
+}
+const renderPageButtonList = ({ currentPage, startPage, endPage, totalPages }: Params) => {
   const handleChangePage = jest.fn();
 
   const {
     container: { firstChild },
   } = render(
     <ThemeProvider theme={theme}>
-      <PageButtonList pageOptions={pageOptions} handleClickPage={handleChangePage} />
+      <PageButtonList
+        currentPage={currentPage}
+        startPage={startPage}
+        endPage={endPage}
+        totalPages={totalPages}
+        handleChangePage={handleChangePage}
+      />
     </ThemeProvider>,
   );
 
@@ -61,7 +72,6 @@ describe('<PageButtonList />', () => {
     // Given, When
     const { firstChild } = renderPageButtonList({
       currentPage: 0,
-      pagingSize: 0,
       startPage: 0,
       endPage: 0,
       totalPages: 0,
@@ -75,7 +85,6 @@ describe('<PageButtonList />', () => {
     // Given, When
     const { FirstButton, PrevButton, NextButton, LastButton, PageButtons } = renderPageButtonList({
       currentPage: 5,
-      pagingSize: 20,
       startPage: 1,
       endPage: 10,
       totalPages: 10,
@@ -96,7 +105,6 @@ describe('<PageButtonList />', () => {
     // Given, When
     const { PageButtons } = renderPageButtonList({
       currentPage: 5,
-      pagingSize: 20,
       startPage: 1,
       endPage: 7,
       totalPages: 7,
@@ -110,7 +118,6 @@ describe('<PageButtonList />', () => {
     // Given, When
     const { PageButtons } = renderPageButtonList({
       currentPage: 15,
-      pagingSize: 20,
       startPage: 11,
       endPage: 20,
       totalPages: 27,
@@ -124,7 +131,6 @@ describe('<PageButtonList />', () => {
     // Given, When
     const { FirstButton } = renderPageButtonList({
       currentPage: 1,
-      pagingSize: 20,
       startPage: 1,
       endPage: 7,
       totalPages: 7,
@@ -138,7 +144,6 @@ describe('<PageButtonList />', () => {
     // Given, When
     const { PrevButton } = renderPageButtonList({
       currentPage: 5,
-      pagingSize: 20,
       startPage: 1,
       endPage: 7,
       totalPages: 7,
@@ -152,7 +157,6 @@ describe('<PageButtonList />', () => {
     // Given, When
     const { NextButton } = renderPageButtonList({
       currentPage: 15,
-      pagingSize: 20,
       startPage: 10,
       endPage: 17,
       totalPages: 17,
@@ -166,7 +170,6 @@ describe('<PageButtonList />', () => {
     // Given, When
     const { LastButton } = renderPageButtonList({
       currentPage: 17,
-      pagingSize: 20,
       startPage: 10,
       endPage: 17,
       totalPages: 17,
