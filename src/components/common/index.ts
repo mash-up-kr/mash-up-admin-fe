@@ -7,3 +7,4 @@ export { default as ModalWrapper } from './ModalWrapper/ModalWrapper.component';
 export { default as RadioButton } from './RadioButton/RadioButton.component';
 export { default as ToggleButton } from './ToggleButton/ToggleButton.component';
 export { default as AlertModalDialog } from './AlertModalDialog/AlertModalDialog.component';
+export { default as ModalViewer } from './ModalViewer/ModalViewer.component';
