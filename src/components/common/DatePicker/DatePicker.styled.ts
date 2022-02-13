@@ -26,7 +26,7 @@ export const DatePickerHeader = styled.div`
     padding: 0 1.2rem;
     border-bottom: 0.1rem solid ${theme.colors.gray30};
 
-    & h2 {
+    & div {
       ${theme.fonts.bold24}
 
       cursor: default;

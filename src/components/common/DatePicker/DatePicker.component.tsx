@@ -99,7 +99,7 @@ const DatePicker = ({ handleSelectDate, selectedDate }: DatePickerProps) => {
     <Styled.DatePickerWrapper>
       <Styled.DatePickerHeader>
         <ArrowLeft onClick={() => handleChangeMonth('prev')} />
-        <h2>{date.format('YYYY.M')}</h2>
+        <div>{date.format('YYYY.M')}</div>
         <ArrowRight onClick={() => handleChangeMonth('next')} />
       </Styled.DatePickerHeader>
       <Styled.DatePickerTable>
