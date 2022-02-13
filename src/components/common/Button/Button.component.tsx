@@ -65,6 +65,6 @@ const Button = forwardRef<ParentRef, ButtonProps>(
   },
 );
 
-Button.displayName = 'Button';
+Button.displayName = 'Button.component';
 
 export default Button;
