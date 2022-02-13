@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import ArrowLeft from '@/assets/svg/chevron-left.svg';
-import ArrowRight from '@/assets/svg/chevron-right.svg';
+import ArrowLeft from '@/assets/svg/chevron-left-24.svg';
+import ArrowRight from '@/assets/svg/chevron-right-24.svg';
 
 import * as Styled from './DatePicker.styled';
 
