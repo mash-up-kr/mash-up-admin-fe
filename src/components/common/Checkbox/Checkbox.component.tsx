@@ -18,7 +18,7 @@ const Checkbox = ({
 }: CheckboxProps) => {
   return (
     <Styled.CheckboxWrapper {...resetProps} disabled={disabled}>
-      <Styled.CheckboxInput type="checkbox" onChange={handleToggle} checked={isChecked} />
+      <input type="checkbox" onChange={handleToggle} checked={isChecked} />
       <Styled.CheckboxMark>
         <CheckboxChecked />
       </Styled.CheckboxMark>
