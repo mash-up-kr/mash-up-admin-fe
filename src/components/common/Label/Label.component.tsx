@@ -4,7 +4,7 @@ import * as Styled from './Label.styled';
 import { colors } from '@/styles';
 
 export const ApplicationResultStatus = {
-  NOT_RATED: { label: '미겸토', backgroundColor: colors.gray20, color: colors.gray60 },
+  NOT_RATED: { label: '미검토', backgroundColor: colors.gray20, color: colors.gray60 },
   SCREENING_TBD: { label: '서류 보류', backgroundColor: colors.blue20, color: colors.blue70 },
   SCREENING_FAILED: { label: '서류 불합격', backgroundColor: colors.orange70, color: colors.white },
   SCREENING_PASSED: { label: '서류 합격', backgroundColor: colors.blue70, color: colors.white },
@@ -13,7 +13,7 @@ export const ApplicationResultStatus = {
 } as const;
 
 export const ApplicationConfirmationStatus = {
-  TBD: { label: '미겸토', backgroundColor: colors.gray20, color: colors.gray60 },
+  TBD: { label: '미검토', backgroundColor: colors.gray20, color: colors.gray60 },
   NOT_APPLICABLE: { label: '대상 없음', backgroundColor: colors.gray60, color: colors.white },
   INTERVIEW_CONFIRM_WAITING: {
     label: '면접 확인 대기',
