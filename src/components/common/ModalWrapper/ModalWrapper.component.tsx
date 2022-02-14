@@ -9,7 +9,7 @@ import {
   ButtonShapeType,
 } from '@/components/common/Button/Button.component';
 
-import CloseIcon from '@/assets/svg/close-icon.svg';
+import CloseIcon from '@/assets/svg/popup-close-44.svg';
 
 interface Children {
   children?: ReactNode;

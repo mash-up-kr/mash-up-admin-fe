@@ -17,11 +17,7 @@ const RadioButton = ({
 }: RadioButtonProps) => {
   return (
     <Styled.RadioButtonWrapper {...resetProps} disabled={disabled}>
-      <Styled.RadioButtonInput
-        type="radio"
-        onClick={handleClickButton}
-        defaultChecked={defaultChecked}
-      />
+      <input type="radio" onClick={handleClickButton} defaultChecked={defaultChecked} />
       <Styled.RadioButtonMark>
         <span />
       </Styled.RadioButtonMark>
