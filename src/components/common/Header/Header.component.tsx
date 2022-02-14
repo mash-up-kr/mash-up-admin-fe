@@ -35,6 +35,7 @@ const Header = () => {
       <Styled.HeaderContainerInner>
         <Link to="/">
           <Logo />
+          <Styled.VisuallyHiddenLogo>Mash-Up Adminsoo</Styled.VisuallyHiddenLogo>
         </Link>
         <Navigation
           size={NavigationSize.md}

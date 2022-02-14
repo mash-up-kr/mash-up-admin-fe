@@ -16,3 +16,9 @@ export const HeaderContainerInner = styled.div`
   max-width: 120rem;
   margin: 0 auto;
 `;
+
+export const VisuallyHiddenLogo = styled.h2`
+  ${({ theme }) => css`
+    ${theme.a11y.visuallyHidden};
+  `}
+`;
