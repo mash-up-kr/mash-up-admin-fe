@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { forwardRef, ReactElement, SVGProps, useImperativeHandle, useRef } from 'react';
 import { ValueOf } from '@/types';
 import * as Styled from './Button.styled';
@@ -33,8 +34,15 @@ export interface ParentRef {
 
 const Button = forwardRef<ParentRef, ButtonProps>(
   (
-    // eslint-disable-next-line react/prop-types
-    { className, $size = 'sm', shape = 'default', Icon, label, ...resetProps }: ButtonProps,
+    {
+      children,
+      className,
+      $size = 'sm',
+      shape = 'default',
+      Icon,
+      label,
+      ...resetProps
+    }: ButtonProps,
     parentRef,
   ) => {
     const childRef = useRef<HTMLButtonElement>(null);
@@ -60,6 +68,7 @@ const Button = forwardRef<ParentRef, ButtonProps>(
       >
         {Icon && <Icon />}
         {shape !== ButtonShape.icon && label}
+        {children}
       </Styled.ButtonWrapper>
     );
   },
