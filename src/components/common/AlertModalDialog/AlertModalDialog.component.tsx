@@ -1,15 +1,32 @@
-import React, { MouseEventHandler, MutableRefObject } from 'react';
+import React, { MutableRefObject } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ModalWrapper } from '@/components';
 import * as Styled from './AlertModalDialog.styled';
 import useModal from '@/hooks/useModal';
 import { ModalKey } from '@/recoil/modal';
+import { Position } from '@/components/common/ModalWrapper/ModalWrapper.component';
+
+export const SMS_COMPLETE = {
+  heading: 'SMS 발송 완료',
+  paragraph: 'SMS 발송내역 페이지로 이동하시겠습니까?',
+  cancelButtonLabel: '취소',
+  confirmButtonLabel: '이동',
+  linkTo: 'sms',
+};
+
+export const POPUP_CLOSE = {
+  heading: '팝업을 닫으시겠습니까?',
+  paragraph: '변경 또는 작성하신 데이터가 삭제됩니다.',
+  cancelButtonLabel: '취소',
+  confirmButtonLabel: '닫기',
+};
 
 export interface AlertModalDialogProps {
   heading: string;
   paragraph: string;
   cancelButtonLabel?: string;
   confirmButtonLabel?: string;
-  handleApprovalButton: MouseEventHandler<HTMLButtonElement>;
+  linkTo?: string;
   beforeRef?: MutableRefObject<HTMLButtonElement>;
 }
 
@@ -18,8 +35,9 @@ const AlertModalDialog = ({
   paragraph,
   cancelButtonLabel = '취소',
   confirmButtonLabel = '확인',
-  handleApprovalButton,
+  linkTo,
 }: AlertModalDialogProps) => {
+  const navigate = useNavigate();
   const { handleRemoveCurrentModal } = useModal();
 
   const props = {
@@ -29,9 +47,11 @@ const AlertModalDialog = ({
       },
       confirmButton: {
         label: confirmButtonLabel,
-        onClick:
-          handleApprovalButton || (() => handleRemoveCurrentModal(ModalKey.alertModalDialog)),
+        onClick: linkTo
+          ? () => navigate(linkTo)
+          : () => handleRemoveCurrentModal(ModalKey.alertModalDialog),
       },
+      position: Position.center,
     },
     handleCloseModal: () => handleRemoveCurrentModal(ModalKey.alertModalDialog),
   };
