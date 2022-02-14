@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { PositionType } from '@/components/common/ModalWrapper/ModalWrapper.component';
 
 export const Overlay = styled.div`
   position: fixed;
@@ -51,7 +52,7 @@ export const ModalContent = styled.div`
 `;
 
 interface StyledModalFooter {
-  position: 'flex-start' | 'center' | 'flex-end';
+  position: PositionType;
 }
 
 export const ModalFooter = styled.div<StyledModalFooter>`
