@@ -124,7 +124,7 @@ const ModalWrapper = ({ children, heading, footer, handleCloseModal, beforeRef }
 
     window.addEventListener('keydown', handleFocusTrap);
 
-    const beforeRefInEffect = beforeRef;
+    const beforeRefSnapshot = beforeRef;
 
     return () => {
       $rootNode?.removeAttribute('aria-hidden');
@@ -133,7 +133,7 @@ const ModalWrapper = ({ children, heading, footer, handleCloseModal, beforeRef }
       window.removeEventListener('keyup', handleModalCloseWithEscHandler);
       window.removeEventListener('keydown', handleFocusTrap);
 
-      beforeRefInEffect?.current.focus();
+      beforeRefSnapshot?.current.focus();
     };
   }, [beforeRef, handleCloseModal]);
 
