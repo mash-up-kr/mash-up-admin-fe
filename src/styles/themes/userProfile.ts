@@ -26,7 +26,7 @@ export const userProfile = {
     [Role.subLeader]: css`
       background-color: ${colors.blue70};
     `,
-    [Role.staff]: css`
+    [Role.member]: css`
       background-color: ${colors.gray70};
     `,
   },

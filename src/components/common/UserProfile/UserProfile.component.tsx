@@ -18,7 +18,7 @@ export const Team = {
 export const Role = {
   leader: 'LEADER',
   subLeader: 'SUB LEADER',
-  staff: 'STAFF',
+  member: 'MEMBER',
 } as const;
 
 export interface UserProfileProps {
