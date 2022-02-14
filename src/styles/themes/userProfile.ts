@@ -1,73 +1,25 @@
 import { css } from '@emotion/react';
-import { Role, Team } from '@/components/common/UserProfile/UserProfile.component';
+import { Role } from '@/components/common/UserProfile/UserProfile.component';
 import { colors } from './colors';
-import { neverExpected } from '@/utils/errors';
 
 export const userProfile = {
-  [Team.mashUp]: {
+  mashUp: {
     [Role.leader]: css`
       background-color: ${colors.red70};
     `,
     [Role.subLeader]: css`
       background-color: ${colors.orange70};
     `,
-    [Role.staff]: neverExpected(Role.staff as never),
   },
-  [Team.android]: {
+  platform: {
     [Role.leader]: css`
       background-color: ${colors.green70};
     `,
     [Role.subLeader]: css`
       background-color: ${colors.blue70};
     `,
-    [Role.staff]: neverExpected(Role.staff as never),
   },
-  [Team.design]: {
-    [Role.leader]: css`
-      background-color: ${colors.green70};
-    `,
-    [Role.subLeader]: css`
-      background-color: ${colors.blue70};
-    `,
-    [Role.staff]: neverExpected(Role.staff as never),
-  },
-  [Team.ios]: {
-    [Role.leader]: css`
-      background-color: ${colors.green70};
-    `,
-    [Role.subLeader]: css`
-      background-color: ${colors.blue70};
-    `,
-    [Role.staff]: neverExpected(Role.staff as never),
-  },
-  [Team.node]: {
-    [Role.leader]: css`
-      background-color: ${colors.green70};
-    `,
-    [Role.subLeader]: css`
-      background-color: ${colors.blue70};
-    `,
-    [Role.staff]: neverExpected(Role.staff as never),
-  },
-  [Team.spring]: {
-    [Role.leader]: css`
-      background-color: ${colors.green70};
-    `,
-    [Role.subLeader]: css`
-      background-color: ${colors.blue70};
-    `,
-    [Role.staff]: neverExpected(Role.staff as never),
-  },
-  [Team.web]: {
-    [Role.leader]: css`
-      background-color: ${colors.green70};
-    `,
-    [Role.subLeader]: css`
-      background-color: ${colors.blue70};
-    `,
-    [Role.staff]: neverExpected(Role.staff as never),
-  },
-  [Team.branding]: {
+  branding: {
     [Role.leader]: css`
       background-color: ${colors.green70};
     `,
