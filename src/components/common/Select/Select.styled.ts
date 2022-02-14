@@ -33,6 +33,7 @@ export const Select = styled.div<StyledSelectProps>`
     background-color: ${theme.colors.white};
     border: 0.1rem solid ${theme.colors.gray30};
     border-radius: 0.9rem;
+    cursor: pointer;
 
     svg {
       transform: ${isOpened ? 'rotate(180deg)' : 'rotate(0deg)'};
@@ -87,6 +88,7 @@ export const SelectOption = styled.li<StyledSelectOptionProps>`
     color: ${isSelected ? theme.colors.purple70 : theme.colors.gray80};
     background-color: ${theme.colors.white};
     border-radius: 0.9rem;
+    cursor: pointer;
 
     &:hover {
       background-color: ${theme.colors.gray10};
