@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ValueOf } from '@/types';
 import { Role, Team } from './UserProfile.component';
+import { userProfile } from '@/styles';
 
 interface UserProfileContainerProps {
   showBackground: boolean;
@@ -11,6 +12,22 @@ interface UserProfileRoleLabelProps {
   $role: ValueOf<typeof Role>;
   team: ValueOf<typeof Team>;
 }
+
+const getUserProfileTheme = ($role: ValueOf<typeof Role>, team: ValueOf<typeof Team>) => {
+  if ($role === Role.staff) {
+    return userProfile.branding.STAFF;
+  }
+
+  if (team === Team.mashUp) {
+    return userProfile.mashUp[$role];
+  }
+
+  if (team === Team.branding) {
+    return userProfile.branding[$role];
+  }
+
+  return userProfile.platform[$role];
+};
 
 export const UserProfileContainer = styled.div<UserProfileContainerProps>`
   ${({ theme, showBackground }) => css`
@@ -33,7 +50,7 @@ export const UserProfileContainer = styled.div<UserProfileContainerProps>`
 
 export const UserProfileRoleLabel = styled.span<UserProfileRoleLabelProps>`
   ${({ $role, team, theme }) => css`
-    ${team === Team.mashUp ? theme.userProfile.mashUp[$role] : theme.userProfile.platForm[$role]};
+    ${getUserProfileTheme($role, team)};
 
     margin-left: 0.4rem;
     padding: 0.2rem 0.8rem;

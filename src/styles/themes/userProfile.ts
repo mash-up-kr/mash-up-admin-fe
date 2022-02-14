@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { Role } from '@/components/common/UserProfile/UserProfile.component';
-import { colors } from '.';
+import { colors } from './colors';
 
 export const userProfile = {
   mashUp: {
@@ -10,9 +10,16 @@ export const userProfile = {
     [Role.subLeader]: css`
       background-color: ${colors.orange70};
     `,
-    [Role.staff]: css``,
   },
-  platForm: {
+  platform: {
+    [Role.leader]: css`
+      background-color: ${colors.green70};
+    `,
+    [Role.subLeader]: css`
+      background-color: ${colors.blue70};
+    `,
+  },
+  branding: {
     [Role.leader]: css`
       background-color: ${colors.green70};
     `,
