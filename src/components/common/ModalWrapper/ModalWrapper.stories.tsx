@@ -11,10 +11,10 @@ import ModalWrapper, { ModalProps } from './ModalWrapper.component';
 import { Button } from '@/components';
 
 export default {
-  title: 'ModalWrapper',
+  title: 'Modal Wrapper',
 } as ComponentMeta<typeof ModalWrapper>;
 
-export const Template: ComponentStory<typeof ModalWrapper> = (args: ModalProps) => {
+const Template: ComponentStory<typeof ModalWrapper> = (args: ModalProps) => {
   const [mount, setMount] = useState<boolean>();
   const ref = useRef<HTMLButtonElement>(null) as MutableRefObject<HTMLButtonElement>;
 
@@ -29,7 +29,9 @@ export const Template: ComponentStory<typeof ModalWrapper> = (args: ModalProps) 
   );
 };
 
-Template.args = {
+export const modalWrapper = Template.bind({});
+
+modalWrapper.args = {
   heading: '모달 테스트',
   footer: {
     cancelButton: {

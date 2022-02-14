@@ -3,14 +3,16 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import RadioButton, { RadioButtonProps } from './RadioButton.component';
 
 export default {
-  title: 'RadioButton',
+  title: 'Radio Button',
 } as ComponentMeta<typeof RadioButton>;
 
-export const Template: ComponentStory<typeof RadioButton> = (args: RadioButtonProps) => {
+const Template: ComponentStory<typeof RadioButton> = (args: RadioButtonProps) => {
   return <RadioButton {...args} />;
 };
 
-Template.args = {
+export const radioButton = Template.bind({});
+
+radioButton.args = {
   handleClickButton: () => {},
   disabled: false,
   defaultChecked: false,

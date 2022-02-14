@@ -5,33 +5,48 @@ import useModal from '@/hooks/useModal';
 import ModalViewer from './ModalViewer.component';
 import { Button } from '@/components';
 import { $modalState, ModalKey } from '@/recoil/modal';
+import {
+  POPUP_CLOSE,
+  SMS_COMPLETE,
+} from '@/components/common/AlertModalDialog/AlertModalDialog.component';
 
 export default {
-  title: 'ModalViewer',
+  title: 'Modal Viewer',
 } as ComponentMeta<typeof ModalViewer>;
 
-export const Template: ComponentStory<typeof ModalViewer> = () => {
+const Template: ComponentStory<typeof ModalViewer> = () => {
   const { handleAddModal } = useModal();
   const [modalList] = useRecoilState($modalState);
 
   return (
     <div>
       {modalList.length === 0 && (
-        <Button
-          onClick={() =>
-            handleAddModal({
-              key: ModalKey.alertModalDialog,
-              props: {
-                heading: 'SMS 발송 완료',
-                paragraph: 'SMS 발송내역 페이지로 이동하시겠습니까?',
-                handleApprovalButton: () => {},
-              },
-            })
-          }
-          label="AlertModalDialog 켜기"
-        />
+        <>
+          <Button
+            onClick={() =>
+              handleAddModal({
+                key: ModalKey.alertModalDialog,
+                props: SMS_COMPLETE,
+              })
+            }
+          >
+            SMS 발송 완료 알럿모달
+          </Button>
+          <Button
+            onClick={() =>
+              handleAddModal({
+                key: ModalKey.alertModalDialog,
+                props: POPUP_CLOSE,
+              })
+            }
+          >
+            팝업 닫기 알럿모달
+          </Button>
+        </>
       )}
       <ModalViewer />
     </div>
   );
 };
+
+export const modalViewer = Template.bind({});
