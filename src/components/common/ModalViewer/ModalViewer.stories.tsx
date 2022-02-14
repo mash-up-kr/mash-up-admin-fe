@@ -11,7 +11,7 @@ export default {
 } as ComponentMeta<typeof ModalViewer>;
 
 export const Template: ComponentStory<typeof ModalViewer> = () => {
-  const { handleAddModal, handleRemoveCurrentModal } = useModal();
+  const { handleAddModal } = useModal();
   const [modalList] = useRecoilState($modalState);
 
   return (
@@ -25,7 +25,6 @@ export const Template: ComponentStory<typeof ModalViewer> = () => {
                 heading: 'SMS 발송 완료',
                 paragraph: 'SMS 발송내역 페이지로 이동하시겠습니까?',
                 handleApprovalButton: () => {},
-                handleCloseModal: () => handleRemoveCurrentModal(ModalKey.alertModalDialog),
               },
             })
           }

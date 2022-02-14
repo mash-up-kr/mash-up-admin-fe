@@ -1,6 +1,8 @@
-import React, { Dispatch, MouseEventHandler, MutableRefObject, SetStateAction } from 'react';
+import React, { MouseEventHandler, MutableRefObject } from 'react';
 import { ModalWrapper } from '@/components';
 import * as Styled from './AlertModalDialog.styled';
+import useModal from '@/hooks/useModal';
+import { ModalKey } from '@/recoil/modal';
 
 export interface AlertModalDialogProps {
   heading: string;
@@ -8,7 +10,6 @@ export interface AlertModalDialogProps {
   cancelButtonLabel?: string;
   confirmButtonLabel?: string;
   handleApprovalButton: MouseEventHandler<HTMLButtonElement>;
-  handleCloseModal: Dispatch<SetStateAction<void>>;
   beforeRef?: MutableRefObject<HTMLButtonElement>;
 }
 
@@ -18,8 +19,9 @@ const AlertModalDialog = ({
   cancelButtonLabel = '취소',
   confirmButtonLabel = '확인',
   handleApprovalButton,
-  handleCloseModal,
 }: AlertModalDialogProps) => {
+  const { handleRemoveCurrentModal } = useModal();
+
   const props = {
     footer: {
       cancelButton: {
@@ -27,10 +29,11 @@ const AlertModalDialog = ({
       },
       confirmButton: {
         label: confirmButtonLabel,
-        onClick: handleApprovalButton,
+        onClick:
+          handleApprovalButton || (() => handleRemoveCurrentModal(ModalKey.alertModalDialog)),
       },
     },
-    handleCloseModal,
+    handleCloseModal: () => handleRemoveCurrentModal(ModalKey.alertModalDialog),
   };
 
   return (
