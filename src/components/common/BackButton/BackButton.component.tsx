@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Styled from './BackButton.styled';
 
-import ChevronLeft from '@/assets/svg/chevron-left.svg';
+import ChevronLeft from '@/assets/svg/chevron-left-16.svg';
 
 export interface BackButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   label?: string;
