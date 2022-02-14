@@ -21,10 +21,19 @@ import {
 } from '@/components/common/Button/Button.component';
 
 import CloseIcon from '@/assets/svg/popup-close-44.svg';
+import { ValueOf } from '@/types';
 
 interface Children {
   children?: ReactNode;
 }
+
+export const Position = {
+  left: 'flex-start',
+  center: 'center',
+  right: 'flex-end',
+} as const;
+
+export type PositionType = ValueOf<typeof Position>;
 
 export interface ModalProps extends Children {
   heading?: string;
@@ -39,6 +48,7 @@ export interface ModalProps extends Children {
       label?: string;
       onClick: MouseEventHandler<HTMLButtonElement>;
     };
+    position?: PositionType;
   };
   handleCloseModal: Dispatch<SetStateAction<void>>;
   beforeRef?: MutableRefObject<HTMLButtonElement>;
@@ -157,7 +167,7 @@ const ModalWrapper = ({ children, heading, footer, handleCloseModal, beforeRef }
             </Styled.ModalHeader>
           )}
           <Styled.ModalContent>{children}</Styled.ModalContent>
-          <Styled.ModalFooter>
+          <Styled.ModalFooter position={footer.position || Position.right}>
             <Button
               $size={ButtonSize.sm}
               shape={ButtonShape.defaultLine}

@@ -50,11 +50,17 @@ export const ModalContent = styled.div`
   width: 100%;
 `;
 
-export const ModalFooter = styled.div`
-  display: flex;
-  gap: 0.6rem;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-  padding: 2.8rem 2.4rem;
+interface StyledModalFooter {
+  position: 'flex-start' | 'center' | 'flex-end';
+}
+
+export const ModalFooter = styled.div<StyledModalFooter>`
+  ${({ position }) => css`
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    justify-content: ${position};
+    width: 100%;
+    padding: 2.8rem 2.4rem;
+  `}
 `;
