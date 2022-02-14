@@ -34,10 +34,10 @@ const Select = ({ size, value, placeholder = '전체', options, setValue }: Sele
   return (
     <Styled.SelectContainer>
       <Styled.Select size={size} onClick={toggleOpened} isOpened={isOpened}>
-        {!value ? (
-          <Styled.SelectPlaceholder>{placeholder}</Styled.SelectPlaceholder>
-        ) : (
+        {value ? (
           <Styled.SelectValue>{value}</Styled.SelectValue>
+        ) : (
+          <Styled.SelectPlaceholder>{placeholder}</Styled.SelectPlaceholder>
         )}
         <ChevronDown />
       </Styled.Select>
