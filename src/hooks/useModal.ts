@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import { $modalState, Modal, ModalKeyType } from '@/recoil';
+import { $modalState, Modal, ModalKeyType } from '@/store';
 
 interface UseModal {
   handleAddModal: ({ key, props }: Modal) => void;

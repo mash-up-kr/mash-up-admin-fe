@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ModalWrapper } from '@/components';
 import * as Styled from './AlertModalDialog.styled';
 import { useModal } from '@/hooks';
-import { ModalKey } from '@/recoil';
+import { ModalKey } from '@/store';
 import { Position } from '@/components/common/ModalWrapper/ModalWrapper.component';
 
 export const SMS_COMPLETE = {

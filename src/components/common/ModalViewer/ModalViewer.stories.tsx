@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { useModal } from '@/hooks';
 import ModalViewer from './ModalViewer.component';
 import { Button } from '@/components';
-import { $modalState, ModalKey } from '@/recoil';
+import { $modalState, ModalKey } from '@/store';
 import {
   POPUP_CLOSE,
   SMS_COMPLETE,
