@@ -3,6 +3,7 @@ import { fonts } from './fonts';
 import { button } from './button';
 import { input } from './input';
 import { navigation } from './navigation';
+import { select } from './select';
 
 export const theme = {
   fonts,
@@ -10,4 +11,5 @@ export const theme = {
   button,
   input,
   navigation,
+  select,
 };

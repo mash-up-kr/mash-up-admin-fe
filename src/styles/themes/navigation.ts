@@ -20,6 +20,6 @@ export const navigation = {
       }
     `,
   },
-};
+} as const;
 
 export type NavigationTheme = typeof navigation;
