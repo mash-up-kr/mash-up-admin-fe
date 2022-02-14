@@ -4,6 +4,7 @@ import { fonts } from './fonts';
 import { button } from './button';
 import { input } from './input';
 import { navigation } from './navigation';
+import { label } from './label';
 
 export const theme = {
   a11y,
@@ -12,4 +13,5 @@ export const theme = {
   button,
   input,
   navigation,
+  label,
 };

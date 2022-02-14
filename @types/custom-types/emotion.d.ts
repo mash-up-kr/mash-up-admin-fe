@@ -8,5 +8,6 @@ declare module '@emotion/react' {
     input: import('@/styles').InputTheme;
     a11y: import('@/styles').A11yTheme;
     navigation: import('@/styles').NavigationTheme;
+    label: import('@/styles').LabelTheme;
   }
 }
