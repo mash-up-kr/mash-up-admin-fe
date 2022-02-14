@@ -1,29 +1,58 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ValueOf } from '@/types';
-import { SelectSize } from './Select.component';
+import { SelectPosition, SelectSize } from './Select.component';
 
 interface StyledSelectProps {
+  position: ValueOf<typeof SelectPosition>;
   isOpened: boolean;
   size: ValueOf<typeof SelectSize>;
 }
 
 interface StyledSelectMenuProps {
   isOpened: boolean;
+  position: ValueOf<typeof SelectPosition>;
 }
 
 interface StyledSelectOptionProps {
   isSelected: boolean;
 }
 
+const getSelectStyle = (
+  position: ValueOf<typeof SelectPosition>,
+  isOpened: boolean,
+  theme: Theme,
+) => {
+  if (!isOpened) {
+    return css`
+      border-radius: 0.9rem;
+    `;
+  }
+
+  if (position === SelectPosition.bottom) {
+    return css`
+      border: 0.1rem solid ${theme.colors.purple70};
+      border-radius: 0.9rem 0.9rem 0 0;
+    `;
+  }
+
+  if (position === SelectPosition.top) {
+    return css`
+      border: 0.1rem solid ${theme.colors.purple70};
+      border-radius: 0 0 0.9rem 0.9rem;
+    `;
+  }
+};
+
 export const SelectContainer = styled.div`
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column-reverse;
   min-width: 35rem;
 `;
 
 export const Select = styled.div<StyledSelectProps>`
-  ${({ theme, size, isOpened }) => css`
+  ${({ theme, size, isOpened, position }) => css`
     ${theme.select.size[size]};
 
     display: flex;
@@ -43,14 +72,7 @@ export const Select = styled.div<StyledSelectProps>`
       border: 0.1rem solid ${theme.colors.purple40};
     }
 
-    ${isOpened
-      ? css`
-          border: 0.1rem solid ${theme.colors.purple70};
-          border-radius: 0.9rem 0.9rem 0 0;
-        `
-      : css`
-          border-radius: 0.9rem;
-        `}
+    ${getSelectStyle(position, isOpened, theme)}
   `}
 `;
 
@@ -67,16 +89,28 @@ export const SelectValue = styled.span`
 `;
 
 export const SelectMenu = styled.ul<StyledSelectMenuProps>`
-  ${({ theme, isOpened }) => css`
+  ${({ theme, isOpened, position }) => css`
     position: absolute;
     display: ${isOpened ? 'block' : 'none'};
     width: 100%;
     padding: 0.8rem;
     background-color: ${theme.colors.white};
-    border-right: 0.1rem solid ${theme.colors.gray30};
-    border-bottom: 0.1rem solid ${theme.colors.gray30};
-    border-left: 0.1rem solid ${theme.colors.gray30};
-    border-radius: 0 0 1.1rem 1.1rem;
+
+    ${position === SelectPosition.top
+      ? css`
+          bottom: 100%;
+          border-top: 0.1rem solid ${theme.colors.gray30};
+          border-right: 0.1rem solid ${theme.colors.gray30};
+          border-left: 0.1rem solid ${theme.colors.gray30};
+          border-radius: 1.1rem 1.1rem 0 0;
+        `
+      : css`
+          top: 100%;
+          border-right: 0.1rem solid ${theme.colors.gray30};
+          border-bottom: 0.1rem solid ${theme.colors.gray30};
+          border-left: 0.1rem solid ${theme.colors.gray30};
+          border-radius: 0 0 1.1rem 1.1rem;
+        `}
   `}
 `;
 

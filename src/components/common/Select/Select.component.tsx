@@ -15,15 +15,28 @@ export const SelectSize = {
   md: 'md',
 } as const;
 
+export const SelectPosition = {
+  top: 'top',
+  bottom: 'bottom',
+} as const;
+
 export interface SelectProps {
   size: ValueOf<typeof SelectSize>;
+  position: ValueOf<typeof SelectPosition>;
   value: string;
   placeholder?: string;
   options: SelectOption[];
   setValue: (value: string) => void;
 }
 
-const Select = ({ size, value, placeholder = '전체', options, setValue }: SelectProps) => {
+const Select = ({
+  size,
+  position = SelectPosition.bottom,
+  value,
+  placeholder = '전체',
+  options,
+  setValue,
+}: SelectProps) => {
   const [isOpened, toggleOpened] = useToggleState(false);
 
   const handleClickOption = (optionValue: string) => {
@@ -33,7 +46,7 @@ const Select = ({ size, value, placeholder = '전체', options, setValue }: Sele
 
   return (
     <Styled.SelectContainer>
-      <Styled.Select size={size} onClick={toggleOpened} isOpened={isOpened}>
+      <Styled.Select size={size} onClick={toggleOpened} isOpened={isOpened} position={position}>
         {value ? (
           <Styled.SelectValue>{value}</Styled.SelectValue>
         ) : (
@@ -41,7 +54,7 @@ const Select = ({ size, value, placeholder = '전체', options, setValue }: Sele
         )}
         <ChevronDown />
       </Styled.Select>
-      <Styled.SelectMenu isOpened={isOpened}>
+      <Styled.SelectMenu isOpened={isOpened} position={position}>
         {options.map((option) => (
           <Styled.SelectOption
             isSelected={value === option.value}
