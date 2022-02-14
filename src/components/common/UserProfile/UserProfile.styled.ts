@@ -33,7 +33,7 @@ export const UserProfileContainer = styled.div<UserProfileContainerProps>`
 
 export const UserProfileRoleLabel = styled.span<UserProfileRoleLabelProps>`
   ${({ $role, team, theme }) => css`
-    ${team === Team.mashUp ? theme.userProfile.mashUp[$role] : theme.userProfile.platForm[$role]};
+    ${theme.userProfile[team][$role]};
 
     margin-left: 0.4rem;
     padding: 0.2rem 0.8rem;
