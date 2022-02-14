@@ -2,8 +2,8 @@ import React, { MutableRefObject } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ModalWrapper } from '@/components';
 import * as Styled from './AlertModalDialog.styled';
-import useModal from '@/hooks/useModal';
-import { ModalKey } from '@/recoil/modal';
+import { useModal } from '@/hooks';
+import { ModalKey } from '@/recoil';
 import { Position } from '@/components/common/ModalWrapper/ModalWrapper.component';
 
 export const SMS_COMPLETE = {

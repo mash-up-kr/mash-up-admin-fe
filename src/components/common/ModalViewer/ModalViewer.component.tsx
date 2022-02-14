@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { $modalState, ModalKey } from '@/recoil/modal';
+import { $modalState, ModalKey } from '@/recoil';
 import { AlertModalDialog } from '@/components';
 
 const ModalViewer = () => {

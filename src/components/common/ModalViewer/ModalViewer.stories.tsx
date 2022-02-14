@@ -1,10 +1,10 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useRecoilState } from 'recoil';
-import useModal from '@/hooks/useModal';
+import { useModal } from '@/hooks';
 import ModalViewer from './ModalViewer.component';
 import { Button } from '@/components';
-import { $modalState, ModalKey } from '@/recoil/modal';
+import { $modalState, ModalKey } from '@/recoil';
 import {
   POPUP_CLOSE,
   SMS_COMPLETE,
