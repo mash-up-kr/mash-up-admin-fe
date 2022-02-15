@@ -34,22 +34,18 @@ export const $modalSelector = selectorFamily<Modal, ModalKeyType>({
   get:
     (key) =>
     ({ get }) => {
-      if (Object.values(ModalKey).some((each) => !get($modal(each)).isOpen)) {
-        window.location.hash = '';
-      }
+      const hash = Object.values(ModalKey).reduce<string>((acc, cur) => {
+        const curVal = get($modal(cur));
+        return curVal.isOpen ? `${acc}#${curVal.key}` : acc;
+      }, '');
+
+      window.location.hash = hash;
 
       return get($modal(key));
     },
   set:
     (key) =>
-    ({ set, get }, params) => {
+    ({ set }, params) => {
       set($modal(key), params);
-
-      const hash = Object.values(ModalKey).reduce<string>((acc, cur) => {
-        const curVal = get($modal(cur));
-        return curVal.isOpen ? acc : `${acc}#${curVal.key}`;
-      }, '');
-
-      window.location.hash = hash;
     },
 });
