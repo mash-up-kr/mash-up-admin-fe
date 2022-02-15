@@ -1,20 +1,25 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { $modalState, ModalKey } from '@/store';
+import { $modal, ModalKey, ModalKeyType } from '@/store';
 import { AlertModalDialog } from '@/components';
 
-const ModalViewer = () => {
-  const [modalList] = useRecoilState($modalState);
+const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
+  const [modal] = useRecoilState($modal(modalKey));
 
+  if (modalKey === ModalKey.alertModalDialog && modal.isOpen && modal.props) {
+    return <AlertModalDialog key={modalKey} {...modal.props} />;
+  }
+
+  return null;
+};
+
+const ModalViewer = () => {
   return (
-    <div>
-      {modalList.map(({ key, props }) => {
-        if (key === ModalKey.alertModalDialog) {
-          return <AlertModalDialog key={key} {...props} />;
-        }
-        return null;
+    <>
+      {Object.values(ModalKey).map((each) => {
+        return <Modal key={each} modalKey={each} />;
       })}
-    </div>
+    </>
   );
 };
 

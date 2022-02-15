@@ -1,10 +1,9 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useRecoilState } from 'recoil';
-import { useModal } from '@/hooks';
 import ModalViewer from './ModalViewer.component';
 import { Button } from '@/components';
-import { $modalState, ModalKey } from '@/store';
+import { $modal, ModalKey } from '@/store';
 import {
   POPUP_CLOSE,
   SMS_COMPLETE,
@@ -15,35 +14,31 @@ export default {
 } as ComponentMeta<typeof ModalViewer>;
 
 const Template: ComponentStory<typeof ModalViewer> = () => {
-  const { handleAddModal } = useModal();
-  const [modalList] = useRecoilState($modalState);
-
+  const [modal, setModal] = useRecoilState($modal(ModalKey.alertModalDialog));
   return (
     <div>
-      {modalList.length === 0 && (
-        <>
-          <Button
-            onClick={() =>
-              handleAddModal({
-                key: ModalKey.alertModalDialog,
-                props: SMS_COMPLETE,
-              })
-            }
-          >
-            SMS 발송 완료 알럿모달
-          </Button>
-          <Button
-            onClick={() =>
-              handleAddModal({
-                key: ModalKey.alertModalDialog,
-                props: POPUP_CLOSE,
-              })
-            }
-          >
-            팝업 닫기 알럿모달
-          </Button>
-        </>
-      )}
+      <Button
+        onClick={() =>
+          setModal({
+            ...modal,
+            props: SMS_COMPLETE,
+            isOpen: true,
+          })
+        }
+      >
+        SMS 발송 완료 알럿모달
+      </Button>
+      <Button
+        onClick={() =>
+          setModal({
+            ...modal,
+            props: POPUP_CLOSE,
+            isOpen: true,
+          })
+        }
+      >
+        팝업 닫기 알럿모달
+      </Button>
       <ModalViewer />
     </div>
   );

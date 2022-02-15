@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atomFamily } from 'recoil';
 import { AlertModalDialogProps } from '@/components/common/AlertModalDialog/AlertModalDialog.component';
 import { ValueOf } from '@/types';
 
@@ -11,10 +11,16 @@ export type ModalProps = AlertModalDialogProps;
 
 export interface Modal {
   key: ModalKeyType;
-  props: ModalProps;
+  props?: ModalProps;
+  isOpen: boolean;
 }
 
-export const $modalState = atom<Modal[]>({
-  key: 'modalState',
-  default: [],
+export const $modal = atomFamily<Modal, ModalKeyType>({
+  key: 'modal',
+  default: (key) => {
+    return {
+      key,
+      isOpen: false,
+    };
+  },
 });

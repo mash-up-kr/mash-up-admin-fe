@@ -1,9 +1,9 @@
 import React, { MutableRefObject } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { ModalWrapper } from '@/components';
 import * as Styled from './AlertModalDialog.styled';
-import { useModal } from '@/hooks';
-import { ModalKey } from '@/store';
+import { $modal, ModalKey } from '@/store';
 import { Position } from '@/components/common/ModalWrapper/ModalWrapper.component';
 
 export const SMS_COMPLETE = {
@@ -38,7 +38,9 @@ const AlertModalDialog = ({
   linkTo,
 }: AlertModalDialogProps) => {
   const navigate = useNavigate();
-  const { handleRemoveCurrentModal } = useModal();
+  const [modal, setModal] = useRecoilState($modal(ModalKey.alertModalDialog));
+
+  const handleRemoveCurrentModal = () => setModal({ ...modal, isOpen: false });
 
   const props = {
     footer: {
@@ -47,13 +49,11 @@ const AlertModalDialog = ({
       },
       confirmButton: {
         label: confirmButtonLabel,
-        onClick: linkTo
-          ? () => navigate(linkTo)
-          : () => handleRemoveCurrentModal(ModalKey.alertModalDialog),
+        onClick: linkTo ? () => navigate(linkTo) : () => handleRemoveCurrentModal(),
       },
       position: Position.center,
     },
-    handleCloseModal: () => handleRemoveCurrentModal(ModalKey.alertModalDialog),
+    handleCloseModal: () => handleRemoveCurrentModal(),
   };
 
   return (
