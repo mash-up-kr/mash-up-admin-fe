@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useRecoilState } from 'recoil';
 import ModalViewer from './ModalViewer.component';
 import { Button } from '@/components';
-import { $modal, ModalKey } from '@/store';
+import { $modalSelector, ModalKey } from '@/store';
 import {
   POPUP_CLOSE,
   SMS_COMPLETE,
@@ -14,7 +14,7 @@ export default {
 } as ComponentMeta<typeof ModalViewer>;
 
 const Template: ComponentStory<typeof ModalViewer> = () => {
-  const [modal, setModal] = useRecoilState($modal(ModalKey.alertModalDialog));
+  const [modal, setModal] = useRecoilState($modalSelector(ModalKey.alertModalDialog));
   return (
     <div>
       <Button

@@ -1,4 +1,6 @@
-import { atomFamily } from 'recoil';
+import { atomFamily, selectorFamily } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
+
 import { AlertModalDialogProps } from '@/components/common/AlertModalDialog/AlertModalDialog.component';
 import { ValueOf } from '@/types';
 
@@ -14,6 +16,7 @@ export interface Modal {
   props?: ModalProps;
   isOpen: boolean;
 }
+const { persistAtom } = recoilPersist();
 
 export const $modal = atomFamily<Modal, ModalKeyType>({
   key: 'modal',
@@ -23,4 +26,30 @@ export const $modal = atomFamily<Modal, ModalKeyType>({
       isOpen: false,
     };
   },
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const $modalSelector = selectorFamily<Modal, ModalKeyType>({
+  key: 'modalSelector',
+  get:
+    (key) =>
+    ({ get }) => {
+      if (Object.values(ModalKey).some((each) => !get($modal(each)).isOpen)) {
+        window.location.hash = '';
+      }
+
+      return get($modal(key));
+    },
+  set:
+    (key) =>
+    ({ set, get }, params) => {
+      set($modal(key), params);
+
+      const hash = Object.values(ModalKey).reduce<string>((acc, cur) => {
+        const curVal = get($modal(cur));
+        return curVal.isOpen ? acc : `${acc}#${curVal.key}`;
+      }, '');
+
+      window.location.hash = hash;
+    },
 });
