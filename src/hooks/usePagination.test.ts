@@ -104,7 +104,7 @@ describe('usePagination', () => {
     });
 
     // When, Then
-    act(() => handleChangePage(13)());
+    act(() => handleChangePage(13));
     expect(mockSetSearchParams).toHaveBeenCalledWith({
       page: '13',
       size: '20',
