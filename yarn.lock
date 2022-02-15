@@ -12518,6 +12518,7 @@ __metadata:
     react-dom: ^17.0.2
     react-router-dom: ^6.2.1
     recoil: ^0.5.2
+    recoil-persist: ^4.0.0
     stylelint: ^14.2.0
     stylelint-config-prettier: ^9.0.3
     stylelint-config-rational-order: ^0.1.2
@@ -15129,6 +15130,15 @@ __metadata:
   dependencies:
     resolve: ^1.9.0
   checksum: 2a04aab4e28c05fcd6ee6768446bc8b859d8f108e71fc7f5bcbc5ef25e53330ce2c11d10f82a24591a2df4c49c4f61feabe1fd11f844c66feedd4cd7bb61146a
+  languageName: node
+  linkType: hard
+
+"recoil-persist@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "recoil-persist@npm:4.0.0"
+  peerDependencies:
+    recoil: ^0.5.1
+  checksum: 95ac8d6bab6d5153fa0c608bd7b69ac5fd53a7b7863b9515b1917c42325682b28b272594467928743ffe5822bad9c099c7d9dcd1e16fb3ca5b16ca560e25df69
   languageName: node
   linkType: hard
 
