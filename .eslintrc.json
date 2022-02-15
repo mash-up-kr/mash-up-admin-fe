@@ -47,6 +47,7 @@
     "import/prefer-default-export": 0,
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
+    "react/require-default-props": 0,
     "consistent-return": 0,
     "@typescript-eslint/no-unused-vars": ["error"]
   }
