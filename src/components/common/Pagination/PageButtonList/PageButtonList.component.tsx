@@ -11,7 +11,7 @@ interface Props {
   startPage: number;
   endPage: number;
   totalPages: number;
-  handleChangePage: (page: number) => (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleChangePage: (page: number) => void;
 }
 
 const PageButtonList = ({
@@ -35,7 +35,7 @@ const PageButtonList = ({
         role="link"
         aria-label="First page"
         disabled={currentPage === FIRST_PAGE}
-        onClick={handleChangePage(FIRST_PAGE)}
+        onClick={() => handleChangePage(FIRST_PAGE)}
       >
         <ChevronDoubleLeft />
       </Styled.ArrowButton>
@@ -43,7 +43,7 @@ const PageButtonList = ({
         role="link"
         aria-label="Previous page"
         disabled={startPage === FIRST_PAGE}
-        onClick={handleChangePage(prevPage)}
+        onClick={() => handleChangePage(prevPage)}
       >
         <ChevronLeft />
       </Styled.ArrowButton>
@@ -57,7 +57,7 @@ const PageButtonList = ({
                 aria-label={`Page ${page}`}
                 aria-current={isActive && 'page'}
                 disabled={isActive}
-                onClick={handleChangePage(page)}
+                onClick={() => handleChangePage(page)}
               >
                 {page}
               </Styled.PageButton>
@@ -69,7 +69,7 @@ const PageButtonList = ({
         role="link"
         aria-label="Next page"
         disabled={endPage === totalPages}
-        onClick={handleChangePage(nextPage)}
+        onClick={() => handleChangePage(nextPage)}
       >
         <ChevronRight />
       </Styled.ArrowButton>
@@ -77,7 +77,7 @@ const PageButtonList = ({
         role="link"
         aria-label="Last page"
         disabled={currentPage === totalPages}
-        onClick={handleChangePage(totalPages)}
+        onClick={() => handleChangePage(totalPages)}
       >
         <ChevronDoubleRight />
       </Styled.ArrowButton>

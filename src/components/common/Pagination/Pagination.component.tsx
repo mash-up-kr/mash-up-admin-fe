@@ -16,7 +16,7 @@ export interface PageOptions {
 export interface PaginationProps {
   pageOptions: PageOptions;
   selectableSize: boolean;
-  handleChangePage: (page: number) => (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleChangePage: (page: number) => void;
   handleChangeSize: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 

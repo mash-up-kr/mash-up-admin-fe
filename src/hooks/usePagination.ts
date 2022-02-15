@@ -41,7 +41,7 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
     pagingSize: 0,
   });
 
-  const handleChangePage = (page: number) => () => {
+  const handleChangePage = (page: number) => {
     if (page === 0) return;
 
     const newPageOptions = getPageOptions({
