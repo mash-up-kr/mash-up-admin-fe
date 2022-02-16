@@ -10,12 +10,16 @@ export const colors = {
   gray70: '#495057',
   gray80: '#343A40',
   gray90: '#212529',
+  purple80: '#4127D1',
   purple70: '#6244FF',
   purple60: '#836BFF',
   purple40: '#C2B6FF',
   purple20: '#E8E4FF',
   purple10: '#F1EFFF',
   red70: '#FC4162',
+  orange70: '#FF8E6A',
+  green70: '#0FB093',
+  blue70: '#2892F4',
 } as const;
 
 export type ColorTheme = typeof colors;

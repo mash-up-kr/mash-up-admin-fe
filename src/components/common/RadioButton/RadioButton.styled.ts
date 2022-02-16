@@ -6,7 +6,7 @@ interface StyledRadioButtonLabelProps {
 }
 
 export const RadioButtonWrapper = styled.label<StyledRadioButtonLabelProps>`
-  ${({ disabled }) => css`
+  ${({ theme, disabled }) => css`
     ${disabled
       ? css`
           opacity: 0.5;
@@ -22,17 +22,11 @@ export const RadioButtonWrapper = styled.label<StyledRadioButtonLabelProps>`
     padding: 0 0;
     cursor: pointer;
     user-select: none;
-  `}
-`;
 
-export const RadioButtonInput = styled.input`
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  white-space: nowrap;
-  clip: rect(0 0 0 0);
-  clip-path: polygon(0 0, 0 0, 0 0);
+    & > input {
+      ${theme.a11y.visuallyHidden}
+    }
+  `}
 `;
 
 export const RadioButtonMark = styled.span`
