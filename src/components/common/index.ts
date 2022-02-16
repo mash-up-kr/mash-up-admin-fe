@@ -9,3 +9,7 @@ export { default as ModalWrapper } from './ModalWrapper/ModalWrapper.component';
 export { default as RadioButton } from './RadioButton/RadioButton.component';
 export { default as ToggleButton } from './ToggleButton/ToggleButton.component';
 export { default as Pagination } from './Pagination/Pagination.component';
+export { default as UserProfile } from './UserProfile/UserProfile.component';
+export { default as Header } from './Header/Header.component';
+export { default as Layout } from './Layout/Layout.component';
+export { default as Link } from './Link/Link.component';
