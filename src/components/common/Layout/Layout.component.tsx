@@ -6,7 +6,10 @@ import * as Styled from './Layout.styled';
 const Layout = () => {
   const { pathname } = useLocation();
 
-  const isBackgroundGray = useMemo(() => ['/login'].some((each) => each === pathname), [pathname]);
+  const isBackgroundGray = useMemo(
+    () => ['login', 'application/', 'application-form/'].some((each) => pathname.includes(each)),
+    [pathname],
+  );
 
   return (
     <>
