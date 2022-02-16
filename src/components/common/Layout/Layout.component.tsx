@@ -8,7 +8,9 @@ const Layout = () => {
     <>
       <Header />
       <Styled.Main>
-        <Outlet />
+        <Styled.Content>
+          <Outlet />
+        </Styled.Content>
       </Styled.Main>
     </>
   );
