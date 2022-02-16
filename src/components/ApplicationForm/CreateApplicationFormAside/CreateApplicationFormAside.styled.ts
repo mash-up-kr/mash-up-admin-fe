@@ -54,11 +54,11 @@ export const Content = styled.span`
 export const ButtonContainer = styled.div`
   display: flex;
 
-  & > button:nth-child(2) {
+  & > button:nth-of-type(2) {
     margin-left: auto;
   }
 
-  & > button:nth-child(3) {
+  & > button:nth-of-type(3) {
     margin-left: 0.6rem;
   }
 `;
