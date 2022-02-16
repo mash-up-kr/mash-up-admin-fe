@@ -6,6 +6,7 @@ import Navigation, {
   NavigationItem,
 } from './Navigation.component';
 import { colors } from '@/styles';
+import { PATH } from '@/constants';
 
 export default {
   title: 'Navigation',
@@ -19,31 +20,7 @@ const Template: ComponentStory<typeof Navigation> = (args: NavigationProps) => (
 const items: NavigationItem[] = [
   {
     label: 'All',
-    to: window.location.pathname,
-  },
-  {
-    label: 'Design',
-    to: '/design',
-  },
-  {
-    label: 'Android',
-    to: '/android',
-  },
-  {
-    label: 'iOS',
-    to: '/ios',
-  },
-  {
-    label: 'Web',
-    to: '/web',
-  },
-  {
-    label: 'Node',
-    to: '/node',
-  },
-  {
-    label: 'Spring',
-    to: '/spring',
+    to: PATH.NOT_FOUND,
   },
 ];
 
