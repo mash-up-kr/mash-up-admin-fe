@@ -27,7 +27,10 @@ const ApplicationFormItem = ({ index }: ApplicationFormItemProps) => {
     <Styled.ApplicationFormItemContainer>
       <Styled.Col>
         <Styled.ApplicationFormItemIndex>{index}.</Styled.ApplicationFormItemIndex>
-        <Styled.ApplicationFormItemQuestionInput id="123" $size={InputSize.md} label="" />
+        <Styled.ApplicationFormItemQuestionInput
+          $size={InputSize.md}
+          placeholder="질문 제목을 입력해주세요."
+        />
       </Styled.Col>
 
       <Styled.Col>
