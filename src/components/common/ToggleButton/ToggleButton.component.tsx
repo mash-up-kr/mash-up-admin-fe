@@ -15,7 +15,7 @@ const ToggleButton = ({
 }: ToggleButtonProps) => {
   return (
     <Styled.ToggleButtonLabel {...resetProps} disabled={disabled}>
-      <Styled.ToggleButtonInput type="checkbox" onChange={handleToggle} checked={isChecked} />
+      <input type="checkbox" onChange={handleToggle} checked={isChecked} />
       <Styled.ToggleButtonSlider />
     </Styled.ToggleButtonLabel>
   );

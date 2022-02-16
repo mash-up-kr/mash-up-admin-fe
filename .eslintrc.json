@@ -4,21 +4,32 @@
     "es2021": true,
     "jest": true
   },
-  "extends": ["airbnb", "plugin:react/recommended", "airbnb/hooks", "prettier"],
+  "extends": [
+    "airbnb",
+    "plugin:react/recommended",
+    "airbnb/hooks",
+    "airbnb-typescript",
+    "prettier",
+    "plugin:jest/recommended",
+    "plugin:testing-library/react"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
   },
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": ["error"],
     "react/jsx-filename-extension": [
       2,
-      { "extensions": [".js", ".jsx", ".ts", ".tsx", ".svg", "png"] }
+      {
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".svg", "png"]
+      }
     ],
     "react/function-component-definition": [
       2,
@@ -31,10 +42,12 @@
     "arrow-body-style": 0,
     "prefer-arrow-callback": 0,
     "import/no-unresolved": 0,
+    "import/no-cycle": 0,
     "import/extensions": 0,
     "import/prefer-default-export": 0,
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
+    "react/require-default-props": 0,
     "consistent-return": 0,
     "@typescript-eslint/no-unused-vars": ["error"]
   }
