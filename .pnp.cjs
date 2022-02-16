@@ -62,6 +62,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/testing-library__user-event", "npm:4.2.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
             ["@typescript-eslint/parser", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
+            ["axios", "npm:0.26.0"],
             ["clean-webpack-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:4.0.0"],
             ["dayjs", "npm:1.10.7"],
             ["dotenv-webpack", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.1.0"],
@@ -8700,6 +8701,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["axios", [
+        ["npm:0.26.0", {
+          "packageLocation": "./.yarn/cache/axios-npm-0.26.0-ae9d5291c9-d7a8b898f4.zip/node_modules/axios/",
+          "packageDependencies": [
+            ["axios", "npm:0.26.0"],
+            ["follow-redirects", "virtual:ae9d5291c97ae0cacb5775381cccfce07fa49ffc443f3fdd7488fb1a1655b5d1c7927e5118e33808de5d3fd89b9e27b3eadf3d56f2cf83b8ab953c0679aed818#npm:1.14.8"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["axobject-query", [
         ["npm:2.2.0", {
           "packageLocation": "./.yarn/cache/axobject-query-npm-2.2.0-6553738f52-96b8c7d807.zip/node_modules/axobject-query/",
@@ -13193,10 +13204,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
+        ["npm:1.14.8", {
+          "packageLocation": "./.yarn/cache/follow-redirects-npm-1.14.8-f4c37ea22a-40c67899c2.zip/node_modules/follow-redirects/",
+          "packageDependencies": [
+            ["follow-redirects", "npm:1.14.8"]
+          ],
+          "linkType": "SOFT",
+        }],
         ["virtual:a313c479c5c7e54d9ec8fbeeea69ff640f56b8989ea2dff42351a3fa5c4061fb80a52d8ede0f0826a181a216820c2d2c3f15da881e7fdf31cef1c446e42f0c45#npm:1.14.7", {
           "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-29ad70c5bf/0/cache/follow-redirects-npm-1.14.7-c87c16ed59-f6d03e5e30.zip/node_modules/follow-redirects/",
           "packageDependencies": [
             ["follow-redirects", "virtual:a313c479c5c7e54d9ec8fbeeea69ff640f56b8989ea2dff42351a3fa5c4061fb80a52d8ede0f0826a181a216820c2d2c3f15da881e7fdf31cef1c446e42f0c45#npm:1.14.7"],
+            ["@types/debug", null],
+            ["debug", null]
+          ],
+          "packagePeers": [
+            "@types/debug",
+            "debug"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:ae9d5291c97ae0cacb5775381cccfce07fa49ffc443f3fdd7488fb1a1655b5d1c7927e5118e33808de5d3fd89b9e27b3eadf3d56f2cf83b8ab953c0679aed818#npm:1.14.8", {
+          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-322abb50cb/0/cache/follow-redirects-npm-1.14.8-f4c37ea22a-40c67899c2.zip/node_modules/follow-redirects/",
+          "packageDependencies": [
+            ["follow-redirects", "virtual:ae9d5291c97ae0cacb5775381cccfce07fa49ffc443f3fdd7488fb1a1655b5d1c7927e5118e33808de5d3fd89b9e27b3eadf3d56f2cf83b8ab953c0679aed818#npm:1.14.8"],
             ["@types/debug", null],
             ["debug", null]
           ],
@@ -17150,6 +17181,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/testing-library__user-event", "npm:4.2.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
             ["@typescript-eslint/parser", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:5.10.1"],
+            ["axios", "npm:0.26.0"],
             ["clean-webpack-plugin", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:4.0.0"],
             ["dayjs", "npm:1.10.7"],
             ["dotenv-webpack", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.1.0"],
