@@ -22,7 +22,7 @@ export const SelectPosition = {
 
 export interface SelectProps {
   size: ValueOf<typeof SelectSize>;
-  position: ValueOf<typeof SelectPosition>;
+  position?: ValueOf<typeof SelectPosition>;
   value: string;
   placeholder?: string;
   options: SelectOption[];
