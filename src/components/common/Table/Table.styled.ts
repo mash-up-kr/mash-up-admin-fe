@@ -1,6 +1,17 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+export const TableContainer = styled.div`
+  height: 20rem;
+`;
+
+export const TableBodyWrapper = styled.div`
+  width: 80rem;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+`;
+
 export const Table = styled.table`
   width: 80rem;
   text-align: center;

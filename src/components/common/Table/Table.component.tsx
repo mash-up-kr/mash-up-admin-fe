@@ -26,28 +26,34 @@ interface TableProps<T extends object> {
 
 const Table = <T extends object>({ prefix, columns, rows }: TableProps<T>) => {
   return (
-    <Styled.Table>
-      <Styled.TableHeader>
-        <Styled.TableRow>
-          {columns.map((column, columnIndex) => (
-            <Styled.TableColumn key={`${prefix}-column-${columnIndex}`}>
-              {column.title}
-            </Styled.TableColumn>
-          ))}
-        </Styled.TableRow>
-      </Styled.TableHeader>
-      <Styled.TableBody>
-        {rows.map((row, rowIndex) => (
-          <Styled.TableRow key={`${prefix}-row-${rowIndex}`}>
+    <Styled.TableContainer>
+      <Styled.Table>
+        <Styled.TableHeader>
+          <Styled.TableRow>
             {columns.map((column, columnIndex) => (
-              <Styled.TableCell key={`cell-${columnIndex}`}>
-                {getOwnValueByKey(row, column.accessor)}
-              </Styled.TableCell>
+              <Styled.TableColumn key={`${prefix}-column-${columnIndex}`}>
+                {column.title}
+              </Styled.TableColumn>
             ))}
           </Styled.TableRow>
-        ))}
-      </Styled.TableBody>
-    </Styled.Table>
+        </Styled.TableHeader>
+      </Styled.Table>
+      <Styled.TableBodyWrapper>
+        <Styled.Table>
+          <Styled.TableBody>
+            {rows.map((row, rowIndex) => (
+              <Styled.TableRow key={`${prefix}-row-${rowIndex}`}>
+                {columns.map((column, columnIndex) => (
+                  <Styled.TableCell key={`cell-${columnIndex}`}>
+                    {getOwnValueByKey(row, column.accessor)}
+                  </Styled.TableCell>
+                ))}
+              </Styled.TableRow>
+            ))}
+          </Styled.TableBody>
+        </Styled.Table>
+      </Styled.TableBodyWrapper>
+    </Styled.TableContainer>
   );
 };
 
