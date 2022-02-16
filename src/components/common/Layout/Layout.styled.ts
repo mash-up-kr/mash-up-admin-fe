@@ -8,7 +8,7 @@ interface StyledMainProps {
 
 export const Main = styled.main<StyledMainProps>`
   ${({ isBackgroundGray, theme }) => css`
-    background-color: ${isBackgroundGray ? theme.colors.gray30 : theme.colors.white};
+    background-color: ${isBackgroundGray ? theme.colors.gray10 : theme.colors.white};
 
     & > section {
       max-width: 120rem;
