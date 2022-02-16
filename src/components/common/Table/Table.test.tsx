@@ -1,10 +1,6 @@
-import React from 'react';
-import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
-import { ThemeProvider } from '@emotion/react';
-import Table, { TableColumn } from './Table.component';
 import { Application } from '@/types';
-import { theme } from '@/styles';
+import { TableColumn } from './Table.component';
+import { renderTable } from './Table.testUtil';
 
 const columns: TableColumn<Application>[] = [
   {
@@ -67,50 +63,6 @@ const data: Application[] = [
     confirmationStatus: '미확인',
   },
 ];
-
-interface Params {
-  prefix?: string;
-  _columns: TableColumn<Application>[];
-  _data: Application[];
-  isLoading?: boolean;
-}
-
-const renderTable = ({ prefix = 'application', _columns, _data, isLoading = false }: Params) => {
-  render(
-    <ThemeProvider theme={theme}>
-      <Table<Application> prefix={prefix} columns={_columns} rows={_data} isLoading={isLoading} />
-    </ThemeProvider>,
-  );
-
-  const TableHeader = () => screen.getAllByRole('row')[0];
-  const TableRows = () => screen.getAllByRole('row').slice(1);
-  const TotalCheckbox = () => screen.getByLabelText('Total Checkbox');
-  const RowCheckbox = (rowIndex: number) => screen.getAllByLabelText(/Checkbox \d+/)[rowIndex];
-  const SortingColumn = (column: string) => screen.getByLabelText(`Sorting Column ${column}`);
-  const LoadingDimmed = () => screen.getByLabelText('Dimmed');
-
-  const clickRowCheckbox = (rowIndex: number) => {
-    userEvent.click(RowCheckbox(rowIndex));
-  };
-  const clickTotalCheckbox = () => {
-    userEvent.click(TotalCheckbox());
-  };
-  const sortColumn = (column: string) => {
-    userEvent.click(SortingColumn(column));
-  };
-
-  return {
-    TableHeader,
-    TableRows,
-    TotalCheckbox,
-    RowCheckbox,
-    SortingColumn,
-    LoadingDimmed,
-    clickRowCheckbox,
-    clickTotalCheckbox,
-    sortColumn,
-  };
-};
 
 describe('<Table />', () => {
   it('data가 없는 경우, data가 없다는 문구가 렌더링 되어야 한다.', () => {});
