@@ -2,6 +2,7 @@
 import React, { ReactNode } from 'react';
 import { NestedKeyOf } from '@/types';
 import { getOwnValueByKey } from '@/utils';
+import * as Styled from './Table.styled';
 
 export interface TableColumn<T extends object> {
   title: string;
@@ -25,24 +26,28 @@ interface TableProps<T extends object> {
 
 const Table = <T extends object>({ prefix, columns, rows }: TableProps<T>) => {
   return (
-    <table>
-      <thead>
-        <tr>
+    <Styled.Table>
+      <Styled.TableHeader>
+        <Styled.TableRow>
           {columns.map((column, columnIndex) => (
-            <th key={`${prefix}-column-${columnIndex}`}>{column.title}</th>
+            <Styled.TableColumn key={`${prefix}-column-${columnIndex}`}>
+              {column.title}
+            </Styled.TableColumn>
           ))}
-        </tr>
-      </thead>
-      <tbody>
+        </Styled.TableRow>
+      </Styled.TableHeader>
+      <Styled.TableBody>
         {rows.map((row, rowIndex) => (
-          <tr key={`${prefix}-row-${rowIndex}`}>
+          <Styled.TableRow key={`${prefix}-row-${rowIndex}`}>
             {columns.map((column, columnIndex) => (
-              <td key={`cell-${columnIndex}`}>{getOwnValueByKey(row, column.accessor)}</td>
+              <Styled.TableCell key={`cell-${columnIndex}`}>
+                {getOwnValueByKey(row, column.accessor)}
+              </Styled.TableCell>
             ))}
-          </tr>
+          </Styled.TableRow>
         ))}
-      </tbody>
-    </table>
+      </Styled.TableBody>
+    </Styled.Table>
   );
 };
 
