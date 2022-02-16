@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useState } from 'react';
+import React, { forwardRef, useMemo, useRef, useState } from 'react';
 import * as Styled from './Select.styled';
 import ChevronDown from '@/assets/svg/chevron-down-16.svg';
 import { useOnClickOutSide } from '@/hooks';
@@ -54,6 +54,11 @@ const Select = forwardRef(
       toggleOpened();
     };
 
+    const selectedLabel = useMemo(
+      () => options.find((option) => option.value === value)?.label ?? '',
+      [options, value],
+    );
+
     useOnClickOutSide(outerRef, () => setOpened(false));
 
     return (
@@ -61,7 +66,7 @@ const Select = forwardRef(
         <Styled.SelectContainer ref={ref}>
           <Styled.Select size={size} onClick={toggleOpened} isOpened={isOpened} position={position}>
             {value ? (
-              <Styled.SelectValue>{value}</Styled.SelectValue>
+              <Styled.SelectValue>{selectedLabel}</Styled.SelectValue>
             ) : (
               <Styled.SelectPlaceholder>{placeholder}</Styled.SelectPlaceholder>
             )}
@@ -71,10 +76,10 @@ const Select = forwardRef(
             {options.map((option) => (
               <Styled.SelectOption
                 isSelected={value === option.value}
-                key={option.label}
+                key={option.value}
                 onClick={() => handleClickOption(option.value)}
               >
-                {option.value}
+                {option.label}
               </Styled.SelectOption>
             ))}
           </Styled.SelectMenu>
