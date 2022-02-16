@@ -6,6 +6,7 @@ import { theme, globalStyles } from '@/styles';
 
 import { Layout } from '@/components';
 import Count from '@/components/Count';
+import LoginPage from '@/pages/LoginPage/LoginPage.page';
 
 const App = () => (
   <>
@@ -14,6 +15,8 @@ const App = () => (
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Count />} />
+          {/* // TODO:(용재) path 객체 사용하도록 변경 */}
+          <Route path="/login" element={<LoginPage />} />
         </Route>
       </Routes>
     </ThemeProvider>
