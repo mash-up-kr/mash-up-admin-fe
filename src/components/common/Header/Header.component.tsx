@@ -12,20 +12,21 @@ import { Team, Role } from '@/components/common/UserProfile/UserProfile.componen
 import { colors } from '@/styles';
 
 import { Navigation, UserProfile } from '@/components';
+import { PATH } from '@/constants';
 
 // TODO: (@mango90): router 변경해주기
 const navigationItems: NavigationItem[] = [
   {
     label: '지원서 내역',
-    to: window.location.pathname,
+    to: PATH.APPLICATION,
   },
   {
     label: 'SMS 발송 내역',
-    to: '/1',
+    to: PATH.SMS,
   },
   {
     label: '지원서 설문지 내역',
-    to: '/2',
+    to: PATH.APPLICATION_FORM,
   },
 ];
 
