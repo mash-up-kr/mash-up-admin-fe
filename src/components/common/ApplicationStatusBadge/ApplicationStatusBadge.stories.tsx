@@ -1,17 +1,19 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import Label, {
+import ApplicationStatusBadge, {
   ApplicationConfirmationStatus,
   ApplicationResultStatus,
-  LabelProps,
-} from './Label.component';
+  ApplicationStatusBadgeProps,
+} from './ApplicationStatusBadge.component';
 
 export default {
-  title: 'Label',
-} as ComponentMeta<typeof Label>;
+  title: 'ApplicationStatusBadge',
+} as ComponentMeta<typeof ApplicationStatusBadge>;
 
-const Template: ComponentStory<typeof Label> = (args: LabelProps) => {
-  return <Label {...args} />;
+const Template: ComponentStory<typeof ApplicationStatusBadge> = (
+  args: ApplicationStatusBadgeProps,
+) => {
+  return <ApplicationStatusBadge {...args} />;
 };
 
 export const NOT_RATED = Template.bind({});

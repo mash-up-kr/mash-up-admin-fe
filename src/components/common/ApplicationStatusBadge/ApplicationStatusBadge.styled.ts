@@ -1,15 +1,18 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ApplicationConfirmationStatusType, ApplicationResultStatusType } from './Label.component';
+import {
+  ApplicationConfirmationStatusType,
+  ApplicationResultStatusType,
+} from './ApplicationStatusBadge.component';
 
-interface StyledLabelProps {
+interface StyledApplicationStatusBadgeProps {
   text: ApplicationConfirmationStatusType | ApplicationResultStatusType;
 }
 
-export const LabelWrapper = styled.div<StyledLabelProps>`
+export const ApplicationStatusBadgeWrapper = styled.div<StyledApplicationStatusBadgeProps>`
   ${({ theme, text }) => css`
     ${theme.fonts.medium13}
-    ${theme.label[text]}
+    ${theme.badge[text]}
     display: flex;
     align-items: center;
     justify-content: center;

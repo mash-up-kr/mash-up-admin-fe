@@ -1,6 +1,6 @@
 import React from 'react';
 import { ValueOf } from '@/types';
-import * as Styled from './Label.styled';
+import * as Styled from './ApplicationStatusBadge.styled';
 
 export const ApplicationConfirmationStatus = {
   TBD: '미검토',
@@ -25,16 +25,16 @@ export const ApplicationResultStatus = {
 export type ApplicationConfirmationStatusType = ValueOf<typeof ApplicationConfirmationStatus>;
 export type ApplicationResultStatusType = ValueOf<typeof ApplicationResultStatus>;
 
-export interface LabelProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ApplicationStatusBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   text: ApplicationConfirmationStatusType | ApplicationResultStatusType;
 }
 
-const Label = ({ text, ...resetProps }: LabelProps) => {
+const ApplicationStatusBadge = ({ text, ...resetProps }: ApplicationStatusBadgeProps) => {
   return (
-    <Styled.LabelWrapper text={text} {...resetProps}>
+    <Styled.ApplicationStatusBadgeWrapper text={text} {...resetProps}>
       {text}
-    </Styled.LabelWrapper>
+    </Styled.ApplicationStatusBadgeWrapper>
   );
 };
 
-export default Label;
+export default ApplicationStatusBadge;

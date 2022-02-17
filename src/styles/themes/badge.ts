@@ -2,10 +2,10 @@ import { css } from '@emotion/react';
 import {
   ApplicationResultStatus,
   ApplicationConfirmationStatus,
-} from '@/components/common/Label/Label.component';
+} from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import { colors } from '.';
 
-export const label = {
+export const badge = {
   [ApplicationResultStatus.NOT_RATED]: css`
     color: ${colors.gray60};
     background-color: ${colors.gray20};
@@ -64,4 +64,4 @@ export const label = {
   `,
 } as const;
 
-export type LabelTheme = typeof label;
+export type BadgeTheme = typeof badge;
