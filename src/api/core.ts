@@ -7,16 +7,22 @@ const axiosInstance: AxiosInstance = axios.create({
   headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
 });
 
-axiosInstance.defaults.headers.common.Authorization =
-  localStorage.getItem(ACCESS_TOKEN) || process.env.DUMMY_TOKEN || '';
+const TOKEN = localStorage.getItem(ACCESS_TOKEN);
+
+if (TOKEN) {
+  axiosInstance.defaults.headers.common.Authorization = TOKEN;
+}
 
 const createApiMethod =
   (_axiosInstance: AxiosInstance, methodType: Method) =>
   // TODO:(용재) any 처리하기
   (config: AxiosRequestConfig): Promise<any> => {
     _axiosInstance.interceptors.response.use((response) => {
-      if (!response.data) return response;
-      return response.data.data;
+      if (!response.data) {
+        return response;
+      }
+
+      return response.data;
     });
 
     return _axiosInstance({
