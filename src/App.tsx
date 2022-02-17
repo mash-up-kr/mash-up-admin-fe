@@ -18,7 +18,7 @@ interface RequiredAuthProps extends Partial<NavigateProps> {
 
 // TODO:(용재) to 기본값 path 객체 이용하도록 변경
 const RequiredAuth = ({ children, isAuth, to = '/login', ...restProps }: RequiredAuthProps) => {
-  if (isAuth) {
+  if (!isAuth) {
     return <Navigate {...restProps} to={to} />;
   }
 
@@ -28,14 +28,17 @@ const RequiredAuth = ({ children, isAuth, to = '/login', ...restProps }: Require
 
 const App = () => {
   const [me, setMe] = useRecoilState($me);
+  const isAuth = useMemo(() => Object.keys(me).length !== 0, [me]);
 
   useEffect(() => {
     (async () => {
       const isToken = !!localStorage.getItem(ACCESS_TOKEN);
       if (isToken) {
         try {
-          const data = await handleGetMyInfo();
-          setMe(data);
+          const { data } = await handleGetMyInfo();
+          setMe({
+            data: { accessToken: localStorage.getItem(ACCESS_TOKEN) || '', adminMember: data },
+          });
         } catch (e) {
           localStorage.removeItem(ACCESS_TOKEN);
           setMe({});
@@ -43,8 +46,6 @@ const App = () => {
       }
     })();
   }, [setMe]);
-
-  const isAuth = useMemo(() => Object.keys(me).length !== 0, [me]);
 
   return (
     <>
