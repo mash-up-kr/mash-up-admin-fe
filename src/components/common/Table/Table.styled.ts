@@ -13,6 +13,7 @@ export const TableBodyWrapper = styled.div`
     overflow-x: hidden;
     overflow-y: auto;
 
+    /* reference: https://css-tricks.com/scrollbars-on-hover */
     mask-image: linear-gradient(to top, transparent, black),
       linear-gradient(to left, transparent 17px, black 17px);
     mask-size: 100% 20000px;
