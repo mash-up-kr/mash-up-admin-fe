@@ -1,17 +1,17 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-
 import { Global, ThemeProvider } from '@emotion/react';
+import { Route, Routes } from 'react-router-dom';
 import { theme, globalStyles } from '@/styles';
 
-import Count from '@/components/Count';
+import { ModalViewer, Layout } from '@/components';
 
 const App = () => (
   <>
     <Global styles={globalStyles} />
     <ThemeProvider theme={theme}>
+      <ModalViewer />
       <Routes>
-        <Route path="/" element={<Count />} />
+        <Route path="/" element={<Layout />} />
       </Routes>
     </ThemeProvider>
   </>

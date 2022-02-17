@@ -6,8 +6,11 @@ declare module '@emotion/react' {
     colors: import('@/styles').ColorTheme;
     button: import('@/styles').ButtonTheme;
     input: import('@/styles').InputTheme;
+    zIndex: import('@/styles').ZIndexType;
+    userProfile: import('@/styles').UserProfileTheme;
     a11y: import('@/styles').A11yTheme;
     navigation: import('@/styles').NavigationTheme;
     badge: import('@/styles').BadgeTheme;
+    select: import('@/styles').SelectTheme;
   }
 }

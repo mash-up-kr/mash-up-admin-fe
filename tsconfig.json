@@ -14,13 +14,14 @@
     "isolatedModules": true,
     "jsx": "react",
     "incremental": true,
+    "downlevelIteration": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
     "rootDir": ".",
     "typeRoots": ["./@types/*"],
-    "types": ["jest", "node"]
+    "types": ["@types/jest", "node", "@testing-library/jest-dom"]
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./@types"]
+  "include": ["src", "./@types", "./.eslintrc.json"]
 }
