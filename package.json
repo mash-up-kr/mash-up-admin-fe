@@ -9,7 +9,7 @@
     "build-prod": "yarn type-check && webpack --config ./webpack/webpack.prod.js",
     "type-check": "tsc --build ./tsconfig.json",
     "test": "jest --watchAll --coverage",
-    "test:ci": "jest",
+    "test:ci": "jest --passWithNoTests",
     "lint:code": "eslint --ext .js,.jsx,.ts,.tsx src",
     "lint:code-fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
     "prettier:code-fix": "prettier --write",

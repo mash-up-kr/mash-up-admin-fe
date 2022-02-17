@@ -4,5 +4,8 @@ export * from './fonts';
 export * from './button';
 export * from './theme';
 export * from './input';
+export * from './zIndex';
 export * from './userProfile';
 export * from './navigation';
+export * from './badge';
+export * from './select';
