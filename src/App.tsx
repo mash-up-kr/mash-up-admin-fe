@@ -2,11 +2,11 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import { Global, ThemeProvider } from '@emotion/react';
-import { theme, globalStyles } from '@/styles';
+import { theme, globalStyles } from './styles';
 
 import { PATH } from './constants';
 import { CreateApplicationForm } from './pages';
-import { Layout } from '@/components';
+import { Layout } from './components';
 
 const App = () => (
   <>
