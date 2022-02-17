@@ -31,12 +31,13 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
-      const isToken = !!localStorage.getItem(ACCESS_TOKEN) ?? null;
+      const isToken = !!localStorage.getItem(ACCESS_TOKEN);
       if (isToken) {
         try {
           const data = await handleGetMyInfo();
           setMe(data);
         } catch (e) {
+          localStorage.removeItem(ACCESS_TOKEN);
           setMe({});
         }
       }
