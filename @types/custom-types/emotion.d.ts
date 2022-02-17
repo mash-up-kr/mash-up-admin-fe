@@ -10,6 +10,7 @@ declare module '@emotion/react' {
     userProfile: import('@/styles').UserProfileTheme;
     a11y: import('@/styles').A11yTheme;
     navigation: import('@/styles').NavigationTheme;
+    badge: import('@/styles').BadgeTheme;
     select: import('@/styles').SelectTheme;
   }
 }

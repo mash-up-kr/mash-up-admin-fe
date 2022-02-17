@@ -6,6 +6,7 @@ import { input } from './input';
 import { zIndex } from './zIndex';
 import { userProfile } from './userProfile';
 import { navigation } from './navigation';
+import { badge } from './badge';
 import { select } from './select';
 
 export const theme = {
@@ -17,5 +18,6 @@ export const theme = {
   zIndex,
   userProfile,
   navigation,
+  badge,
   select,
 };
