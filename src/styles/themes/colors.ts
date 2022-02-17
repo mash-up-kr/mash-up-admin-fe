@@ -17,6 +17,9 @@ export const colors = {
   purple20: '#E8E4FF',
   purple10: '#F1EFFF',
   red70: '#FC4162',
+  orange70: '#FF8E6A',
+  green70: '#0FB093',
+  blue70: '#2892F4',
 } as const;
 
 export type ColorTheme = typeof colors;
