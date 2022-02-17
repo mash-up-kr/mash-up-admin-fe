@@ -1,13 +1,16 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { HEADER_HEIGHT } from '@/constants';
 
 export const LoginPageWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: calc(100vh - ${HEADER_HEIGHT});
+  ${({ theme }) =>
+    css`
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      background-color: ${theme.colors.gray10};
+    `}
 `;
 
 interface StyledLoginContainerProps {

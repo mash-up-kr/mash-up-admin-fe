@@ -12,10 +12,9 @@ const App = () => (
     <ThemeProvider theme={theme}>
       <ModalViewer />
       <Routes>
-        <Route path="/" element={<Layout />}>
-          {/* // TODO:(용재) path 객체 사용하도록 변경 */}
-          <Route path="/login" element={<LoginPage />} />
-        </Route>
+        <Route path="/" element={<Layout />} />
+        {/* // TODO:(용재) path 객체 사용하도록 변경 */}
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </ThemeProvider>
   </>
