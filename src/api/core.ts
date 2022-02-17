@@ -10,7 +10,7 @@ const axiosInstance: AxiosInstance = axios.create({
 const TOKEN = localStorage.getItem(ACCESS_TOKEN);
 
 if (TOKEN) {
-  axiosInstance.defaults.headers.common.Authorization = TOKEN;
+  axiosInstance.defaults.headers.common.Authorization = `Bearer ${TOKEN}`;
 }
 
 const createApiMethod =
