@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from 'react';
+import React, { ChangeEventHandler, forwardRef } from 'react';
 import * as Styled from './ToggleButton.styled';
 
 export interface ToggleButtonProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
@@ -7,18 +7,16 @@ export interface ToggleButtonProps extends React.LabelHTMLAttributes<HTMLLabelEl
   isChecked?: boolean;
 }
 
-const ToggleButton = ({
-  handleToggle,
-  disabled = false,
-  isChecked,
-  ...resetProps
-}: ToggleButtonProps) => {
+const ToggleButton = (
+  { handleToggle, disabled = false, isChecked, ...restProps }: ToggleButtonProps,
+  ref: React.Ref<HTMLInputElement>,
+) => {
   return (
-    <Styled.ToggleButtonLabel {...resetProps} disabled={disabled}>
-      <input type="checkbox" onChange={handleToggle} checked={isChecked} />
+    <Styled.ToggleButtonLabel {...restProps} disabled={disabled}>
+      <input type="checkbox" onChange={handleToggle} checked={isChecked} ref={ref} />
       <Styled.ToggleButtonSlider />
     </Styled.ToggleButtonLabel>
   );
 };
 
-export default ToggleButton;
+export default forwardRef<HTMLInputElement, ToggleButtonProps>(ToggleButton);
