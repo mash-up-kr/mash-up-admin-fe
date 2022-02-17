@@ -5,6 +5,7 @@ import ChevronRight from '@/assets/svg/chevron-right-24.svg';
 import ChevronDoubleRight from '@/assets/svg/chevrondouble-right-24.svg';
 import { FIRST_PAGE } from '../Pagination.component';
 import * as Styled from './PageButtonList.styled';
+import { rangeArray } from '@/utils';
 
 interface Props {
   currentPage: number;
@@ -23,7 +24,7 @@ const PageButtonList = ({
 }: Props) => {
   const prevPage = startPage <= FIRST_PAGE ? 0 : startPage - 1;
   const nextPage = endPage >= totalPages ? 0 : endPage + 1;
-  const pages = [...Array(endPage - startPage + 1).keys()].map((diff) => startPage + diff);
+  const pages = rangeArray(endPage - startPage + 1).map((_, diff) => startPage + diff);
 
   if (currentPage === 0) {
     return null;

@@ -4,9 +4,10 @@ import ArrowLeft from '@/assets/svg/chevron-left-24.svg';
 import ArrowRight from '@/assets/svg/chevron-right-24.svg';
 
 import * as Styled from './DatePicker.styled';
+import { rangeArray } from '@/utils';
 
 const handleGenerateDateRows = (date: Dayjs) => {
-  const { accRows: rows } = Array.from({ length: date.daysInMonth() }).reduce<{
+  const { accRows: rows } = rangeArray(date.daysInMonth()).reduce<{
     accRows: Dayjs[][];
     accRowIndex: number;
   }>(
@@ -27,9 +28,7 @@ const handleGenerateDateRows = (date: Dayjs) => {
   return rows.map((each, index) => {
     if (index === 0 && each.length !== 7) {
       return [
-        ...Array.from({ length: 7 - each.length }).map((_, i) =>
-          each[0].clone().startOf('week').add(i, 'day'),
-        ),
+        ...rangeArray(7 - each.length).map((_, i) => each[0].clone().startOf('week').add(i, 'day')),
         ...each,
       ];
     }
@@ -37,7 +36,7 @@ const handleGenerateDateRows = (date: Dayjs) => {
     if (index === rows.length - 1 && each.length !== 7) {
       return [
         ...each,
-        ...Array.from({ length: 7 - each.length }).map((_, i) =>
+        ...rangeArray(7 - each.length).map((_, i) =>
           each[each.length - 1].clone().add(i + 1, 'day'),
         ),
       ];
