@@ -9,5 +9,6 @@ declare module '@emotion/react' {
     userProfile: import('@/styles').UserProfileTheme;
     a11y: import('@/styles').A11yTheme;
     navigation: import('@/styles').NavigationTheme;
+    select: import('@/styles').SelectTheme;
   }
 }
