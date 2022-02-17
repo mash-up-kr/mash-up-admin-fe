@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import * as Styled from './Select.styled';
 import ChevronDown from '@/assets/svg/chevron-down-16.svg';
 import { useOnClickOutSide } from '@/hooks';
@@ -23,72 +23,64 @@ export const SelectPosition = {
 export interface SelectProps {
   size: ValueOf<typeof SelectSize>;
   position?: ValueOf<typeof SelectPosition>;
-  value: string;
   placeholder?: string;
   options: SelectOption[];
-  setValue: (value: string) => void;
 }
 
-const Select = forwardRef(
-  (
-    {
-      size,
-      position = SelectPosition.bottom,
-      value,
-      placeholder = '전체',
-      options,
-      setValue,
-    }: SelectProps,
-    ref: React.ForwardedRef<HTMLDivElement>,
-  ) => {
-    const [isOpened, setOpened] = useState(false);
+const Select = (
+  { size, position = SelectPosition.bottom, placeholder = '전체', options }: SelectProps,
+  ref: React.Ref<HTMLSelectElement>,
+) => {
+  const [isOpened, setOpened] = useState(false);
 
-    const outerRef = useRef<HTMLDivElement>(null);
+  const [selectedOption, setSelectedOption] = useState(options[0]);
 
-    const toggleOpened = () => {
-      setOpened(!isOpened);
-    };
+  const outerRef = useRef<HTMLDivElement>(null);
 
-    const handleClickOption = (optionValue: string) => {
-      setValue(optionValue);
-      toggleOpened();
-    };
+  const toggleOpened = () => {
+    setOpened(!isOpened);
+  };
 
-    const selectedLabel = useMemo(
-      () => options.find((option) => option.value === value)?.label ?? '',
-      [options, value],
-    );
+  const handleClickOption = (option: SelectOption) => {
+    setSelectedOption(option);
+    toggleOpened();
+  };
 
-    useOnClickOutSide(outerRef, () => setOpened(false));
+  useOnClickOutSide(outerRef, () => setOpened(false));
 
-    return (
-      <div ref={outerRef}>
-        <Styled.SelectContainer ref={ref}>
-          <Styled.Select size={size} onClick={toggleOpened} isOpened={isOpened} position={position}>
-            {value ? (
-              <Styled.SelectValue>{selectedLabel}</Styled.SelectValue>
-            ) : (
-              <Styled.SelectPlaceholder>{placeholder}</Styled.SelectPlaceholder>
-            )}
-            <ChevronDown />
-          </Styled.Select>
-          <Styled.SelectMenu isOpened={isOpened} position={position}>
-            {options.map((option) => (
-              <Styled.SelectOption
-                isSelected={value === option.value}
-                key={option.value}
-                onClick={() => handleClickOption(option.value)}
-              >
-                {option.label}
-              </Styled.SelectOption>
-            ))}
-          </Styled.SelectMenu>
-        </Styled.SelectContainer>
-      </div>
-    );
-  },
-);
+  return (
+    <div ref={outerRef}>
+      <Styled.SelectContainer>
+        <Styled.Select size={size} onClick={toggleOpened} isOpened={isOpened} position={position}>
+          {selectedOption ? (
+            <Styled.SelectValue>{selectedOption.label}</Styled.SelectValue>
+          ) : (
+            <Styled.SelectPlaceholder>{placeholder}</Styled.SelectPlaceholder>
+          )}
+          <ChevronDown />
+        </Styled.Select>
+        <Styled.SelectMenu isOpened={isOpened} position={position}>
+          {options.map((option) => (
+            <Styled.SelectOption
+              isSelected={selectedOption.value === option.value}
+              key={option.value}
+              onClick={() => handleClickOption(option)}
+            >
+              {option.label}
+            </Styled.SelectOption>
+          ))}
+        </Styled.SelectMenu>
+      </Styled.SelectContainer>
+      {/* SelectField를 위해 보이지 않는 select 추가 */}
+      <Styled.HiddenSelect ref={ref} value={selectedOption.value} disabled>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </Styled.HiddenSelect>
+    </div>
+  );
+};
 
-export default Select;
-
-Select.displayName = 'Select.component';
+export default forwardRef<HTMLSelectElement, SelectProps>(Select);

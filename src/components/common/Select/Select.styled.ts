@@ -129,3 +129,7 @@ export const SelectOption = styled.li<StyledSelectOptionProps>`
     }
   `}
 `;
+
+export const HiddenSelect = styled.select`
+  display: none;
+`;
