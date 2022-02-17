@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as Styled from './ApplicationFormItem.styled';
 import { InputSize } from '@/components/common/Input/Input.component';
 import { Select, Textarea, ToggleButton } from '@/components';
@@ -21,8 +21,6 @@ const options: SelectOption[] = [
 ];
 
 const ApplicationFormItem = ({ index }: ApplicationFormItemProps) => {
-  const [value, setValue] = useState('short');
-
   return (
     <Styled.ApplicationFormItemContainer>
       <Styled.Col>
@@ -37,7 +35,7 @@ const ApplicationFormItem = ({ index }: ApplicationFormItemProps) => {
         <Textarea id="" label="" placeholder="장문형 텍스트입니다." />
       </Styled.Col>
       <Styled.Col>
-        <Select size={SelectSize.xs} value={value} options={options} setValue={setValue} />
+        <Select size={SelectSize.xs} options={options} />
         <Styled.MaxContentSizeContainer>
           <ToggleButton />
           <span>글자수 제한</span>

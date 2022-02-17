@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Select, { SelectOption, SelectPosition, SelectProps, SelectSize } from './Select.component';
 
@@ -8,9 +8,7 @@ export default {
 } as ComponentMeta<typeof Select>;
 
 const Template: ComponentStory<typeof Select> = (args: SelectProps) => {
-  const [selectedValue, setSelectedValue] = useState('');
-
-  return <Select {...args} value={selectedValue} setValue={setSelectedValue} />;
+  return <Select {...args} />;
 };
 
 const selectOptionItems: SelectOption[] = [
@@ -53,8 +51,6 @@ select.args = {
 };
 
 export const AlignTopSelect: ComponentStory<typeof Select> = (args: SelectProps) => {
-  const [selectedValue, setSelectedValue] = useState('');
-
   return (
     <div style={{ marginTop: '30rem' }}>
       <Select
@@ -63,8 +59,6 @@ export const AlignTopSelect: ComponentStory<typeof Select> = (args: SelectProps)
         options={selectOptionItems}
         size={SelectSize.md}
         position={SelectPosition.top}
-        value={selectedValue}
-        setValue={setSelectedValue}
       />
     </div>
   );
