@@ -172,11 +172,6 @@ const ModalWrapper = ({
           {heading && (
             <Styled.ModalHeader>
               <h2>{heading}</h2>
-              <Button
-                Icon={CloseIcon}
-                shape={ButtonShape.icon}
-                onClick={() => handleCloseModal()}
-              />
             </Styled.ModalHeader>
           )}
           <Styled.ModalContent>{children}</Styled.ModalContent>
@@ -193,6 +188,7 @@ const ModalWrapper = ({
               <Button $size={ButtonSize.sm} shape={ButtonShape.primary} {...footer.confirmButton} />
             )}
           </Styled.ModalFooter>
+          <Button Icon={CloseIcon} shape={ButtonShape.icon} onClick={() => handleCloseModal()} />
         </Styled.ModalCard>
       </Styled.Overlay>
     </Portal>

@@ -16,6 +16,7 @@ export const Overlay = styled.div`
 
 export const ModalCard = styled.div`
   ${({ theme }) => css`
+    position: relative;
     z-index: ${theme.zIndex.dialog};
     display: flex;
     flex-direction: column;
@@ -25,6 +26,14 @@ export const ModalCard = styled.div`
     min-height: 10rem;
     background-color: ${theme.colors.white};
     border-radius: 3rem;
+
+    & > button {
+      position: absolute;
+      top: 2.95rem;
+      right: 2.4rem;
+      background-color: ${theme.colors.gray10};
+      border-width: 0;
+    }
   `}
 `;
 
@@ -38,11 +47,6 @@ export const ModalHeader = styled.div`
 
     & > h2 {
       ${theme.fonts.bold28}
-    }
-
-    & > button {
-      background-color: ${theme.colors.gray10};
-      border-width: 0;
     }
   `}
 `;
