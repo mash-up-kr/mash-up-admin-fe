@@ -9,6 +9,7 @@ import { InputSize } from '@/components/common/Input/Input.component';
 import { ButtonShape } from '@/components/common/Button/Button.component';
 import { handlePostLogin } from '@/api/login';
 import { $me } from '@/store/login';
+import { ACCESS_TOKEN } from '@/constants';
 
 const ERROR_MESSAGE = {
   INVALID_USERNAME: '아이디를 입력해주세요.',
@@ -48,6 +49,8 @@ const LoginPage = () => {
       const { data } = await handlePostLogin({ username, password });
 
       setMe(data);
+
+      localStorage.setItem(ACCESS_TOKEN, data.accessToken);
 
       // TODO:(용재) PATH.APPLICATION 로 변경
       navigate('/application');
