@@ -51,6 +51,7 @@ export interface ModalProps extends Children {
     position?: PositionType;
   };
   handleCloseModal: Dispatch<SetStateAction<void>>;
+  handleDimmedClick?: Dispatch<SetStateAction<void>>;
   beforeRef?: MutableRefObject<HTMLButtonElement>;
 }
 
@@ -86,7 +87,14 @@ export const Portal = ({ children }: Children): ReactPortal | null => {
   return ReactDOM.createPortal(children, element);
 };
 
-const ModalWrapper = ({ children, heading, footer, handleCloseModal, beforeRef }: ModalProps) => {
+const ModalWrapper = ({
+  children,
+  heading,
+  footer,
+  handleCloseModal,
+  handleDimmedClick,
+  beforeRef,
+}: ModalProps) => {
   const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -152,7 +160,11 @@ const ModalWrapper = ({ children, heading, footer, handleCloseModal, beforeRef }
     <Portal>
       <Styled.Overlay
         onClick={(e) => {
-          if (e.target === e.currentTarget) handleCloseModal();
+          if (e.target === e.currentTarget)
+            if (handleDimmedClick) {
+              return handleDimmedClick();
+            }
+          return handleCloseModal();
         }}
         tabIndex={-1}
       >
