@@ -55,6 +55,7 @@ export interface ModalProps extends Children {
 }
 
 const PORTAL_ID = 'portal';
+const MAIN_ID = 'root';
 
 export const Portal = ({ children }: Children): ReactPortal | null => {
   const [element, setElement] = useState<HTMLElement | null>(null);
@@ -89,7 +90,7 @@ const ModalWrapper = ({ children, heading, footer, handleCloseModal, beforeRef }
   const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const $rootNode = document.getElementById(PORTAL_ID);
+    const $rootNode = document.getElementById(MAIN_ID);
     $rootNode?.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = 'hidden';
 
