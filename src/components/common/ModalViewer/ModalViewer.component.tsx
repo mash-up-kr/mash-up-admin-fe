@@ -1,10 +1,10 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { $modalSelector, ModalKey, ModalKeyType } from '@/store';
+import { $modalByStorage, ModalKey, ModalKeyType } from '@/store';
 import { AlertModalDialog } from '@/components';
 
 const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
-  const [modal] = useRecoilState($modalSelector(modalKey));
+  const [modal] = useRecoilState($modalByStorage(modalKey));
   const { hash } = window.location;
 
   if (

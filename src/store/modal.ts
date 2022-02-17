@@ -29,8 +29,8 @@ export const $modal = atomFamily<Modal, ModalKeyType>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const $modalSelector = selectorFamily<Modal, ModalKeyType>({
-  key: 'modalSelector',
+export const $modalByStorage = selectorFamily<Modal, ModalKeyType>({
+  key: 'modalByStorage',
   get:
     (key) =>
     ({ get }) => {

@@ -5,14 +5,14 @@ import { useRecoilState } from 'recoil';
 import { theme, globalStyles } from '@/styles';
 
 import { Button, ModalViewer } from '@/components';
-import { $modalSelector, ModalKey } from './store';
+import { $modalByStorage, ModalKey } from './store';
 import {
   POPUP_CLOSE,
   SMS_COMPLETE,
 } from './components/common/AlertModalDialog/AlertModalDialog.component';
 
 const App = () => {
-  const [modal, setModal] = useRecoilState($modalSelector(ModalKey.alertModalDialog));
+  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
   return (
     <>
       <Global styles={globalStyles} />
