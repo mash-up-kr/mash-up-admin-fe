@@ -2,18 +2,44 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const TableContainer = styled.div`
-  height: 20rem;
+  height: 30rem;
+  margin-bottom: 2rem;
 `;
 
 export const TableBodyWrapper = styled.div`
-  width: 80rem;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
+  ${({ theme }) => css`
+    width: 120rem;
+    height: calc(100% - 5.2rem);
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    mask-image: linear-gradient(to top, transparent, black),
+      linear-gradient(to left, transparent 17px, black 17px);
+    mask-size: 100% 20000px;
+    mask-position: left bottom;
+    -webkit-mask-image: linear-gradient(to top, transparent, black),
+      linear-gradient(to left, transparent 17px, black 17px);
+    -webkit-mask-size: 100% 20000px;
+    -webkit-mask-position: left bottom;
+    transition: mask-position 0.3s, -webkit-mask-position 0.3s;
+
+    &::-webkit-scrollbar {
+      width: 0.7rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: ${theme.colors.gray30};
+      border-radius: 0.5rem;
+    }
+
+    &:hover {
+      -webkit-mask-position: left top;
+    }
+  `}
 `;
 
 export const Table = styled.table`
-  width: 80rem;
+  width: 120rem;
   text-align: center;
   border-collapse: collapse;
 `;
