@@ -46,11 +46,11 @@ const LoginPage = () => {
         return handleSetError(ERROR_MESSAGE.INVALID_PASSWORD);
       }
       // TODO:(용재) username, password validation 추가
-      const { data } = await handlePostLogin({ username, password });
+      const data = await handlePostLogin({ username, password });
 
       setMe(data);
 
-      localStorage.setItem(ACCESS_TOKEN, data.accessToken);
+      localStorage.setItem(ACCESS_TOKEN, data.data.accessToken);
 
       // TODO:(용재) PATH.APPLICATION 로 변경
       navigate('/application');
