@@ -8,7 +8,7 @@ export interface TableColumn<T extends object> {
   title: string;
   accessor: NestedKeyOf<T>;
   sortable?: boolean;
-  CustomCell?: ReactNode;
+  renderCustomCell?: (cellVaule: unknown) => ReactNode;
 }
 
 interface TableProps<T extends object> {
@@ -43,11 +43,16 @@ const Table = <T extends object>({ prefix, columns, rows }: TableProps<T>) => {
           <Styled.TableBody>
             {rows.map((row, rowIndex) => (
               <Styled.TableRow key={`${prefix}-row-${rowIndex}`}>
-                {columns.map((column, columnIndex) => (
-                  <Styled.TableCell key={`cell-${columnIndex}`}>
-                    {getOwnValueByKey(row, column.accessor)}
-                  </Styled.TableCell>
-                ))}
+                {columns.map((column, columnIndex) => {
+                  const { accessor, renderCustomCell } = column;
+                  const cellValue = getOwnValueByKey(row, accessor);
+
+                  return (
+                    <Styled.TableCell key={`cell-${columnIndex}`}>
+                      {renderCustomCell ? renderCustomCell(cellValue) : cellValue}
+                    </Styled.TableCell>
+                  );
+                })}
               </Styled.TableRow>
             ))}
           </Styled.TableBody>

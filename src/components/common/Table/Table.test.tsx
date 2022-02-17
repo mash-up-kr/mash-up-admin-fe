@@ -1,74 +1,81 @@
+import { ReactNode } from 'react';
 import { Application } from '@/types';
 import { TableColumn } from './Table.component';
 import { renderTable } from './Table.testUtil';
 
-const columns: TableColumn<Application>[] = [
-  {
-    title: '이름',
-    accessor: 'name',
-  },
-  {
-    title: '전화번호',
-    accessor: 'phoneNumber',
-  },
-  {
-    title: '지원플랫폼',
-    accessor: 'team',
-  },
-  {
-    title: '면접일시',
-    accessor: 'result.interviewStartedAt',
-  },
-  {
-    title: '사용자확인여부',
-    accessor: 'confirmationStatus',
-  },
-  {
-    title: '합격여부',
-    accessor: 'result.status',
-  },
-];
-
-const data: Application[] = [
-  {
-    applicantId: 1,
-    name: '박민수',
-    phoneNumber: '010-1234-5678',
-    team: 'Node',
-    result: { interviewStartedAt: '2022-02-16', status: '서류검토' },
-    confirmationStatus: '미확인',
-  },
-  {
-    applicantId: 1,
-    name: '박민수르',
-    phoneNumber: '010-1234-5678',
-    team: 'Web',
-    result: { interviewStartedAt: '2022-02-17', status: '서류합격' },
-    confirmationStatus: '확인',
-  },
-  {
-    applicantId: 1,
-    name: '박민수',
-    phoneNumber: '010-1234-5678',
-    team: 'Web',
-    result: { interviewStartedAt: '2022-02-16', status: '서류검토' },
-    confirmationStatus: '미확인',
-  },
-  {
-    applicantId: 1,
-    name: '박민수',
-    phoneNumber: '010-1234-5678',
-    team: 'Web',
-    result: { interviewStartedAt: '2022-02-16', status: '서류검토' },
-    confirmationStatus: '미확인',
-  },
-];
-
 describe('<Table />', () => {
+  const getMockProps = (renderCustomNameColumn?: (cellValue: unknown) => ReactNode) => {
+    const columns: TableColumn<Application>[] = [
+      {
+        title: '이름',
+        accessor: 'name',
+        renderCustomCell: renderCustomNameColumn,
+      },
+      {
+        title: '전화번호',
+        accessor: 'phoneNumber',
+      },
+      {
+        title: '지원플랫폼',
+        accessor: 'team',
+      },
+      {
+        title: '면접일시',
+        accessor: 'result.interviewStartedAt',
+      },
+      {
+        title: '사용자확인여부',
+        accessor: 'confirmationStatus',
+      },
+      {
+        title: '합격여부',
+        accessor: 'result.status',
+      },
+    ];
+
+    const data: Application[] = [
+      {
+        applicantId: 1,
+        name: '박민수',
+        phoneNumber: '010-1234-5678',
+        team: 'Node',
+        result: { interviewStartedAt: '2022-02-16', status: '서류검토' },
+        confirmationStatus: '미확인',
+      },
+      {
+        applicantId: 1,
+        name: '박민수르',
+        phoneNumber: '010-1234-5678',
+        team: 'Web',
+        result: { interviewStartedAt: '2022-02-17', status: '서류합격' },
+        confirmationStatus: '확인',
+      },
+      {
+        applicantId: 1,
+        name: '박민수',
+        phoneNumber: '010-1234-5678',
+        team: 'Web',
+        result: { interviewStartedAt: '2022-02-16', status: '서류검토' },
+        confirmationStatus: '미확인',
+      },
+      {
+        applicantId: 1,
+        name: '박민수',
+        phoneNumber: '010-1234-5678',
+        team: 'Web',
+        result: { interviewStartedAt: '2022-02-16', status: '서류검토' },
+        confirmationStatus: '미확인',
+      },
+    ];
+
+    return { columns, data };
+  };
+
   it('data가 없는 경우, data가 없다는 문구가 렌더링 되어야 한다.', () => {});
 
   it('기본 필드가 렌더링 되어야 한다.', () => {
     // Given
+    const { columns, data } = getMockProps();
     const { TableHeader, TableRows } = renderTable({
       _columns: columns,
       _data: data,
@@ -100,5 +107,20 @@ describe('<Table />', () => {
 
   it('전체 checkbox를 선택하면, 전체 row가 선택되어야 한다.', () => {});
 
-  it('넘겨받은 컴포넌트로 Cell을 커스텀할 수 있어야 한다.', () => {});
+  it('넘겨받은 renderProps로 Cell을 커스텀할 수 있어야 한다.', () => {
+    // Given
+    const renderCustomNameColumn = (cellValue: any) => `${cellValue}123`;
+    const { columns, data } = getMockProps(renderCustomNameColumn);
+    const { TableRows } = renderTable({
+      _columns: columns,
+      _data: data,
+    });
+
+    // When
+    const tableRows = TableRows();
+
+    // Then
+    expect(tableRows[1]).toBeInTheDocument();
+    expect(tableRows[1].querySelectorAll('td')[0].textContent).toBe('박민수르123');
+  });
 });
