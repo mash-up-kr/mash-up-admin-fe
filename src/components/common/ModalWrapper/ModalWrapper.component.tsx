@@ -156,7 +156,7 @@ const ModalWrapper = ({ children, heading, footer, handleCloseModal, beforeRef }
         }}
         tabIndex={-1}
       >
-        <Styled.ModalCard ref={dialogRef} tabIndex={0}>
+        <Styled.ModalCard ref={dialogRef}>
           {heading && (
             <Styled.ModalHeader>
               <h2>{heading}</h2>
