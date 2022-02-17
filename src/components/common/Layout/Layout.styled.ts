@@ -1,15 +1,19 @@
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { HEADER_HEIGHT } from '@/constants';
 
-export const Main = styled.main`
-  ${({ theme }) => css`
-    background-color: ${theme.colors.gray10};
-  `}
-`;
+interface StyledMainProps {
+  isBackgroundGray: boolean;
+}
 
-export const Content = styled.div`
-  max-width: 120rem;
-  min-height: calc(100vh - ${HEADER_HEIGHT});
-  margin: 0 auto;
+export const Main = styled.main<StyledMainProps>`
+  ${({ isBackgroundGray, theme }) => css`
+    background-color: ${isBackgroundGray ? theme.colors.gray10 : theme.colors.white};
+
+    & > section {
+      max-width: 120rem;
+      min-height: calc(100vh - ${HEADER_HEIGHT});
+      margin: 0 auto;
+    }
+  `}
 `;
