@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import * as Styled from './LoginPage.styled';
 import Logo from '@/assets/svg/logo-admin-272.svg';
 import MinsourLogo from '@/assets/svg/minsour-logo-200.svg';
@@ -7,6 +8,7 @@ import { Button, Input } from '@/components';
 import { InputSize } from '@/components/common/Input/Input.component';
 import { ButtonShape } from '@/components/common/Button/Button.component';
 import { handlePostLogin } from '@/api/login';
+import { $me } from '@/store/login';
 
 const ERROR_MESSAGE = {
   INVALID_USERNAME: '아이디를 입력해주세요.',
@@ -15,10 +17,12 @@ const ERROR_MESSAGE = {
 };
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [error, setError] = useState('');
   // TODO:(용재) react-hook-form 으로 로직 변경
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const setMe = useSetRecoilState($me);
 
   const handleSetError = (param: string) => {
     setError(param);
@@ -31,31 +35,35 @@ const LoginPage = () => {
     setPassword(param);
   };
 
+  // TODO:(용재) POST는 recoil selector set에서 async 가 안되는 이슈가 있어서 어떻게 관리할지 생각해봐야 함
   const handleLogin = async () => {
     try {
-      if (username.length) {
-        handleSetError(ERROR_MESSAGE.INVALID_USERNAME);
+      if (username.length === 0) {
+        return handleSetError(ERROR_MESSAGE.INVALID_USERNAME);
       }
-      if (password.length) {
-        handleSetError(ERROR_MESSAGE.INVALID_PASSWORD);
+      if (password.length === 0) {
+        return handleSetError(ERROR_MESSAGE.INVALID_PASSWORD);
       }
       // TODO:(용재) username, password validation 추가
-      await handlePostLogin({ username, password });
-      // TODO:(용재) login 성공 후 토큰 저장 및 페이지 이동 이벤트 추가
+      const { data } = await handlePostLogin({ username, password });
+
+      setMe(data);
+
+      // TODO:(용재) PATH.APPLICATION 로 변경
+      navigate('/application');
     } catch (e) {
       handleSetError(ERROR_MESSAGE.AUTH_FAILED);
     }
   };
 
   const handleCheckEnter = (e: React.KeyboardEvent<HTMLFormElement>) => {
-    if (e.key === 'Enter') {
-      handleLogin();
-    }
+    e.preventDefault();
+    handleLogin();
   };
 
   return (
     <Styled.LoginPageWrapper>
-      <Styled.LoginContainer isError={!!error} onKeyPress={handleCheckEnter}>
+      <Styled.LoginContainer isError={!!error} onSubmit={handleCheckEnter}>
         <Logo />
         <div>
           <Input
@@ -77,7 +85,7 @@ const LoginPage = () => {
             onFocus={() => handleSetError('')}
           />
         </div>
-        <Button shape={ButtonShape.primary} label="로그인" onClick={handleLogin} />
+        <Button type="submit" shape={ButtonShape.primary} label="로그인" />
         <MinsourLogo />
       </Styled.LoginContainer>
     </Styled.LoginPageWrapper>
