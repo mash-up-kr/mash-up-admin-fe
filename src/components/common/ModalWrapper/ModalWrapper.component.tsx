@@ -51,7 +51,7 @@ export interface ModalProps extends Children {
     position?: PositionType;
   };
   handleCloseModal: Dispatch<SetStateAction<void>>;
-  handleDimmedClick?: Dispatch<SetStateAction<void>>;
+  closeOnClickOverlay?: boolean;
   beforeRef?: MutableRefObject<HTMLButtonElement>;
 }
 
@@ -92,7 +92,7 @@ const ModalWrapper = ({
   heading,
   footer,
   handleCloseModal,
-  handleDimmedClick,
+  closeOnClickOverlay = true,
   beforeRef,
 }: ModalProps) => {
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -160,11 +160,9 @@ const ModalWrapper = ({
     <Portal>
       <Styled.Overlay
         onClick={(e) => {
-          if (e.target === e.currentTarget)
-            if (handleDimmedClick) {
-              return handleDimmedClick();
-            }
-          return handleCloseModal();
+          if (e.target === e.currentTarget && closeOnClickOverlay) {
+            handleCloseModal();
+          }
         }}
         tabIndex={-1}
       >
