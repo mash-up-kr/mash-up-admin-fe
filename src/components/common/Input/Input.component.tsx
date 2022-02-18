@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { ValueOf } from '@/types';
 import * as Styled from './Input.styled';
 
@@ -16,15 +16,10 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   errorMessage?: string;
 }
 
-const Input = ({
-  id,
-  className,
-  $size,
-  label,
-  errorMessage,
-  required,
-  ...resetProps
-}: InputProps) => {
+const Input = (
+  { id, className, $size, label, errorMessage, required, ...resetProps }: InputProps,
+  ref: React.Ref<HTMLInputElement>,
+) => {
   return (
     <Styled.InputWrapper>
       {label && (
@@ -34,10 +29,10 @@ const Input = ({
         </Styled.InputLabel>
       )}
 
-      <Styled.Input id={id} className={className} $size={$size} {...resetProps} />
+      <Styled.Input ref={ref} id={id} className={className} $size={$size} {...resetProps} />
       {errorMessage && <Styled.InputErrorMessage>{errorMessage}</Styled.InputErrorMessage>}
     </Styled.InputWrapper>
   );
 };
 
-export default Input;
+export default forwardRef<HTMLInputElement, InputProps>(Input);
