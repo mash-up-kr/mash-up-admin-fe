@@ -1,6 +1,6 @@
 import { BaseResponse } from './base';
 
-type Position =
+type MemberPosition =
   | 'MASHUP_LEADER'
   | 'MASHUP_SUBLEADER'
   | 'BRANDING_LEADER'
@@ -28,7 +28,7 @@ interface LoginResponseSchema {
   accessToken: string;
   adminMember: {
     adminMemberId: number;
-    position: Position;
+    position: MemberPosition;
     username: string;
   };
 }
@@ -36,7 +36,7 @@ export interface LoginResponse extends BaseResponse<LoginResponseSchema> {}
 
 interface MeResponseSchema {
   adminMemberId: number;
-  position: Position;
+  position: MemberPosition;
   username: string;
 }
 export interface MeResponse extends BaseResponse<MeResponseSchema> {}
