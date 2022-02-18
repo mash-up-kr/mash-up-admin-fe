@@ -6,14 +6,16 @@ export default {
   title: 'Checkbox',
 } as ComponentMeta<typeof Checkbox>;
 
-export const Template: ComponentStory<typeof Checkbox> = (args: CheckboxProps) => {
+const Template: ComponentStory<typeof Checkbox> = (args: CheckboxProps) => {
   const [toggle, setToggle] = useState<boolean>(false);
   const handleToggle = () => setToggle((prev) => !prev);
 
   return <Checkbox {...args} isChecked={toggle} handleToggle={handleToggle} />;
 };
 
-Template.args = {
+export const checkbox = Template.bind({});
+
+checkbox.args = {
   disabled: false,
   label: 'test',
 };
