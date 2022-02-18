@@ -16,7 +16,7 @@ export interface Modal {
   props?: ModalProps;
   isOpen: boolean;
 }
-const { persistAtom } = recoilPersist();
+const { persistAtom } = recoilPersist({ key: 'modal', storage: localStorage });
 
 export const $modal = atomFamily<Modal, ModalKeyType>({
   key: 'modal',
