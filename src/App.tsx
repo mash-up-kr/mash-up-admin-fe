@@ -52,7 +52,15 @@ const App = () => {
         <ModalViewer />
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path={PATH.APPLICATION_FORM_CREATE} element={<CreateApplicationForm />} />
+            <Route
+              path={PATH.APPLICATION_FORM_CREATE}
+              element={
+                <RequiredAuth isAuth={isAuthorized} to="/application">
+                  <CreateApplicationForm />
+                </RequiredAuth>
+              }
+            />
+
             {/* // TODO:(용재) 테스트용 - 추후 수정 */}
             <Route
               path="/application"
