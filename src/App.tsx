@@ -19,8 +19,7 @@ interface RequiredAuthProps extends Partial<NavigateProps> {
   isAuth: boolean;
 }
 
-// TODO:(용재) to 기본값 path 객체 이용하도록 변경
-const RequiredAuth = ({ children, isAuth, to = '/login', ...restProps }: RequiredAuthProps) => {
+const RequiredAuth = ({ children, isAuth, to = PATH.LOGIN, ...restProps }: RequiredAuthProps) => {
   if (!isAuth) {
     return <Navigate {...restProps} to={to} />;
   }
@@ -53,21 +52,17 @@ const App = () => {
         <ModalViewer />
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path={PATH.APPLICATION_FORM_CREATE} element={<CreateApplicationForm />} />
-            {/* // TODO:(용재) 테스트용 - 추후 수정 */}
             <Route
-              path="/application"
+              path={PATH.APPLICATION_FORM_CREATE}
               element={
                 <RequiredAuth isAuth={isAuthorized}>
-                  <div>test</div>
+                  <CreateApplicationForm />
                 </RequiredAuth>
               }
             />
           </Route>
-          {/* // TODO:(용재) path 객체 사용하도록 변경 */}
           <Route
-            path="/login"
-            // TODO:(용재) 테스트용 - 추후 수정
+            path={PATH.LOGIN}
             element={
               <RequiredAuth isAuth={!isAuthorized} to="/application">
                 <LoginPage />
