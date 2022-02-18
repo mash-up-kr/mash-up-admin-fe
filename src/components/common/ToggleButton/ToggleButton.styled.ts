@@ -31,7 +31,7 @@ export const ToggleButtonSlider = styled.span`
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: #f6f6f6;
+    background-color: ${theme.colors.gray40};
     border-radius: 2.45rem;
     cursor: pointer;
     transition: 0.4s;
@@ -42,7 +42,7 @@ export const ToggleButtonSlider = styled.span`
       left: 0.2rem;
       width: 2rem;
       height: 2rem;
-      background-color: ${theme.colors.gray40};
+      background-color: ${theme.colors.white};
       border-radius: 50%;
       transition: 0.4s;
       content: '';
