@@ -5584,6 +5584,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^0.26.0":
+  version: 0.26.0
+  resolution: "axios@npm:0.26.0"
+  dependencies:
+    follow-redirects: ^1.14.8
+  checksum: d7a8b898f4157bedeb2e06c03b16133b91b354c041205bea732ce58b7a21f373d22057b0eea0d482838145ce6ff482b359750d9bcb8dd19d45e3928e3c65c280
+  languageName: node
+  linkType: hard
+
 "axobject-query@npm:^2.2.0":
   version: 2.2.0
   resolution: "axobject-query@npm:2.2.0"
@@ -9250,6 +9259,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"follow-redirects@npm:^1.14.8":
+  version: 1.14.8
+  resolution: "follow-redirects@npm:1.14.8"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 40c67899c2e3149a27e8b6498a338ff27f39fe138fde8d7f0756cb44b073ba0bfec3d52af28f20c5bdd67263d564d0d8d7b5efefd431de95c18c42f7b4aef457
+  languageName: node
+  linkType: hard
+
 "for-in@npm:^1.0.2":
   version: 1.0.2
   resolution: "for-in@npm:1.0.2"
@@ -12686,6 +12705,7 @@ __metadata:
     "@types/testing-library__user-event": ^4.2.0
     "@typescript-eslint/eslint-plugin": ^5.10.0
     "@typescript-eslint/parser": ^5.10.0
+    axios: ^0.26.0
     clean-webpack-plugin: ^4.0.0
     dayjs: ^1.10.7
     dotenv-webpack: ^7.0.3
@@ -12715,8 +12735,9 @@ __metadata:
     prettier: ^2.5.1
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-hook-form: ^7.27.0
     react-router-dom: ^6.2.1
-    recoil: ^0.5.2
+    recoil: ^0.6.1
     stylelint: ^14.2.0
     stylelint-config-prettier: ^9.0.3
     stylelint-config-rational-order: ^0.1.2
@@ -15108,6 +15129,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-hook-form@npm:^7.27.0":
+  version: 7.27.0
+  resolution: "react-hook-form@npm:7.27.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17
+  checksum: 643c643e6d52b2427e73853abe0255e39f4c323c87862b1651e7153adaf1f3db27b843dda9ea32306db102d1e9e1e00e49c2ded13705ede0706235b53ef69e24
+  languageName: node
+  linkType: hard
+
 "react-inspector@npm:^5.1.0":
   version: 5.1.1
   resolution: "react-inspector@npm:5.1.1"
@@ -15342,9 +15372,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"recoil@npm:^0.5.2":
-  version: 0.5.2
-  resolution: "recoil@npm:0.5.2"
+"recoil@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "recoil@npm:0.6.1"
   dependencies:
     hamt_plus: 1.0.2
   peerDependencies:
@@ -15354,7 +15384,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 1daf09f969c2ffc0ac628dc4ac1306aef4e162506b0ed1700cc4aa1e68e921fad450d047843d49ba39510f24b87224e9d4ac74b1c6f111e1abeb5ba9cd2a3f78
+  checksum: 823c098e30f9b711f6e5d73ae3bf3c6d43ae6342998825f00ee18b01c88f499f7216fd59b472bd5ad349c6475e698e2937ad73b82499e31535bd63e431244146
   languageName: node
   linkType: hard
 

@@ -48,7 +48,7 @@ export const SelectContainer = styled.div`
   position: relative;
   display: inline-flex;
   flex-direction: column-reverse;
-  min-width: 35rem;
+  min-width: 16rem;
 `;
 
 export const Select = styled.div<StyledSelectProps>`
@@ -128,4 +128,8 @@ export const SelectOption = styled.li<StyledSelectOptionProps>`
       background-color: ${theme.colors.gray10};
     }
   `}
+`;
+
+export const HiddenSelect = styled.select`
+  display: none;
 `;
