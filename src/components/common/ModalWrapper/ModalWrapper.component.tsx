@@ -51,10 +51,12 @@ export interface ModalProps extends Children {
     position?: PositionType;
   };
   handleCloseModal: Dispatch<SetStateAction<void>>;
+  closeOnClickOverlay?: boolean;
   beforeRef?: MutableRefObject<HTMLButtonElement>;
 }
 
 const PORTAL_ID = 'portal';
+const MAIN_ID = 'root';
 
 export const Portal = ({ children }: Children): ReactPortal | null => {
   const [element, setElement] = useState<HTMLElement | null>(null);
@@ -85,11 +87,18 @@ export const Portal = ({ children }: Children): ReactPortal | null => {
   return ReactDOM.createPortal(children, element);
 };
 
-const ModalWrapper = ({ children, heading, footer, handleCloseModal, beforeRef }: ModalProps) => {
+const ModalWrapper = ({
+  children,
+  heading,
+  footer,
+  handleCloseModal,
+  closeOnClickOverlay = true,
+  beforeRef,
+}: ModalProps) => {
   const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const $rootNode = document.getElementById(PORTAL_ID);
+    const $rootNode = document.getElementById(MAIN_ID);
     $rootNode?.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = 'hidden';
 
@@ -151,19 +160,16 @@ const ModalWrapper = ({ children, heading, footer, handleCloseModal, beforeRef }
     <Portal>
       <Styled.Overlay
         onClick={(e) => {
-          if (e.target === e.currentTarget) handleCloseModal();
+          if (e.target === e.currentTarget && closeOnClickOverlay) {
+            handleCloseModal();
+          }
         }}
         tabIndex={-1}
       >
-        <Styled.ModalCard ref={dialogRef} tabIndex={0}>
+        <Styled.ModalCard ref={dialogRef}>
           {heading && (
             <Styled.ModalHeader>
               <h2>{heading}</h2>
-              <Button
-                Icon={CloseIcon}
-                shape={ButtonShape.icon}
-                onClick={() => handleCloseModal()}
-              />
             </Styled.ModalHeader>
           )}
           <Styled.ModalContent>{children}</Styled.ModalContent>
@@ -180,6 +186,7 @@ const ModalWrapper = ({ children, heading, footer, handleCloseModal, beforeRef }
               <Button $size={ButtonSize.sm} shape={ButtonShape.primary} {...footer.confirmButton} />
             )}
           </Styled.ModalFooter>
+          <Button Icon={CloseIcon} shape={ButtonShape.icon} onClick={() => handleCloseModal()} />
         </Styled.ModalCard>
       </Styled.Overlay>
     </Portal>

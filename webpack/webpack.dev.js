@@ -15,6 +15,9 @@ module.exports = merge(baseConfig, {
     port: '5050',
     host: '127.0.0.1',
     historyApiFallback: true,
+    proxy: {
+      '/api/v1/': process.env.BASE_URL,
+    },
   },
   plugins: [
     new HtmlWebPackPlugin({
