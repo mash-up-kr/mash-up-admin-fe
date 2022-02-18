@@ -1,56 +1,41 @@
-type Position =
-  | 'MASHUP_LEADER'
-  | 'MASHUP_SUBLEADER'
-  | 'BRANDING_LEADER'
-  | 'BRANDING_SUBLEADER'
-  | 'BRANDING_STAFF'
-  | 'SPRING_LEADER'
-  | 'SPRING_SUBLEADER'
-  | 'NODE_LEADER'
-  | 'NODE_SUBLEADER'
-  | 'iOS_LEADER'
-  | 'iOS_SUBLEADER'
-  | 'ANDROID_LEADER'
-  | 'ANDROID_SUBLEADER'
-  | 'WEB_LEADER'
-  | 'WEB_SUBLEADER'
-  | 'DESIGN_LEADER'
-  | 'DESIGN_SUBLEADER';
+import { ValueOf } from '@/types';
 
-export interface Login {
-  code: string;
-  data: {
-    accessToken: string;
-    adminMember: {
-      adminMemberId: number;
-      position: Position;
-      username: string;
-    };
-  };
-  message: string;
-  page: {
-    number: number;
-    size: number;
-    totalCount: number;
-  };
+export const MemberPosition = {
+  mashupLeader: 'MASHUP_LEADER',
+  mashupSubLeader: 'MASHUP_SUBLEADER',
+  brandingLeader: 'BRANDING_LEADER',
+  brandingSubLeader: 'BRANDING_SUBLEADER',
+  brandingMember: 'BRANDING_MEMBER',
+  springLeader: 'SPRING_LEADER',
+  springSubLeader: 'SPRING_SUBLEADER',
+  nodeLeader: 'NODE_LEADER',
+  nodeSubLeader: 'NODE_SUBLEADER',
+  iosLeader: 'iOS_LEADER',
+  iosSubLeader: 'iOS_SUBLEADER',
+  androidLeader: 'ANDROID_LEADER',
+  androidSubLeader: 'ANDROID_SUBLEADER',
+  webLeader: 'WEB_LEADER',
+  webSubLeader: 'WEB_SUBLEADER',
+  designLeader: 'DESIGN_LEADER',
+  designSubLeader: 'DESIGN_SUBLEADER',
+} as const;
+
+type MemberPositionType = ValueOf<typeof MemberPosition>;
+
+interface Member {
+  adminMemberId: number;
+  position?: MemberPositionType;
+  username: string;
 }
 
-export interface LoginParams {
+export interface LoginRequest {
   username: string;
   password: string;
 }
 
-export interface Me {
-  code: string;
-  data: {
-    adminMemberId: number;
-    position: Position;
-    username: string;
-  };
-  message: string;
-  page: {
-    number: number;
-    size: number;
-    totalCount: number;
-  };
+export interface LoginResponse {
+  accessToken: string;
+  adminMember: Member;
 }
+
+export interface MeResponse extends Member {}

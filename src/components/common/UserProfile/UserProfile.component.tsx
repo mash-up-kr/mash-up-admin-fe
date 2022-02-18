@@ -21,9 +21,12 @@ export const Role = {
   member: 'MEMBER',
 } as const;
 
+export type TeamType = ValueOf<typeof Team>;
+export type RoleType = ValueOf<typeof Role>;
+
 export interface UserProfileProps {
-  team: ValueOf<typeof Team>;
-  role: ValueOf<typeof Role>;
+  team: TeamType;
+  role: RoleType;
   showBackground?: boolean;
 }
 
