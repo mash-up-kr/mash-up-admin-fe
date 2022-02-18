@@ -3,9 +3,9 @@ import { Global, ThemeProvider } from '@emotion/react';
 import { Route, Routes } from 'react-router-dom';
 import { theme, globalStyles } from './styles';
 
+import { ModalViewer, Layout } from './components';
 import { PATH } from './constants';
 import { CreateApplicationForm } from './pages';
-import { Layout, ModalViewer } from './components';
 
 const App = () => (
   <>
