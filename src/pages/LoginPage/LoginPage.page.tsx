@@ -7,7 +7,7 @@ import MinsourLogo from '@/assets/svg/minsour-logo-200.svg';
 import { Button, Input } from '@/components';
 import { InputSize } from '@/components/common/Input/Input.component';
 import { ButtonShape } from '@/components/common/Button/Button.component';
-import { handlePostLogin } from '@/api/login';
+import * as api from '@/api';
 import { $me } from '@/store/login';
 import { ACCESS_TOKEN } from '@/constants';
 
@@ -46,7 +46,7 @@ const LoginPage = () => {
         return handleSetError(ERROR_MESSAGE.INVALID_PASSWORD);
       }
       // TODO:(용재) username, password validation 추가
-      const data = await handlePostLogin({ username, password });
+      const data = await api.postLogin({ username, password });
 
       setMe(data);
 

@@ -8,7 +8,7 @@ import { theme, globalStyles } from './styles';
 import { ModalViewer, Layout } from './components';
 import LoginPage from './pages/LoginPage/LoginPage.page';
 import { $me } from './store';
-import { handleGetMyInfo } from './api/login';
+import * as api from './api';
 import { ACCESS_TOKEN } from './constants';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
@@ -35,7 +35,7 @@ const App = () => {
       const isToken = !!localStorage.getItem(ACCESS_TOKEN);
       if (isToken) {
         try {
-          const { data } = await handleGetMyInfo();
+          const { data } = await api.getMyInfo();
           setMe({
             data: { accessToken: localStorage.getItem(ACCESS_TOKEN) || '', adminMember: data },
           });

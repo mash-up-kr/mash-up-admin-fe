@@ -1,21 +1,16 @@
-import api from '@/api/core';
-import { Login, LoginParams, Me } from '@/types';
-import { throwAPIErrorMessage } from '@/utils';
+import http from '@/api/core';
+import { LoginRequest, LoginResponse, MeResponse } from '@/types';
 
-export const handlePostLogin = ({ username, password }: LoginParams): Promise<Login> =>
-  api
-    .post({
-      url: '/admin-members/login',
-      data: {
-        username,
-        password,
-      },
-    })
-    .catch(throwAPIErrorMessage);
+export const postLogin = ({ username, password }: LoginRequest): Promise<LoginResponse> =>
+  http.post({
+    url: '/admin-members/login',
+    data: {
+      username,
+      password,
+    },
+  });
 
-export const handleGetMyInfo = (): Promise<Me> =>
-  api
-    .get({
-      url: '/admin-members/me',
-    })
-    .catch(throwAPIErrorMessage);
+export const getMyInfo = (): Promise<MeResponse> =>
+  http.get({
+    url: '/admin-members/me',
+  });
