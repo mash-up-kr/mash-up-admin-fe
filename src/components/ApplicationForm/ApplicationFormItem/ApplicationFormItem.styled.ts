@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Input } from '@/components';
+import { InputField } from '@/components';
 
 export const ApplicationFormItemContainer = styled.div`
   padding: 2.4rem 3.2rem;
@@ -23,7 +23,7 @@ export const ApplicationFormItemIndex = styled.span`
   `}
 `;
 
-export const ApplicationFormItemQuestionInput = styled(Input)`
+export const ApplicationFormItemQuestionInput = styled(InputField)`
   margin-left: 1.2rem;
 `;
 
@@ -38,6 +38,11 @@ export const MaxContentSizeContainer = styled.div`
 
       margin-left: 0.4rem;
       color: ${theme.colors.gray60};
+    }
+
+    input {
+      width: 9rem;
+      margin-left: 0.8rem;
     }
   `}
 `;

@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 export const ApplicationFormControlPage = styled.div`
   padding: 2rem 0 4rem;
 
-  & > div {
+  & > form {
     display: flex;
 
     & > article {
