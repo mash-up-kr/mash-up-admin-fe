@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm, useFieldArray, FormProvider } from 'react-hook-form';
+import { useRecoilCallback } from 'recoil';
 import {
   BackButton,
   ApplicationFormItem,
@@ -10,10 +11,11 @@ import * as Styled from './ApplicationFormControl.styled';
 import { InputSize } from '@/components/common/Input/Input.component';
 
 import Plus from '@/assets/svg/plus-20.svg';
-import { Question, QuestionType } from '@/types/dto/ApplicationForm';
+import { Question, QuestionType, CreateApplicationFormRequest } from '@/types/dto/ApplicationForm';
+import * as api from '@/api';
 
 interface FormValues {
-  title: string;
+  name: string;
   questions: Question[];
 }
 
@@ -45,10 +47,15 @@ const ApplicationFormControl = () => {
     remove(index);
   };
 
-  const obSubmit = (data: FormValues) => {
-    // TODO:(@mango906): api 연동해주기
-    console.log('data', data);
-  };
+  const handleSubmitForm = useRecoilCallback(() => async (data: FormValues) => {
+    // TODO:(@mango906): teamId 선택하는 정책 논의 후 teamId 동적으로 결정하기
+    const requestDto: CreateApplicationFormRequest = {
+      ...data,
+      teamId: 9,
+    };
+
+    api.createApplicationForm(requestDto);
+  });
 
   return (
     <FormProvider {...methods}>
@@ -57,14 +64,14 @@ const ApplicationFormControl = () => {
           <BackButton label="목록 돌아가기" />
           <Styled.Headline>지원설문지 작성</Styled.Headline>
         </section>
-        <form onSubmit={handleSubmit(obSubmit)}>
+        <form onSubmit={handleSubmit(handleSubmitForm)}>
           <article>
             <Styled.Content>
               <InputField
                 $size={InputSize.md}
                 label="지원설문지 문서명"
                 placeholder="내용을 입력해주세요"
-                {...register('title', { required: true })}
+                {...register('name', { required: true })}
               />
             </Styled.Content>
             <Styled.QuestionContent>
