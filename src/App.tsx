@@ -3,9 +3,10 @@ import { Routes, Route, Navigate, NavigateProps } from 'react-router-dom';
 
 import { Global, ThemeProvider } from '@emotion/react';
 import { useRecoilValue, useRecoilCallback } from 'recoil';
+import { ModalViewer, Layout } from '@/components';
+
 import { theme, globalStyles } from './styles';
 
-import { ModalViewer, Layout } from './components';
 import LoginPage from './pages/LoginPage/LoginPage.page';
 import { $me, $isAuthorized } from './store';
 import * as api from './api';

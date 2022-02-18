@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { ModalWrapper } from '@/components';
 import * as Styled from './AlertModalDialog.styled';
-import { $modal, ModalKey } from '@/store';
+import { $modalByStorage, ModalKey } from '@/store';
 import { Position } from '@/components/common/ModalWrapper/ModalWrapper.component';
 
 export const SMS_COMPLETE = {
@@ -38,7 +38,7 @@ const AlertModalDialog = ({
   linkTo,
 }: AlertModalDialogProps) => {
   const navigate = useNavigate();
-  const [modal, setModal] = useRecoilState($modal(ModalKey.alertModalDialog));
+  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
 
   const handleRemoveCurrentModal = () => setModal({ ...modal, isOpen: false });
 
