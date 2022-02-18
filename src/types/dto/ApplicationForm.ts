@@ -13,7 +13,27 @@ export interface Question {
   required: boolean;
 }
 
-export interface ApplicationForm {
+export interface Team {
+  createdAt: string;
+  createdBy: string;
+  name: string;
+  teamId: number;
+  updatedAt: string;
+  updatedBy: string;
+}
+
+export interface ApplicationFormResponse {
+  applicationFormId: number;
+  createdAt: string;
+  createdBy: string;
+  name: string;
+  questions: Question[];
+  team: Team;
+  updatedAt: string;
+  updatedBy: string;
+}
+
+export interface CreateApplicationFormRequest {
   name: string;
   questions: Question[];
   teamId: number;
