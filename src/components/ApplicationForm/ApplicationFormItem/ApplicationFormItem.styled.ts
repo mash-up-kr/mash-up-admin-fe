@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { InputField } from '@/components';
+import { InputField } from '../../Field';
 
 export const ApplicationFormItemContainer = styled.div`
   padding: 2.4rem 3.2rem;
