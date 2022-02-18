@@ -1,4 +1,4 @@
-import React, { ReactElement, SVGProps } from 'react';
+import React, { forwardRef, ReactElement, SVGProps, useImperativeHandle, useRef } from 'react';
 import { ValueOf } from '@/types';
 import * as Styled from './Button.styled';
 
@@ -27,16 +27,29 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   label?: string;
 }
 
-const Button = ({
-  className,
-  $size = 'sm',
-  shape = 'default',
-  Icon,
-  label,
-  ...resetProps
-}: ButtonProps) => {
+export interface ParentRef {
+  focus: () => void;
+}
+
+const Button = (
+  { children, className, $size = 'sm', shape = 'default', Icon, label, ...resetProps }: ButtonProps,
+  parentRef: React.Ref<ParentRef>,
+) => {
+  const childRef = useRef<HTMLButtonElement>(null);
+
+  useImperativeHandle(parentRef, () => {
+    return {
+      focus: () => {
+        if (childRef.current) {
+          childRef.current.focus();
+        }
+      },
+    };
+  });
+
   return (
     <Styled.ButtonWrapper
+      ref={childRef}
       type="button"
       className={className}
       $size={$size}
@@ -45,8 +58,9 @@ const Button = ({
     >
       {Icon && <Icon />}
       {shape !== ButtonShape.icon && label}
+      {children}
     </Styled.ButtonWrapper>
   );
 };
 
-export default Button;
+export default forwardRef<ParentRef, ButtonProps>(Button);
