@@ -1,6 +1,7 @@
 import { atom, selector } from 'recoil';
 import { LoginResponse } from '@/types/dto';
 import { ACCESS_TOKEN } from '@/constants';
+import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 
 export const $me = atom<LoginResponse>({
   key: 'me',
@@ -18,5 +19,13 @@ export const $isAuthorized = selector<boolean>({
   get: ({ get }) => {
     get($me);
     return !!localStorage.getItem(ACCESS_TOKEN);
+  },
+});
+
+export const $profile = selector<[string, string]>({
+  key: 'profile',
+  get: ({ get }) => {
+    const { position } = get($me).adminMember;
+    return position ? (position.split('_') as [TeamType, RoleType]) : ['', ''];
   },
 });

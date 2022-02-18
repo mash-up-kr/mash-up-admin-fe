@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import * as Styled from './Header.styled';
@@ -8,17 +8,12 @@ import {
   NavigationItem,
   NavigationSize,
 } from '@/components/common/Navigation/Navigation.component';
-import {
-  Team,
-  Role,
-  TeamType,
-  RoleType,
-} from '@/components/common/UserProfile/UserProfile.component';
+import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 
 import { colors } from '@/styles';
 
 import { Navigation, UserProfile } from '@/components';
-import { $me } from '@/store';
+import { $profile } from '@/store';
 
 // TODO: (@mango90): router 변경해주기
 const navigationItems: NavigationItem[] = [
@@ -37,16 +32,7 @@ const navigationItems: NavigationItem[] = [
 ];
 
 const Header = () => {
-  const { data } = useRecoilValue($me);
-  // TODO:(용재) 더 좋은 방법 생각해보기
-  const [team, role] = useMemo(() => {
-    const pos = data?.adminMember?.position?.split('_');
-    if (pos?.length === 2) {
-      return pos;
-    }
-
-    return [Team.branding, Role.subLeader];
-  }, [data]);
+  const [team, role] = useRecoilValue($profile);
 
   return (
     <Styled.HeaderContainer>

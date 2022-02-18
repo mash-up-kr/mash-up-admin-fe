@@ -29,12 +29,13 @@ const RequiredAuth = ({ children, isAuth, to = '/login', ...restProps }: Require
 const App = () => {
   const isAuthorized = useRecoilValue($isAuthorized);
 
-  useRecoilCallback(({ snapshot, reset }) => async () => {
+  useRecoilCallback(({ snapshot, set, reset }) => async () => {
     const isAuthorizedSnapshot = snapshot.getLoadable($isAuthorized).contents;
 
     if (isAuthorizedSnapshot) {
       try {
-        await api.getMyInfo();
+        const { data: me } = await api.getMyInfo();
+        set($me, { accessToken: localStorage.getItem(ACCESS_TOKEN), adminMember: me });
       } catch (e) {
         localStorage.removeItem(ACCESS_TOKEN);
         reset($me);
