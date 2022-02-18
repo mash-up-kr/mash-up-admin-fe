@@ -35,7 +35,7 @@ const App = () => {
     if (isAuthorizedSnapshot) {
       try {
         const { data: me } = await api.getMyInfo();
-        set($me, { accessToken: localStorage.getItem(ACCESS_TOKEN), adminMember: me });
+        set($me, { accessToken: localStorage.getItem(ACCESS_TOKEN) as string, adminMember: me });
       } catch (e) {
         localStorage.removeItem(ACCESS_TOKEN);
         reset($me);
