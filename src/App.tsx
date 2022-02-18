@@ -1,14 +1,14 @@
-import React, { ReactNode, useEffect, useMemo } from 'react';
+import React, { ReactNode } from 'react';
 import { Routes, Route, Navigate, NavigateProps } from 'react-router-dom';
 
 import { Global, ThemeProvider } from '@emotion/react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilCallback } from 'recoil';
 import { theme, globalStyles } from './styles';
 
 import { ModalViewer, Layout } from './components';
 import LoginPage from './pages/LoginPage/LoginPage.page';
-import { $me } from './store';
-import { handleGetMyInfo } from './api/login';
+import { $me, $isAuthorized } from './store';
+import * as api from './api';
 import { ACCESS_TOKEN } from './constants';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
@@ -27,25 +27,21 @@ const RequiredAuth = ({ children, isAuth, to = '/login', ...restProps }: Require
 };
 
 const App = () => {
-  const [me, setMe] = useRecoilState($me);
-  const isAuth = useMemo(() => Object.keys(me).length !== 0, [me]);
+  const isAuthorized = useRecoilValue($isAuthorized);
 
-  useEffect(() => {
-    (async () => {
-      const isToken = !!localStorage.getItem(ACCESS_TOKEN);
-      if (isToken) {
-        try {
-          const { data } = await handleGetMyInfo();
-          setMe({
-            data: { accessToken: localStorage.getItem(ACCESS_TOKEN) || '', adminMember: data },
-          });
-        } catch (e) {
-          localStorage.removeItem(ACCESS_TOKEN);
-          setMe({});
-        }
+  useRecoilCallback(({ snapshot, set, reset }) => async () => {
+    const isAuthorizedSnapshot = snapshot.getLoadable($isAuthorized).contents;
+
+    if (isAuthorizedSnapshot) {
+      try {
+        const { data: me } = await api.getMyInfo();
+        set($me, { accessToken: localStorage.getItem(ACCESS_TOKEN) as string, adminMember: me });
+      } catch (e) {
+        localStorage.removeItem(ACCESS_TOKEN);
+        reset($me);
       }
-    })();
-  }, [setMe]);
+    }
+  })();
 
   return (
     <>
@@ -58,7 +54,7 @@ const App = () => {
             <Route
               path="/application"
               element={
-                <RequiredAuth isAuth={isAuth}>
+                <RequiredAuth isAuth={isAuthorized}>
                   <div>test</div>
                 </RequiredAuth>
               }
@@ -69,7 +65,7 @@ const App = () => {
             path="/login"
             // TODO:(용재) 테스트용 - 추후 수정
             element={
-              <RequiredAuth isAuth={!isAuth} to="/application">
+              <RequiredAuth isAuth={!isAuthorized} to="/application">
                 <LoginPage />
               </RequiredAuth>
             }
