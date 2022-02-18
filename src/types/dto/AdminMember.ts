@@ -1,3 +1,5 @@
+import { BaseResponse } from './base';
+
 type Position =
   | 'MASHUP_LEADER'
   | 'MASHUP_SUBLEADER'
@@ -17,40 +19,24 @@ type Position =
   | 'DESIGN_LEADER'
   | 'DESIGN_SUBLEADER';
 
-export interface Login {
-  code: string;
-  data: {
-    accessToken: string;
-    adminMember: {
-      adminMemberId: number;
-      position: Position;
-      username: string;
-    };
-  };
-  message: string;
-  page: {
-    number: number;
-    size: number;
-    totalCount: number;
-  };
-}
-
-export interface LoginParams {
+export interface LoginRequest {
   username: string;
   password: string;
 }
 
-export interface Me {
-  code: string;
-  data: {
+interface LoginResponseSchema {
+  accessToken: string;
+  adminMember: {
     adminMemberId: number;
     position: Position;
     username: string;
   };
-  message: string;
-  page: {
-    number: number;
-    size: number;
-    totalCount: number;
-  };
 }
+export interface LoginResponse extends BaseResponse<LoginResponseSchema> {}
+
+interface MeResponseSchema {
+  adminMemberId: number;
+  position: Position;
+  username: string;
+}
+export interface MeResponse extends BaseResponse<MeResponseSchema> {}
