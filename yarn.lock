@@ -12736,7 +12736,7 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-router-dom: ^6.2.1
-    recoil: ^0.5.2
+    recoil: ^0.6.1
     stylelint: ^14.2.0
     stylelint-config-prettier: ^9.0.3
     stylelint-config-rational-order: ^0.1.2
@@ -15362,9 +15362,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"recoil@npm:^0.5.2":
-  version: 0.5.2
-  resolution: "recoil@npm:0.5.2"
+"recoil@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "recoil@npm:0.6.1"
   dependencies:
     hamt_plus: 1.0.2
   peerDependencies:
@@ -15374,7 +15374,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 1daf09f969c2ffc0ac628dc4ac1306aef4e162506b0ed1700cc4aa1e68e921fad450d047843d49ba39510f24b87224e9d4ac74b1c6f111e1abeb5ba9cd2a3f78
+  checksum: 823c098e30f9b711f6e5d73ae3bf3c6d43ae6342998825f00ee18b01c88f499f7216fd59b472bd5ad349c6475e698e2937ad73b82499e31535bd63e431244146
   languageName: node
   linkType: hard
 
