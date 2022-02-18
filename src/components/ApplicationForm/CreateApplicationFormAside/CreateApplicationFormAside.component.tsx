@@ -44,7 +44,7 @@ const CreateApplicationFormAside = () => {
           label="미리보기"
         />
         <Button $size={ButtonSize.sm} shape={ButtonShape.defaultLine} label="취소" />
-        <Button $size={ButtonSize.sm} shape={ButtonShape.primary} label="저장" />
+        <Button $size={ButtonSize.sm} shape={ButtonShape.primary} label="저장" type="submit" />
       </Styled.ButtonContainer>
     </Styled.CreateApplicationFormAside>
   );
