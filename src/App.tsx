@@ -60,11 +60,12 @@ const App = () => {
                 </RequiredAuth>
               }
             />
+            <Route path="/" element={<Navigate to={PATH.LOGIN} />} />
           </Route>
           <Route
             path={PATH.LOGIN}
             element={
-              <RequiredAuth isAuth={!isAuthorized} to="/application">
+              <RequiredAuth isAuth={!isAuthorized} to={PATH.APPLICATION}>
                 <LoginPage />
               </RequiredAuth>
             }
