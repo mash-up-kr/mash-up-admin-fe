@@ -4,10 +4,11 @@ import { ValueOf } from '@/types';
 import { colors } from '@/styles';
 
 import * as Styled from './Navigation.styled';
+import { PATH } from '@/constants';
 
 export interface NavigationItem {
   label: string;
-  to: string;
+  to: ValueOf<typeof PATH>;
 }
 
 export const NavigationSize = {
