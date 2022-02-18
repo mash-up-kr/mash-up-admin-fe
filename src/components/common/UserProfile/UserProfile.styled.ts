@@ -6,6 +6,7 @@ import { userProfile } from '@/styles';
 
 interface UserProfileContainerProps {
   showBackground: boolean;
+  removePadding: boolean;
 }
 
 interface UserProfileRoleLabelProps {
@@ -30,7 +31,7 @@ const getUserProfileTheme = ($role: ValueOf<typeof Role>, team: ValueOf<typeof T
 };
 
 export const UserProfileContainer = styled.div<UserProfileContainerProps>`
-  ${({ theme, showBackground }) => css`
+  ${({ theme, showBackground, removePadding }) => css`
     ${showBackground
       ? css`
           background-color: ${theme.colors.gray10};
@@ -38,9 +39,16 @@ export const UserProfileContainer = styled.div<UserProfileContainerProps>`
         `
       : ''}
 
+    ${removePadding
+      ? css`
+          padding: 0;
+        `
+      : css`
+          padding: 0.8rem 1.2rem;
+        `}
+
     display: inline-flex;
     align-items: center;
-    padding: 0.8rem 1.2rem;
     color: ${theme.colors.gray80};
     font-weight: bold;
     font-size: 1.5rem;

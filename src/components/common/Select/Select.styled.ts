@@ -48,7 +48,7 @@ export const SelectContainer = styled.div`
   position: relative;
   display: inline-flex;
   flex-direction: column-reverse;
-  min-width: 35rem;
+  min-width: 16rem;
 `;
 
 export const Select = styled.div<StyledSelectProps>`

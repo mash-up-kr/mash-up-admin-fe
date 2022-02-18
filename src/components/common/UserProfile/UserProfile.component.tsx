@@ -28,11 +28,17 @@ export interface UserProfileProps {
   team: TeamType;
   role: RoleType;
   showBackground?: boolean;
+  removePadding?: boolean;
 }
 
-const UserProfile = ({ team, role, showBackground = true }: UserProfileProps) => {
+const UserProfile = ({
+  team,
+  role,
+  showBackground = true,
+  removePadding = false,
+}: UserProfileProps) => {
   return (
-    <Styled.UserProfileContainer showBackground={showBackground}>
+    <Styled.UserProfileContainer showBackground={showBackground} removePadding={removePadding}>
       <span>{team}</span>
       <Styled.UserProfileRoleLabel team={team} $role={role}>
         {role}
