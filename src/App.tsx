@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, Suspense } from 'react';
 import { Routes, Route, Navigate, NavigateProps } from 'react-router-dom';
 
 import { Global, ThemeProvider } from '@emotion/react';
@@ -46,7 +46,7 @@ const App = () => {
   })();
 
   return (
-    <>
+    <Suspense fallback={null}>
       <Global styles={globalStyles} />
       <ThemeProvider theme={theme}>
         <ModalViewer />
@@ -90,7 +90,7 @@ const App = () => {
           />
         </Routes>
       </ThemeProvider>
-    </>
+    </Suspense>
   );
 };
 
