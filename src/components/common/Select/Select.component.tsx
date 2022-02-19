@@ -27,6 +27,7 @@ export interface SelectProps {
   placeholder?: string;
   options: SelectOption[];
   isFullWidth?: boolean;
+  onChange?: (option: SelectOption) => void;
 }
 
 const Select = (
@@ -36,6 +37,7 @@ const Select = (
     placeholder = '전체',
     options,
     isFullWidth = false,
+    onChange,
   }: SelectProps,
   ref: React.Ref<HTMLSelectElement>,
 ) => {
