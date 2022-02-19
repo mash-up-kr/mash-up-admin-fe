@@ -12,7 +12,7 @@ import { $me, $isAuthorized } from './store';
 import * as api from './api';
 import { ACCESS_TOKEN, PATH } from './constants';
 
-import { CreateApplicationForm } from './pages';
+import { ApplicationDetailView, CreateApplicationForm } from './pages';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
   children: ReactNode;
@@ -57,6 +57,14 @@ const App = () => {
               element={
                 <RequiredAuth isAuth={isAuthorized}>
                   <CreateApplicationForm />
+                </RequiredAuth>
+              }
+            />
+            <Route
+              path={PATH.APPLICATION_DETAIL}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <ApplicationDetailView />
                 </RequiredAuth>
               }
             />
