@@ -2,10 +2,10 @@ import React from 'react';
 import { useForm, useFieldArray, FormProvider } from 'react-hook-form';
 import { useRecoilCallback } from 'recoil';
 import {
-  BackButton,
   ApplicationFormItem,
   CreateApplicationFormAside,
   InputField,
+  ApplicationFormSection,
 } from '@/components';
 import * as Styled from './ApplicationFormControl.styled';
 import { InputSize } from '@/components/common/Input/Input.component';
@@ -61,10 +61,7 @@ const ApplicationFormControl = () => {
   return (
     <FormProvider {...methods}>
       <Styled.ApplicationFormControlPage>
-        <section>
-          <BackButton label="목록 돌아가기" />
-          <Styled.Headline>지원설문지 작성</Styled.Headline>
-        </section>
+        <ApplicationFormSection headline="지원서 설문지 작성" />
         <form onSubmit={handleSubmit(handleSubmitForm)}>
           <article>
             <Styled.Content>
