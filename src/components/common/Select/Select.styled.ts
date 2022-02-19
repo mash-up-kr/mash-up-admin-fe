@@ -44,11 +44,22 @@ const getSelectStyle = (
   }
 };
 
-export const SelectContainer = styled.div`
-  position: relative;
-  display: inline-flex;
-  flex-direction: column-reverse;
-  min-width: 16rem;
+interface StyledSelectContainerProps {
+  isFullWidth: boolean;
+}
+
+export const SelectContainer = styled.div<StyledSelectContainerProps>`
+  ${({ isFullWidth }) => css`
+    position: relative;
+    display: inline-flex;
+    flex-direction: column-reverse;
+    min-width: 16rem;
+    ${isFullWidth
+      ? css`
+          width: 100%;
+        `
+      : css``}
+  `}
 `;
 
 export const Select = styled.div<StyledSelectProps>`
@@ -91,6 +102,7 @@ export const SelectValue = styled.span`
 export const SelectMenu = styled.ul<StyledSelectMenuProps>`
   ${({ theme, isOpened, position }) => css`
     position: absolute;
+    z-index: ${theme.zIndex.select};
     display: ${isOpened ? 'block' : 'none'};
     width: 100%;
     padding: 0.8rem;
