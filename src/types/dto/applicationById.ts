@@ -37,7 +37,7 @@ export interface ApplicationByIdRequest {
 
 export interface ApplicationUpdateResultByIdRequest extends ApplicationByIdRequest {
   applicationResultStatus: ApplicationResultStatusType;
-  interviewEndedAt: string;
+  interviewEndedAt?: string;
   interviewStartedAt: string;
 }
 
