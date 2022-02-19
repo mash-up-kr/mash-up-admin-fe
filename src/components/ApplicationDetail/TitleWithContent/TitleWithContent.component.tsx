@@ -16,10 +16,8 @@ const TitleWithContent = ({
 }: TitleWithContentProps) => {
   return (
     <Styled.TitleWithContentWrapper>
-      <Styled.Label isLineThrough={isLineThrough} isActive={isActive}>
-        {title}
-      </Styled.Label>
-      <Styled.Content>{children}</Styled.Content>
+      <Styled.Label isActive={isActive}>{title}</Styled.Label>
+      <Styled.Content isLineThrough={isLineThrough}>{children}</Styled.Content>
     </Styled.TitleWithContentWrapper>
   );
 };
