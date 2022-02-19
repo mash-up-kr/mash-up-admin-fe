@@ -55,7 +55,7 @@ const ApplicationFormAside = ({
       )}
       <Styled.ContentContainer>
         <Styled.Label>작성일시</Styled.Label>
-        <Styled.Content>{formatDate(createdAt, 'YYYY년MM월DD일 hh시mm분')}</Styled.Content>
+        <Styled.Content>{formatDate(createdAt, 'YYYY년 M월 D일 A h시 m분')}</Styled.Content>
       </Styled.ContentContainer>
       {updatedBy && (
         <Styled.ContentContainer>
@@ -73,7 +73,7 @@ const ApplicationFormAside = ({
       {updatedAt && (
         <Styled.ContentContainer>
           <Styled.Label>수정일시</Styled.Label>
-          <Styled.Content>{formatDate(updatedAt, 'YYYY년MM월DD일 hh시mm분')}</Styled.Content>
+          <Styled.Content>{formatDate(updatedAt, 'YYYY년 M월 D일 A h시 m분')}</Styled.Content>
         </Styled.ContentContainer>
       )}
       <Styled.Divider />
