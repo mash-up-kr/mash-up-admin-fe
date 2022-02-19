@@ -2,7 +2,7 @@
 import React, { ReactNode, ChangeEventHandler, useRef } from 'react';
 import { Checkbox } from '@/components';
 import { NestedKeyOf } from '@/types';
-import { getOwnValueByKey } from '@/utils';
+import { getOwnValueByKey, isSameObject } from '@/utils';
 import * as Styled from './Table.styled';
 
 export interface TableColumn<T extends object> {
@@ -86,16 +86,13 @@ const Table = <T extends object>({
 
   const checkedValues = useRef<boolean[]>(
     rows.map((row) => {
-      return selectedRows.some(
-        (selectedRow) => JSON.stringify(selectedRow) === JSON.stringify(row),
-      );
+      return selectedRows.some((selectedRow) => isSameObject(selectedRow, row));
     }),
   );
   const isAllChecked = checkedValues.current.filter(Boolean).length === rows.length;
 
   const handleSelectRow: (index: number) => ChangeEventHandler<HTMLInputElement> =
     (index) => (e) => {
-      console.log(e.target.checked);
       if (e.target.checked) {
         setSelectedRows?.((prev) => {
           return [...prev, rows[index]];
@@ -103,9 +100,7 @@ const Table = <T extends object>({
         checkedValues.current[index] = true;
       } else {
         setSelectedRows?.((prev) => {
-          return prev.filter(
-            (selectedRow) => JSON.stringify(selectedRow) !== JSON.stringify(rows[index]),
-          );
+          return prev.filter((selectedRow) => !isSameObject(selectedRow, rows[index]));
         });
         checkedValues.current[index] = false;
       }
@@ -119,9 +114,7 @@ const Table = <T extends object>({
       checkedValues.current = Array(rows.length).fill(true);
     } else {
       setSelectedRows?.((prev) => {
-        return prev.filter(
-          (selectedRow) => !rows.some((row) => JSON.stringify(row) === JSON.stringify(selectedRow)),
-        );
+        return prev.filter((selectedRow) => !rows.some((row) => isSameObject(row, selectedRow)));
       });
       checkedValues.current = Array(rows.length).fill(false);
     }
