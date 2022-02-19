@@ -122,7 +122,7 @@ const ApplicationPanel = ({
     </>
   );
 
-  const ApplicationResultOptions = useMemo(
+  const applicationResultOptions = useMemo(
     () =>
       Object.values(ApplicationResultStatus).reduce<SelectOption[]>(
         (acc: SelectOption[], cur: ApplicationResultStatusType, index) => {
@@ -151,7 +151,7 @@ const ApplicationPanel = ({
       <TitleWithContent title="합격 여부" isActive>
         <SelectField
           size={SelectSize.md}
-          options={ApplicationResultOptions}
+          options={applicationResultOptions}
           isFullWidth
           ref={selectedApplicationResultStatusRef}
           onChange={handleChangeApplicationResultSelect}
