@@ -12,9 +12,23 @@ interface ApplicationFormAsideProps {
   team: TeamType;
   createdAt: string;
   updatedAt: string;
+  leftActionButton: {
+    text: string;
+    type?: 'submit' | 'reset' | 'button';
+  };
+  rightActionButton: {
+    text: string;
+    type?: 'submit' | 'reset' | 'button';
+  };
 }
 
-const ApplicationFormAside = ({ team, createdAt, updatedAt }: ApplicationFormAsideProps) => {
+const ApplicationFormAside = ({
+  team,
+  createdAt,
+  updatedAt,
+  leftActionButton,
+  rightActionButton,
+}: ApplicationFormAsideProps) => {
   return (
     <Styled.ApplicationFormAside>
       <Styled.Headline>작성 및 수정정보</Styled.Headline>
@@ -50,8 +64,18 @@ const ApplicationFormAside = ({ team, createdAt, updatedAt }: ApplicationFormAsi
           shape={ButtonShape.defaultLine}
           label="미리보기"
         />
-        <Button $size={ButtonSize.sm} shape={ButtonShape.defaultLine} label="취소" />
-        <Button $size={ButtonSize.sm} shape={ButtonShape.primary} label="저장" type="submit" />
+        <Button
+          $size={ButtonSize.sm}
+          shape={ButtonShape.defaultLine}
+          label={leftActionButton.text}
+          type={rightActionButton.type}
+        />
+        <Button
+          $size={ButtonSize.sm}
+          shape={ButtonShape.primary}
+          label={rightActionButton.text}
+          type={rightActionButton.type}
+        />
       </Styled.ButtonContainer>
     </Styled.ApplicationFormAside>
   );

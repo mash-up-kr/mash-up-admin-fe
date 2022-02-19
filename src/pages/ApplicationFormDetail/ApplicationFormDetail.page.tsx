@@ -52,7 +52,15 @@ const ApplicationFormDetail = () => {
             })}
           </Styled.QuestionContent>
         </article>
-        <ApplicationFormAside team={team} createdAt={createdAt} updatedAt={updatedAt} />
+        <ApplicationFormAside
+          team={team}
+          createdAt={createdAt}
+          updatedAt={updatedAt}
+          leftActionButton={{
+            text: '삭제',
+          }}
+          rightActionButton={{ text: '수정' }}
+        />
       </div>
     </Styled.ApplicationFormDetailPage>
   );
