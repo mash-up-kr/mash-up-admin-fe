@@ -24,6 +24,7 @@ interface TableProps<T extends object> {
   handleSortColumn?: () => void;
   selectableRow?: {
     selectedCount: number;
+    selectedRows: T[];
     setSelectedRows: React.Dispatch<React.SetStateAction<T[]>>;
   };
   supportBar?: {
@@ -80,14 +81,21 @@ const Table = <T extends object>({
   selectableRow,
   supportBar,
 }: TableProps<T>) => {
-  const { selectedCount, setSelectedRows } = selectableRow!;
+  const { selectedCount, selectedRows, setSelectedRows } = selectableRow!;
   const { totalCount, buttons: supportButtons } = supportBar!;
 
-  const checkedValues = useRef<boolean[]>(Array(rows.length).fill(false));
+  const checkedValues = useRef<boolean[]>(
+    rows.map((row) => {
+      return selectedRows.some(
+        (selectedRow) => JSON.stringify(selectedRow) === JSON.stringify(row),
+      );
+    }),
+  );
   const isAllChecked = checkedValues.current.filter(Boolean).length === rows.length;
 
   const handleSelectRow: (index: number) => ChangeEventHandler<HTMLInputElement> =
     (index) => (e) => {
+      console.log(e.target.checked);
       if (e.target.checked) {
         setSelectedRows?.((prev) => {
           return [...prev, rows[index]];
@@ -95,7 +103,9 @@ const Table = <T extends object>({
         checkedValues.current[index] = true;
       } else {
         setSelectedRows?.((prev) => {
-          return prev.filter((selectedRow) => selectedRow !== rows[index]);
+          return prev.filter(
+            (selectedRow) => JSON.stringify(selectedRow) !== JSON.stringify(rows[index]),
+          );
         });
         checkedValues.current[index] = false;
       }
@@ -109,7 +119,9 @@ const Table = <T extends object>({
       checkedValues.current = Array(rows.length).fill(true);
     } else {
       setSelectedRows?.((prev) => {
-        return prev.filter((selectedRow) => !rows.includes(selectedRow));
+        return prev.filter(
+          (selectedRow) => !rows.some((row) => JSON.stringify(row) === JSON.stringify(selectedRow)),
+        );
       });
       checkedValues.current = Array(rows.length).fill(false);
     }

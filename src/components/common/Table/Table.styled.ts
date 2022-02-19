@@ -99,8 +99,8 @@ export const TableSummary = styled.div`
   ${({ theme }) => css`
     & span:nth-child(1) {
       ${theme.fonts.regular14}
-      color: ${theme.colors.gray60};
       margin-right: 0.2rem;
+      color: ${theme.colors.gray60};
     }
 
     & span:nth-child(2) {
