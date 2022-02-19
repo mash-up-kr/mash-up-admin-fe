@@ -65,13 +65,8 @@ export const TableColumn = styled.th`
   ${({ theme }) => css`
     ${theme.fonts.medium14}
 
-    width: 10rem;
     color: ${theme.colors.gray70};
     vertical-align: middle;
-
-    &:last-child {
-      width: 30rem;
-    }
   `}
 `;
 
@@ -79,12 +74,7 @@ export const TableCell = styled.td`
   ${({ theme }) => css`
     ${theme.fonts.regular14}
 
-    width: 10rem;
     color: ${theme.colors.gray80};
     vertical-align: middle;
-
-    &:last-child {
-      width: 30rem;
-    }
   `}
 `;

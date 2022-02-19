@@ -6,7 +6,8 @@ import * as Styled from './Table.styled';
 
 export interface TableColumn<T extends object> {
   title: string;
-  accessor: NestedKeyOf<T>;
+  accessor?: NestedKeyOf<T>;
+  widthRatio: string;
   sortable?: boolean;
   renderCustomCell?: (cellVaule: unknown) => ReactNode;
 }
@@ -28,6 +29,11 @@ const Table = <T extends object>({ prefix, columns, rows }: TableProps<T>) => {
   return (
     <Styled.TableContainer>
       <Styled.Table>
+        <colgroup>
+          {columns.map((column, columnIndex) => (
+            <col key={`${prefix}-col-${columnIndex}`} width={column.widthRatio} />
+          ))}
+        </colgroup>
         <Styled.TableHeader>
           <Styled.TableRow>
             {columns.map((column, columnIndex) => (
@@ -40,12 +46,17 @@ const Table = <T extends object>({ prefix, columns, rows }: TableProps<T>) => {
       </Styled.Table>
       <Styled.TableBodyWrapper>
         <Styled.Table>
+          <colgroup>
+            {columns.map((column, columnIndex) => (
+              <col key={`${prefix}-col-${columnIndex}`} width={column.widthRatio} />
+            ))}
+          </colgroup>
           <Styled.TableBody>
             {rows.map((row, rowIndex) => (
               <Styled.TableRow key={`${prefix}-row-${rowIndex}`}>
                 {columns.map((column, columnIndex) => {
                   const { accessor, renderCustomCell } = column;
-                  const cellValue = getOwnValueByKey(row, accessor);
+                  const cellValue = accessor ? getOwnValueByKey(row, accessor) : null;
 
                   return (
                     <Styled.TableCell key={`cell-${columnIndex}`}>
