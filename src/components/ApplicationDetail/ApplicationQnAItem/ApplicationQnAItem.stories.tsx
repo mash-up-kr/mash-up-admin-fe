@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import ApplicationQnAItem, { ApplicationQnAItemProps } from './ApplicationQnAItem.component';
 
 export default {
-  title: 'ApplicationDetail/ApplicationQnAItem',
+  title: 'ApplicationDetail/Application Qn A Item',
   component: ApplicationQnAItem,
 } as ComponentMeta<typeof ApplicationQnAItem>;
 
@@ -15,7 +15,7 @@ export const applicationQnAItem = Template.bind({});
 
 applicationQnAItem.args = {
   content: 'TEST',
-  description: 'TEST',
+  description: 'test',
   maxContentLength: 300,
   questionId: 0,
   required: false,

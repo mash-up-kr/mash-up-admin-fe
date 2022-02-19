@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import TitleWithContent, { TitleWithContentProps } from './TitleWithContent.component';
 
 export default {
-  title: 'ApplicationDetail/TitleWithContent',
+  title: 'ApplicationDetail/Title With Content',
   component: TitleWithContent,
 } as ComponentMeta<typeof TitleWithContent>;
 

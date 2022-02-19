@@ -7,7 +7,7 @@ import {
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 
 export default {
-  title: 'ApplicationDetail/ApplicationPanel',
+  title: 'ApplicationDetail/Application Panel',
   component: ApplicationPanel,
 } as ComponentMeta<typeof ApplicationPanel>;
 
@@ -18,7 +18,7 @@ const Template: ComponentStory<typeof ApplicationPanel> = (args: ApplicationPane
 export const applicationPanel = Template.bind({});
 
 applicationPanel.args = {
-  confirmationStatus: ApplicationConfirmationStatus.INTERVIEW_CONFIRM_REJECTED,
-  resultStatus: ApplicationResultStatus.SCREENING_PASSED,
+  confirmationStatus: ApplicationConfirmationStatus.TBD,
+  resultStatus: ApplicationResultStatus.NOT_RATED,
   interviewDate: '2022-02-19T05:43:38.517Z',
 };
