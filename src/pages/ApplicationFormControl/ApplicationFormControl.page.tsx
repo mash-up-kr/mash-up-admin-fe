@@ -3,7 +3,7 @@ import { useForm, useFieldArray, FormProvider } from 'react-hook-form';
 import { useRecoilCallback } from 'recoil';
 import {
   ApplicationFormItem,
-  CreateApplicationFormAside,
+  ApplicationFormAside,
   InputField,
   ApplicationFormSection,
 } from '@/components';
@@ -88,7 +88,7 @@ const ApplicationFormControl = () => {
               </Styled.AddButton>
             </Styled.QuestionContent>
           </article>
-          <CreateApplicationFormAside />
+          <ApplicationFormAside />
         </form>
       </Styled.ApplicationFormControlPage>
     </FormProvider>

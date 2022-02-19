@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
-import { ApplicationFormSection, CreateApplicationFormAside } from '@/components';
+import { ApplicationFormSection, ApplicationFormAside } from '@/components';
 import * as Styled from './ApplicationFormDetail.styled';
 
 import { ParamId, QuestionKind } from '@/types';
@@ -52,7 +52,7 @@ const ApplicationFormDetail = () => {
             })}
           </Styled.QuestionContent>
         </article>
-        <CreateApplicationFormAside team={team} createdAt={createdAt} updatedAt={updatedAt} />
+        <ApplicationFormAside team={team} createdAt={createdAt} updatedAt={updatedAt} />
       </div>
     </Styled.ApplicationFormDetailPage>
   );
