@@ -54,6 +54,7 @@ const ApplicationFormControl = () => {
       teamId: 9,
     };
 
+    // TODO:(@mango906): api 요청 완료후 로직 만들어주기
     api.createApplicationForm(requestDto);
   });
 
