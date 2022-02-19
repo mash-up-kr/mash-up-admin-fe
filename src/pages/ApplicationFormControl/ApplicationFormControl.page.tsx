@@ -88,7 +88,11 @@ const ApplicationFormControl = () => {
               </Styled.AddButton>
             </Styled.QuestionContent>
           </article>
-          <ApplicationFormAside />
+          <ApplicationFormAside
+            platform="Design"
+            leftActionButton={{ text: '취소' }}
+            rightActionButton={{ text: '저장' }}
+          />
         </form>
       </Styled.ApplicationFormControlPage>
     </FormProvider>

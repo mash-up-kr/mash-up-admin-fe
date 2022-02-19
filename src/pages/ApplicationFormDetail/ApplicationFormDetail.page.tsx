@@ -53,7 +53,7 @@ const ApplicationFormDetail = () => {
           </Styled.QuestionContent>
         </article>
         <ApplicationFormAside
-          team={team}
+          platform={team.name}
           createdAt={createdAt}
           updatedAt={updatedAt}
           leftActionButton={{
