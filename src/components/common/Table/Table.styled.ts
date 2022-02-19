@@ -78,3 +78,9 @@ export const TableCell = styled.td`
     vertical-align: middle;
   `}
 `;
+
+export const Center = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
