@@ -2,9 +2,11 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const TableContainer = styled.div`
-  height: 30rem;
+  height: 40rem;
   margin-bottom: 2rem;
 `;
+
+export const TableWrapper = styled.div``;
 
 export const TableBodyWrapper = styled.div`
   ${({ theme }) => css`
@@ -83,4 +85,55 @@ export const Center = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const TableSupportBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 3.6rem;
+  margin: 1.2rem 0;
+`;
+
+export const TableSummary = styled.div`
+  ${({ theme }) => css`
+    & span:nth-child(1) {
+      ${theme.fonts.regular14}
+      color: ${theme.colors.gray60};
+      margin-right: 0.2rem;
+    }
+
+    & span:nth-child(2) {
+      ${theme.fonts.regular14}
+      color: ${theme.colors.gray60}
+    }
+
+    & span:nth-child(3) {
+      height: 1.2rem;
+      margin: 0 0.8rem;
+      border: 0.1rem solid ${theme.colors.gray30};
+    }
+
+    & span:nth-child(4) {
+      ${theme.fonts.medium14}
+      color: ${theme.colors.purple70}
+    }
+
+    & span:nth-child(5) {
+      ${theme.fonts.regular14}
+      color: ${theme.colors.purple60}
+    }
+  `};
+`;
+
+export const TableSupportButtonContainer = styled.div`
+  display: flex;
+
+  & button {
+    margin-right: 0.4rem;
+  }
+
+  & button:last-child {
+    margin-right: 0;
+  }
 `;

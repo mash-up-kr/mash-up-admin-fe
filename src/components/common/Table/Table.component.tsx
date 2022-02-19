@@ -22,8 +22,42 @@ interface TableProps<T extends object> {
   sortType?: string[];
   sortColumn?: string[];
   handleSortColumn?: () => void;
-  setSelectedRow?: React.Dispatch<React.SetStateAction<T[]>>;
+  selectableRow?: {
+    selectedCount: number;
+    setSelectedRows: React.Dispatch<React.SetStateAction<T[]>>;
+  };
+  supportBar?: {
+    totalCount: number;
+    buttons?: ReactNode[];
+  };
 }
+
+const TableSupportBar = ({
+  totalCount,
+  selectedCount,
+  supportButtons,
+}: {
+  totalCount: number;
+  selectedCount?: number;
+  supportButtons?: ReactNode[];
+}) => (
+  <Styled.TableSupportBar>
+    <Styled.TableSummary>
+      <span>총 지원인원</span>
+      <span>{totalCount}</span>
+      {!!selectedCount && (
+        <>
+          <span />
+          <span>{selectedCount}</span>
+          <span>명 선택</span>
+        </>
+      )}
+    </Styled.TableSummary>
+    <Styled.TableSupportButtonContainer>
+      {supportButtons?.map((button) => button)}
+    </Styled.TableSupportButtonContainer>
+  </Styled.TableSupportBar>
+);
 
 const RowCheckBox = ({
   isChecked,
@@ -39,19 +73,28 @@ const RowCheckBox = ({
   </Styled.TableColumn>
 );
 
-const Table = <T extends object>({ prefix, columns, rows, setSelectedRow }: TableProps<T>) => {
+const Table = <T extends object>({
+  prefix,
+  columns,
+  rows,
+  selectableRow,
+  supportBar,
+}: TableProps<T>) => {
+  const { selectedCount, setSelectedRows } = selectableRow!;
+  const { totalCount, buttons: supportButtons } = supportBar!;
+
   const checkedValues = useRef<boolean[]>(Array(rows.length).fill(false));
   const isAllChecked = checkedValues.current.filter(Boolean).length === rows.length;
 
   const handleSelectRow: (index: number) => ChangeEventHandler<HTMLInputElement> =
     (index) => (e) => {
       if (e.target.checked) {
-        setSelectedRow?.((prev) => {
+        setSelectedRows?.((prev) => {
           return [...prev, rows[index]];
         });
         checkedValues.current[index] = true;
       } else {
-        setSelectedRow?.((prev) => {
+        setSelectedRows?.((prev) => {
           return prev.filter((selectedRow) => selectedRow !== rows[index]);
         });
         checkedValues.current[index] = false;
@@ -60,12 +103,12 @@ const Table = <T extends object>({ prefix, columns, rows, setSelectedRow }: Tabl
 
   const handleSelectAllRow: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (e.target.checked) {
-      setSelectedRow?.((prev) => {
+      setSelectedRows?.((prev) => {
         return [...new Set([...prev, ...rows])];
       });
       checkedValues.current = Array(rows.length).fill(true);
     } else {
-      setSelectedRow?.((prev) => {
+      setSelectedRows?.((prev) => {
         return prev.filter((selectedRow) => !rows.includes(selectedRow));
       });
       checkedValues.current = Array(rows.length).fill(false);
@@ -74,58 +117,67 @@ const Table = <T extends object>({ prefix, columns, rows, setSelectedRow }: Tabl
 
   return (
     <Styled.TableContainer>
-      <Styled.Table>
-        <colgroup>
-          {!!setSelectedRow && <col width="3%" />}
-          {columns.map((column, columnIndex) => (
-            <col key={`${prefix}-col-${columnIndex}`} width={column.widthRatio} />
-          ))}
-        </colgroup>
-        <Styled.TableHeader>
-          <Styled.TableRow>
-            {!!setSelectedRow && (
-              <RowCheckBox isChecked={isAllChecked} handleToggle={handleSelectAllRow} />
-            )}
-            {columns.map((column, columnIndex) => (
-              <Styled.TableColumn key={`${prefix}-column-${columnIndex}`}>
-                {column.title}
-              </Styled.TableColumn>
-            ))}
-          </Styled.TableRow>
-        </Styled.TableHeader>
-      </Styled.Table>
-      <Styled.TableBodyWrapper>
+      {supportBar && (
+        <TableSupportBar
+          totalCount={totalCount}
+          selectedCount={selectedCount}
+          supportButtons={supportButtons}
+        />
+      )}
+      <Styled.TableWrapper>
         <Styled.Table>
-          {!!setSelectedRow && <col width="3%" />}
           <colgroup>
+            {!!selectableRow && <col width="3%" />}
             {columns.map((column, columnIndex) => (
               <col key={`${prefix}-col-${columnIndex}`} width={column.widthRatio} />
             ))}
           </colgroup>
-          <Styled.TableBody>
-            {rows.map((row, rowIndex) => (
-              <Styled.TableRow key={`${prefix}-row-${rowIndex}`}>
-                {!!setSelectedRow && (
-                  <RowCheckBox
-                    isChecked={checkedValues.current[rowIndex]}
-                    handleToggle={handleSelectRow(rowIndex)}
-                  />
-                )}
-                {columns.map((column, columnIndex) => {
-                  const { accessor, renderCustomCell } = column;
-                  const cellValue = accessor ? getOwnValueByKey(row, accessor) : null;
-
-                  return (
-                    <Styled.TableCell key={`cell-${columnIndex}`}>
-                      {renderCustomCell ? renderCustomCell(cellValue) : cellValue}
-                    </Styled.TableCell>
-                  );
-                })}
-              </Styled.TableRow>
-            ))}
-          </Styled.TableBody>
+          <Styled.TableHeader>
+            <Styled.TableRow>
+              {!!selectableRow && (
+                <RowCheckBox isChecked={isAllChecked} handleToggle={handleSelectAllRow} />
+              )}
+              {columns.map((column, columnIndex) => (
+                <Styled.TableColumn key={`${prefix}-column-${columnIndex}`}>
+                  {column.title}
+                </Styled.TableColumn>
+              ))}
+            </Styled.TableRow>
+          </Styled.TableHeader>
         </Styled.Table>
-      </Styled.TableBodyWrapper>
+        <Styled.TableBodyWrapper>
+          <Styled.Table>
+            <colgroup>
+              {!!selectableRow && <col width="3%" />}
+              {columns.map((column, columnIndex) => (
+                <col key={`${prefix}-col-${columnIndex}`} width={column.widthRatio} />
+              ))}
+            </colgroup>
+            <Styled.TableBody>
+              {rows.map((row, rowIndex) => (
+                <Styled.TableRow key={`${prefix}-row-${rowIndex}`}>
+                  {!!selectableRow && (
+                    <RowCheckBox
+                      isChecked={checkedValues.current[rowIndex]}
+                      handleToggle={handleSelectRow(rowIndex)}
+                    />
+                  )}
+                  {columns.map((column, columnIndex) => {
+                    const { accessor, renderCustomCell } = column;
+                    const cellValue = accessor ? getOwnValueByKey(row, accessor) : null;
+
+                    return (
+                      <Styled.TableCell key={`cell-${columnIndex}`}>
+                        {renderCustomCell ? renderCustomCell(cellValue) : cellValue}
+                      </Styled.TableCell>
+                    );
+                  })}
+                </Styled.TableRow>
+              ))}
+            </Styled.TableBody>
+          </Styled.Table>
+        </Styled.TableBodyWrapper>
+      </Styled.TableWrapper>
     </Styled.TableContainer>
   );
 };
