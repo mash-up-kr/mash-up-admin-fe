@@ -21,6 +21,14 @@ export const POPUP_CLOSE = {
   confirmButtonLabel: '닫기',
 };
 
+// TODO:(용재) 추후 내용 변경
+export const ERROR = {
+  heading: '에러가 발생했습니다.',
+  paragraph: '다시 시도해주세요.',
+  cancelButtonLabel: '취소',
+  confirmButtonLabel: '닫기',
+};
+
 export interface AlertModalDialogProps {
   heading: string;
   paragraph: string;
