@@ -96,7 +96,7 @@ const ApplicationFormControl = () => {
                 />
               ))}
               <Styled.Divider />
-              <Styled.AddButton onClick={() => append(DEFAULT_QUESTION)}>
+              <Styled.AddButton type="button" onClick={() => append(DEFAULT_QUESTION)}>
                 <Plus />
                 <span>질문 추가</span>
               </Styled.AddButton>
