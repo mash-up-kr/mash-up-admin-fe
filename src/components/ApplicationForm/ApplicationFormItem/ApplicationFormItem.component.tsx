@@ -5,9 +5,8 @@ import { InputSize } from '@/components/common/Input/Input.component';
 import { Input, InputField, Select, Textarea, ToggleButton, ToggleButtonField } from '@/components';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import TrashCan from '@/assets/svg/trash-can-36.svg';
-import { Question, QuestionType } from '@/types/dto/applicationForm';
+import { Question, QuestionKindType, QuestionKind } from '@/types/dto/applicationForm';
 import { useToggleState } from '@/hooks';
-import { ValueOf } from '@/types';
 
 interface FormValues {
   title: string;
@@ -22,11 +21,11 @@ export interface ApplicationFormItemProps {
 const options: SelectOption[] = [
   {
     label: '장문형',
-    value: QuestionType.multiLineText,
+    value: QuestionKind.multiLineText,
   },
   {
     label: '단답형',
-    value: QuestionType.singleLineText,
+    value: QuestionKind.singleLineText,
   },
 ];
 
@@ -40,7 +39,7 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
   const readableIndex = index + 1;
 
   const handleChangeSelect = (option: SelectOption) => {
-    setValue(`questions.${index}.questionType`, option.value as ValueOf<typeof QuestionType>);
+    setValue(`questions.${index}.questionType`, option.value as QuestionKindType);
   };
 
   return (
@@ -63,7 +62,7 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
       </Styled.Col>
 
       <Styled.Col>
-        {questionType === QuestionType.multiLineText ? (
+        {questionType === QuestionKind.multiLineText ? (
           <Textarea placeholder="장문형 텍스트입니다." disabled />
         ) : (
           <Input $size={InputSize.md} placeholder="장문형 텍스트입니다." disabled />
@@ -71,7 +70,7 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
       </Styled.Col>
       <Styled.Col>
         <Select size={SelectSize.xs} options={options} onChange={handleChangeSelect} />
-        {questionType === QuestionType.multiLineText && (
+        {questionType === QuestionKind.multiLineText && (
           <Styled.MaxContentSizeContainer>
             <ToggleButton isChecked={hasMaxContentLength} handleToggle={toggleMaxContentLength} />
             <span>글자수 제한</span>

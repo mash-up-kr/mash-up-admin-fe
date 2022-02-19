@@ -1,8 +1,8 @@
 import http from '@/api/core';
-import { ApplicationFormResponse, BaseResponse, CreateApplicationFormRequest } from '@/types';
+import { ApplicationFormResponse, BaseResponse, ApplicationFormCreateRequest } from '@/types';
 
 export const createApplicationForm = (
-  data: CreateApplicationFormRequest,
+  data: ApplicationFormCreateRequest,
 ): Promise<BaseResponse<ApplicationFormResponse>> =>
   http.post({
     url: '/application-forms',

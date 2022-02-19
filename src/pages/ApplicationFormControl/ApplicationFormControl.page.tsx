@@ -11,7 +11,7 @@ import * as Styled from './ApplicationFormControl.styled';
 import { InputSize } from '@/components/common/Input/Input.component';
 
 import Plus from '@/assets/svg/plus-20.svg';
-import { Question, QuestionType, CreateApplicationFormRequest } from '@/types/dto/applicationForm';
+import { Question, QuestionKind, ApplicationFormCreateRequest } from '@/types/dto/applicationForm';
 import * as api from '@/api';
 
 interface FormValues {
@@ -23,7 +23,7 @@ const DEFAULT_QUESTION: Question = {
   content: '',
   description: '',
   maxContentLength: 0,
-  questionType: QuestionType.multiLineText,
+  questionType: QuestionKind.multiLineText,
   required: false,
 };
 
@@ -49,7 +49,7 @@ const ApplicationFormControl = () => {
 
   const handleSubmitForm = useRecoilCallback(() => async (data: FormValues) => {
     // TODO:(@mango906): teamId 선택하는 정책 논의 후 teamId 동적으로 결정하기
-    const requestDto: CreateApplicationFormRequest = {
+    const requestDto: ApplicationFormCreateRequest = {
       ...data,
       teamId: 9,
     };
