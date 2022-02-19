@@ -12,4 +12,4 @@ export const createApplicationForm = (
 export const getApplicationFormDetail = (
   applicationFormId: string,
 ): Promise<BaseResponse<ApplicationFormResponse>> =>
-  http.get(`/application-forms/${applicationFormId}`);
+  http.get({ url: `/application-forms/${applicationFormId}` });
