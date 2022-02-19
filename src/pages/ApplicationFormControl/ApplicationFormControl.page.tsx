@@ -10,7 +10,7 @@ import * as Styled from './ApplicationFormControl.styled';
 import { InputSize } from '@/components/common/Input/Input.component';
 
 import Plus from '@/assets/svg/plus-20.svg';
-import { Question, QuestionType } from '@/types/dto/ApplicationForm';
+import { Question, QuestionType } from '@/types/dto/applicationForm';
 
 interface FormValues {
   title: string;
