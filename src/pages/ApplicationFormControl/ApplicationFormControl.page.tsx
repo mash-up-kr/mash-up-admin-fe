@@ -22,12 +22,8 @@ interface FormValues {
   teamId: number;
 }
 
-const DEFAULT_QUESTION: Question = {
-  content: '',
-  description: '',
-  maxContentLength: 0,
+const DEFAULT_QUESTION: Partial<Question> = {
   questionType: QuestionKind.multiLineText,
-  required: false,
 };
 
 const current = new Date().toISOString();

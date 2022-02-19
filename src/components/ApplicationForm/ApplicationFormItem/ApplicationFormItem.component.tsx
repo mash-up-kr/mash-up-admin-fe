@@ -83,7 +83,8 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
             {hasMaxContentLength && (
               <InputField
                 $size={InputSize.xs}
-                {...register(`questions.${index}.maxContentLength`)}
+                type="number"
+                {...register(`questions.${index}.maxContentLength`, { required: true })}
               />
             )}
           </Styled.MaxContentSizeContainer>

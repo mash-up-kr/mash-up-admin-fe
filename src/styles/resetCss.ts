@@ -191,6 +191,12 @@ const resetCss = css`
   li {
     list-style-type: none;
   }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    margin: 0;
+    appearance: none;
+  }
 `;
 
 export default resetCss;
