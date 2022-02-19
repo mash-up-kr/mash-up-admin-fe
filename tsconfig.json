@@ -23,5 +23,5 @@
     "typeRoots": ["./@types/*"],
     "types": ["@types/jest", "node", "@testing-library/jest-dom"]
   },
-  "include": ["src", "./@types", "./.eslintrc.json"]
+  "include": ["src", "src/*", "./@types", "./.eslintrc.json"]
 }

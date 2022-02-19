@@ -29,7 +29,14 @@ const Input = (
         </Styled.InputLabel>
       )}
 
-      <Styled.Input ref={ref} id={id} className={className} $size={$size} {...resetProps} />
+      <Styled.Input
+        ref={ref}
+        id={id}
+        className={className}
+        $size={$size}
+        errorMessage={errorMessage}
+        {...resetProps}
+      />
       {errorMessage && <Styled.InputErrorMessage>{errorMessage}</Styled.InputErrorMessage>}
     </Styled.InputWrapper>
   );
