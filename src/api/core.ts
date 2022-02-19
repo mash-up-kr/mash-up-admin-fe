@@ -45,7 +45,6 @@ const handleError = (error: unknown) => {
 
 const createApiMethod =
   (_axiosInstance: AxiosInstance, methodType: Method) =>
-  // TODO:(용재) any 처리하기
   (config: AxiosRequestConfig): Promise<any> => {
     _axiosInstance.interceptors.request.use(handleRequest);
     _axiosInstance.interceptors.response.use(handleResponse, handleError);

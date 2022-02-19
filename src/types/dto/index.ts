@@ -1,2 +1,2 @@
-export * from './AdminMember';
+export * from './adminMember';
 export * from './base';

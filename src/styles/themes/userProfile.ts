@@ -1,6 +1,11 @@
 import { css } from '@emotion/react';
-import { Role } from '@/components/common/UserProfile/UserProfile.component';
-import { colors } from './colors';
+import { colors } from '.';
+
+const Role = {
+  leader: 'LEADER',
+  subLeader: 'SUB LEADER',
+  member: 'MEMBER',
+} as const;
 
 export const userProfile = {
   mashUp: {
