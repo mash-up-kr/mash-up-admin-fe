@@ -12,7 +12,7 @@ import { InputSize } from '@/components/common/Input/Input.component';
 const ApplicationFormDetail = () => {
   const { id } = useParams<ParamId>();
 
-  const [{ questions, name, team, createdAt, updatedAt }] = useRecoilState(
+  const [{ questions, name, team, createdAt, createdBy, updatedAt, updatedBy }] = useRecoilState(
     $applicationFormDetail({ id: id ?? '' }),
   );
 
@@ -55,7 +55,9 @@ const ApplicationFormDetail = () => {
         <ApplicationFormAside
           platform={team.name}
           createdAt={createdAt}
+          createdBy={createdBy}
           updatedAt={updatedAt}
+          updatedBy={updatedBy}
           leftActionButton={{
             text: '삭제',
           }}

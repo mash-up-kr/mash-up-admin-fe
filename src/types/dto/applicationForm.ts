@@ -27,12 +27,12 @@ export interface Team {
 export interface ApplicationFormResponse {
   applicationFormId: number;
   createdAt: string;
-  createdBy: string;
+  createdBy: MemberPositionType;
   name: string;
   questions: Question[];
   team: Team;
   updatedAt: string;
-  updatedBy: string;
+  updatedBy: MemberPositionType;
 }
 
 export interface ApplicationFormCreateRequest {

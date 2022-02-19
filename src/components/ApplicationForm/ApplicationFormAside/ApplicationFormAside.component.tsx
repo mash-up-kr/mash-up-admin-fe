@@ -2,17 +2,18 @@ import React from 'react';
 
 import { Button, UserProfile } from '@/components';
 import * as Styled from './ApplicationFormAside.styled';
-import { Role, Team } from '@/components/common/UserProfile/UserProfile.component';
+import { splitMemberPosition } from '@/components/common/UserProfile/UserProfile.component';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 import Preview from '@/assets/svg/preview-20.svg';
 import { formatDate } from '@/utils';
-
-const formattedCurrent = formatDate(new Date(), 'YYYY년MM월DD일 hh시mm분');
+import { MemberPositionType } from '@/types';
 
 export interface ApplicationFormAsideProps {
   platform: React.ReactNode;
-  createdAt?: string;
+  createdAt: string;
+  createdBy?: MemberPositionType;
   updatedAt?: string;
+  updatedBy?: MemberPositionType;
   leftActionButton: {
     text: string;
     type?: 'submit' | 'reset' | 'button';
@@ -25,8 +26,10 @@ export interface ApplicationFormAsideProps {
 
 const ApplicationFormAside = ({
   platform,
-  createdAt = formattedCurrent,
+  createdAt,
   updatedAt,
+  createdBy,
+  updatedBy,
   leftActionButton,
   rightActionButton,
 }: ApplicationFormAsideProps) => {
@@ -37,22 +40,36 @@ const ApplicationFormAside = ({
         <Styled.Label>플랫폼</Styled.Label>
         <Styled.Content>{platform}</Styled.Content>
       </Styled.ContentContainer>
-      <Styled.ContentContainer>
-        <Styled.Label>최초 작성자</Styled.Label>
-        <Styled.Content>
-          <UserProfile team={Team.design} role={Role.leader} showBackground={false} removePadding />
-        </Styled.Content>
-      </Styled.ContentContainer>
+      {createdBy && (
+        <Styled.ContentContainer>
+          <Styled.Label>최초 작성자</Styled.Label>
+          <Styled.Content>
+            <UserProfile
+              team={splitMemberPosition(createdBy)[0]}
+              role={splitMemberPosition(createdBy)[1]}
+              showBackground={false}
+              removePadding
+            />
+          </Styled.Content>
+        </Styled.ContentContainer>
+      )}
       <Styled.ContentContainer>
         <Styled.Label>작성일시</Styled.Label>
         <Styled.Content>{formatDate(createdAt, 'YYYY년MM월DD일 hh시mm분')}</Styled.Content>
       </Styled.ContentContainer>
-      <Styled.ContentContainer>
-        <Styled.Label>마지막 수정자</Styled.Label>
-        <Styled.Content>
-          <UserProfile team={Team.design} role={Role.leader} showBackground={false} removePadding />
-        </Styled.Content>
-      </Styled.ContentContainer>
+      {updatedBy && (
+        <Styled.ContentContainer>
+          <Styled.Label>마지막 수정자</Styled.Label>
+          <Styled.Content>
+            <UserProfile
+              team={splitMemberPosition(updatedBy)[0]}
+              role={splitMemberPosition(updatedBy)[1]}
+              showBackground={false}
+              removePadding
+            />
+          </Styled.Content>
+        </Styled.ContentContainer>
+      )}
       {updatedAt && (
         <Styled.ContentContainer>
           <Styled.Label>수정일시</Styled.Label>
