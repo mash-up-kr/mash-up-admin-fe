@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import { Select } from '@/components';
 
 export const ApplicationFormControlPage = styled.div`
   padding: 2rem 0 4rem;
@@ -32,6 +33,10 @@ export const QuestionContent = styled.div`
     background-color: ${theme.colors.white};
     border-radius: 2rem;
   `}
+`;
+
+export const TeamSelect = styled(Select)`
+  width: 100%;
 `;
 
 export const Divider = styled.div`

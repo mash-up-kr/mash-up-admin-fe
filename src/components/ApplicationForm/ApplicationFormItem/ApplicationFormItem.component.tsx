@@ -11,6 +11,7 @@ import { useToggleState } from '@/hooks';
 interface FormValues {
   title: string;
   questions: Question[];
+  teamId: string;
 }
 
 export interface ApplicationFormItemProps {
@@ -69,7 +70,12 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
         )}
       </Styled.Col>
       <Styled.Col>
-        <Select size={SelectSize.xs} options={options} onChange={handleChangeSelect} />
+        <Select
+          size={SelectSize.xs}
+          options={options}
+          onChangeOption={handleChangeSelect}
+          defaultValue={QuestionKind.multiLineText}
+        />
         {questionType === QuestionKind.multiLineText && (
           <Styled.MaxContentSizeContainer>
             <ToggleButton isChecked={hasMaxContentLength} handleToggle={toggleMaxContentLength} />

@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import * as Styled from './Select.styled';
 import ChevronDown from '@/assets/svg/chevron-down-16.svg';
 import { useOnClickOutSide } from '@/hooks';
@@ -22,20 +22,29 @@ export const SelectPosition = {
 } as const;
 
 export interface SelectProps {
+  className?: string;
   size: ValueOf<typeof SelectSize>;
   position?: ValueOf<typeof SelectPosition>;
   placeholder?: string;
   options: SelectOption[];
-  onChange?: (option: SelectOption) => void;
+  defaultValue?: string;
+  onChangeOption?: (option: SelectOption) => void;
 }
 
 const Select = (
-  { size, position = SelectPosition.bottom, placeholder = '전체', options, onChange }: SelectProps,
+  {
+    className,
+    size,
+    position = SelectPosition.bottom,
+    placeholder = '전체',
+    options,
+    defaultValue,
+    onChangeOption,
+  }: SelectProps,
   ref: React.Ref<HTMLSelectElement>,
 ) => {
   const [isOpened, setOpened] = useState(false);
-
-  const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [selectedOption, setSelectedOption] = useState<SelectOption | undefined>(undefined);
 
   const outerRef = useRef<HTMLDivElement>(null);
 
@@ -46,14 +55,28 @@ const Select = (
   const handleClickOption = (option: SelectOption) => {
     setSelectedOption(option);
     toggleOpened();
-    onChange?.(option);
+    onChangeOption?.(option);
   };
+
+  useEffect(() => {
+    if (defaultValue) {
+      const targetOption = options.find((option) => option.value === defaultValue);
+
+      if (!targetOption) {
+        return;
+      }
+
+      setSelectedOption(targetOption);
+      onChangeOption?.(targetOption);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValue, options]);
 
   useOnClickOutSide(outerRef, () => setOpened(false));
 
   return (
     <div ref={outerRef}>
-      <Styled.SelectContainer>
+      <Styled.SelectContainer className={className}>
         <Styled.Select size={size} onClick={toggleOpened} isOpened={isOpened} position={position}>
           {selectedOption ? (
             <Styled.SelectValue>{selectedOption.label}</Styled.SelectValue>
@@ -65,7 +88,7 @@ const Select = (
         <Styled.SelectMenu isOpened={isOpened} position={position}>
           {options.map((option) => (
             <Styled.SelectOption
-              isSelected={selectedOption.value === option.value}
+              isSelected={selectedOption?.value === option.value}
               key={option.value}
               onClick={() => handleClickOption(option)}
             >
@@ -75,7 +98,7 @@ const Select = (
         </Styled.SelectMenu>
       </Styled.SelectContainer>
       {/* SelectField를 위해 보이지 않는 select 추가 */}
-      <Styled.HiddenSelect ref={ref} value={selectedOption.value} disabled>
+      <Styled.HiddenSelect ref={ref} value={selectedOption?.value} disabled>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
