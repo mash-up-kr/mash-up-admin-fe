@@ -22,18 +22,24 @@ interface TableProps<T extends object> {
   sortType?: string[];
   sortColumn?: string[];
   handleSortColumn?: () => void;
-  selectableRow?: boolean;
-  selectedRows?: T[];
   setSelectedRow?: React.Dispatch<React.SetStateAction<T[]>>;
 }
 
-const Table = <T extends object>({
-  prefix,
-  columns,
-  rows,
-  selectableRow,
-  setSelectedRow,
-}: TableProps<T>) => {
+const RowCheckBox = ({
+  isChecked,
+  handleToggle,
+}: {
+  isChecked: boolean;
+  handleToggle: ChangeEventHandler<HTMLInputElement>;
+}) => (
+  <Styled.TableColumn>
+    <Styled.Center>
+      <Checkbox isChecked={isChecked} handleToggle={handleToggle} />
+    </Styled.Center>
+  </Styled.TableColumn>
+);
+
+const Table = <T extends object>({ prefix, columns, rows, setSelectedRow }: TableProps<T>) => {
   const checkedValues = useRef<boolean[]>(Array(rows.length).fill(false));
   const isAllChecked = checkedValues.current.filter(Boolean).length === rows.length;
 
@@ -70,19 +76,15 @@ const Table = <T extends object>({
     <Styled.TableContainer>
       <Styled.Table>
         <colgroup>
-          {selectableRow && <col width="3%" />}
+          {!!setSelectedRow && <col width="3%" />}
           {columns.map((column, columnIndex) => (
             <col key={`${prefix}-col-${columnIndex}`} width={column.widthRatio} />
           ))}
         </colgroup>
         <Styled.TableHeader>
           <Styled.TableRow>
-            {selectableRow && (
-              <Styled.TableColumn>
-                <Styled.Center>
-                  <Checkbox isChecked={isAllChecked} handleToggle={handleSelectAllRow} />
-                </Styled.Center>
-              </Styled.TableColumn>
+            {!!setSelectedRow && (
+              <RowCheckBox isChecked={isAllChecked} handleToggle={handleSelectAllRow} />
             )}
             {columns.map((column, columnIndex) => (
               <Styled.TableColumn key={`${prefix}-column-${columnIndex}`}>
@@ -94,7 +96,7 @@ const Table = <T extends object>({
       </Styled.Table>
       <Styled.TableBodyWrapper>
         <Styled.Table>
-          {selectableRow && <col width="3%" />}
+          {!!setSelectedRow && <col width="3%" />}
           <colgroup>
             {columns.map((column, columnIndex) => (
               <col key={`${prefix}-col-${columnIndex}`} width={column.widthRatio} />
@@ -103,15 +105,11 @@ const Table = <T extends object>({
           <Styled.TableBody>
             {rows.map((row, rowIndex) => (
               <Styled.TableRow key={`${prefix}-row-${rowIndex}`}>
-                {selectableRow && (
-                  <Styled.TableCell>
-                    <Styled.Center>
-                      <Checkbox
-                        isChecked={checkedValues.current[rowIndex]}
-                        handleToggle={handleSelectRow(rowIndex)}
-                      />
-                    </Styled.Center>
-                  </Styled.TableCell>
+                {!!setSelectedRow && (
+                  <RowCheckBox
+                    isChecked={checkedValues.current[rowIndex]}
+                    handleToggle={handleSelectRow(rowIndex)}
+                  />
                 )}
                 {columns.map((column, columnIndex) => {
                   const { accessor, renderCustomCell } = column;
