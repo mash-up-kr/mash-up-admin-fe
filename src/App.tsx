@@ -3,9 +3,10 @@ import { Routes, Route, Navigate, NavigateProps } from 'react-router-dom';
 
 import { Global, ThemeProvider } from '@emotion/react';
 import { useRecoilValue, useRecoilCallback } from 'recoil';
+import { ModalViewer, Layout } from '@/components';
+
 import { theme, globalStyles } from './styles';
 
-import { ModalViewer, Layout } from './components';
 import LoginPage from './pages/LoginPage/LoginPage.page';
 import { $me, $isAuthorized } from './store';
 import * as api from './api';
@@ -18,8 +19,7 @@ interface RequiredAuthProps extends Partial<NavigateProps> {
   isAuth: boolean;
 }
 
-// TODO:(용재) to 기본값 path 객체 이용하도록 변경
-const RequiredAuth = ({ children, isAuth, to = '/login', ...restProps }: RequiredAuthProps) => {
+const RequiredAuth = ({ children, isAuth, to = PATH.LOGIN, ...restProps }: RequiredAuthProps) => {
   if (!isAuth) {
     return <Navigate {...restProps} to={to} />;
   }
@@ -55,28 +55,17 @@ const App = () => {
             <Route
               path={PATH.APPLICATION_FORM_CREATE}
               element={
-                <RequiredAuth isAuth={isAuthorized} to="/application">
+                <RequiredAuth isAuth={isAuthorized}>
                   <CreateApplicationForm />
                 </RequiredAuth>
               }
             />
-
-            {/* // TODO:(용재) 테스트용 - 추후 수정 */}
-            <Route
-              path="/application"
-              element={
-                <RequiredAuth isAuth={isAuthorized}>
-                  <div>test</div>
-                </RequiredAuth>
-              }
-            />
+            <Route path="/" element={<Navigate to={PATH.LOGIN} />} />
           </Route>
-          {/* // TODO:(용재) path 객체 사용하도록 변경 */}
           <Route
-            path="/login"
-            // TODO:(용재) 테스트용 - 추후 수정
+            path={PATH.LOGIN}
             element={
-              <RequiredAuth isAuth={!isAuthorized} to="/application">
+              <RequiredAuth isAuth={!isAuthorized} to={PATH.APPLICATION}>
                 <LoginPage />
               </RequiredAuth>
             }

@@ -42,7 +42,6 @@ const LoginPage = () => {
     }
 
     try {
-      // TODO:(용재) username, password validation 추가
       const { data } = await api.postLogin({ username, password });
 
       localStorage.setItem(ACCESS_TOKEN, data.accessToken);

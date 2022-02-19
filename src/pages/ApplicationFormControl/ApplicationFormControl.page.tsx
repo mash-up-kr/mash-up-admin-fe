@@ -11,7 +11,7 @@ import * as Styled from './ApplicationFormControl.styled';
 import { InputSize } from '@/components/common/Input/Input.component';
 
 import Plus from '@/assets/svg/plus-20.svg';
-import { Question, QuestionType, CreateApplicationFormRequest } from '@/types/dto/ApplicationForm';
+import { Question, QuestionType, CreateApplicationFormRequest } from '@/types/dto/applicationForm';
 import * as api from '@/api';
 
 interface FormValues {

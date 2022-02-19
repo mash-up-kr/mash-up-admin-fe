@@ -5,7 +5,7 @@ import { InputSize } from '@/components/common/Input/Input.component';
 import { Input, InputField, Select, Textarea, ToggleButton, ToggleButtonField } from '@/components';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import TrashCan from '@/assets/svg/trash-can-36.svg';
-import { Question, QuestionType } from '@/types/dto/ApplicationForm';
+import { Question, QuestionType } from '@/types/dto/applicationForm';
 import { useToggleState } from '@/hooks';
 import { ValueOf } from '@/types';
 
