@@ -1,20 +1,14 @@
 import React, { useMemo } from 'react';
-import { useForm, useFieldArray, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { useRecoilCallback, useRecoilValue } from 'recoil';
-import {
-  ApplicationFormItem,
-  ApplicationFormAside,
-  InputField,
-  ApplicationFormSection,
-} from '@/components';
+import { ApplicationFormAside, ApplicationFormSection } from '@/components';
 import * as Styled from './ApplicationFormControl.styled';
-import { InputSize } from '@/components/common/Input/Input.component';
 
-import Plus from '@/assets/svg/plus-20.svg';
 import { Question, QuestionKind } from '@/types/dto/applicationForm';
 import * as api from '@/api';
 import { $profile, $teams } from '@/store';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
+import ApplicationFormTemplate from '@/components/ApplicationForm/ApplicationFormTemplate/ApplicationFormTemplate.component';
 
 interface FormValues {
   name: string;
@@ -37,7 +31,7 @@ const ApplicationFormControl = () => {
     },
   });
 
-  const { register, handleSubmit, control, setValue } = methods;
+  const { register, handleSubmit, setValue } = methods;
 
   const teams = useRecoilValue($teams);
 
@@ -49,15 +43,6 @@ const ApplicationFormControl = () => {
       })),
     [teams],
   );
-
-  const { fields, append, remove } = useFieldArray({
-    name: 'questions',
-    control,
-  });
-
-  const handleRemoveItem = (index: number) => {
-    remove(index);
-  };
 
   const handleSubmitForm = useRecoilCallback(() => async (data: FormValues) => {
     // TODO:(@mango906): 입력값 제대로 입력안했을 떄 어떻게 알려줄지 정하기
@@ -78,29 +63,7 @@ const ApplicationFormControl = () => {
         <ApplicationFormSection headline="지원서 설문지 작성" />
         <form onSubmit={handleSubmit(handleSubmitForm)}>
           <article>
-            <Styled.Content>
-              <InputField
-                $size={InputSize.md}
-                label="지원설문지 문서명"
-                placeholder="내용을 입력해주세요"
-                {...register('name', { required: true })}
-              />
-            </Styled.Content>
-            <Styled.QuestionContent>
-              {fields.map((field, index) => (
-                <ApplicationFormItem
-                  {...field}
-                  key={field.id}
-                  index={index}
-                  handleRemoveItem={handleRemoveItem}
-                />
-              ))}
-              <Styled.Divider />
-              <Styled.AddButton type="button" onClick={() => append(DEFAULT_QUESTION)}>
-                <Plus />
-                <span>질문 추가</span>
-              </Styled.AddButton>
-            </Styled.QuestionContent>
+            <ApplicationFormTemplate />
           </article>
           <ApplicationFormAside
             createdAt={current}
