@@ -4,6 +4,7 @@ import ChevronDown from '@/assets/svg/chevron-down-16.svg';
 import { useOnClickOutSide } from '@/hooks';
 import { ValueOf } from '@/types';
 
+// TODO:(@mango906): 나중에 되면 SelectOption value 제네릭으로 써주기
 export interface SelectOption {
   value: string;
   label: string;
@@ -25,10 +26,11 @@ export interface SelectProps {
   position?: ValueOf<typeof SelectPosition>;
   placeholder?: string;
   options: SelectOption[];
+  onChange?: (option: SelectOption) => void;
 }
 
 const Select = (
-  { size, position = SelectPosition.bottom, placeholder = '전체', options }: SelectProps,
+  { size, position = SelectPosition.bottom, placeholder = '전체', options, onChange }: SelectProps,
   ref: React.Ref<HTMLSelectElement>,
 ) => {
   const [isOpened, setOpened] = useState(false);
@@ -44,6 +46,7 @@ const Select = (
   const handleClickOption = (option: SelectOption) => {
     setSelectedOption(option);
     toggleOpened();
+    onChange?.(option);
   };
 
   useOnClickOutSide(outerRef, () => setOpened(false));
