@@ -17,15 +17,6 @@ export const ApplicationFormControlPage = styled.div`
   }
 `;
 
-export const Headline = styled.h1`
-  ${({ theme }) => css`
-    margin: 1.2rem 0 0.8rem;
-    color: ${theme.colors.gray80};
-    font-size: 3.6rem;
-    line-height: 4.5rem;
-  `}
-`;
-
 export const Content = styled.div`
   ${({ theme }) => css`
     padding: 3.2rem;
