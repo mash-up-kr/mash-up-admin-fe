@@ -1,4 +1,4 @@
 export * from './base';
-export * from './AdminMember';
+export * from './adminMember';
 export * from './application';
 export * from './applicationForm';
