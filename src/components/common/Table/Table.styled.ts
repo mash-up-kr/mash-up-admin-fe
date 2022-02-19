@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const TableContainer = styled.div`
-  height: 30rem;
   margin-bottom: 2rem;
 `;
 
