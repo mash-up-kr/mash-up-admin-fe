@@ -45,15 +45,11 @@ const handleError = (error: unknown) => {
 
 const createApiMethod =
   (_axiosInstance: AxiosInstance, methodType: Method) =>
-  (config: AxiosRequestConfig): Promise<any> => {
-    _axiosInstance.interceptors.request.use(handleRequest);
-    _axiosInstance.interceptors.response.use(handleResponse, handleError);
-
-    return _axiosInstance({
-      ...config,
-      method: methodType,
-    });
-  };
+  // TODO:(용재) any 처리하기
+  (config: AxiosRequestConfig): Promise<any> =>
+    _axiosInstance({ ...handleRequest(config), method: methodType })
+      .then(handleResponse)
+      .catch(handleError);
 
 export default {
   get: createApiMethod(axiosInstance, HTTP_METHODS.GET),
