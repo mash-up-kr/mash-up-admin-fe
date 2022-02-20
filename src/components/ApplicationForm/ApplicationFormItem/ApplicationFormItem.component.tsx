@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import * as Styled from './ApplicationFormItem.styled';
 import { InputSize } from '@/components/common/Input/Input.component';
@@ -46,6 +46,13 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
       shouldDirty: true,
     });
   };
+
+  useEffect(() => {
+    if (!hasMaxContentLength) {
+      setValue(`questions.${index}.maxContentLength`, null, { shouldDirty: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasMaxContentLength, index]);
 
   return (
     <Styled.ApplicationFormItemContainer>

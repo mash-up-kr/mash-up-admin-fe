@@ -9,7 +9,7 @@ export type QuestionKindType = ValueOf<typeof QuestionKind>;
 export interface Question {
   content: string;
   description: string;
-  maxContentLength: number;
+  maxContentLength: number | null;
   questionType: QuestionKindType;
   required: boolean;
   questionId?: string;
