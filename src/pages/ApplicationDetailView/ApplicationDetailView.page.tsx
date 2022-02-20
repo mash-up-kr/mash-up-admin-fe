@@ -7,6 +7,7 @@ import { convertToFormatDate } from '@/utils/date';
 import {
   ApplicationPanel,
   ApplicationQnAItem,
+  MessageListPanel,
   TitleWithContent,
 } from '@/components/ApplicationDetail';
 import { $applicationById } from '@/store';
@@ -58,6 +59,7 @@ const ApplicationDetailView = () => {
             interviewDate={data.result.interviewStartedAt}
             applicationId={id || ''}
           />
+          <MessageListPanel smsRequests={data.smsRequests} />
         </Styled.Aside>
       </div>
     </Styled.ApplicationDetailViewPage>
