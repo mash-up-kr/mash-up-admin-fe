@@ -31,9 +31,11 @@ const options: SelectOption[] = [
 ];
 
 const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemProps) => {
-  const { register, setValue, watch } = useFormContext<FormValues>();
+  const { register, getValues, setValue, watch } = useFormContext<FormValues>();
 
-  const [hasMaxContentLength, toggleMaxContentLength] = useToggleState(false);
+  const [hasMaxContentLength, toggleMaxContentLength] = useToggleState(
+    !!getValues(`questions.${index}.maxContentLength`),
+  );
 
   const questionType = watch(`questions.${index}.questionType`);
 
@@ -66,7 +68,7 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
         {questionType === QuestionKind.multiLineText ? (
           <Textarea placeholder="장문형 텍스트입니다." disabled />
         ) : (
-          <Input $size={InputSize.md} placeholder="장문형 텍스트입니다." disabled />
+          <Input $size={InputSize.md} placeholder="단답형 텍스트입니다." disabled />
         )}
       </Styled.Col>
       <Styled.Col>
