@@ -2,6 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Pagination, { PaginationProps } from './Pagination.component';
 import { usePagination } from '@/hooks';
+import { SelectPosition } from '../Select/Select.component';
 
 export default {
   title: 'Pagination',
@@ -76,6 +77,7 @@ export const UsingPagination = () => {
       selectableSize
       handleChangePage={handleChangePage}
       handleChangeSize={handleChangeSize}
+      selectBoxPosition={SelectPosition.bottom}
     />
   );
 };
