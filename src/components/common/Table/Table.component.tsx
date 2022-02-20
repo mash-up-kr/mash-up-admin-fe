@@ -15,7 +15,7 @@ export interface TableColumn<T extends object> {
 
 interface TableProps<T extends object> {
   prefix: string;
-  height?: string;
+  maxHeight?: number;
   columns: TableColumn<T>[];
   rows: T[];
   isLoading: boolean;
@@ -77,6 +77,7 @@ const RowCheckBox = ({
 
 const Table = <T extends object>({
   prefix,
+  maxHeight,
   columns,
   rows,
   selectableRow,
@@ -84,6 +85,10 @@ const Table = <T extends object>({
   pagination,
 }: TableProps<T>) => {
   const { selectedCount, selectedRows, setSelectedRows } = selectableRow || {};
+  const DEFAULT_ROW_HEIGHT = 5.2;
+  const INNER_TABLE_EXTERNAL_BODY_HEIGHT = 15.6;
+  const bodyHeight = maxHeight! - INNER_TABLE_EXTERNAL_BODY_HEIGHT;
+  const itemSizeInnerBody = Math.floor(bodyHeight / DEFAULT_ROW_HEIGHT);
 
   const checkedValues = useRef<boolean[]>(
     selectedRows
@@ -124,7 +129,7 @@ const Table = <T extends object>({
   };
 
   return (
-    <Styled.TableContainer>
+    <Styled.TableContainer height={rows.length >= itemSizeInnerBody ? `${maxHeight}rem` : 'auto'}>
       <TableSupportBar
         totalCount={totalCount}
         selectedCount={selectedCount}
@@ -139,7 +144,7 @@ const Table = <T extends object>({
             ))}
           </colgroup>
           <Styled.TableHeader>
-            <Styled.TableRow>
+            <Styled.TableRow height={DEFAULT_ROW_HEIGHT}>
               {!!selectableRow && (
                 <RowCheckBox isChecked={isAllChecked} handleToggle={handleSelectAllRow} />
               )}
@@ -161,7 +166,7 @@ const Table = <T extends object>({
             </colgroup>
             <Styled.TableBody>
               {rows.map((row, rowIndex) => (
-                <Styled.TableRow key={`${prefix}-row-${rowIndex}`}>
+                <Styled.TableRow key={`${prefix}-row-${rowIndex}`} height={DEFAULT_ROW_HEIGHT}>
                   {!!selectableRow && (
                     <RowCheckBox
                       isChecked={checkedValues.current[rowIndex]}

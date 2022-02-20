@@ -1,8 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const TableContainer = styled.div`
-  height: 68rem;
+export const TableContainer = styled.div<{ height: string }>`
+  ${({ height }) => css`
+    height: ${height};
+  `}
 `;
 
 export const TableWrapper = styled.div`
@@ -58,9 +60,9 @@ export const TableHeader = styled.thead`
 
 export const TableBody = styled.tbody``;
 
-export const TableRow = styled.tr`
-  ${({ theme }) => css`
-    height: 5.2rem;
+export const TableRow = styled.tr<{ height: number }>`
+  ${({ theme, height }) => css`
+    height: ${height}rem;
     border-bottom: ${theme.colors.gray20} solid 0.1rem;
   `}
 `;
