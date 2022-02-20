@@ -6,3 +6,5 @@ export type NestedKeyOf<T extends object> = {
     ? `${Key}` | `${Key}.${NestedKeyOf<T[Key]>}`
     : `${Key}`;
 }[keyof T & (string | number)];
+
+export type ParamId = { id: string };

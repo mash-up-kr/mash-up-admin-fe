@@ -20,7 +20,7 @@ export const MemberPosition = {
   designSubLeader: 'DESIGN_SUBLEADER',
 } as const;
 
-type MemberPositionType = ValueOf<typeof MemberPosition>;
+export type MemberPositionType = ValueOf<typeof MemberPosition>;
 
 interface Member {
   adminMemberId: number;

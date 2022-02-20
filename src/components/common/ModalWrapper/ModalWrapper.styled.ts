@@ -24,6 +24,7 @@ export const ModalCard = styled.div`
     justify-content: center;
     min-width: 40rem;
     min-height: 10rem;
+    max-height: 90vh;
     background-color: ${theme.colors.white};
     border-radius: 3rem;
 
@@ -53,6 +54,12 @@ export const ModalHeader = styled.div`
 
 export const ModalContent = styled.div`
   width: 100%;
+  height: 100%;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 interface StyledModalFooter {
