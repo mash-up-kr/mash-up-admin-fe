@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useRecoilCallback, useRecoilValue } from 'recoil';
 import { ApplicationFormAside, ApplicationFormSection } from '@/components';
-import * as Styled from './ApplicationFormControl.styled';
+import * as Styled from './CreateApplicationForm.styled';
 
 import { Question, QuestionKind } from '@/types/dto/applicationForm';
 import * as api from '@/api';
@@ -24,7 +24,7 @@ const current = new Date().toISOString();
 
 const DEFAULT_QUESTIONS: Question[] = new Array(4).fill(DEFAULT_QUESTION);
 
-const ApplicationFormControl = () => {
+const CreateApplicationForm = () => {
   const methods = useForm<FormValues>({
     defaultValues: {
       questions: DEFAULT_QUESTIONS,
@@ -86,4 +86,4 @@ const ApplicationFormControl = () => {
   );
 };
 
-export default ApplicationFormControl;
+export default CreateApplicationForm;
