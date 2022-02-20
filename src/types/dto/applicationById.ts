@@ -1,6 +1,6 @@
 import {
-  ApplicationConfirmationStatusType,
-  ApplicationResultStatusType,
+  ApplicationConfirmationStatusKeyType,
+  ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import { ValueOf, MemberPositionType, QuestionKindType, Team } from '@/types';
 
@@ -24,7 +24,7 @@ export interface ApplicationByIdRequest {
 }
 
 export interface ApplicationUpdateResultByIdRequest extends ApplicationByIdRequest {
-  applicationResultStatus: ApplicationResultStatusType;
+  applicationResultStatus: ApplicationResultStatusKeyType;
   interviewEndedAt?: string;
   interviewStartedAt: string;
 }
@@ -45,7 +45,7 @@ export interface ApplicationByIdResponseData extends Array<Team> {
     updatedAt: string;
   };
   applicationId: number;
-  confirmationStatus: ApplicationConfirmationStatusType;
+  confirmationStatus: ApplicationConfirmationStatusKeyType;
   createdAt: string;
   questions: {
     content: string;
@@ -58,7 +58,7 @@ export interface ApplicationByIdResponseData extends Array<Team> {
   result: {
     interviewEndedAt: string;
     interviewStartedAt: string;
-    status: ApplicationResultStatusType;
+    status: ApplicationResultStatusKeyType;
   };
   smsRequests: {
     notificationContent: string;

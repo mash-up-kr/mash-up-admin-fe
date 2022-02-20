@@ -8,8 +8,10 @@ import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.compo
 import { TitleWithContent } from '..';
 import ApplicationStatusBadge, {
   ApplicationConfirmationStatus,
+  ApplicationConfirmationStatusKeyType,
   ApplicationConfirmationStatusType,
   ApplicationResultStatus,
+  ApplicationResultStatusKeyType,
   ApplicationResultStatusType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import { formatDate } from '@/utils/date';
@@ -22,13 +24,13 @@ import { ERROR } from '@/components/common/AlertModalDialog/AlertModalDialog.com
 import { $modalByStorage, ModalKey } from '@/store';
 
 interface FormValues {
-  applicationResultStatus: ApplicationResultStatusType;
+  applicationResultStatus: ApplicationResultStatusKeyType;
   interviewStartedAt: string;
 }
 
 export interface ApplicationPanelProps {
-  confirmationStatus: ApplicationConfirmationStatusType;
-  resultStatus: ApplicationResultStatusType;
+  confirmationStatus: ApplicationConfirmationStatusKeyType;
+  resultStatus: ApplicationResultStatusKeyType;
   interviewDate?: string;
   applicationId: string;
 }
@@ -89,7 +91,7 @@ const ApplicationPanel = ({
   };
 
   const handleChangeApplicationResultSelect = (option: SelectOption) => {
-    setValue(`applicationResultStatus`, option.value as ApplicationResultStatusType);
+    setValue(`applicationResultStatus`, option.value as ApplicationResultStatusKeyType);
   };
 
   const handleChangeTimeSelect = (option: SelectOption) => {
@@ -98,13 +100,16 @@ const ApplicationPanel = ({
 
   useOnClickOutSide(outerRef, () => setIsDatePickerOpened(false));
 
-  const isNoInterviewScheduled =
-    confirmationStatus === ApplicationConfirmationStatus.INTERVIEW_CONFIRM_REJECTED;
+  const isNoInterviewScheduled = Object.keys(ApplicationConfirmationStatus).some(
+    (each) => each === confirmationStatus,
+  );
 
   const normal = (
     <>
       <TitleWithContent title="합격 여부">
-        <ApplicationStatusBadge text={resultStatus} />
+        <ApplicationStatusBadge
+          text={ApplicationResultStatus[resultStatus] as ApplicationResultStatusType}
+        />
       </TitleWithContent>
       {interviewDate && (
         <TitleWithContent title="면접 일시" isLineThrough={isNoInterviewScheduled}>
@@ -199,7 +204,11 @@ const ApplicationPanel = ({
       <h3>작성 및 수정정보</h3>
       <Styled.ApplicationStatusContainer>
         <TitleWithContent title="사용자 확인 여부">
-          <ApplicationStatusBadge text={confirmationStatus} />
+          <ApplicationStatusBadge
+            text={
+              ApplicationConfirmationStatus[confirmationStatus] as ApplicationConfirmationStatusType
+            }
+          />
         </TitleWithContent>
         <Styled.Divider />
         {isEdit ? edit : normal}
