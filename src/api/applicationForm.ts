@@ -27,3 +27,8 @@ export const updateApplicationForm = (
     url: `/application-forms/${applicationFormId}`,
     data,
   });
+
+export const deleteApplicationForm = (applicationFormId: string): Promise<{}> =>
+  http.delete({
+    url: `/application-forms/${applicationFormId}`,
+  });

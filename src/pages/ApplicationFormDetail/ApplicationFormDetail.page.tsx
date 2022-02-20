@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilCallback, useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import { ApplicationFormSection, ApplicationFormAside } from '@/components';
 import * as Styled from './ApplicationFormDetail.styled';
@@ -8,6 +8,7 @@ import { ParamId, QuestionKind } from '@/types';
 
 import { $applicationFormDetail } from '@/store/applicationForm';
 import { InputSize } from '@/components/common/Input/Input.component';
+import * as api from '@/api';
 
 const ApplicationFormDetail = () => {
   const { id } = useParams<ParamId>();
@@ -15,6 +16,15 @@ const ApplicationFormDetail = () => {
   const [{ questions, name, team, createdAt, createdBy, updatedAt, updatedBy }] = useRecoilState(
     $applicationFormDetail({ id: id ?? '' }),
   );
+
+  const handleRemoveQuestion = useRecoilCallback(() => async () => {
+    if (!id) {
+      return;
+    }
+
+    // TODO:(@mango906): api 요청 완료후 로직 만들어주기
+    api.deleteApplicationForm(id);
+  });
 
   return (
     <Styled.ApplicationFormDetailPage>
@@ -60,6 +70,7 @@ const ApplicationFormDetail = () => {
           updatedBy={updatedBy}
           leftActionButton={{
             text: '삭제',
+            onClick: handleRemoveQuestion,
           }}
           rightActionButton={{ text: '수정' }}
         />
