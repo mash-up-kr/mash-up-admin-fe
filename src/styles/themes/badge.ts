@@ -62,6 +62,10 @@ export const badge = {
     color: ${colors.white};
     background-color: ${colors.red70};
   `,
+  [ApplicationConfirmationStatus.TO_BE_DETERMINED]: css`
+    color: ${colors.gray60};
+    background-color: ${colors.gray20};
+  `,
 } as const;
 
 export type BadgeTheme = typeof badge;
