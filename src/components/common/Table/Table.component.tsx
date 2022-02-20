@@ -172,9 +172,9 @@ const Table = <T extends object>({
           <Styled.Table>
             {rows.length === 0 ? (
               <Styled.TableBody>
-                <Styled.TableRow>
+                <Styled.TableRow height={bodyHeight}>
                   <Styled.TableCell>
-                    <Styled.NoData height={bodyHeight}>No data found</Styled.NoData>
+                    <Styled.NoData>No data found</Styled.NoData>
                   </Styled.TableCell>
                 </Styled.TableRow>
               </Styled.TableBody>

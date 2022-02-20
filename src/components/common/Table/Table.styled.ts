@@ -140,10 +140,9 @@ export const TableSummary = styled.div`
   `};
 `;
 
-export const NoData = styled(Center)<{ height: number }>`
-  ${({ theme, height }) => css`
+export const NoData = styled(Center)`
+  ${({ theme }) => css`
     ${theme.fonts.regular15}
-    height: ${height}rem;
   `}
 `;
 
