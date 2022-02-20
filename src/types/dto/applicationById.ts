@@ -2,7 +2,8 @@ import {
   ApplicationConfirmationStatusKeyType,
   ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { ValueOf, MemberPositionType, QuestionKindType, Team } from '@/types';
+import { ValueOf, QuestionKindType, Team } from '@/types';
+import { SmsContent } from './sms';
 
 export const ApplicantStatus = {
   active: 'ACTIVE',
@@ -10,14 +11,6 @@ export const ApplicantStatus = {
 } as const;
 
 export type ApplicantStatusType = ValueOf<typeof ApplicantStatus>;
-
-export const SmsStatus = {
-  created: 'CREATED',
-  failure: 'FAILURE',
-  success: 'SUCCESS',
-};
-
-export type SmsStatusType = ValueOf<typeof SmsStatus>;
 
 export interface ApplicationByIdRequest {
   applicationId: string;
@@ -60,22 +53,7 @@ export interface ApplicationByIdResponseData extends Array<Team> {
     interviewStartedAt: string;
     status: ApplicationResultStatusKeyType;
   };
-  smsRequests: {
-    notificationContent: string;
-    notificationName: string;
-    sender: MemberPositionType;
-    senderPhoneNumber: string;
-    smsRequestId: number;
-    status: SmsStatusType;
-    team: {
-      createdAt: string;
-      createdBy: string;
-      name: string;
-      teamId: number;
-      updatedAt: string;
-      updatedBy: string;
-    };
-  }[];
+  smsRequests: SmsContent[];
   submittedAt: string;
   team: {
     createdAt: string;
