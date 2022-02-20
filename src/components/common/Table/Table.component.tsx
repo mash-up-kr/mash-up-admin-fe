@@ -1,9 +1,10 @@
 /* eslint-disable react/no-unused-prop-types */
 import React, { ReactNode, ChangeEventHandler, useRef, Dispatch, SetStateAction } from 'react';
-import { Checkbox } from '@/components';
 import { NestedKeyOf } from '@/types';
 import { getOwnValueByKey, isSameObject } from '@/utils';
 import * as Styled from './Table.styled';
+import Loading from '../Loading/Loading.component';
+import Checkbox from '../Checkbox/Checkbox.component';
 
 export interface TableColumn<T extends object> {
   title: string;
@@ -80,6 +81,7 @@ const Table = <T extends object>({
   maxHeight,
   columns,
   rows,
+  isLoading,
   selectableRow,
   supportBar: { totalCount, buttons: supportButtons },
   pagination,
@@ -156,36 +158,43 @@ const Table = <T extends object>({
             </Styled.TableRow>
           </Styled.TableHeader>
         </Styled.Table>
-        <Styled.TableBodyWrapper>
+        <Styled.TableBodyWrapper isLoading={isLoading}>
+          {rows.length !== 0 && isLoading && <Loading />}
           <Styled.Table>
-            <colgroup>
-              {!!selectableRow && <col width="3%" />}
-              {columns.map((column, columnIndex) => (
-                <col key={`${prefix}-col-${columnIndex}`} width={column.widthRatio} />
-              ))}
-            </colgroup>
-            <Styled.TableBody>
-              {rows.map((row, rowIndex) => (
-                <Styled.TableRow key={`${prefix}-row-${rowIndex}`} height={DEFAULT_ROW_HEIGHT}>
-                  {!!selectableRow && (
-                    <RowCheckBox
-                      isChecked={checkedValues.current[rowIndex]}
-                      handleToggle={handleSelectRow(rowIndex)}
-                    />
-                  )}
-                  {columns.map((column, columnIndex) => {
-                    const { accessor, renderCustomCell } = column;
-                    const cellValue = accessor ? getOwnValueByKey(row, accessor) : null;
+            {rows.length === 0 ? (
+              <Styled.NoData height={bodyHeight}>No data found</Styled.NoData>
+            ) : (
+              <>
+                <colgroup>
+                  {!!selectableRow && <col width="3%" />}
+                  {columns.map((column, columnIndex) => (
+                    <col key={`${prefix}-col-${columnIndex}`} width={column.widthRatio} />
+                  ))}
+                </colgroup>
+                <Styled.TableBody>
+                  {rows.map((row, rowIndex) => (
+                    <Styled.TableRow key={`${prefix}-row-${rowIndex}`} height={DEFAULT_ROW_HEIGHT}>
+                      {!!selectableRow && (
+                        <RowCheckBox
+                          isChecked={checkedValues.current[rowIndex]}
+                          handleToggle={handleSelectRow(rowIndex)}
+                        />
+                      )}
+                      {columns.map((column, columnIndex) => {
+                        const { accessor, renderCustomCell } = column;
+                        const cellValue = accessor ? getOwnValueByKey(row, accessor) : null;
 
-                    return (
-                      <Styled.TableCell key={`cell-${columnIndex}`}>
-                        {renderCustomCell ? renderCustomCell(cellValue) : cellValue}
-                      </Styled.TableCell>
-                    );
-                  })}
-                </Styled.TableRow>
-              ))}
-            </Styled.TableBody>
+                        return (
+                          <Styled.TableCell key={`cell-${columnIndex}`}>
+                            {renderCustomCell ? renderCustomCell(cellValue) : cellValue}
+                          </Styled.TableCell>
+                        );
+                      })}
+                    </Styled.TableRow>
+                  ))}
+                </Styled.TableBody>
+              </>
+            )}
           </Styled.Table>
         </Styled.TableBodyWrapper>
       </Styled.TableWrapper>

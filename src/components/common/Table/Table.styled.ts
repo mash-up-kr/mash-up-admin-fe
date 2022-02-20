@@ -12,8 +12,9 @@ export const TableWrapper = styled.div`
   margin-bottom: 2rem;
 `;
 
-export const TableBodyWrapper = styled.div`
-  ${({ theme }) => css`
+export const TableBodyWrapper = styled.div<{ isLoading: boolean }>`
+  ${({ theme, isLoading }) => css`
+    position: relative;
     width: 120rem;
     height: calc(100% - 5.2rem);
     overflow-x: hidden;
@@ -42,6 +43,13 @@ export const TableBodyWrapper = styled.div`
     &:hover {
       -webkit-mask-position: left top;
     }
+
+    ${isLoading &&
+    css`
+      overflow-y: hidden;
+      transition: mask-position 0s, -webkit-mask-position 0s;
+      -webkit-mask-position: left top;
+    `}
   `}
 `;
 
@@ -89,6 +97,8 @@ export const Center = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
 `;
 
 export const TableSupportBar = styled.div`
@@ -101,33 +111,40 @@ export const TableSupportBar = styled.div`
 
 export const TableSummary = styled.div`
   ${({ theme }) => css`
-    & span:nth-child(1) {
+    & span:nth-of-type(1) {
       ${theme.fonts.regular14}
       margin-right: 0.2rem;
       color: ${theme.colors.gray60};
     }
 
-    & span:nth-child(2) {
+    & span:nth-of-type(2) {
       ${theme.fonts.regular14}
       color: ${theme.colors.gray60}
     }
 
-    & span:nth-child(3) {
+    & span:nth-of-type(3) {
       height: 1.2rem;
       margin: 0 0.8rem;
       border: 0.1rem solid ${theme.colors.gray30};
     }
 
-    & span:nth-child(4) {
+    & span:nth-of-type(4) {
       ${theme.fonts.medium14}
       color: ${theme.colors.purple70}
     }
 
-    & span:nth-child(5) {
+    & span:nth-of-type(5) {
       ${theme.fonts.regular14}
       color: ${theme.colors.purple60}
     }
   `};
+`;
+
+export const NoData = styled(Center)<{ height: number }>`
+  ${({ theme, height }) => css`
+    ${theme.fonts.regular15}
+    height: ${height}rem;
+  `}
 `;
 
 export const TableSupportButtonContainer = styled.div`
