@@ -2,11 +2,13 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const TableContainer = styled.div`
-  height: 40rem;
-  margin-bottom: 2rem;
+  height: 68rem;
 `;
 
-export const TableWrapper = styled.div``;
+export const TableWrapper = styled.div`
+  height: calc(100% - 10.4rem);
+  margin-bottom: 2rem;
+`;
 
 export const TableBodyWrapper = styled.div`
   ${({ theme }) => css`

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unused-prop-types */
-import React, { ReactNode, ChangeEventHandler, useRef } from 'react';
+import React, { ReactNode, ChangeEventHandler, useRef, Dispatch, SetStateAction } from 'react';
 import { Checkbox } from '@/components';
 import { NestedKeyOf } from '@/types';
 import { getOwnValueByKey, isSameObject } from '@/utils';
@@ -25,12 +25,13 @@ interface TableProps<T extends object> {
   selectableRow?: {
     selectedCount: number;
     selectedRows: T[];
-    setSelectedRows: React.Dispatch<React.SetStateAction<T[]>>;
+    setSelectedRows: Dispatch<SetStateAction<T[]>>;
   };
-  supportBar?: {
+  supportBar: {
     totalCount: number;
     buttons?: ReactNode[];
   };
+  pagination?: ReactNode;
 }
 
 const TableSupportBar = ({
@@ -79,15 +80,17 @@ const Table = <T extends object>({
   columns,
   rows,
   selectableRow,
-  supportBar,
+  supportBar: { totalCount, buttons: supportButtons },
+  pagination,
 }: TableProps<T>) => {
-  const { selectedCount, selectedRows, setSelectedRows } = selectableRow!;
-  const { totalCount, buttons: supportButtons } = supportBar!;
+  const { selectedCount, selectedRows, setSelectedRows } = selectableRow || {};
 
   const checkedValues = useRef<boolean[]>(
-    rows.map((row) => {
-      return selectedRows.some((selectedRow) => isSameObject(selectedRow, row));
-    }),
+    selectedRows
+      ? rows.map((row) => {
+          return selectedRows.some((selectedRow) => isSameObject(selectedRow, row));
+        })
+      : [],
   );
   const isAllChecked = checkedValues.current.filter(Boolean).length === rows.length;
 
@@ -122,13 +125,11 @@ const Table = <T extends object>({
 
   return (
     <Styled.TableContainer>
-      {supportBar && (
-        <TableSupportBar
-          totalCount={totalCount}
-          selectedCount={selectedCount}
-          supportButtons={supportButtons}
-        />
-      )}
+      <TableSupportBar
+        totalCount={totalCount}
+        selectedCount={selectedCount}
+        supportButtons={supportButtons}
+      />
       <Styled.TableWrapper>
         <Styled.Table>
           <colgroup>
@@ -183,6 +184,7 @@ const Table = <T extends object>({
           </Styled.Table>
         </Styled.TableBodyWrapper>
       </Styled.TableWrapper>
+      {pagination && pagination}
     </Styled.TableContainer>
   );
 };
