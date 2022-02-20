@@ -17,7 +17,7 @@ import { ApplicationQnAItemProps } from '@/components/ApplicationDetail/Applicat
 const ApplicationDetailView = () => {
   const { id } = useParams();
   const data = useRecoilValue<ApplicationByIdResponseData>(
-    $applicationById({ applicationId: id || '' }),
+    $applicationById({ applicationId: id as string }),
   );
 
   return (
