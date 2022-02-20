@@ -2,7 +2,7 @@ import {
   ApplicationConfirmationStatusType,
   ApplicationResultStatusType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { ValueOf, MemberPositionType } from '..';
+import { ValueOf, MemberPositionType } from '@/types';
 
 export interface Team {
   name: string;

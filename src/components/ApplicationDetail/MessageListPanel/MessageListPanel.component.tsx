@@ -6,11 +6,12 @@ import { TitleWithContent } from '..';
 import * as Styled from './MessageListPanel.styled';
 import { convertToFormatDate, convertToFormatTime } from '@/utils';
 import { Button } from '@/components';
+import { MemberPositionType } from '@/types';
 
 export interface MessageInfoProps {
   notificationName: string;
   senderPhoneNumber: string;
-  sender: string;
+  sender: MemberPositionType;
   notificationContent: string;
   smsRequestId: number;
   team: {
