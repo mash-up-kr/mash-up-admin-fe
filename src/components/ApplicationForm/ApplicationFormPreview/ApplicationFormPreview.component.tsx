@@ -71,7 +71,12 @@ const ApplicationFormPreview = () => {
               };
 
               return question.questionType === QuestionKind.multiLineText ? (
-                <Styled.CustomTextarea {...props} />
+                <>
+                  <Styled.CustomTextarea {...props} />
+                  {question.maxContentLength && (
+                    <Styled.MaxContentLength>{`0/${question.maxContentLength}`}</Styled.MaxContentLength>
+                  )}
+                </>
               ) : (
                 <Styled.CustomInput {...props} $size={InputSize.md} />
               );

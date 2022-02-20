@@ -28,6 +28,17 @@ export const CustomTextarea = styled(Textarea)`
   margin-top: 2.4rem;
 `;
 
+export const MaxContentLength = styled.span`
+  ${({ theme }) => css`
+    ${theme.fonts.regular15};
+
+    display: block;
+    margin-top: 0.7rem;
+    color: ${theme.colors.gray50};
+    text-align: end;
+  `}
+`;
+
 export const Description = styled.span`
   ${({ theme }) => css`
     ${theme.fonts.regular15};
