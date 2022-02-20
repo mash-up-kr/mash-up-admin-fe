@@ -39,7 +39,7 @@ export const PageButton = styled(PageCommonButton)`
   ${({ theme, disabled }) => css`
     color: ${disabled ? theme.colors.purple60 : theme.colors.gray60};
     background-color: ${disabled && theme.colors.purple20};
-    cursor: ${disabled ? 'auto' : 'pointer'};
+    cursor: ${disabled ? 'auto' : 'pointer'} !important;
 
     &:hover {
       background-color: ${theme.colors.purple20};

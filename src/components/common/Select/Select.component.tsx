@@ -44,6 +44,7 @@ const Select = (
   ref: React.Ref<HTMLSelectElement>,
 ) => {
   const [isOpened, setOpened] = useState(false);
+
   const [selectedOption, setSelectedOption] = useState<SelectOption | undefined>(undefined);
 
   const outerRef = useRef<HTMLDivElement>(null);
