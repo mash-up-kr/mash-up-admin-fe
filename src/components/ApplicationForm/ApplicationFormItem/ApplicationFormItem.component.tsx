@@ -42,7 +42,9 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
   const readableIndex = index + 1;
 
   const handleChangeSelect = (option: SelectOption) => {
-    setValue(`questions.${index}.questionType`, option.value as QuestionKindType);
+    setValue(`questions.${index}.questionType`, option.value as QuestionKindType, {
+      shouldDirty: true,
+    });
   };
 
   return (
