@@ -22,7 +22,7 @@ const ApplicationQnAItem = ({
       <Styled.Description>{description}</Styled.Description>
       {maxContentLength && (
         <Styled.TextLength>
-          총 <strong>{description.length}</strong>
+          총 <strong>{description?.length}</strong>
           자/{maxContentLength}자
         </Styled.TextLength>
       )}
