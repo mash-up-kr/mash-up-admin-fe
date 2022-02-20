@@ -31,3 +31,8 @@ export interface ApplicationFormCreateRequest {
   questions: Question[];
   teamId: number;
 }
+
+export interface ApplicationFormUpdateRequest {
+  name: string;
+  questions: Question[];
+}
