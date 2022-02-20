@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { SmsStatus, SmsStatusType } from '@/types/dto/sms';
 
 export const MessageListPanelContainer = styled.div`
   ${({ theme }) => css`
@@ -39,6 +40,24 @@ export const MessageInfoContainer = styled.div`
     & div > span:first-child {
       ${theme.fonts.regular16}
     }
+  `}
+`;
+
+interface StyledLabelProps {
+  status: SmsStatusType;
+}
+
+export const Label = styled.div<StyledLabelProps>`
+  ${({ theme, status }) => css`
+    ${theme.badge[SmsStatus[status]]}
+    ${theme.fonts.medium13}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    height: 2.8rem;
+    padding: 0 1.2rem;
+    border-radius: 10rem;
   `}
 `;
 

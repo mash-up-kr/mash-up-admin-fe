@@ -21,6 +21,7 @@ messageListPanel.args = {
       sender: 'MASHUP_LEADER',
       notificationContent: 'TEST TEST',
       smsRequestId: 0,
+      status: 'FAILURE',
       team: {
         createdAt: '2022-02-19T05:43:38.517Z',
       },
@@ -31,6 +32,7 @@ messageListPanel.args = {
       sender: 'MASHUP_LEADER',
       notificationContent: 'TEST TEST',
       smsRequestId: 0,
+      status: 'SUCCESS',
       team: {
         createdAt: '2022-02-19T05:43:38.517Z',
       },

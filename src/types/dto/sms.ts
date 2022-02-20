@@ -1,13 +1,13 @@
 import { KeyOf } from '../helper';
 import { MemberPositionType } from './adminMember';
 
-export type SmsStatusType = KeyOf<typeof SmsStatus>;
-
 export const SmsStatus = {
-  created: 'CREATED',
-  failure: 'FAILURE',
-  success: 'SUCCESS',
+  CREATED: '메시지 생성',
+  FAILURE: '발송실패',
+  SUCCESS: '발송성공',
 };
+
+export type SmsStatusType = KeyOf<typeof SmsStatus>;
 
 export interface SmsContent {
   notificationContent: string;

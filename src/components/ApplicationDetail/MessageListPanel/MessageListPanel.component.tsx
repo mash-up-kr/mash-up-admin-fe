@@ -9,6 +9,7 @@ import { Button } from '@/components';
 import { MemberPositionType } from '@/types';
 import { $modalByStorage, ModalKey } from '@/store';
 import { formatDate } from '@/utils/date';
+import { SmsStatus, SmsStatusType } from '@/types/dto/sms';
 
 export interface MessageInfoProps {
   notificationName: string;
@@ -16,6 +17,7 @@ export interface MessageInfoProps {
   sender: MemberPositionType;
   notificationContent: string;
   smsRequestId: number;
+  status: SmsStatusType;
   team: {
     createdAt: string;
   };
@@ -26,10 +28,12 @@ const MessageInfo = ({
   senderPhoneNumber,
   sender,
   notificationContent,
+  status,
   team,
 }: MessageInfoProps) => {
   return (
     <Styled.MessageInfoContainer>
+      <Styled.Label status={status}>{SmsStatus[status]}</Styled.Label>
       <Styled.TitleContainer>
         <div>{notificationName}</div>
         <div>{formatDate(team.createdAt, 'YYYY년 M월 D일(ddd) a hh시 mm분')}</div>
