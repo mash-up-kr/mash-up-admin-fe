@@ -11,6 +11,7 @@ import {
 } from '@/components/ApplicationDetail';
 import { $applicationById } from '@/store';
 import { ApplicationByIdResponseData } from '@/types';
+import { ApplicationQnAItemProps } from '@/components/ApplicationDetail/ApplicationQnAItem/ApplicationQnAItem.component';
 
 const ApplicationDetailView = () => {
   const { id } = useParams();
@@ -44,7 +45,7 @@ const ApplicationDetailView = () => {
           <Styled.QuestionList>
             <h3>질문 리스트</h3>
             <section>
-              {data.questions.map((each) => (
+              {data.questions.map((each: ApplicationQnAItemProps) => (
                 <ApplicationQnAItem {...each} key={each.questionId} />
               ))}
             </section>
