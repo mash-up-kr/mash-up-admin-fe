@@ -9,7 +9,7 @@ import { Question, QuestionKindType, QuestionKind } from '@/types/dto/applicatio
 import { useToggleState } from '@/hooks';
 
 interface FormValues {
-  title: string;
+  name: string;
   questions: Question[];
   teamId: string;
 }

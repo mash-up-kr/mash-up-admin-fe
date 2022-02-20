@@ -8,20 +8,20 @@ import Preview from '@/assets/svg/preview-20.svg';
 import { formatDate } from '@/utils';
 import { MemberPositionType } from '@/types';
 
+interface ActionButton {
+  text: string;
+  type?: 'submit' | 'reset' | 'button';
+  disabled?: boolean;
+}
+
 export interface ApplicationFormAsideProps {
   platform: React.ReactNode;
   createdAt: string;
   createdBy?: MemberPositionType;
   updatedAt?: string;
   updatedBy?: MemberPositionType;
-  leftActionButton: {
-    text: string;
-    type?: 'submit' | 'reset' | 'button';
-  };
-  rightActionButton: {
-    text: string;
-    type?: 'submit' | 'reset' | 'button';
-  };
+  leftActionButton: ActionButton;
+  rightActionButton: ActionButton;
 }
 
 const ApplicationFormAside = ({
@@ -85,16 +85,16 @@ const ApplicationFormAside = ({
           label="미리보기"
         />
         <Button
+          {...leftActionButton}
           $size={ButtonSize.sm}
           shape={ButtonShape.defaultLine}
           label={leftActionButton.text}
-          type={rightActionButton.type}
         />
         <Button
+          {...rightActionButton}
           $size={ButtonSize.sm}
           shape={ButtonShape.primary}
           label={rightActionButton.text}
-          type={rightActionButton.type}
         />
       </Styled.ButtonContainer>
     </Styled.ApplicationFormAside>

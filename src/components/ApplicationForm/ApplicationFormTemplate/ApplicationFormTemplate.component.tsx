@@ -35,6 +35,7 @@ const ApplicationFormTemplate = () => {
           $size={InputSize.md}
           label="지원설문지 문서명"
           placeholder="내용을 입력해주세요"
+          required
           {...register('name', { required: true })}
         />
       </Styled.Content>
