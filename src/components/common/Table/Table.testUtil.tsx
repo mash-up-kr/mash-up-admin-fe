@@ -20,7 +20,13 @@ export const renderTable = <T extends object>({
 }: Params<T>) => {
   render(
     <ThemeProvider theme={theme}>
-      <Table<T> prefix={prefix} columns={_columns} rows={_data} isLoading={isLoading} />
+      <Table<T>
+        prefix={prefix}
+        columns={_columns}
+        rows={_data}
+        isLoading={isLoading}
+        supportBar={{ totalCount: _data.length }}
+      />
     </ThemeProvider>,
   );
 
