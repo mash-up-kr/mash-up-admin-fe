@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilCallback } from 'recoil';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import * as Styled from './LoginPage.styled';
 import Logo from '@/assets/svg/logo-admin-272.svg';
 import MinsourLogo from '@/assets/svg/minsour-logo-200.svg';
@@ -10,7 +9,7 @@ import { InputSize } from '@/components/common/Input/Input.component';
 import { ButtonShape } from '@/components/common/Button/Button.component';
 import * as api from '@/api';
 import { $me } from '@/store/login';
-import { ACCESS_TOKEN, PATH } from '@/constants';
+import { ACCESS_TOKEN } from '@/constants';
 
 const ERROR_MESSAGE = {
   INVALID_USERNAME: '아이디를 입력해주세요.',
@@ -24,7 +23,6 @@ interface FormValues {
 }
 
 const LoginPage = () => {
-  const navigate = useNavigate();
   const [error, setError] = useState('');
   const { handleSubmit, register } = useForm<FormValues>();
 
@@ -42,8 +40,6 @@ const LoginPage = () => {
 
     try {
       const { data } = await api.postLogin({ username, password });
-
-      navigate(PATH.APPLICATION);
 
       localStorage.setItem(ACCESS_TOKEN, data.accessToken);
       set($me, data);
