@@ -1,22 +1,5 @@
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { Select } from '@/components';
-
-export const ApplicationFormControlPage = styled.div`
-  padding: 2rem 0 4rem;
-
-  & > form {
-    display: flex;
-
-    & > article {
-      flex: 1;
-    }
-
-    & > aside {
-      margin-left: 1.6rem;
-    }
-  }
-`;
+import styled from '@emotion/styled';
 
 export const Content = styled.div`
   ${({ theme }) => css`
@@ -33,10 +16,6 @@ export const QuestionContent = styled.div`
     background-color: ${theme.colors.white};
     border-radius: 2rem;
   `}
-`;
-
-export const TeamSelect = styled(Select)`
-  width: 100%;
 `;
 
 export const Divider = styled.div`
