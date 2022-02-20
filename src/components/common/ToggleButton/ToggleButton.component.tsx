@@ -13,7 +13,7 @@ const ToggleButton = (
 ) => {
   return (
     <Styled.ToggleButtonLabel disabled={disabled}>
-      <input type="checkbox" ref={ref} {...restProps} />
+      <input type="checkbox" ref={ref} onChange={handleToggle} {...restProps} />
       <Styled.ToggleButtonSlider />
     </Styled.ToggleButtonLabel>
   );

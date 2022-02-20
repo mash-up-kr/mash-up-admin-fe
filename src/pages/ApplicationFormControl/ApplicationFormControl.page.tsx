@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useForm, useFieldArray, FormProvider } from 'react-hook-form';
 import { useRecoilCallback, useRecoilValue } from 'recoil';
 import {
@@ -11,21 +11,19 @@ import * as Styled from './ApplicationFormControl.styled';
 import { InputSize } from '@/components/common/Input/Input.component';
 
 import Plus from '@/assets/svg/plus-20.svg';
-import { Question, QuestionKind, ApplicationFormCreateRequest } from '@/types/dto/applicationForm';
+import { Question, QuestionKind } from '@/types/dto/applicationForm';
 import * as api from '@/api';
-import { $profile } from '@/store';
+import { $profile, $teams } from '@/store';
+import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 
 interface FormValues {
   name: string;
   questions: Question[];
+  teamId: number;
 }
 
-const DEFAULT_QUESTION: Question = {
-  content: '',
-  description: '',
-  maxContentLength: 0,
+const DEFAULT_QUESTION: Partial<Question> = {
   questionType: QuestionKind.multiLineText,
-  required: false,
 };
 
 const current = new Date().toISOString();
@@ -39,7 +37,18 @@ const ApplicationFormControl = () => {
     },
   });
 
-  const { register, handleSubmit, control } = methods;
+  const { register, handleSubmit, control, setValue } = methods;
+
+  const teams = useRecoilValue($teams);
+
+  const teamOptions = useMemo<SelectOption[]>(
+    () =>
+      teams.map((team) => ({
+        value: team.teamId.toString(),
+        label: team.name,
+      })),
+    [teams],
+  );
 
   const { fields, append, remove } = useFieldArray({
     name: 'questions',
@@ -51,14 +60,13 @@ const ApplicationFormControl = () => {
   };
 
   const handleSubmitForm = useRecoilCallback(() => async (data: FormValues) => {
-    // TODO:(@mango906): teamId 선택하는 정책 논의 후 teamId 동적으로 결정하기
-    const requestDto: ApplicationFormCreateRequest = {
-      ...data,
-      teamId: 9,
-    };
+    // TODO:(@mango906): 입력값 제대로 입력안했을 떄 어떻게 알려줄지 정하기
+    if (data.questions.length === 0) {
+      return;
+    }
 
     // TODO:(@mango906): api 요청 완료후 로직 만들어주기
-    api.createApplicationForm(requestDto);
+    api.createApplicationForm(data);
   });
 
   // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -88,7 +96,7 @@ const ApplicationFormControl = () => {
                 />
               ))}
               <Styled.Divider />
-              <Styled.AddButton onClick={() => append(DEFAULT_QUESTION)}>
+              <Styled.AddButton type="button" onClick={() => append(DEFAULT_QUESTION)}>
                 <Plus />
                 <span>질문 추가</span>
               </Styled.AddButton>
@@ -96,7 +104,15 @@ const ApplicationFormControl = () => {
           </article>
           <ApplicationFormAside
             createdAt={current}
-            platform="Design"
+            platform={
+              <Styled.TeamSelect
+                placeholder="플랫폼 선택"
+                size={SelectSize.sm}
+                options={teamOptions}
+                onChangeOption={(option) => setValue('teamId', Number(option.value))}
+                {...register(`teamId`, { required: true })}
+              />
+            }
             createdBy={position}
             leftActionButton={{ text: '취소' }}
             rightActionButton={{ text: '저장' }}

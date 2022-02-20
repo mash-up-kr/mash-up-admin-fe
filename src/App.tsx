@@ -8,7 +8,7 @@ import { ModalViewer, Layout } from '@/components';
 import { theme, globalStyles } from './styles';
 
 import LoginPage from './pages/LoginPage/LoginPage.page';
-import { $me, $isAuthorized } from './store';
+import { $me, $isAuthorized, $teams } from './store';
 import * as api from './api';
 import { ACCESS_TOKEN, PATH } from './constants';
 
@@ -37,7 +37,9 @@ const App = () => {
     if (isAuthorizedSnapshot) {
       try {
         const { data: me } = await api.getMyInfo();
+        const { data: teams } = await api.getTeams();
         set($me, { accessToken: localStorage.getItem(ACCESS_TOKEN) as string, adminMember: me });
+        set($teams, teams);
       } catch (e) {
         localStorage.removeItem(ACCESS_TOKEN);
         reset($me);
