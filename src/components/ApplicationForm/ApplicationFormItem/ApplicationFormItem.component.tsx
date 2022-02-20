@@ -76,7 +76,7 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
           size={SelectSize.xs}
           options={options}
           onChangeOption={handleChangeSelect}
-          defaultValue={QuestionKind.multiLineText}
+          defaultValue={questionType}
         />
         {questionType === QuestionKind.multiLineText && (
           <Styled.MaxContentSizeContainer>
