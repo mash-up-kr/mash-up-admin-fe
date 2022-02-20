@@ -1,12 +1,14 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import UserProfile, {
   splitMemberPosition,
 } from '@/components/common/UserProfile/UserProfile.component';
 import { TitleWithContent } from '..';
 import * as Styled from './MessageListPanel.styled';
-import { formatDate } from '@/utils';
 import { Button } from '@/components';
 import { MemberPositionType } from '@/types';
+import { $modalByStorage, ModalKey } from '@/store';
+import { formatDate } from '@/utils/date';
 
 export interface MessageInfoProps {
   notificationName: string;
@@ -17,10 +19,6 @@ export interface MessageInfoProps {
   team: {
     createdAt: string;
   };
-}
-
-export interface MessageListPanelProps {
-  smsRequests: MessageInfoProps[];
 }
 
 const MessageInfo = ({
@@ -50,12 +48,29 @@ const MessageInfo = ({
   );
 };
 
-const MessageListPanel = ({ smsRequests }: MessageListPanelProps) => {
+export interface MessageListPanelProps {
+  smsRequests: MessageInfoProps[];
+  id: string;
+}
+
+const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
+  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+
   return (
     <Styled.MessageListPanelContainer>
       <Styled.MessageListPanelTitle>
         <h3>SMS 발송내역</h3>
-        <Button $size="xs" shape="defaultLine">
+        <Button
+          $size="xs"
+          shape="defaultLine"
+          onClick={() =>
+            setModal({
+              ...modal,
+              props: { id },
+              isOpen: true,
+            })
+          }
+        >
           SMS 발송
         </Button>
       </Styled.MessageListPanelTitle>

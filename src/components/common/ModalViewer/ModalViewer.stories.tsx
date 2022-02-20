@@ -15,6 +15,10 @@ export default {
 
 const Template: ComponentStory<typeof ModalViewer> = () => {
   const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
+  const [smsSendModal, setSmsSendModal] = useRecoilState(
+    $modalByStorage(ModalKey.smsSendModalDialog),
+  );
+
   return (
     <div>
       <Button
@@ -38,6 +42,17 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
         }
       >
         팝업 닫기 알럿모달
+      </Button>
+      <Button
+        onClick={() =>
+          setSmsSendModal({
+            ...smsSendModal,
+            props: { id: '0' },
+            isOpen: true,
+          })
+        }
+      >
+        SMS Send 모달
       </Button>
       <ModalViewer />
     </div>

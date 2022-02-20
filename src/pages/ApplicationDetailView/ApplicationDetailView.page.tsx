@@ -57,9 +57,9 @@ const ApplicationDetailView = () => {
             confirmationStatus={data.confirmationStatus}
             resultStatus={data.result.status}
             interviewDate={data.result.interviewStartedAt}
-            applicationId={id || ''}
+            applicationId={id as string}
           />
-          <MessageListPanel smsRequests={data.smsRequests} />
+          <MessageListPanel smsRequests={data.smsRequests} id={id as string} />
         </Styled.Aside>
       </div>
     </Styled.ApplicationDetailViewPage>

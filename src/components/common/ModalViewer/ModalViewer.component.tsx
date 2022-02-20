@@ -1,19 +1,18 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { $modalByStorage, ModalKey, ModalKeyType } from '@/store';
-import { AlertModalDialog } from '@/components';
+import { AlertModalDialog, SmsSendModalDialog } from '@/components';
+import { SmsSendModalDialogProps } from '@/components/ApplicationDetail/SmsSendModalDialog/SmsSendModalDialog.component';
+import { AlertModalDialogProps } from '../AlertModalDialog/AlertModalDialog.component';
 
 const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
-  const [modal] = useRecoilState($modalByStorage(modalKey));
-  const { hash } = window.location;
+  const modal = useRecoilValue($modalByStorage(modalKey));
 
-  if (
-    modalKey === ModalKey.alertModalDialog &&
-    modal.isOpen &&
-    modal.props &&
-    hash.split('#').some((each) => each === ModalKey.alertModalDialog)
-  ) {
-    return <AlertModalDialog key={modalKey} {...modal.props} />;
+  if (modalKey === ModalKey.alertModalDialog && modal.isOpen && modal.props) {
+    return <AlertModalDialog key={modalKey} {...(modal.props as AlertModalDialogProps)} />;
+  }
+  if (modalKey === ModalKey.smsSendModalDialog && modal.isOpen && modal.props) {
+    return <SmsSendModalDialog key={modalKey} {...(modal.props as SmsSendModalDialogProps)} />;
   }
 
   return null;
