@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { PageOptions, FIRST_PAGE } from '@/components/common/Pagination/Pagination.component';
 
@@ -55,8 +55,7 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
     setSearchParams({ page: currentPage.toString(), size: pagingSize.toString() });
   };
 
-  const handleChangeSize = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const pagingSize = e.target.value;
+  const handleChangeSize = (pagingSize: string) => {
     let newPageOptions = getPageOptions({
       totalCount,
       pageIndex: pageOptions.currentPage - 1,
@@ -97,7 +96,7 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
 
     setPageOptions(newPageOptions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }, [totalCount, searchParams]);
 
   return {
     pageOptions,

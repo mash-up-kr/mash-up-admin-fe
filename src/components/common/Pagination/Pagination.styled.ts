@@ -18,6 +18,8 @@ export const Navigation = styled.nav`
 
 export const PageButtonListWrapper = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
   width: 55.6rem;
 
   & > button:last-child {

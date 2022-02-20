@@ -12,6 +12,7 @@ export { default as Label } from './ApplicationStatusBadge/ApplicationStatusBadg
 export { default as AlertModalDialog } from './AlertModalDialog/AlertModalDialog.component';
 export { default as ModalViewer } from './ModalViewer/ModalViewer.component';
 export { default as Select } from './Select/Select.component';
+export { default as Table } from './Table/Table.component';
 export { default as Pagination } from './Pagination/Pagination.component';
 export { default as UserProfile } from './UserProfile/UserProfile.component';
 export { default as Header } from './Header/Header.component';
