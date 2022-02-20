@@ -1,7 +1,7 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 import { LoginResponse, MemberPositionType } from '@/types/dto';
-import { ACCESS_TOKEN } from '@/constants';
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
+import { selectorWithRefresher } from './recoil';
 
 export const $me = atom<LoginResponse>({
   key: 'me',
@@ -14,15 +14,15 @@ export const $me = atom<LoginResponse>({
   },
 });
 
-export const $isAuthorized = selector<boolean>({
+export const $isAuthorized = selectorWithRefresher<boolean>({
   key: 'isAuthorized',
   get: ({ get }) => {
-    get($me);
-    return !!localStorage.getItem(ACCESS_TOKEN);
+    const { accessToken } = get($me);
+    return !!accessToken;
   },
 });
 
-export const $profile = selector<[string, string, MemberPositionType | undefined]>({
+export const $profile = selectorWithRefresher<[string, string, MemberPositionType | undefined]>({
   key: 'profile',
   get: ({ get }) => {
     const { position } = get($me).adminMember;

@@ -30,15 +30,15 @@ const RequiredAuth = ({ children, isAuth, to = PATH.LOGIN, ...restProps }: Requi
 
 const App = () => {
   const isAuthorized = useRecoilValue($isAuthorized);
-
   useRecoilCallback(({ snapshot, set, reset }) => async () => {
+    const TOKEN = localStorage.getItem(ACCESS_TOKEN);
     const isAuthorizedSnapshot = snapshot.getLoadable($isAuthorized).contents;
 
-    if (isAuthorizedSnapshot) {
+    if (!!TOKEN && !isAuthorizedSnapshot) {
       try {
         const { data: me } = await api.getMyInfo();
         const { data: teams } = await api.getTeams();
-        set($me, { accessToken: localStorage.getItem(ACCESS_TOKEN) as string, adminMember: me });
+        set($me, { accessToken: TOKEN as string, adminMember: me });
         set($teams, teams);
       } catch (e) {
         localStorage.removeItem(ACCESS_TOKEN);
