@@ -5,7 +5,7 @@ import { Input, Textarea } from '@/components';
 export const ApplicationFormDetailPage = styled.div`
   padding: 2rem 0 4rem;
 
-  & > form {
+  & > div {
     display: flex;
 
     & > article {

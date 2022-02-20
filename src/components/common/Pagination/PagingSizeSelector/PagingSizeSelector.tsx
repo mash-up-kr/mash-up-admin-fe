@@ -17,24 +17,18 @@ interface Props {
 }
 
 const PagingSizeSelector = ({ pagingSize, position, handleChangeSize }: Props) => {
-  const pagingSizeOption: SelectOption = {
-    value: pagingSize.toString(),
-    label: pagingSize.toString(),
-  };
   const handleChange = (option: SelectOption) => {
     handleChangeSize(option.value);
   };
-
-  if (pagingSize === 0) return null;
 
   return (
     <Select
       aria-label="Paging size selector"
       size="sm"
       position={position}
-      initialValue={pagingSizeOption}
+      defaultValue={pagingSize.toString()}
       options={OPTIONS}
-      onChange={handleChange}
+      onChangeOption={handleChange}
     />
   );
 };

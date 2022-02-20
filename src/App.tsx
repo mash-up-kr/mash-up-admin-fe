@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, Suspense } from 'react';
 import { Routes, Route, Navigate, NavigateProps } from 'react-router-dom';
 
 import { Global, ThemeProvider } from '@emotion/react';
@@ -8,11 +8,11 @@ import { ModalViewer, Layout } from '@/components';
 import { theme, globalStyles } from './styles';
 
 import LoginPage from './pages/LoginPage/LoginPage.page';
-import { $me, $isAuthorized } from './store';
+import { $me, $isAuthorized, $teams } from './store';
 import * as api from './api';
 import { ACCESS_TOKEN, PATH } from './constants';
 
-import { ApplicationFormDetail, CreateApplicationForm } from './pages';
+import { ApplicationFormDetail, CreateApplicationForm, UpdateApplicationForm } from './pages';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
   children: ReactNode;
@@ -37,7 +37,9 @@ const App = () => {
     if (isAuthorizedSnapshot) {
       try {
         const { data: me } = await api.getMyInfo();
+        const { data: teams } = await api.getTeams();
         set($me, { accessToken: localStorage.getItem(ACCESS_TOKEN) as string, adminMember: me });
+        set($teams, teams);
       } catch (e) {
         localStorage.removeItem(ACCESS_TOKEN);
         reset($me);
@@ -46,7 +48,7 @@ const App = () => {
   })();
 
   return (
-    <>
+    <Suspense fallback={null}>
       <Global styles={globalStyles} />
       <ThemeProvider theme={theme}>
         <ModalViewer />
@@ -55,21 +57,20 @@ const App = () => {
             <Route
               path={PATH.APPLICATION_FORM_DETAIL}
               element={
-                <RequiredAuth isAuth={isAuthorized} to="/application">
+                <RequiredAuth isAuth={isAuthorized} to={PATH.LOGIN}>
                   <ApplicationFormDetail />
                 </RequiredAuth>
               }
             />
             <Route
-              path={PATH.APPLICATION_FORM_CREATE}
+              path={PATH.APPLICATION_FORM_UPDATE}
               element={
-                <RequiredAuth isAuth={isAuthorized} to="/application">
-                  <CreateApplicationForm />
+                <RequiredAuth isAuth={isAuthorized} to={PATH.LOGIN}>
+                  <UpdateApplicationForm />
                 </RequiredAuth>
               }
             />
 
-            {/* // TODO:(용재) 테스트용 - 추후 수정 */}
             <Route
               path={PATH.APPLICATION_FORM_CREATE}
               element={
@@ -90,7 +91,7 @@ const App = () => {
           />
         </Routes>
       </ThemeProvider>
-    </>
+    </Suspense>
   );
 };
 

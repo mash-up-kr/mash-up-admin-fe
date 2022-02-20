@@ -1,4 +1,4 @@
-import { ValueOf } from '@/types';
+import { MemberPositionType, Team, ValueOf } from '@/types';
 
 export const QuestionKind = {
   multiLineText: 'MULTI_LINE_TEXT',
@@ -9,33 +9,30 @@ export type QuestionKindType = ValueOf<typeof QuestionKind>;
 export interface Question {
   content: string;
   description: string;
-  maxContentLength: number;
+  maxContentLength: number | null;
   questionType: QuestionKindType;
   required: boolean;
-}
-
-export interface Team {
-  createdAt: string;
-  createdBy: string;
-  name: string;
-  teamId: number;
-  updatedAt: string;
-  updatedBy: string;
+  questionId?: string;
 }
 
 export interface ApplicationFormResponse {
   applicationFormId: number;
   createdAt: string;
-  createdBy: string;
+  createdBy: MemberPositionType;
   name: string;
   questions: Question[];
   team: Team;
   updatedAt: string;
-  updatedBy: string;
+  updatedBy: MemberPositionType;
 }
 
 export interface ApplicationFormCreateRequest {
   name: string;
   questions: Question[];
   teamId: number;
+}
+
+export interface ApplicationFormUpdateRequest {
+  name: string;
+  questions: Question[];
 }
