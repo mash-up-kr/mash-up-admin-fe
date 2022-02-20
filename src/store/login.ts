@@ -17,8 +17,8 @@ export const $me = atom<LoginResponse>({
 export const $isAuthorized = selector<boolean>({
   key: 'isAuthorized',
   get: ({ get }) => {
-    get($me);
-    return !!localStorage.getItem(ACCESS_TOKEN);
+    const { accessToken } = get($me);
+    return !!localStorage.getItem(ACCESS_TOKEN) && !accessToken;
   },
 });
 
