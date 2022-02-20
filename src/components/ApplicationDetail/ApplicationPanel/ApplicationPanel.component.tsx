@@ -12,7 +12,7 @@ import ApplicationStatusBadge, {
   ApplicationResultStatus,
   ApplicationResultStatusType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { convertToFormatDate, convertToFormatTime } from '@/utils/date';
+import { formatDate } from '@/utils/date';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import { useOnClickOutSide } from '@/hooks';
 import { rangeArray } from '@/utils';
@@ -108,7 +108,7 @@ const ApplicationPanel = ({
       </TitleWithContent>
       {interviewDate && (
         <TitleWithContent title="면접 일시" isLineThrough={isNoInterviewScheduled}>
-          {convertToFormatDate(date.format())} {convertToFormatTime(date.format())}
+          {formatDate(date.format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
       )}
       <Styled.ButtonContainer>
@@ -141,7 +141,7 @@ const ApplicationPanel = ({
           .hour(8 + cur)
           .minute(0)
           .format();
-        return [...acc, { value: d, label: convertToFormatTime(d) }];
+        return [...acc, { value: d, label: formatDate(d, 'a hh시 mm분') }];
       }, []),
     [date],
   );
@@ -154,7 +154,7 @@ const ApplicationPanel = ({
           options={applicationResultOptions}
           isFullWidth
           ref={selectedApplicationResultStatusRef}
-          onChange={handleChangeApplicationResultSelect}
+          onChangeOption={handleChangeApplicationResultSelect}
         />
       </TitleWithContent>
       {interviewDate && (
@@ -162,7 +162,7 @@ const ApplicationPanel = ({
           <Styled.SelectContainer disabled={isNoInterviewScheduled}>
             <div ref={outerRef}>
               <Styled.Select onClick={handleToggleDatePicker}>
-                {convertToFormatDate(date.format())}
+                {formatDate(date.format(), 'YYYY년 M월 D일(ddd)')}
               </Styled.Select>
               <Styled.SelectMenu isDatePickerOpened={isDatePickerOpened}>
                 <DatePicker handleSelectDate={handleSelectDate} selectedDate={date} />
@@ -172,7 +172,7 @@ const ApplicationPanel = ({
               size={SelectSize.md}
               options={timeOptions}
               isFullWidth
-              onChange={handleChangeTimeSelect}
+              onChangeOption={handleChangeTimeSelect}
             />
           </Styled.SelectContainer>
         </TitleWithContent>

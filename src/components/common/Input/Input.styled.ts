@@ -32,6 +32,15 @@ export const RequiredDot = styled.span`
   border-radius: 50%;
 `;
 
+export const Description = styled.span`
+  ${({ theme }) => css`
+    ${theme.fonts.regular13};
+
+    margin-bottom: 0.6rem;
+    color: ${theme.colors.gray60};
+  `}
+`;
+
 export const Input = styled.input<StyledInputProps>`
   ${({ theme, $size, errorMessage }) => css`
     ${theme.input.size[$size]};

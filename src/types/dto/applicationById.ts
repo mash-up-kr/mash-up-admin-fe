@@ -2,12 +2,7 @@ import {
   ApplicationConfirmationStatusType,
   ApplicationResultStatusType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { ValueOf, MemberPositionType } from '@/types';
-
-export interface Team {
-  name: string;
-  teamId: number;
-}
+import { ValueOf, MemberPositionType, QuestionKindType, Team } from '@/types';
 
 export const ApplicantStatus = {
   active: 'ACTIVE',
@@ -23,13 +18,6 @@ export const SmsStatus = {
 };
 
 export type SmsStatusType = ValueOf<typeof SmsStatus>;
-
-export const QuestionKind = {
-  multiLineText: 'MULTI_LINE_TEXT',
-  singleLineText: 'SINGLE_LINE_TEXT',
-};
-
-export type QuestionKindType = ValueOf<typeof QuestionKind>;
 
 export interface ApplicationByIdRequest {
   applicationId: string;

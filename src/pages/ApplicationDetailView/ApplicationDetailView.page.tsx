@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { BackButton } from '@/components';
 import * as Styled from './ApplicationDetailView.styled';
-import { convertToFormatDate } from '@/utils/date';
+import { formatDate } from '@/utils/date';
 import {
   ApplicationPanel,
   ApplicationQnAItem,
@@ -38,7 +38,7 @@ const ApplicationDetailView = () => {
               <div>
                 <TitleWithContent title="전화번호">{data.applicant.phoneNumber}</TitleWithContent>
                 <TitleWithContent title="지원일시">
-                  {convertToFormatDate(data.applicant.updatedAt)}
+                  {formatDate(data.applicant.updatedAt, 'YYYY년 M월 D일(ddd)')}
                 </TitleWithContent>
               </div>
             </section>

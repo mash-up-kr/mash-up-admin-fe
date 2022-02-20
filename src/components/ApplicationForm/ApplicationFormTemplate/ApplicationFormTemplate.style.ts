@@ -1,30 +1,5 @@
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-
-export const ApplicationFormControlPage = styled.div`
-  padding: 2rem 0 4rem;
-
-  & > form {
-    display: flex;
-
-    & > article {
-      flex: 1;
-    }
-
-    & > aside {
-      margin-left: 1.6rem;
-    }
-  }
-`;
-
-export const Headline = styled.h1`
-  ${({ theme }) => css`
-    margin: 1.2rem 0 0.8rem;
-    color: ${theme.colors.gray80};
-    font-size: 3.6rem;
-    line-height: 4.5rem;
-  `}
-`;
+import styled from '@emotion/styled';
 
 export const Content = styled.div`
   ${({ theme }) => css`

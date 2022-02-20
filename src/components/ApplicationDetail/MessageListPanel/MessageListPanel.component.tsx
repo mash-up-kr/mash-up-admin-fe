@@ -4,7 +4,7 @@ import UserProfile, {
 } from '@/components/common/UserProfile/UserProfile.component';
 import { TitleWithContent } from '..';
 import * as Styled from './MessageListPanel.styled';
-import { convertToFormatDate, convertToFormatTime } from '@/utils';
+import { formatDate } from '@/utils';
 import { Button } from '@/components';
 import { MemberPositionType } from '@/types';
 
@@ -34,10 +34,7 @@ const MessageInfo = ({
     <Styled.MessageInfoContainer>
       <Styled.TitleContainer>
         <div>{notificationName}</div>
-        <div>
-          {convertToFormatDate(team.createdAt)}
-          {convertToFormatTime(team.createdAt)}
-        </div>
+        <div>{formatDate(team.createdAt, 'YYYY년 M월 D일(ddd) a hh시 mm분')}</div>
       </Styled.TitleContainer>
       <TitleWithContent title="발송번호">{senderPhoneNumber}</TitleWithContent>
       <TitleWithContent title="발송자">

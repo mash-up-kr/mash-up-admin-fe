@@ -1,10 +1,14 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 
-export const convertToFormatDate = (rawDate: string) => {
-  return dayjs(rawDate).locale('ko').format(`YYYY년 M월 D일(ddd)`);
-};
+dayjs.locale('ko');
 
-export const convertToFormatTime = (rawDate: string) => {
-  return dayjs(rawDate).locale('ko').format('a hh시 mm분');
+type DateFormat =
+  | 'YYYY년 M월 D일 A h시 m분'
+  | 'YYYY년 M월 D일(ddd)'
+  | 'a hh시 mm분'
+  | 'YYYY년 M월 D일(ddd) a hh시 mm분';
+
+export const formatDate = (date: string | Date, format: DateFormat) => {
+  return dayjs(date).format(format);
 };
