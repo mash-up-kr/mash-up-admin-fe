@@ -171,7 +171,13 @@ const Table = <T extends object>({
           {rows.length !== 0 && isLoading && <Loading />}
           <Styled.Table>
             {rows.length === 0 ? (
-              <Styled.NoData height={bodyHeight}>No data found</Styled.NoData>
+              <Styled.TableBody>
+                <Styled.TableRow>
+                  <Styled.TableCell>
+                    <Styled.NoData height={bodyHeight}>No data found</Styled.NoData>
+                  </Styled.TableCell>
+                </Styled.TableRow>
+              </Styled.TableBody>
             ) : (
               <>
                 <colgroup>
