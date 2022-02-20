@@ -8,3 +8,8 @@ export const createApplicationForm = (
     url: '/application-forms',
     data,
   });
+
+export const getApplicationFormDetail = (
+  applicationFormId: string,
+): Promise<BaseResponse<ApplicationFormResponse>> =>
+  http.get({ url: `/application-forms/${applicationFormId}` });

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const CreateApplicationFormAside = styled.aside`
+export const ApplicationFormAside = styled.aside`
   ${({ theme }) => css`
     width: 38.4rem;
     height: fit-content;

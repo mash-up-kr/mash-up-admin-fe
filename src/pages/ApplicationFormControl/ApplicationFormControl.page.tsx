@@ -1,9 +1,9 @@
 import React from 'react';
 import { useForm, useFieldArray, FormProvider } from 'react-hook-form';
-import { useRecoilCallback } from 'recoil';
+import { useRecoilCallback, useRecoilValue } from 'recoil';
 import {
   ApplicationFormItem,
-  CreateApplicationFormAside,
+  ApplicationFormAside,
   InputField,
   ApplicationFormSection,
 } from '@/components';
@@ -13,6 +13,7 @@ import { InputSize } from '@/components/common/Input/Input.component';
 import Plus from '@/assets/svg/plus-20.svg';
 import { Question, QuestionKind, ApplicationFormCreateRequest } from '@/types/dto/applicationForm';
 import * as api from '@/api';
+import { $profile } from '@/store';
 
 interface FormValues {
   name: string;
@@ -26,6 +27,8 @@ const DEFAULT_QUESTION: Question = {
   questionType: QuestionKind.multiLineText,
   required: false,
 };
+
+const current = new Date().toISOString();
 
 const DEFAULT_QUESTIONS: Question[] = new Array(4).fill(DEFAULT_QUESTION);
 
@@ -58,6 +61,9 @@ const ApplicationFormControl = () => {
     api.createApplicationForm(requestDto);
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-redeclare
+  const position = useRecoilValue($profile)[2];
+
   return (
     <FormProvider {...methods}>
       <Styled.ApplicationFormControlPage>
@@ -88,7 +94,13 @@ const ApplicationFormControl = () => {
               </Styled.AddButton>
             </Styled.QuestionContent>
           </article>
-          <CreateApplicationFormAside />
+          <ApplicationFormAside
+            createdAt={current}
+            platform="Design"
+            createdBy={position}
+            leftActionButton={{ text: '취소' }}
+            rightActionButton={{ text: '저장' }}
+          />
         </form>
       </Styled.ApplicationFormControlPage>
     </FormProvider>
