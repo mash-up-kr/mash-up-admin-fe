@@ -11,20 +11,28 @@ const OPTIONS: SelectOption[] = [
 ];
 
 interface Props {
+  pagingSize: number;
   position: ValueOf<typeof SelectPosition>;
   handleChangeSize: (pagingSize: string) => void;
 }
 
-const PagingSizeSelector = ({ position, handleChangeSize }: Props) => {
+const PagingSizeSelector = ({ pagingSize, position, handleChangeSize }: Props) => {
+  const pagingSizeOption: SelectOption = {
+    value: pagingSize.toString(),
+    label: pagingSize.toString(),
+  };
   const handleChange = (option: SelectOption) => {
     handleChangeSize(option.value);
   };
+
+  if (pagingSize === 0) return null;
 
   return (
     <Select
       aria-label="Paging size selector"
       size="sm"
       position={position}
+      initialValue={pagingSizeOption}
       options={OPTIONS}
       onChange={handleChange}
     />

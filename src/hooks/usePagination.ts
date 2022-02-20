@@ -96,7 +96,7 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
 
     setPageOptions(newPageOptions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }, [totalCount, searchParams]);
 
   return {
     pageOptions,

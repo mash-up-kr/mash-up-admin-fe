@@ -25,17 +25,25 @@ export interface SelectProps {
   size: ValueOf<typeof SelectSize>;
   position?: ValueOf<typeof SelectPosition>;
   placeholder?: string;
+  initialValue?: SelectOption;
   options: SelectOption[];
   onChange?: (option: SelectOption) => void;
 }
 
 const Select = (
-  { size, position = SelectPosition.bottom, placeholder = '전체', options, onChange }: SelectProps,
+  {
+    size,
+    position = SelectPosition.bottom,
+    placeholder = '전체',
+    initialValue,
+    options,
+    onChange,
+  }: SelectProps,
   ref: React.Ref<HTMLSelectElement>,
 ) => {
   const [isOpened, setOpened] = useState(false);
 
-  const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [selectedOption, setSelectedOption] = useState(initialValue || options[0]);
 
   const outerRef = useRef<HTMLDivElement>(null);
 
