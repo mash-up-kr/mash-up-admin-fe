@@ -1,6 +1,5 @@
 import { atom, selector } from 'recoil';
 import { LoginResponse } from '@/types/dto';
-import { ACCESS_TOKEN } from '@/constants';
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 
 export const $me = atom<LoginResponse>({
@@ -18,7 +17,7 @@ export const $isAuthorized = selector<boolean>({
   key: 'isAuthorized',
   get: ({ get }) => {
     const { accessToken } = get($me);
-    return !!localStorage.getItem(ACCESS_TOKEN) && !accessToken;
+    return !!accessToken;
   },
 });
 
