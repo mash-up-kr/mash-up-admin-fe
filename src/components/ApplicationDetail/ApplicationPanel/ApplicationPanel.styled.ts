@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { SelectField } from '@/components';
 
 export const ApplicationPanelContainer = styled.aside`
   ${({ theme }) => css`
@@ -85,6 +86,13 @@ export const SelectMenu = styled.div<StyledSelectMenuProps>`
     z-index: ${theme.zIndex.select};
     display: ${isDatePickerOpened ? 'block' : 'none'};
   `}
+`;
+
+export const SelectDateField = styled(SelectField)`
+  & ul {
+    height: 26.8rem;
+    overflow-y: auto;
+  }
 `;
 
 export const ButtonContainer = styled.div`

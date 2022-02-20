@@ -100,9 +100,7 @@ const ApplicationPanel = ({
 
   useOnClickOutSide(outerRef, () => setIsDatePickerOpened(false));
 
-  const isNoInterviewScheduled = Object.keys(ApplicationConfirmationStatus).some(
-    (each) => each === confirmationStatus,
-  );
+  const isNoInterviewScheduled = confirmationStatus === 'INTERVIEW_CONFIRM_REJECTED';
 
   const normal = (
     <>
@@ -140,11 +138,13 @@ const ApplicationPanel = ({
 
   const timeOptions = useMemo(
     () =>
-      rangeArray(14).reduce<SelectOption[]>((acc: SelectOption[], cur: number) => {
+      rangeArray(14 * 6).reduce<SelectOption[]>((acc: SelectOption[], cur: number) => {
+        const min = cur % 6;
+        const hour = Math.floor(cur / 6);
         const d = date
           .clone()
-          .hour(8 + cur)
-          .minute(0)
+          .hour(8 + hour)
+          .minute(min * 10)
           .format();
         return [...acc, { value: d, label: formatDate(d, 'a hh시 mm분') }];
       }, []),
@@ -173,7 +173,7 @@ const ApplicationPanel = ({
                 <DatePicker handleSelectDate={handleSelectDate} selectedDate={date} />
               </Styled.SelectMenu>
             </div>
-            <SelectField
+            <Styled.SelectDateField
               size={SelectSize.md}
               options={timeOptions}
               isFullWidth
