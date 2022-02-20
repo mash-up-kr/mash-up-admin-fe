@@ -36,6 +36,7 @@ export const Position = {
 export type PositionType = ValueOf<typeof Position>;
 
 export interface ModalProps extends Children {
+  className?: string;
   heading?: string;
   footer: {
     cancelButton: {
@@ -88,6 +89,7 @@ export const Portal = ({ children }: Children): ReactPortal | null => {
 };
 
 const ModalWrapper = ({
+  className,
   children,
   heading,
   footer,
@@ -166,7 +168,7 @@ const ModalWrapper = ({
         }}
         tabIndex={-1}
       >
-        <Styled.ModalCard ref={dialogRef}>
+        <Styled.ModalCard ref={dialogRef} className={className}>
           {heading && (
             <Styled.ModalHeader>
               <h2>{heading}</h2>

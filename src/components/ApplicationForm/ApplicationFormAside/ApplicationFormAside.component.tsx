@@ -4,9 +4,9 @@ import { Button, UserProfile } from '@/components';
 import * as Styled from './ApplicationFormAside.styled';
 import { splitMemberPosition } from '@/components/common/UserProfile/UserProfile.component';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
-import Preview from '@/assets/svg/preview-20.svg';
 import { formatDate } from '@/utils';
 import { MemberPositionType } from '@/types';
+import ApplicationFormPreview from '../ApplicationFormPreview/ApplicationFormPreview.component';
 
 interface ActionButton {
   text: string;
@@ -79,12 +79,7 @@ const ApplicationFormAside = ({
       )}
       <Styled.Divider />
       <Styled.ButtonContainer>
-        <Button
-          Icon={Preview}
-          $size={ButtonSize.sm}
-          shape={ButtonShape.defaultLine}
-          label="미리보기"
-        />
+        <ApplicationFormPreview />
         <Button
           {...leftActionButton}
           $size={ButtonSize.sm}

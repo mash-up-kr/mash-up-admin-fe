@@ -78,7 +78,7 @@ const CreateApplicationForm = () => {
             }
             createdBy={position}
             leftActionButton={{ text: '취소' }}
-            rightActionButton={{ text: '저장' }}
+            rightActionButton={{ text: '저장', type: 'submit' }}
           />
         </form>
       </Styled.ApplicationFormControlPage>
