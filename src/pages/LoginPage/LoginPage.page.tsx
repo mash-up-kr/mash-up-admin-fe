@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilCallback } from 'recoil';
+import { useForm } from 'react-hook-form';
 import * as Styled from './LoginPage.styled';
 import Logo from '@/assets/svg/logo-admin-272.svg';
 import MinsourLogo from '@/assets/svg/minsour-logo-200.svg';
@@ -16,24 +17,20 @@ const ERROR_MESSAGE = {
   AUTH_FAILED: '아이디 또는 비밀번호를 잘못 입력했습니다.',
 };
 
+interface FormValues {
+  username: string;
+  password: string;
+}
+
 const LoginPage = () => {
   const [error, setError] = useState('');
-  // TODO:(용재) react-hook-form 으로 로직 변경
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const { handleSubmit, register } = useForm<FormValues>();
 
   const handleSetError = (param: string) => {
     setError(param);
   };
 
-  const handleSetUsername = (param: string) => {
-    setUsername(param);
-  };
-  const handleSetPassword = (param: string) => {
-    setPassword(param);
-  };
-
-  const handleLogin = useRecoilCallback(({ set }) => async () => {
+  const handleLogin = useRecoilCallback(({ set }) => async ({ username, password }: FormValues) => {
     if (username.length === 0) {
       return handleSetError(ERROR_MESSAGE.INVALID_USERNAME);
     }
@@ -51,32 +48,27 @@ const LoginPage = () => {
     }
   });
 
-  const handleCheckEnter = (e: React.KeyboardEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    handleLogin();
-  };
-
   return (
     <Styled.LoginPageWrapper>
-      <Styled.LoginContainer isError={!!error} onSubmit={handleCheckEnter}>
+      <Styled.LoginContainer isError={!!error} onSubmit={handleSubmit(handleLogin)}>
         <Logo />
         <div>
           <Input
+            {...register(`username`, { required: true })}
             $size={InputSize.md}
             id="id"
             placeholder="아이디를 입력해주세요"
             label=""
-            onChange={(e) => handleSetUsername(e.target.value)}
             onFocus={() => handleSetError('')}
           />
           <Input
+            {...register(`password`, { required: true })}
             type="password"
             $size={InputSize.md}
             id="password"
             placeholder="비밀번호를 입력해주세요"
             label=""
             errorMessage={error}
-            onChange={(e) => handleSetPassword(e.target.value)}
             onFocus={() => handleSetError('')}
           />
         </div>
