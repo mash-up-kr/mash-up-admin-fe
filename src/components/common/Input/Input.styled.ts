@@ -5,6 +5,7 @@ import { InputSizeType } from './Input.component';
 
 interface StyledInputProps {
   $size: InputSizeType;
+  errorMessage?: string;
 }
 
 export const InputWrapper = styled.div`
@@ -31,8 +32,17 @@ export const RequiredDot = styled.span`
   border-radius: 50%;
 `;
 
+export const Description = styled.span`
+  ${({ theme }) => css`
+    ${theme.fonts.regular13};
+
+    margin-bottom: 0.6rem;
+    color: ${theme.colors.gray60};
+  `}
+`;
+
 export const Input = styled.input<StyledInputProps>`
-  ${({ theme, $size }) => css`
+  ${({ theme, $size, errorMessage }) => css`
     ${theme.input.size[$size]};
 
     color: ${theme.colors.gray70};
@@ -56,6 +66,14 @@ export const Input = styled.input<StyledInputProps>`
       background-color: ${theme.colors.gray5};
       border: 0.1rem solid ${theme.colors.gray30};
     }
+
+    ${errorMessage
+      ? css`
+          && {
+            border: 0.1rem solid ${theme.colors.red50};
+          }
+        `
+      : ''}
   `}
 `;
 
@@ -64,6 +82,6 @@ export const InputErrorMessage = styled.span`
     ${theme.fonts.regular15};
 
     margin-top: 0.6rem;
-    color: ${theme.colors.gray60};
+    color: ${theme.colors.red50};
   `}
 `;
