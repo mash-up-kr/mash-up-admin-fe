@@ -1,5 +1,12 @@
 /* eslint-disable react/no-unused-prop-types */
-import React, { ReactNode, ChangeEventHandler, useRef, Dispatch, SetStateAction } from 'react';
+import React, {
+  ReactNode,
+  ChangeEventHandler,
+  useRef,
+  Dispatch,
+  SetStateAction,
+  Fragment,
+} from 'react';
 import { NestedKeyOf } from '@/types';
 import { getOwnValueByKey, isSameObject } from '@/utils';
 import * as Styled from './Table.styled';
@@ -57,7 +64,9 @@ const TableSupportBar = ({
       )}
     </Styled.TableSummary>
     <Styled.TableSupportButtonContainer>
-      {supportButtons?.map((button) => button)}
+      {supportButtons?.map((button, index) => (
+        <Fragment key={`supportButton-${index}`}>{button}</Fragment>
+      ))}
     </Styled.TableSupportButtonContainer>
   </Styled.TableSupportBar>
 );
@@ -198,7 +207,7 @@ const Table = <T extends object>({
           </Styled.Table>
         </Styled.TableBodyWrapper>
       </Styled.TableWrapper>
-      {pagination && pagination}
+      {pagination}
     </Styled.TableContainer>
   );
 };
