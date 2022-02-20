@@ -43,6 +43,7 @@ export const Description = styled.span`
   ${({ theme }) => css`
     ${theme.fonts.regular15};
 
+    display: inline-block;
     margin-top: 0.6rem;
     color: ${theme.colors.gray60};
   `}
