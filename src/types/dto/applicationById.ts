@@ -2,7 +2,7 @@ import {
   ApplicationConfirmationStatusType,
   ApplicationResultStatusType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { ValueOf } from '..';
+import { ValueOf, MemberPositionType } from '..';
 
 export interface Team {
   name: string;
@@ -75,7 +75,7 @@ export interface ApplicationByIdResponseData extends Array<Team> {
   smsRequests: {
     notificationContent: string;
     notificationName: string;
-    sender: string;
+    sender: MemberPositionType;
     senderPhoneNumber: string;
     smsRequestId: number;
     status: SmsStatusType;
