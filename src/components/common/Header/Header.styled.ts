@@ -17,7 +17,7 @@ export const HeaderContainerInner = styled.div`
   margin: 0 auto;
 `;
 
-export const VisuallyHiddenLogo = styled.h2`
+export const VisuallyHiddenLogo = styled.h1`
   ${({ theme }) => css`
     ${theme.a11y.visuallyHidden};
   `}
