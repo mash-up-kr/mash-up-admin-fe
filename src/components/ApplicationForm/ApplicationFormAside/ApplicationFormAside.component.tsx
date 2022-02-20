@@ -12,6 +12,7 @@ interface ActionButton {
   text: string;
   type?: 'submit' | 'reset' | 'button';
   disabled?: boolean;
+  onClick?: () => void;
 }
 
 export interface ApplicationFormAsideProps {

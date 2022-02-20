@@ -57,7 +57,7 @@ const App = () => {
             <Route
               path={PATH.APPLICATION_FORM_DETAIL}
               element={
-                <RequiredAuth isAuth={isAuthorized} to="/application">
+                <RequiredAuth isAuth={isAuthorized} to={PATH.LOGIN}>
                   <ApplicationFormDetail />
                 </RequiredAuth>
               }
@@ -65,13 +65,12 @@ const App = () => {
             <Route
               path={PATH.APPLICATION_FORM_UPDATE}
               element={
-                <RequiredAuth isAuth={isAuthorized} to="/application">
+                <RequiredAuth isAuth={isAuthorized} to={PATH.LOGIN}>
                   <UpdateApplicationForm />
                 </RequiredAuth>
               }
             />
 
-            {/* // TODO:(용재) 테스트용 - 추후 수정 */}
             <Route
               path={PATH.APPLICATION_FORM_CREATE}
               element={
