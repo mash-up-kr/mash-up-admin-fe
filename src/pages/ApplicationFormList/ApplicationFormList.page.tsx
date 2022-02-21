@@ -1,16 +1,35 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useRecoilStateLoadable, useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
-
 import { useSearchParams } from 'react-router-dom';
+
+import Preview from '@/assets/svg/preview-20.svg';
+import { ButtonShape } from '@/components/common/Button/Button.component';
+
 import { TeamNavigationTabs, Button, Pagination, Table, Link, UserProfile } from '@/components';
-import { usePagination } from '@/hooks';
+import { usePagination, useToggleState } from '@/hooks';
 import { $applicationForms, $teamIdByName } from '@/store';
-import { ApplicationFormResponse } from '@/types';
+import { ApplicationFormResponse, Question } from '@/types';
 import { TableColumn } from '@/components/common/Table/Table.component';
 import * as Styled from './ApplicationFormList.styled';
 import { PATH } from '@/constants';
 import { formatDate } from '@/utils';
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
+import { ApplicationFormPreviewModal } from '@/components/ApplicationForm/ApplicationFormPreview/ApplicationFormPreview.component';
+
+const ApplicationFormPreview = ({ questions }: { questions: Question[] }) => {
+  const [modalOpened, toggleModalOpened] = useToggleState(false);
+
+  return (
+    <>
+      <Styled.Center>
+        <Button Icon={Preview} shape={ButtonShape.smallIcon} onClick={toggleModalOpened} />
+      </Styled.Center>
+      {modalOpened && (
+        <ApplicationFormPreviewModal questions={questions} toggleModalOpened={toggleModalOpened} />
+      )}
+    </>
+  );
+};
 
 const columns: TableColumn<ApplicationFormResponse>[] = [
   {
@@ -51,7 +70,8 @@ const columns: TableColumn<ApplicationFormResponse>[] = [
   },
   {
     title: '미리보기',
-    renderCustomCell: () => <div>icon</div>,
+    accessor: 'questions',
+    renderCustomCell: (cellValue) => <ApplicationFormPreview questions={cellValue as Question[]} />,
     widthRatio: '7%',
   },
 ];
