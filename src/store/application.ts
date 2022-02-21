@@ -1,6 +1,6 @@
 import { ApplicationByIdRequest, ApplicationByIdResponseData } from '@/types/dto';
 import { selectorFamilyWithRefresher } from './recoil';
-import { getApplicationById } from '@/api/applicationById';
+import { getApplicationById } from '@/api';
 
 export const $applicationById = selectorFamilyWithRefresher<
   ApplicationByIdResponseData,

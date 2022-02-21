@@ -1,5 +1,5 @@
 export * from './login';
-export * from './applicationById';
+export * from './application';
 export * from './applicationForm';
 export * from './team';
 export * from './sms';
