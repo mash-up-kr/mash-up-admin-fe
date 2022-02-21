@@ -9,6 +9,7 @@ import React, {
   Dispatch,
   SetStateAction,
   MutableRefObject,
+  Suspense,
 } from 'react';
 import ReactDOM from 'react-dom';
 import * as Styled from './ModalWrapper.styled';
@@ -51,7 +52,7 @@ export interface ModalProps extends Children {
     };
     position?: PositionType;
   };
-  handleCloseModal: Dispatch<SetStateAction<void>>;
+  handleCloseModal: Dispatch<SetStateAction<void>> | any;
   closeOnClickOverlay?: boolean;
   beforeRef?: MutableRefObject<HTMLButtonElement>;
 }
@@ -59,6 +60,7 @@ export interface ModalProps extends Children {
 const PORTAL_ID = 'portal';
 const MAIN_ID = 'root';
 
+// TODO:(용재) ESC 로 모달 끄기, unmount callback 다시 보기
 export const Portal = ({ children }: Children): ReactPortal | null => {
   const [element, setElement] = useState<HTMLElement | null>(null);
 
@@ -75,12 +77,12 @@ export const Portal = ({ children }: Children): ReactPortal | null => {
 
     setElement(document.getElementById(PORTAL_ID));
 
-    return () => {
-      const selectedPortalElement = document.getElementById(PORTAL_ID);
-      if (selectedPortalElement) {
-        document.body.removeChild(selectedPortalElement);
-      }
-    };
+    // return () => {
+    //   const selectedPortalElement = document.getElementById(PORTAL_ID);
+    //   if (selectedPortalElement) {
+    //     document.body.removeChild(selectedPortalElement);
+    //   }
+    // };
   }, []);
 
   if (!element) return null;
@@ -104,22 +106,22 @@ const ModalWrapper = ({
     $rootNode?.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = 'hidden';
 
-    const handleModalCloseWithEscHandler = ({ key }: KeyboardEvent) => {
-      let scheduledAnimationFrame = false;
+    // const handleModalCloseWithEscHandler = ({ key }: KeyboardEvent) => {
+    //   let scheduledAnimationFrame = false;
 
-      if (scheduledAnimationFrame) {
-        return;
-      }
+    //   if (scheduledAnimationFrame) {
+    //     return;
+    //   }
 
-      scheduledAnimationFrame = true;
+    //   scheduledAnimationFrame = true;
 
-      if (key === 'Escape') {
-        handleCloseModal();
-        scheduledAnimationFrame = false;
-      }
-    };
+    //   if (key === 'Escape') {
+    //     handleCloseModal();
+    //     scheduledAnimationFrame = false;
+    //   }
+    // };
 
-    window.addEventListener('keyup', handleModalCloseWithEscHandler);
+    // window.addEventListener('keyup', handleModalCloseWithEscHandler);
 
     const handleFocusTrap = (e: KeyboardEvent) => {
       const focusableNodeList = dialogRef.current?.querySelectorAll<HTMLElement>(
@@ -151,7 +153,7 @@ const ModalWrapper = ({
       $rootNode?.removeAttribute('aria-hidden');
       document.body.style.overflow = 'unset';
 
-      window.removeEventListener('keyup', handleModalCloseWithEscHandler);
+      // window.removeEventListener('keyup', handleModalCloseWithEscHandler);
       window.removeEventListener('keydown', handleFocusTrap);
 
       beforeRefSnapshot?.current.focus();
@@ -159,41 +161,53 @@ const ModalWrapper = ({
   }, [beforeRef, handleCloseModal]);
 
   return (
-    <Portal>
-      <Styled.Overlay
-        onClick={(e) => {
-          if (e.target === e.currentTarget && closeOnClickOverlay) {
-            handleCloseModal();
-          }
-        }}
-        tabIndex={-1}
-      >
-        <Styled.ModalCard ref={dialogRef} className={className}>
-          {heading && (
-            <Styled.ModalHeader>
-              <h2>{heading}</h2>
-            </Styled.ModalHeader>
-          )}
-          <Styled.ModalContent>{children}</Styled.ModalContent>
-          <Styled.ModalFooter position={footer.position || Position.right}>
-            <Button
-              $size={ButtonSize.sm}
-              shape={ButtonShape.defaultLine}
-              {...footer.cancelButton}
-              onClick={
-                footer.cancelButton.onClick ? footer.cancelButton.onClick : () => handleCloseModal()
-              }
-            />
-            {footer?.confirmButton && (
-              <Button $size={ButtonSize.sm} shape={ButtonShape.primary} {...footer.confirmButton} />
+    <Suspense fallback={<div>sdf</div>}>
+      <Portal>
+        <Styled.Overlay
+          onClick={(e) => {
+            if (e.target === e.currentTarget && closeOnClickOverlay) {
+              handleCloseModal();
+            }
+          }}
+          tabIndex={-1}
+        >
+          <Styled.ModalCard ref={dialogRef} className={className}>
+            {heading && (
+              <Styled.ModalHeader>
+                <h2>{heading}</h2>
+              </Styled.ModalHeader>
             )}
-          </Styled.ModalFooter>
-          {heading && (
-            <Button Icon={CloseIcon} shape={ButtonShape.icon} onClick={() => handleCloseModal()} />
-          )}
-        </Styled.ModalCard>
-      </Styled.Overlay>
-    </Portal>
+            <Styled.ModalContent>{children}</Styled.ModalContent>
+            <Styled.ModalFooter position={footer.position || Position.right}>
+              <Button
+                $size={ButtonSize.sm}
+                shape={ButtonShape.defaultLine}
+                {...footer.cancelButton}
+                onClick={
+                  footer.cancelButton.onClick
+                    ? footer.cancelButton.onClick
+                    : () => handleCloseModal()
+                }
+              />
+              {footer?.confirmButton && (
+                <Button
+                  $size={ButtonSize.sm}
+                  shape={ButtonShape.primary}
+                  {...footer.confirmButton}
+                />
+              )}
+            </Styled.ModalFooter>
+            {heading && (
+              <Button
+                Icon={CloseIcon}
+                shape={ButtonShape.icon}
+                onClick={() => handleCloseModal()}
+              />
+            )}
+          </Styled.ModalCard>
+        </Styled.Overlay>
+      </Portal>
+    </Suspense>
   );
 };
 
