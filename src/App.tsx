@@ -1,7 +1,7 @@
 // import React, { ReactNode, Suspense } from 'react';
 import React, { Suspense } from 'react';
 // import { Routes, Route, Navigate, NavigateProps } from 'react-router-dom';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import { Global, ThemeProvider } from '@emotion/react';
 // import { useRecoilValue, useRecoilCallback } from 'recoil';
@@ -10,12 +10,17 @@ import { ModalViewer, Layout } from '@/components';
 
 import { theme, globalStyles } from './styles';
 
-import LoginPage from './pages/LoginPage/LoginPage.page';
 import { $me, $isAuthorized, $teams } from './store';
 import * as api from './api';
 import { ACCESS_TOKEN, PATH } from './constants';
 
-import { ApplicationFormDetail, CreateApplicationForm, UpdateApplicationForm } from './pages';
+import {
+  LoginPage,
+  ApplicationFormList,
+  ApplicationFormDetail,
+  CreateApplicationForm,
+  UpdateApplicationForm,
+} from './pages';
 
 // interface RequiredAuthProps extends Partial<NavigateProps> {
 //   children: ReactNode;
@@ -58,6 +63,14 @@ const App = () => {
         <ModalViewer />
         <Routes>
           <Route path="/" element={<Layout />}>
+            <Route
+              path={PATH.APPLICATION_FORM}
+              element={
+                // <RequiredAuth isAuth={isAuthorized} to={PATH.LOGIN}>
+                <ApplicationFormList />
+                // </RequiredAuth>
+              }
+            />
             <Route
               path={PATH.APPLICATION_FORM_DETAIL}
               element={
