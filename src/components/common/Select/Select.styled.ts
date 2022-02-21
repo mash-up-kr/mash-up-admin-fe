@@ -3,10 +3,15 @@ import styled from '@emotion/styled';
 import { ValueOf } from '@/types';
 import { SelectPosition, SelectSize } from './Select.component';
 
+interface StyledSelectContainerProps {
+  isFullWidth: boolean;
+}
+
 interface StyledSelectProps {
   position: ValueOf<typeof SelectPosition>;
   isOpened: boolean;
   size: ValueOf<typeof SelectSize>;
+  disabled: boolean;
 }
 
 interface StyledSelectMenuProps {
@@ -44,16 +49,13 @@ const getSelectStyle = (
   }
 };
 
-interface StyledSelectContainerProps {
-  isFullWidth: boolean;
-}
-
 export const SelectContainer = styled.div<StyledSelectContainerProps>`
   ${({ isFullWidth }) => css`
     position: relative;
     display: inline-flex;
     flex-direction: column-reverse;
     min-width: 16rem;
+
     ${isFullWidth
       ? css`
           width: 100%;
@@ -63,7 +65,7 @@ export const SelectContainer = styled.div<StyledSelectContainerProps>`
 `;
 
 export const Select = styled.div<StyledSelectProps>`
-  ${({ theme, size, isOpened, position }) => css`
+  ${({ theme, size, isOpened, position, disabled }) => css`
     ${theme.select.size[size]};
 
     display: flex;
@@ -84,6 +86,14 @@ export const Select = styled.div<StyledSelectProps>`
     }
 
     ${getSelectStyle(position, isOpened, theme)}
+
+    ${disabled
+      ? css`
+          cursor: not-allowed;
+          opacity: 0.5;
+          user-select: none;
+        `
+      : css``}
   `}
 `;
 
