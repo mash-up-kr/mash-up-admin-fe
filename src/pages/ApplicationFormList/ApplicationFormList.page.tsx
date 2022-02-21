@@ -2,43 +2,57 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useRecoilStateLoadable, useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
 
 import { useSearchParams } from 'react-router-dom';
-import { TeamNavigationTabs, Button, Pagination, Table, Link } from '@/components';
+import { TeamNavigationTabs, Button, Pagination, Table, Link, UserProfile } from '@/components';
 import { usePagination } from '@/hooks';
 import { $applicationForms, $teamIdByName } from '@/store';
 import { ApplicationFormResponse } from '@/types';
 import { TableColumn } from '@/components/common/Table/Table.component';
 import * as Styled from './ApplicationFormList.styled';
 import { PATH } from '@/constants';
+import { formatDate } from '@/utils';
+import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 
 const columns: TableColumn<ApplicationFormResponse>[] = [
   {
     title: '플랫폼',
     accessor: 'team.name',
-    widthRatio: '10%',
+    widthRatio: '9%',
   },
   {
     title: '지원서 설문지 문서명',
     accessor: 'name',
-    widthRatio: '25%',
+    widthRatio: '28%',
+    renderCustomCell: (cellValue) => <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>,
   },
   {
     title: '작성자',
     accessor: 'createdBy',
-    widthRatio: '10%',
+    widthRatio: '14%',
+    renderCustomCell: (cellValue) => {
+      const [team, role] = (cellValue as string).split('_') as [TeamType, RoleType];
+      return (
+        <Styled.CustomUserProfile>
+          <UserProfile team={team} role={role} showBackground={false} />
+        </Styled.CustomUserProfile>
+      );
+    },
   },
   {
     title: '작성일시',
     accessor: 'createdAt',
-    widthRatio: '20%',
+    widthRatio: '21%',
+    renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
   },
   {
     title: '수정일시',
     accessor: 'updatedAt',
-    widthRatio: '20%',
+    widthRatio: '21%',
+    renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
   },
   {
     title: '미리보기',
-    widthRatio: '5%',
+    renderCustomCell: () => <div>icon</div>,
+    widthRatio: '7%',
   },
 ];
 

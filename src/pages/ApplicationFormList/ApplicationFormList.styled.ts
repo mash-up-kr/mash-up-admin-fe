@@ -14,3 +14,20 @@ export const Heading = styled.h2`
     line-height: 4.5rem;
   `};
 `;
+
+export const FormTitle = styled.div`
+  width: 100%;
+  padding: 0 1rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: left;
+  text-overflow: ellipsis;
+`;
+
+export const CustomUserProfile = styled.div`
+  ${({ theme }) => css`
+    & div:first-of-type {
+      ${theme.fonts.regular14};
+    }
+  `}
+`;
