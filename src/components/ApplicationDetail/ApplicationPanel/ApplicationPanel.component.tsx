@@ -167,7 +167,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
       <TitleWithContent title="합격 여부">
         <ApplicationStatusBadge text={ApplicationResultStatus[resultStatus]} />
       </TitleWithContent>
-      {interviewDate && (
+      {isShowInterviewSchedule && (
         <TitleWithContent title="면접 일시" isLineThrough={isInterviewConfirmed}>
           {formatDate(date.format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
@@ -236,6 +236,7 @@ const ApplicationPanel = ({
           <ControlArea
             confirmationStatus={confirmationStatus}
             resultStatus={resultStatus}
+            interviewDate={interviewDate}
             {...restProps}
           />
         </Styled.ApplicationStatusForm>
