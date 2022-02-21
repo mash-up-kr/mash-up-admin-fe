@@ -188,7 +188,9 @@ const ModalWrapper = ({
               <Button $size={ButtonSize.sm} shape={ButtonShape.primary} {...footer.confirmButton} />
             )}
           </Styled.ModalFooter>
-          <Button Icon={CloseIcon} shape={ButtonShape.icon} onClick={() => handleCloseModal()} />
+          {heading && (
+            <Button Icon={CloseIcon} shape={ButtonShape.icon} onClick={() => handleCloseModal()} />
+          )}
         </Styled.ModalCard>
       </Styled.Overlay>
     </Portal>

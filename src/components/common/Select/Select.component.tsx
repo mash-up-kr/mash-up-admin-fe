@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import * as Styled from './Select.styled';
 import ChevronDown from '@/assets/svg/chevron-down-16.svg';
 import { useOnClickOutSide } from '@/hooks';
@@ -28,9 +28,9 @@ export interface SelectProps {
   placeholder?: string;
   options: SelectOption[];
   isFullWidth?: boolean;
-  defaultValue?: string;
   onChangeOption?: (option: SelectOption) => void;
   disabled?: boolean;
+  defaultValue?: SelectOption;
 }
 
 const Select = (
@@ -49,7 +49,7 @@ const Select = (
 ) => {
   const [isOpened, setOpened] = useState(false);
 
-  const [selectedOption, setSelectedOption] = useState<SelectOption | undefined>(undefined);
+  const [selectedOption, setSelectedOption] = useState<SelectOption | undefined>(defaultValue);
 
   const outerRef = useRef<HTMLDivElement>(null);
 
@@ -66,20 +66,6 @@ const Select = (
     toggleOpened();
     onChangeOption?.(option);
   };
-
-  useEffect(() => {
-    if (defaultValue) {
-      const targetOption = options.find((option) => option.value === defaultValue);
-
-      if (!targetOption) {
-        return;
-      }
-
-      setSelectedOption(targetOption);
-      onChangeOption?.(targetOption);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultValue, options]);
 
   useOnClickOutSide(outerRef, () => setOpened(false));
 

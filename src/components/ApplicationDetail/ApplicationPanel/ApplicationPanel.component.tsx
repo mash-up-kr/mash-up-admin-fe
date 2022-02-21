@@ -122,7 +122,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
             isFullWidth
             ref={selectedApplicationResultStatusRef}
             onChangeOption={handleChangeApplicationResultSelect}
-            defaultValue={resultStatus}
+            defaultValue={applicationResultOptions.find((option) => option.value === resultStatus)}
           />
         </TitleWithContent>
         {isShowInterviewSchedule && (
@@ -143,7 +143,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
                 isFullWidth
                 onChangeOption={handleChangeTimeSelect}
                 disabled={isInterviewConfirmed}
-                defaultValue={dayjs(date).format()}
+                defaultValue={timeOptions.find((option) => option.value === dayjs(date).format())}
               />
             </Styled.SelectContainer>
           </TitleWithContent>
