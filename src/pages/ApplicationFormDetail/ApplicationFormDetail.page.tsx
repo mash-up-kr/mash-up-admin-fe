@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilCallback, useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilCallback, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { ApplicationFormSection, ApplicationFormAside } from '@/components';
@@ -30,18 +30,18 @@ const ApplicationFormDetail = () => {
     $applicationFormDetail({ id: id ?? '' }),
   );
 
-  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
+  const modal = useRecoilValue($modalByStorage(ModalKey.alertModalDialog));
 
   const resetApplicationFormDetail = useResetRecoilState($applicationFormDetail({ id: id ?? '' }));
 
   const methods = useForm<FormValues>({ defaultValues: { questions } });
 
-  const handleRemoveQuestion = useRecoilCallback(() => async () => {
+  const handleRemoveQuestion = useRecoilCallback(({ set }) => async () => {
     if (!id) {
       return;
     }
 
-    setModal({
+    set($modalByStorage(ModalKey.alertModalDialog), {
       ...modal,
       isOpen: true,
       props: {
@@ -58,7 +58,7 @@ const ApplicationFormDetail = () => {
                 message: '성공적으로 지원서 설문지를 삭제했습니다.',
               });
 
-              setModal({
+              set($modalByStorage(ModalKey.alertModalDialog), {
                 ...modal,
                 isOpen: false,
               });

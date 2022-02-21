@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilCallback, useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilCallback, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm, useFormState } from 'react-hook-form';
 import * as Styled from './UpdateApplicationForm.styled';
@@ -25,7 +25,7 @@ const UpdateApplicationForm = () => {
     $applicationFormDetail({ id: id ?? '' }),
   );
 
-  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
+  const modal = useRecoilValue($modalByStorage(ModalKey.alertModalDialog));
 
   const resetApplicationFormDetail = useResetRecoilState($applicationFormDetail({ id: id ?? '' }));
 
@@ -45,7 +45,7 @@ const UpdateApplicationForm = () => {
 
   const { handleAddToast } = useToast();
 
-  const handleSubmitForm = useRecoilCallback(() => async (data: FormValues) => {
+  const handleSubmitForm = useRecoilCallback(({ set }) => async (data: FormValues) => {
     if (!id) {
       return;
     }
@@ -59,7 +59,7 @@ const UpdateApplicationForm = () => {
       return;
     }
 
-    setModal({
+    set($modalByStorage(ModalKey.alertModalDialog), {
       ...modal,
       isOpen: true,
       props: {
@@ -71,7 +71,7 @@ const UpdateApplicationForm = () => {
             requestFunc: () => api.updateApplicationForm(id, data),
             errorHandler: handleAddToast,
             onSuccess: () => {
-              setModal({
+              set($modalByStorage(ModalKey.alertModalDialog), {
                 ...modal,
                 isOpen: false,
               });
