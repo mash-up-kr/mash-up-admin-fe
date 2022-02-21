@@ -99,8 +99,8 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
 
   const timeOptions = useMemo(
     () =>
-      rangeArray(14 * 6).reduce<SelectOption[]>((acc: SelectOption[], cur: number) => {
-        const min = cur % 6;
+      rangeArray(14 * 6 + 1).reduce<SelectOption[]>((acc: SelectOption[], cur: number) => {
+        const min = (cur % 6) - 1;
         const hour = Math.floor(cur / 6);
         const d = date
           .clone()
