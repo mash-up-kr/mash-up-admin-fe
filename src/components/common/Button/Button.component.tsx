@@ -15,6 +15,7 @@ export const ButtonShape = {
   primary: 'primary',
   primaryLine: 'primaryLine',
   icon: 'icon',
+  smallIcon: 'smallIcon',
 } as const;
 
 export type ButtonSizeType = ValueOf<typeof ButtonSize>;

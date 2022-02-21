@@ -107,6 +107,24 @@ export const button = {
         stroke: ${colors.purple60};
       }
     `,
+    [ButtonShape.smallIcon]: css`
+      width: 3.6rem;
+      min-width: auto;
+      height: 3.6rem;
+      padding: 0 0;
+      line-height: 0;
+      background-color: ${colors.white};
+      border-color: ${colors.gray40};
+      border-radius: 0.9rem;
+
+      &:hover {
+        background-color: ${colors.gray10};
+      }
+
+      & > svg > path {
+        stroke: ${colors.gray60};
+      }
+    `,
     [ButtonShape.icon]: css`
       width: 4.4rem;
       min-width: auto;
