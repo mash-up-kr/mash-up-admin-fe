@@ -1,6 +1,6 @@
 import React from 'react';
-import { useRecoilCallback, useRecoilState } from 'recoil';
-import { useParams } from 'react-router-dom';
+import { useRecoilCallback, useRecoilState, useResetRecoilState } from 'recoil';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { ApplicationFormSection, ApplicationFormAside } from '@/components';
 import * as Styled from './ApplicationFormDetail.styled';
@@ -10,6 +10,9 @@ import { ParamId, Question, QuestionKind } from '@/types';
 import { $applicationFormDetail } from '@/store/applicationForm';
 import { InputSize } from '@/components/common/Input/Input.component';
 import * as api from '@/api';
+import { useToast, useUnmount } from '@/hooks';
+import { request } from '@/utils';
+import { PATH } from '@/constants';
 
 interface FormValues {
   questions: Question[];
@@ -18,9 +21,14 @@ interface FormValues {
 const ApplicationFormDetail = () => {
   const { id } = useParams<ParamId>();
 
+  const navigate = useNavigate();
+  const { handleAddToast } = useToast();
+
   const [{ questions, name, team, createdAt, createdBy, updatedAt, updatedBy }] = useRecoilState(
     $applicationFormDetail({ id: id ?? '' }),
   );
+
+  const resetApplicationFormDetail = useResetRecoilState($applicationFormDetail({ id: id ?? '' }));
 
   const methods = useForm<FormValues>({ defaultValues: { questions } });
 
@@ -29,8 +37,17 @@ const ApplicationFormDetail = () => {
       return;
     }
 
-    // TODO:(@mango906): api 요청 완료후 로직 만들어주기
-    api.deleteApplicationForm(id);
+    request({
+      requestFunc: () => api.deleteApplicationForm(id),
+      errorHandler: handleAddToast,
+      onSuccess: () => {
+        navigate(PATH.APPLICATION_FORM);
+      },
+    });
+  });
+
+  useUnmount(() => {
+    resetApplicationFormDetail();
   });
 
   return (
@@ -80,7 +97,10 @@ const ApplicationFormDetail = () => {
               text: '삭제',
               onClick: handleRemoveQuestion,
             }}
-            rightActionButton={{ text: '수정' }}
+            rightActionButton={{
+              text: '수정',
+              onClick: () => navigate(`/application-form/update/${id}`),
+            }}
           />
         </div>
       </Styled.ApplicationFormDetailPage>
