@@ -1,41 +1,41 @@
-import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
+
 import { ToastProps } from '@/components/common/Toast/Toast.component';
 import { $toast } from '@/store';
 
-interface UseToastProps extends ToastProps {
-  conditions: boolean[];
-  duration?: number;
-  dependencies: unknown[];
-  callbackAfterReset?(): void;
-}
+const TOAST_DURATION = 3000;
 
-const DEFAULT_TOAST_DURATION = 3000;
+let toastTimeout: NodeJS.Timeout;
 
-const useToast = ({
-  type,
-  conditions,
-  message,
-  dependencies,
-  duration = DEFAULT_TOAST_DURATION,
-  callbackAfterReset,
-}: UseToastProps) => {
-  const setToast = useSetRecoilState($toast);
+const useToast = () => {
+  const [toast, setToast] = useRecoilState($toast);
 
-  useEffect(() => {
-    if (conditions.every((condition) => condition)) {
-      setToast({
-        type,
-        message,
-      });
-
-      setTimeout(() => {
-        setToast(undefined);
-        callbackAfterReset?.();
-      }, duration);
+  const handleRemoveToast = () => {
+    if (toastTimeout) {
+      clearTimeout(toastTimeout);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, dependencies);
+
+    setToast(undefined);
+  };
+
+  const handleAddToast = (newToast: ToastProps) => {
+    if (toast) {
+      handleRemoveToast();
+    }
+
+    setToast({
+      ...newToast,
+    });
+
+    toastTimeout = setTimeout(() => {
+      setToast(undefined);
+    }, TOAST_DURATION);
+  };
+
+  return {
+    handleAddToast,
+    handleRemoveToast,
+  };
 };
 
 export default useToast;
