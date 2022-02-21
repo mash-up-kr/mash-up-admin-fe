@@ -18,7 +18,7 @@ export const ApplicationPanelContainer = styled.aside`
   `}
 `;
 
-export const ApplicationStatusContainer = styled.div`
+export const ApplicationStatusContainer = styled.form`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;

@@ -189,12 +189,7 @@ const ApplicationPanel = ({
           label="취소"
           onClick={handleToggleIsEdit}
         />
-        <Button
-          $size={ButtonSize.sm}
-          shape={ButtonShape.primary}
-          label="저장"
-          onClick={handleSubmit(handleSubmitUpdateResult)}
-        />
+        <Button type="submit" $size={ButtonSize.sm} shape={ButtonShape.primary} label="저장" />
       </Styled.ButtonContainer>
     </>
   );
@@ -202,7 +197,7 @@ const ApplicationPanel = ({
   return (
     <Styled.ApplicationPanelContainer>
       <h3>작성 및 수정정보</h3>
-      <Styled.ApplicationStatusContainer>
+      <Styled.ApplicationStatusContainer onSubmit={handleSubmit(handleSubmitUpdateResult)}>
         <TitleWithContent title="사용자 확인 여부">
           <ApplicationStatusBadge
             text={
