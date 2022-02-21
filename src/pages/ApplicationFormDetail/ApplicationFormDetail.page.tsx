@@ -13,6 +13,8 @@ import * as api from '@/api';
 import { useToast, useUnmount } from '@/hooks';
 import { request } from '@/utils';
 import { PATH } from '@/constants';
+import { $modalByStorage, ModalKey } from '@/store';
+import { ToastType } from '@/components/common/Toast/Toast.component';
 
 interface FormValues {
   questions: Question[];
@@ -28,6 +30,8 @@ const ApplicationFormDetail = () => {
     $applicationFormDetail({ id: id ?? '' }),
   );
 
+  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
+
   const resetApplicationFormDetail = useResetRecoilState($applicationFormDetail({ id: id ?? '' }));
 
   const methods = useForm<FormValues>({ defaultValues: { questions } });
@@ -37,11 +41,31 @@ const ApplicationFormDetail = () => {
       return;
     }
 
-    request({
-      requestFunc: () => api.deleteApplicationForm(id),
-      errorHandler: handleAddToast,
-      onSuccess: () => {
-        navigate(PATH.APPLICATION_FORM);
+    setModal({
+      ...modal,
+      isOpen: true,
+      props: {
+        heading: '삭제하시겠습니까?',
+        paragraph: '작성 또는 수정하신 데이터가 삭제됩니다.',
+        confirmButtonLabel: '삭제',
+        handleClickConfirmButton: () => {
+          request({
+            requestFunc: () => api.deleteApplicationForm(id),
+            errorHandler: handleAddToast,
+            onSuccess: () => {
+              handleAddToast({
+                type: ToastType.success,
+                message: '성공적으로 지원서 설문지를 삭제했습니다.',
+              });
+
+              setModal({
+                ...modal,
+                isOpen: false,
+              });
+              navigate(PATH.APPLICATION_FORM);
+            },
+          });
+        },
       },
     });
   });

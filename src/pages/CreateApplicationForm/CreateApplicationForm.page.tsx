@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useRecoilCallback, useRecoilValue } from 'recoil';
+import { useRecoilCallback, useRecoilState, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { ApplicationFormAside, ApplicationFormSection } from '@/components';
 import * as Styled from './CreateApplicationForm.styled';
 
 import { Question, QuestionKind } from '@/types/dto/applicationForm';
 import * as api from '@/api';
-import { $profile, $teams } from '@/store';
+import { $modalByStorage, $profile, $teams, ModalKey } from '@/store';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import ApplicationFormTemplate from '@/components/ApplicationForm/ApplicationFormTemplate/ApplicationFormTemplate.component';
 import { useToast } from '@/hooks';
@@ -38,6 +38,8 @@ const CreateApplicationForm = () => {
     shouldUnregister: true,
   });
 
+  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
+
   const { register, handleSubmit, setValue } = methods;
 
   const navigate = useNavigate();
@@ -56,28 +58,41 @@ const CreateApplicationForm = () => {
   const { handleAddToast } = useToast();
 
   const handleSubmitForm = useRecoilCallback(() => async (data: FormValues) => {
-    // TODO:(@mango906): 입력값 제대로 입력안했을 떄 어떻게 알려줄지 정하기
     if (data.questions.length === 0) {
       handleAddToast({
         type: 'error',
         message: '최소 한가지의 질문을 작성해야합니다.',
       });
-
-      return;
     }
 
-    request({
-      requestFunc: () => api.createApplicationForm(data),
-      errorHandler: handleAddToast,
-      onSuccess: (response) => {
-        const { applicationFormId } = response.data;
+    setModal({
+      ...modal,
+      isOpen: true,
+      props: {
+        heading: '저장하시겠습니까?',
+        paragraph: '지원서 설문지 내역에서 확인하실 수 있습니다.',
+        confirmButtonLabel: '저장',
+        handleClickConfirmButton: () => {
+          request({
+            requestFunc: () => api.createApplicationForm(data),
+            errorHandler: handleAddToast,
+            onSuccess: (response) => {
+              setModal({
+                ...modal,
+                isOpen: false,
+              });
 
-        handleAddToast({
-          type: ToastType.success,
-          message: '성공적으로 지원서 설문지를 작성했습니다.',
-        });
+              const { applicationFormId } = response.data;
 
-        navigate(getApplicationFormDetailPage(applicationFormId));
+              handleAddToast({
+                type: ToastType.success,
+                message: '성공적으로 지원서 설문지를 작성했습니다.',
+              });
+
+              navigate(getApplicationFormDetailPage(applicationFormId));
+            },
+          });
+        },
       },
     });
   });

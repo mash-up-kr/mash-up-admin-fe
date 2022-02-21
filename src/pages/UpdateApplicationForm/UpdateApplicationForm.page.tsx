@@ -3,7 +3,7 @@ import { useRecoilCallback, useRecoilState, useResetRecoilState } from 'recoil';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm, useFormState } from 'react-hook-form';
 import * as Styled from './UpdateApplicationForm.styled';
-import { $applicationFormDetail } from '@/store';
+import { $applicationFormDetail, $modalByStorage, ModalKey } from '@/store';
 import { ParamId, Question } from '@/types';
 import { ApplicationFormAside, ApplicationFormSection } from '@/components';
 import ApplicationFormTemplate from '@/components/ApplicationForm/ApplicationFormTemplate/ApplicationFormTemplate.component';
@@ -25,6 +25,8 @@ const UpdateApplicationForm = () => {
     $applicationFormDetail({ id: id ?? '' }),
   );
 
+  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
+
   const resetApplicationFormDetail = useResetRecoilState($applicationFormDetail({ id: id ?? '' }));
 
   const methods = useForm<FormValues>({
@@ -32,6 +34,7 @@ const UpdateApplicationForm = () => {
       questions,
       name,
     },
+    shouldUnregister: true,
   });
 
   const navigate = useNavigate();
@@ -56,16 +59,32 @@ const UpdateApplicationForm = () => {
       return;
     }
 
-    request({
-      requestFunc: () => api.updateApplicationForm(id, data),
-      errorHandler: handleAddToast,
-      onSuccess: () => {
-        handleAddToast({
-          type: ToastType.success,
-          message: '성공적으로 지원서 설문지를 수정했습니다.',
-        });
+    setModal({
+      ...modal,
+      isOpen: true,
+      props: {
+        heading: '저장하시겠습니까?',
+        paragraph: '지원서 설문지 내역에서 확인하실 수 있습니다.',
+        confirmButtonLabel: '저장',
+        handleClickConfirmButton: () => {
+          request({
+            requestFunc: () => api.updateApplicationForm(id, data),
+            errorHandler: handleAddToast,
+            onSuccess: () => {
+              setModal({
+                ...modal,
+                isOpen: false,
+              });
 
-        navigate(getApplicationFormDetailPage(id));
+              handleAddToast({
+                type: ToastType.success,
+                message: '성공적으로 지원서 설문지를 수정했습니다.',
+              });
+
+              navigate(getApplicationFormDetailPage(id));
+            },
+          });
+        },
       },
     });
   });
