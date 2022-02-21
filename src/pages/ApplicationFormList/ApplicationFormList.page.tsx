@@ -1,20 +1,29 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { useRecoilStateLoadable, useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
 import { useSearchParams } from 'react-router-dom';
 
 import Preview from '@/assets/svg/preview-20.svg';
-import { ButtonShape } from '@/components/common/Button/Button.component';
 
-import { TeamNavigationTabs, Button, Pagination, Table, Link, UserProfile } from '@/components';
+import {
+  TeamNavigationTabs,
+  Button,
+  Pagination,
+  Table,
+  Link,
+  UserProfile,
+  SearchOptionBar,
+} from '@/components';
 import { usePagination, useToggleState } from '@/hooks';
 import { $applicationForms, $teamIdByName } from '@/store';
-import { ApplicationFormResponse, Question } from '@/types';
-import { TableColumn } from '@/components/common/Table/Table.component';
-import * as Styled from './ApplicationFormList.styled';
+import { ApplicationFormResponse, Question, ApplicationFormRequest } from '@/types';
 import { PATH } from '@/constants';
 import { formatDate } from '@/utils';
+import { TableColumn } from '@/components/common/Table/Table.component';
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 import { ApplicationFormPreviewModal } from '@/components/ApplicationForm/ApplicationFormPreview/ApplicationFormPreview.component';
+import { ButtonShape } from '@/components/common/Button/Button.component';
+
+import * as Styled from './ApplicationFormList.styled';
 
 const ApplicationFormPreview = ({ questions }: { questions: Question[] }) => {
   const [modalOpened, toggleModalOpened] = useToggleState(false);
@@ -84,15 +93,12 @@ const ApplicationFormList = () => {
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
 
-  const params = useMemo(() => {
-    return {
-      page: parseInt(page, 10) - 1,
-      size: parseInt(size, 10),
-      teamId: parseInt(teamId, 10) || undefined,
-    };
-  }, [page, size, teamId]);
-  const [{ state, contents }] = useRecoilStateLoadable($applicationForms(params));
-  const refreshApplicationForms = useRecoilRefresher_UNSTABLE($applicationForms(params));
+  const [applicationFormParams, setApplicationFormsParams] = useState<ApplicationFormRequest>({});
+
+  const [{ state, contents }] = useRecoilStateLoadable($applicationForms(applicationFormParams));
+  const refreshApplicationForms = useRecoilRefresher_UNSTABLE(
+    $applicationForms(applicationFormParams),
+  );
   const [tableRows, setTableRows] = useState<ApplicationFormResponse[]>([]);
 
   const { pageOptions, handleChangePage, handleChangeSize } = usePagination(
@@ -100,6 +106,24 @@ const ApplicationFormList = () => {
   );
 
   const isLoading = state === 'loading';
+
+  const handleSubmit = (
+    e: { target: { searchWord: { value: string } } } & FormEvent<HTMLFormElement>,
+  ) => {
+    e.preventDefault();
+    setApplicationFormsParams((prev) => ({
+      ...prev,
+      searchWord: e.target.searchWord.value,
+    }));
+  };
+
+  useEffect(() => {
+    setApplicationFormsParams({
+      page: parseInt(page, 10) - 1,
+      size: parseInt(size, 10),
+      teamId: parseInt(teamId, 10) || undefined,
+    });
+  }, [page, size, teamId]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -116,7 +140,7 @@ const ApplicationFormList = () => {
     <Styled.PageWrapper>
       <Styled.Heading>지원서 설문지 내역</Styled.Heading>
       <TeamNavigationTabs />
-
+      <SearchOptionBar handleSubmit={handleSubmit} />
       <Table<ApplicationFormResponse>
         prefix="application"
         columns={columns}

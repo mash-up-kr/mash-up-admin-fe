@@ -11,6 +11,7 @@ export { default as ToggleButton } from './ToggleButton/ToggleButton.component';
 export { default as Label } from './ApplicationStatusBadge/ApplicationStatusBadge.component';
 export { default as AlertModalDialog } from './AlertModalDialog/AlertModalDialog.component';
 export { default as ModalViewer } from './ModalViewer/ModalViewer.component';
+export { default as SearchOptionBar } from './SearchOptionBar/SearchOptionBar.component';
 export { default as Select } from './Select/Select.component';
 export { default as Table } from './Table/Table.component';
 export { default as Pagination } from './Pagination/Pagination.component';
