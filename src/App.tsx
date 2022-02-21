@@ -53,9 +53,9 @@ const App = () => {
   })();
 
   return (
-    <Suspense fallback={null}>
-      <Global styles={globalStyles} />
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <Suspense fallback={null}>
+        <Global styles={globalStyles} />
         <ModalViewer />
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -95,9 +95,9 @@ const App = () => {
             }
           />
         </Routes>
-      </ThemeProvider>
-      {toast && <Toast />}
-    </Suspense>
+        {toast && <Toast />}
+      </Suspense>
+    </ThemeProvider>
   );
 };
 

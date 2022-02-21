@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilCallback, useRecoilState } from 'recoil';
+import { useRecoilCallback, useRecoilState, useResetRecoilState } from 'recoil';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm, useFormState } from 'react-hook-form';
 import * as Styled from './UpdateApplicationForm.styled';
@@ -8,6 +8,10 @@ import { ParamId, Question } from '@/types';
 import { ApplicationFormAside, ApplicationFormSection } from '@/components';
 import ApplicationFormTemplate from '@/components/ApplicationForm/ApplicationFormTemplate/ApplicationFormTemplate.component';
 import * as api from '@/api';
+import { request } from '@/utils';
+import { useToast, useUnmount } from '@/hooks';
+import { ToastType } from '@/components/common/Toast/Toast.component';
+import { getApplicationFormDetailPage } from '@/constants';
 
 interface FormValues {
   name: string;
@@ -20,6 +24,8 @@ const UpdateApplicationForm = () => {
   const [{ questions, name, createdAt, team, createdBy, updatedAt, updatedBy }] = useRecoilState(
     $applicationFormDetail({ id: id ?? '' }),
   );
+
+  const resetApplicationFormDetail = useResetRecoilState($applicationFormDetail({ id: id ?? '' }));
 
   const methods = useForm<FormValues>({
     defaultValues: {
@@ -34,21 +40,39 @@ const UpdateApplicationForm = () => {
 
   const { isDirty } = useFormState({ control });
 
+  const { handleAddToast } = useToast();
+
   const handleSubmitForm = useRecoilCallback(() => async (data: FormValues) => {
     if (!id) {
       return;
     }
 
-    // TODO:(@mango906): 입력값 제대로 입력안했을 떄 어떻게 알려줄지 정하기
     if (data.questions.length === 0) {
+      handleAddToast({
+        type: ToastType.error,
+        message: '최소 한가지의 질문을 작성해야합니다.',
+      });
+
       return;
     }
 
-    // TODO:(@mango906): api 요청 완료후 로직 만들어주기
-    api.updateApplicationForm(id, data);
+    request({
+      requestFunc: () => api.updateApplicationForm(id, data),
+      errorHandler: handleAddToast,
+      onSuccess: () => {
+        handleAddToast({
+          type: ToastType.success,
+          message: '성공적으로 지원서 설문지를 수정했습니다.',
+        });
+
+        navigate(getApplicationFormDetailPage(id));
+      },
+    });
   });
 
-  useBlocker({ conditions: [true], dependencies: [] });
+  useUnmount(() => {
+    resetApplicationFormDetail();
+  });
 
   return (
     <FormProvider {...methods}>

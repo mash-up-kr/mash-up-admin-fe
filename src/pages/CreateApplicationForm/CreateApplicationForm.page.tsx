@@ -10,6 +10,11 @@ import * as api from '@/api';
 import { $profile, $teams } from '@/store';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import ApplicationFormTemplate from '@/components/ApplicationForm/ApplicationFormTemplate/ApplicationFormTemplate.component';
+import { useToast } from '@/hooks';
+
+import { request } from '@/utils';
+import { ToastType } from '@/components/common/Toast/Toast.component';
+import { getApplicationFormDetailPage } from '@/constants';
 
 interface FormValues {
   name: string;
@@ -30,6 +35,7 @@ const CreateApplicationForm = () => {
     defaultValues: {
       questions: DEFAULT_QUESTIONS,
     },
+    shouldUnregister: true,
   });
 
   const { register, handleSubmit, setValue } = methods;
@@ -47,17 +53,35 @@ const CreateApplicationForm = () => {
     [teams],
   );
 
+  const { handleAddToast } = useToast();
+
   const handleSubmitForm = useRecoilCallback(() => async (data: FormValues) => {
     // TODO:(@mango906): 입력값 제대로 입력안했을 떄 어떻게 알려줄지 정하기
     if (data.questions.length === 0) {
+      handleAddToast({
+        type: 'error',
+        message: '최소 한가지의 질문을 작성해야합니다.',
+      });
+
       return;
     }
 
-    // TODO:(@mango906): api 요청 완료후 로직 만들어주기
-    api.createApplicationForm(data);
+    request({
+      requestFunc: () => api.createApplicationForm(data),
+      errorHandler: handleAddToast,
+      onSuccess: (response) => {
+        const { applicationFormId } = response.data;
+
+        handleAddToast({
+          type: ToastType.success,
+          message: '성공적으로 지원서 설문지를 작성했습니다.',
+        });
+
+        navigate(getApplicationFormDetailPage(applicationFormId));
+      },
+    });
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-redeclare
   const position = useRecoilValue($profile)[2];
 
   return (
