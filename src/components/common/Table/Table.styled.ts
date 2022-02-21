@@ -56,6 +56,7 @@ export const TableBodyWrapper = styled.div<{ isLoading: boolean }>`
 export const Table = styled.table`
   width: 120rem;
   text-align: center;
+  table-layout: fixed;
   border-collapse: collapse;
 `;
 
