@@ -3,7 +3,7 @@ import { colors } from '.';
 
 const Role = {
   leader: 'LEADER',
-  subLeader: 'SUB LEADER',
+  subLeader: 'SUBLEADER',
   member: 'MEMBER',
 } as const;
 
