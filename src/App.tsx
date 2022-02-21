@@ -1,7 +1,7 @@
 // import React, { ReactNode, Suspense } from 'react';
 import React, { Suspense } from 'react';
 // import { Routes, Route, Navigate, NavigateProps } from 'react-router-dom';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import { Global, ThemeProvider } from '@emotion/react';
 // import { useRecoilValue, useRecoilCallback } from 'recoil';
