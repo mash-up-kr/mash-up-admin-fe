@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilCallback, useRecoilState } from 'recoil';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm, useFormState } from 'react-hook-form';
 import * as Styled from './UpdateApplicationForm.styled';
 import { $applicationFormDetail } from '@/store';
@@ -28,6 +28,8 @@ const UpdateApplicationForm = () => {
     },
   });
 
+  const navigate = useNavigate();
+
   const { handleSubmit, control } = methods;
 
   const { isDirty } = useFormState({ control });
@@ -46,6 +48,8 @@ const UpdateApplicationForm = () => {
     api.updateApplicationForm(id, data);
   });
 
+  useBlocker({ conditions: [true], dependencies: [] });
+
   return (
     <FormProvider {...methods}>
       <Styled.UpdateApplicationFormPage>
@@ -60,7 +64,7 @@ const UpdateApplicationForm = () => {
             createdBy={createdBy}
             updatedAt={updatedAt}
             updatedBy={updatedBy}
-            leftActionButton={{ text: '취소', type: 'button' }}
+            leftActionButton={{ text: '취소', type: 'button', onClick: () => navigate(-1) }}
             rightActionButton={{ text: '저장', type: 'submit', disabled: !isDirty }}
           />
         </form>

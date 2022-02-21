@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useRecoilCallback, useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import { ApplicationFormAside, ApplicationFormSection } from '@/components';
 import * as Styled from './CreateApplicationForm.styled';
 
@@ -32,6 +33,8 @@ const CreateApplicationForm = () => {
   });
 
   const { register, handleSubmit, setValue } = methods;
+
+  const navigate = useNavigate();
 
   const teams = useRecoilValue($teams);
 
@@ -77,7 +80,7 @@ const CreateApplicationForm = () => {
               />
             }
             createdBy={position}
-            leftActionButton={{ text: '취소' }}
+            leftActionButton={{ text: '취소', onClick: () => navigate(-1) }}
             rightActionButton={{ text: '저장', type: 'submit' }}
           />
         </form>

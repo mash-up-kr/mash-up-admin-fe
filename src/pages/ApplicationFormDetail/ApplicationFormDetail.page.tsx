@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilCallback, useRecoilState } from 'recoil';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { ApplicationFormSection, ApplicationFormAside } from '@/components';
 import * as Styled from './ApplicationFormDetail.styled';
@@ -17,6 +17,8 @@ interface FormValues {
 
 const ApplicationFormDetail = () => {
   const { id } = useParams<ParamId>();
+
+  const navigate = useNavigate();
 
   const [{ questions, name, team, createdAt, createdBy, updatedAt, updatedBy }] = useRecoilState(
     $applicationFormDetail({ id: id ?? '' }),
@@ -80,7 +82,10 @@ const ApplicationFormDetail = () => {
               text: '삭제',
               onClick: handleRemoveQuestion,
             }}
-            rightActionButton={{ text: '수정' }}
+            rightActionButton={{
+              text: '수정',
+              onClick: () => navigate(`/application-form/update/${id}`),
+            }}
           />
         </div>
       </Styled.ApplicationFormDetailPage>
