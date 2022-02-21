@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import MessageListPanel, { MessageListPanelProps } from './MessageListPanel.component';
 
 export default {
-  title: 'ApplicationDetail/MessageList Panel',
+  title: 'ApplicationDetail/Message List Panel',
   component: MessageListPanel,
 } as ComponentMeta<typeof MessageListPanel>;
 
