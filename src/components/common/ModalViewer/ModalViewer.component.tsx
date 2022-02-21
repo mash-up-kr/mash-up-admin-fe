@@ -1,18 +1,23 @@
 import React, { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useLocation } from 'react-router-dom';
 import { $modalByStorage, ModalKey, ModalKeyType } from '@/store';
 import { AlertModalDialog, SmsSendModalDialog } from '@/components';
 import { SmsSendModalDialogProps } from '@/components/ApplicationDetail/SmsSendModalDialog/SmsSendModalDialog.component';
 import { AlertModalDialogProps } from '../AlertModalDialog/AlertModalDialog.component';
 
 const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
-  const modal = useRecoilValue($modalByStorage(modalKey));
-  // const { hash } = window.location;
+  const [modal, setModal] = useRecoilState($modalByStorage(modalKey));
+  const { pathname } = useLocation();
 
   if (modalKey === ModalKey.alertModalDialog && modal.isOpen && modal.props) {
     return <AlertModalDialog key={modalKey} {...(modal.props as AlertModalDialogProps)} />;
   }
   if (modalKey === ModalKey.smsSendModalDialog && modal.isOpen && modal.props) {
+    if (!/\/application\/\d/g.test(pathname)) {
+      setModal({ ...modal, isOpen: false });
+    }
+
     return <SmsSendModalDialog key={modalKey} {...(modal.props as SmsSendModalDialogProps)} />;
   }
 
