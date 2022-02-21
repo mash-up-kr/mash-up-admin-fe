@@ -11,12 +11,8 @@ import { $me, $isAuthorized, $teams } from './store';
 import * as api from './api';
 import { ACCESS_TOKEN, PATH } from './constants';
 
-import {
-  ApplicationDetailView,
-  CreateApplicationForm,
-  UpdateApplicationForm,
-  ApplicationFormDetail,
-} from './pages';
+import { CreateApplicationForm, UpdateApplicationForm, ApplicationFormDetail } from './pages';
+import ApplicationDetailView from './pages/ApplicationDetailView/ApplicationDetailView.page';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
   children: ReactNode;
@@ -75,7 +71,6 @@ const App = () => {
                 </RequiredAuth>
               }
             />
-
             <Route
               path={PATH.APPLICATION_FORM_CREATE}
               element={
@@ -92,11 +87,20 @@ const App = () => {
                 </RequiredAuth>
               }
             />
+            {/* // TODO:(용재) 추후 404로 변경 */}
+            <Route
+              path="*"
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <CreateApplicationForm />
+                </RequiredAuth>
+              }
+            />
           </Route>
           <Route
             path={PATH.LOGIN}
             element={
-              <RequiredAuth isAuth={!isAuthorized} to={PATH.APPLICATION_FORM_CREATE}>
+              <RequiredAuth isAuth={!isAuthorized} to={PATH.APPLICATION}>
                 <LoginPage />
               </RequiredAuth>
             }
