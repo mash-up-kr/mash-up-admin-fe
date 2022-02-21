@@ -1,4 +1,4 @@
-import { ApplicationFormResponse, ApplicationFormRequest } from '@/types';
+import { ApplicationFormResponse, ApplicationFormRequest, BaseResponse } from '@/types';
 import { selectorFamilyWithRefresher } from './recoil';
 import * as api from '@/api';
 
@@ -15,12 +15,12 @@ export const $applicationFormDetail = selectorFamilyWithRefresher<
 });
 
 export const $applicationForms = selectorFamilyWithRefresher<
-  ApplicationFormResponse[],
+  BaseResponse<ApplicationFormResponse[]>,
   ApplicationFormRequest
 >({
   key: 'applications',
   get: (params) => async () => {
-    const { data } = await api.getApplicationForms(params);
+    const data = await api.getApplicationForms(params);
     return data;
   },
 });
