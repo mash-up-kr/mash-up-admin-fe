@@ -19,3 +19,4 @@ export { default as Header } from './Header/Header.component';
 export { default as Layout } from './Layout/Layout.component';
 export { default as Link } from './Link/Link.component';
 export { default as TeamNavigationTabs } from './TeamNavigationTabs/TeamNavigationTabs.component';
+export { default as Toast } from './Toast/Toast.component';

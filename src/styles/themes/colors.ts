@@ -16,12 +16,16 @@ export const colors = {
   purple40: '#C2B6FF',
   purple20: '#E8E4FF',
   purple10: '#F1EFFF',
+  red10: '#FFEFF2',
   red20: '#FFE2E7',
+  red40: '#FFC4CF',
   red50: '#F35D78',
   red70: '#FC4162',
   blue20: '#DFF0FF',
   blue70: '#2892F4',
   orange70: '#FF8E6A',
+  green10: '#EFFFFB',
+  green40: '#A5DED4',
   green70: '#0FB093',
 } as const;
 

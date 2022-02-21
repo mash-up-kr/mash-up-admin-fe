@@ -9,3 +9,6 @@ export const PATH = {
   APPLICATION_FORM_UPDATE: '/application-form/update/:id',
   NOT_FOUND: '/404',
 } as const;
+
+export const getApplicationFormDetailPage = (applicationFormId: string | number) =>
+  `/application-form/${applicationFormId}`;

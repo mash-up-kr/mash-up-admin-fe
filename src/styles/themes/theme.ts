@@ -8,6 +8,7 @@ import { userProfile } from './userProfile';
 import { navigation } from './navigation';
 import { badge } from './badge';
 import { select } from './select';
+import { toast } from './toast';
 
 export const theme = {
   a11y,
@@ -20,4 +21,5 @@ export const theme = {
   navigation,
   badge,
   select,
+  toast,
 };
