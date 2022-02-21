@@ -60,6 +60,10 @@ export interface MessageListPanelProps {
 const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
   const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
 
+  if (smsRequests.length === 0) {
+    return null;
+  }
+
   return (
     <Styled.MessageListPanelContainer>
       <Styled.MessageListPanelTitle>

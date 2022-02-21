@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import dayjs, { Dayjs } from 'dayjs';
-import { useRecoilCallback, useRecoilState } from 'recoil';
+import { useRecoilCallback } from 'recoil';
 import { Button, DatePicker, SelectField } from '@/components';
 import * as Styled from './ApplicationPanel.styled';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
@@ -99,8 +99,8 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
 
   const timeOptions = useMemo(
     () =>
-      rangeArray(14 * 6).reduce<SelectOption[]>((acc: SelectOption[], cur: number) => {
-        const min = cur % 6;
+      rangeArray(14 * 6 + 1).reduce<SelectOption[]>((acc: SelectOption[], cur: number) => {
+        const min = (cur % 6) - 1;
         const hour = Math.floor(cur / 6);
         const d = date
           .clone()
@@ -200,31 +200,32 @@ const ApplicationPanel = ({
   const methods = useForm<FormValues>({});
   const { handleSubmit } = methods;
 
-  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
-
   const handleSubmitUpdateResult = useRecoilCallback(
-    () => async (data: FormValues) => {
-      const requestDto: ApplicationUpdateResultByIdRequest = {
-        ...data,
-        applicationId,
-      };
+    ({ set, snapshot }) =>
+      async (data: FormValues) => {
+        const requestDto: ApplicationUpdateResultByIdRequest = {
+          ...data,
+          applicationId,
+        };
 
-      try {
-        await postUpdateResult(requestDto);
-      } catch (e) {
-        // TODO:(용재) 메시지 확정되면 추가
-        setModal({
-          ...modal,
-          props: {
-            heading: '에러가 발생했습니다.',
-            paragraph: '다시 시도해주세요.',
-            cancelButtonLabel: '취소',
-            confirmButtonLabel: '닫기',
-          },
-          isOpen: true,
-        });
-      }
-    },
+        const modal = snapshot.getLoadable($modalByStorage(ModalKey.alertModalDialog)).contents;
+
+        try {
+          await postUpdateResult(requestDto);
+        } catch (e) {
+          // TODO:(용재) 메시지 확정되면 추가
+          set($modalByStorage(ModalKey.alertModalDialog), {
+            ...modal,
+            props: {
+              heading: '에러가 발생했습니다.',
+              paragraph: '다시 시도해주세요.',
+              cancelButtonLabel: '취소',
+              confirmButtonLabel: '닫기',
+            },
+            isOpen: true,
+          });
+        }
+      },
     [],
   );
 

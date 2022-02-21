@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useRecoilCallback, useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilCallback, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { ApplicationFormAside, ApplicationFormSection } from '@/components';
 import * as Styled from './CreateApplicationForm.styled';
@@ -38,7 +38,7 @@ const CreateApplicationForm = () => {
     shouldUnregister: true,
   });
 
-  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
+  const modal = useRecoilValue($modalByStorage(ModalKey.alertModalDialog));
 
   const { register, handleSubmit, setValue } = methods;
 
@@ -57,7 +57,7 @@ const CreateApplicationForm = () => {
 
   const { handleAddToast } = useToast();
 
-  const handleSubmitForm = useRecoilCallback(() => async (data: FormValues) => {
+  const handleSubmitForm = useRecoilCallback(({ set }) => async (data: FormValues) => {
     if (data.questions.length === 0) {
       handleAddToast({
         type: 'error',
@@ -65,7 +65,7 @@ const CreateApplicationForm = () => {
       });
     }
 
-    setModal({
+    set($modalByStorage(ModalKey.alertModalDialog), {
       ...modal,
       isOpen: true,
       props: {
@@ -77,7 +77,7 @@ const CreateApplicationForm = () => {
             requestFunc: () => api.createApplicationForm(data),
             errorHandler: handleAddToast,
             onSuccess: (response) => {
-              setModal({
+              set($modalByStorage(ModalKey.alertModalDialog), {
                 ...modal,
                 isOpen: false,
               });
