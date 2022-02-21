@@ -12,7 +12,7 @@ const SearchOptionBar = ({ handleSubmit }: SearchOptionBarProps) => {
     <Styled.BarContainer onSubmit={handleSubmit}>
       <div />
       <Styled.SearchInputContainer>
-        <Input name="searchWord" $size="xs" placeholder="이름, 전화번호 검색" />
+        <Input name="searchWord" $size="xs" placeholder="지원서 설문지 문서명 검색" />
         <Styled.SearchButton type="submit" $size={ButtonSize.xs} shape={ButtonShape.default}>
           검색
         </Styled.SearchButton>
