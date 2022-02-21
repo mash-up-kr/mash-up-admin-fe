@@ -12,6 +12,7 @@ export interface AlertModalDialogProps {
   confirmButtonLabel?: string;
   linkTo?: string;
   beforeRef?: MutableRefObject<HTMLButtonElement>;
+  handleClickCancelButton?: MouseEventHandler<HTMLButtonElement>;
   handleClickConfirmButton?: MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -20,16 +21,20 @@ const AlertModalDialog = ({
   paragraph,
   cancelButtonLabel = '취소',
   confirmButtonLabel = '확인',
+  handleClickCancelButton,
   handleClickConfirmButton,
 }: AlertModalDialogProps) => {
   const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
 
-  const handleRemoveCurrentModal = () => setModal({ ...modal, isOpen: false });
+  const handleRemoveCurrentModal: MouseEventHandler<HTMLButtonElement> = () => {
+    setModal({ ...modal, isOpen: false });
+  };
 
   const props = {
     footer: {
       cancelButton: {
         label: cancelButtonLabel,
+        onClick: handleClickCancelButton || handleRemoveCurrentModal,
       },
       confirmButton: {
         label: confirmButtonLabel,
@@ -37,7 +42,7 @@ const AlertModalDialog = ({
       },
       position: Position.center,
     },
-    handleCloseModal: handleRemoveCurrentModal,
+    handleCloseModal: handleClickCancelButton || handleRemoveCurrentModal,
   };
 
   return (
