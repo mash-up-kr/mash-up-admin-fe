@@ -6,13 +6,18 @@ import { ModalViewer, Layout, Toast } from '@/components';
 
 import { theme, globalStyles } from './styles';
 
-import LoginPage from './pages/LoginPage/LoginPage.page';
 import { $me, $isAuthorized, $teams, $toast } from './store';
 import * as api from './api';
 import { ACCESS_TOKEN, PATH } from './constants';
 
-import { CreateApplicationForm, UpdateApplicationForm, ApplicationFormDetail } from './pages';
-import ApplicationDetailView from './pages/ApplicationDetailView/ApplicationDetailView.page';
+import {
+  LoginPage,
+  ApplicationFormList,
+  CreateApplicationForm,
+  UpdateApplicationForm,
+  ApplicationFormDetail,
+  ApplicationDetailView,
+} from './pages';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
   children: ReactNode;
@@ -56,6 +61,14 @@ const App = () => {
         <ModalViewer />
         <Routes>
           <Route path="/" element={<Layout />}>
+            <Route
+              path={PATH.APPLICATION_FORM}
+              element={
+                // <RequiredAuth isAuth={isAuthorized} to={PATH.LOGIN}>
+                <ApplicationFormList />
+                // </RequiredAuth>
+              }
+            />
             <Route
               path={PATH.APPLICATION_FORM_DETAIL}
               element={
