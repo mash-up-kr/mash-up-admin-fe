@@ -8,7 +8,7 @@ export const postSmsSend = ({
   name,
 }: SmsRequest): Promise<BaseResponse<SmsResponse>> =>
   http.post({
-    url: `/notifications/sms/send}`,
+    url: `/notifications/sms/send`,
     data: {
       applicantIds,
       content,
