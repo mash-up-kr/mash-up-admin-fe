@@ -88,14 +88,9 @@ const App = () => {
               }
             />
             {/* // TODO:(용재) 추후 404로 변경 */}
-            <Route
-              path="*"
-              element={
-                <RequiredAuth isAuth={isAuthorized}>
-                  <CreateApplicationForm />
-                </RequiredAuth>
-              }
-            />
+            <Route path="*" element={<Navigate to={PATH.APPLICATION_FORM_CREATE} />} />
+            {/* // TODO:(용재) 추후 PATH.APPLICATION로 변경 */}
+            <Route path="/" element={<Navigate to={PATH.APPLICATION_FORM_CREATE} />} />
           </Route>
           <Route
             path={PATH.LOGIN}
