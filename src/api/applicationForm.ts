@@ -1,10 +1,19 @@
 import http from '@/api/core';
 import {
+  ApplicationFormRequest,
   ApplicationFormResponse,
   BaseResponse,
   ApplicationFormCreateRequest,
   ApplicationFormUpdateRequest,
 } from '@/types';
+
+export const getApplicationForms = (
+  params: ApplicationFormRequest,
+): Promise<BaseResponse<ApplicationFormResponse[]>> =>
+  http.get({
+    url: '/application-forms',
+    params,
+  });
 
 export const createApplicationForm = (
   data: ApplicationFormCreateRequest,
