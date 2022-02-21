@@ -35,6 +35,9 @@ export const $modalByStorage = selectorFamily<Modal, ModalKeyType>({
     (key) =>
     ({ get }) => {
       const hash = Object.values(ModalKey).reduce<string>((acc, cur) => {
+        if (cur === ModalKey.alertModalDialog) {
+          return acc;
+        }
         const curVal = get($modal(cur));
         return curVal.isOpen ? `${acc}#${curVal.key}` : acc;
       }, '');
