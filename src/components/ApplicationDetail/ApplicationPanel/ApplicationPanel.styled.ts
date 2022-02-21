@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { SelectField } from '@/components';
+import SelectComponent from '@/components/common/Select/Select.component';
 
 export const ApplicationPanelContainer = styled.aside`
   ${({ theme }) => css`
@@ -18,7 +18,7 @@ export const ApplicationPanelContainer = styled.aside`
   `}
 `;
 
-export const ApplicationStatusContainer = styled.form`
+export const ApplicationStatusForm = styled.form`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
@@ -50,6 +50,7 @@ export const SelectContainer = styled.div<StyledSelectorContainerProps>`
     ${disabled
       ? css`
           cursor: not-allowed;
+          opacity: 0.5;
           pointer-events: none;
         `
       : css``}
@@ -88,7 +89,7 @@ export const SelectMenu = styled.div<StyledSelectMenuProps>`
   `}
 `;
 
-export const SelectDateField = styled(SelectField)`
+export const SelectTimeField = styled(SelectComponent)`
   & ul {
     height: 26.8rem;
     overflow-y: auto;

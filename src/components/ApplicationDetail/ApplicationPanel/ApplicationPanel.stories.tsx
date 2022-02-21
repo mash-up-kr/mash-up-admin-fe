@@ -11,10 +11,18 @@ const Template: ComponentStory<typeof ApplicationPanel> = (args: ApplicationPane
   <ApplicationPanel {...args} />
 );
 
-export const applicationPanel = Template.bind({});
+export const applicationPanelTBD = Template.bind({});
 
-applicationPanel.args = {
+applicationPanelTBD.args = {
   confirmationStatus: 'TBD',
+  resultStatus: 'NOT_RATED',
+  interviewDate: '2022-02-19T05:43:38.517Z',
+};
+
+export const applicationPanelREJECTED = Template.bind({});
+
+applicationPanelREJECTED.args = {
+  confirmationStatus: 'INTERVIEW_CONFIRM_REJECTED',
   resultStatus: 'NOT_RATED',
   interviewDate: '2022-02-19T05:43:38.517Z',
 };

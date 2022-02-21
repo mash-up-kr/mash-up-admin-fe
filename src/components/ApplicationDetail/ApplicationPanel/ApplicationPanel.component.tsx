@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import dayjs, { Dayjs } from 'dayjs';
 import { useRecoilCallback, useRecoilState } from 'recoil';
 import { Button, DatePicker, SelectField } from '@/components';
@@ -9,7 +9,6 @@ import { TitleWithContent } from '..';
 import ApplicationStatusBadge, {
   ApplicationConfirmationStatus,
   ApplicationConfirmationStatusKeyType,
-  ApplicationConfirmationStatusType,
   ApplicationResultStatus,
   ApplicationResultStatusKeyType,
   ApplicationResultStatusType,
@@ -28,52 +27,40 @@ interface FormValues {
   interviewStartedAt: string;
 }
 
-export interface ApplicationPanelProps {
+interface ControlAreaProps {
   confirmationStatus: ApplicationConfirmationStatusKeyType;
   resultStatus: ApplicationResultStatusKeyType;
   interviewDate?: string;
-  applicationId: string;
 }
 
-const ApplicationPanel = ({
-  confirmationStatus,
-  resultStatus,
-  interviewDate,
-  applicationId,
-}: ApplicationPanelProps) => {
-  const { handleSubmit, setValue } = useForm<FormValues>({});
+const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: ControlAreaProps) => {
+  const isInterviewConfirmed = useMemo(
+    () =>
+      [
+        'INTERVIEW_CONFIRM_ACCEPTED',
+        'INTERVIEW_CONFIRM_REJECTED',
+        'FINAL_CONFIRM_WAITING',
+        'FINAL_CONFIRM_ACCEPTED',
+        'FINAL_CONFIRM_REJECTED',
+      ].some((each) => each === confirmationStatus),
+    [confirmationStatus],
+  );
+  const isShowInterviewSchedule = useMemo(
+    () =>
+      ['SCREENING_PASSED', 'INTERVIEW_FAILED', 'INTERVIEW_PASSED'].some(
+        (each) => each === resultStatus,
+      ),
+    [resultStatus],
+  );
+
+  const { setValue } = useFormContext<FormValues>();
 
   const [isEdit, setIsEdit] = useState(false);
-  const [isDatePickerOpened, setIsDatePickerOpened] = useState(false);
-  const [date, setDate] = useState<Dayjs>(
-    dayjs(interviewDate).hour(0).minute(0).second(0).millisecond(0),
-  );
-  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
-
-  const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
   const outerRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmitUpdateResult = useRecoilCallback(
-    () => async (data: FormValues) => {
-      const requestDto: ApplicationUpdateResultByIdRequest = {
-        ...data,
-        applicationId,
-      };
-
-      try {
-        await postUpdateResult(requestDto);
-      } catch (e) {
-        // TODO:(용재) 메시지 확정되면 추가
-        setModal({
-          ...modal,
-          props: ERROR,
-          isOpen: true,
-        });
-      }
-    },
-    [],
-  );
-
+  const [isDatePickerOpened, setIsDatePickerOpened] = useState(false);
+  const [date, setDate] = useState<Dayjs>(dayjs(interviewDate));
+  const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
   const handleSelectDate = (clickedDate: Dayjs) => {
     setDate(clickedDate);
     setIsDatePickerOpened(false);
@@ -99,31 +86,6 @@ const ApplicationPanel = ({
   };
 
   useOnClickOutSide(outerRef, () => setIsDatePickerOpened(false));
-
-  const isNoInterviewScheduled = confirmationStatus === 'INTERVIEW_CONFIRM_REJECTED';
-
-  const normal = (
-    <>
-      <TitleWithContent title="합격 여부">
-        <ApplicationStatusBadge
-          text={ApplicationResultStatus[resultStatus] as ApplicationResultStatusType}
-        />
-      </TitleWithContent>
-      {interviewDate && (
-        <TitleWithContent title="면접 일시" isLineThrough={isNoInterviewScheduled}>
-          {formatDate(date.format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
-        </TitleWithContent>
-      )}
-      <Styled.ButtonContainer>
-        <Button
-          $size={ButtonSize.sm}
-          shape={ButtonShape.primaryLine}
-          label="수정"
-          onClick={handleToggleIsEdit}
-        />
-      </Styled.ButtonContainer>
-    </>
-  );
 
   const applicationResultOptions = useMemo(
     () =>
@@ -151,64 +113,134 @@ const ApplicationPanel = ({
     [date],
   );
 
-  const edit = (
+  if (isEdit) {
+    return (
+      <>
+        <TitleWithContent title="합격 여부" isActive>
+          <SelectField
+            size={SelectSize.md}
+            options={applicationResultOptions}
+            isFullWidth
+            ref={selectedApplicationResultStatusRef}
+            onChangeOption={handleChangeApplicationResultSelect}
+            defaultValue={resultStatus}
+          />
+        </TitleWithContent>
+        {isShowInterviewSchedule && (
+          <TitleWithContent title="면접 일시" isActive={!isInterviewConfirmed}>
+            {/* // TODO:(용재) pointer-events: none; 하긴 했는데 클릭 자체가 실행 안되도록 못하도록 처리해야 함 - onClick 두고 캡쳐링을 막으면 될까.. */}
+            <Styled.SelectContainer disabled={isInterviewConfirmed}>
+              <div ref={outerRef}>
+                <Styled.Select onClick={handleToggleDatePicker}>
+                  {formatDate(date.format(), 'YYYY년 M월 D일(ddd)')}
+                </Styled.Select>
+                <Styled.SelectMenu isDatePickerOpened={isDatePickerOpened}>
+                  <DatePicker handleSelectDate={handleSelectDate} selectedDate={date} />
+                </Styled.SelectMenu>
+              </div>
+              <Styled.SelectTimeField
+                size={SelectSize.md}
+                options={timeOptions}
+                isFullWidth
+                onChangeOption={handleChangeTimeSelect}
+                disabled={isInterviewConfirmed}
+                defaultValue={dayjs(date).format()}
+              />
+            </Styled.SelectContainer>
+          </TitleWithContent>
+        )}
+        <Styled.ButtonContainer>
+          <Button
+            $size={ButtonSize.sm}
+            shape={ButtonShape.defaultLine}
+            label="취소"
+            onClick={handleToggleIsEdit}
+          />
+          <Button type="submit" $size={ButtonSize.sm} shape={ButtonShape.primary} label="저장" />
+        </Styled.ButtonContainer>
+      </>
+    );
+  }
+
+  return (
     <>
-      <TitleWithContent title="합격 여부" isActive>
-        <SelectField
-          size={SelectSize.md}
-          options={applicationResultOptions}
-          isFullWidth
-          ref={selectedApplicationResultStatusRef}
-          onChangeOption={handleChangeApplicationResultSelect}
-        />
+      <TitleWithContent title="합격 여부">
+        <ApplicationStatusBadge text={ApplicationResultStatus[resultStatus]} />
       </TitleWithContent>
       {interviewDate && (
-        <TitleWithContent title="면접 일시" isLineThrough={isNoInterviewScheduled} isActive>
-          <Styled.SelectContainer disabled={isNoInterviewScheduled}>
-            <div ref={outerRef}>
-              <Styled.Select onClick={handleToggleDatePicker}>
-                {formatDate(date.format(), 'YYYY년 M월 D일(ddd)')}
-              </Styled.Select>
-              <Styled.SelectMenu isDatePickerOpened={isDatePickerOpened}>
-                <DatePicker handleSelectDate={handleSelectDate} selectedDate={date} />
-              </Styled.SelectMenu>
-            </div>
-            <Styled.SelectDateField
-              size={SelectSize.md}
-              options={timeOptions}
-              isFullWidth
-              onChangeOption={handleChangeTimeSelect}
-            />
-          </Styled.SelectContainer>
+        <TitleWithContent title="면접 일시" isLineThrough={isInterviewConfirmed}>
+          {formatDate(date.format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
       )}
       <Styled.ButtonContainer>
         <Button
           $size={ButtonSize.sm}
-          shape={ButtonShape.defaultLine}
-          label="취소"
+          shape={ButtonShape.primaryLine}
+          label="수정"
           onClick={handleToggleIsEdit}
         />
-        <Button type="submit" $size={ButtonSize.sm} shape={ButtonShape.primary} label="저장" />
       </Styled.ButtonContainer>
     </>
   );
+};
+
+export interface ApplicationPanelProps {
+  confirmationStatus: ApplicationConfirmationStatusKeyType;
+  resultStatus: ApplicationResultStatusKeyType;
+  interviewDate?: string;
+  applicationId: string;
+}
+
+const ApplicationPanel = ({
+  confirmationStatus,
+  resultStatus,
+  interviewDate,
+  applicationId,
+  ...restProps
+}: ApplicationPanelProps) => {
+  const methods = useForm<FormValues>({});
+  const { handleSubmit } = methods;
+
+  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
+
+  const handleSubmitUpdateResult = useRecoilCallback(
+    () => async (data: FormValues) => {
+      const requestDto: ApplicationUpdateResultByIdRequest = {
+        ...data,
+        applicationId,
+      };
+
+      try {
+        await postUpdateResult(requestDto);
+      } catch (e) {
+        // TODO:(용재) 메시지 확정되면 추가
+        setModal({
+          ...modal,
+          props: ERROR,
+          isOpen: true,
+        });
+      }
+    },
+    [],
+  );
 
   return (
-    <Styled.ApplicationPanelContainer>
-      <h3>작성 및 수정정보</h3>
-      <Styled.ApplicationStatusContainer onSubmit={handleSubmit(handleSubmitUpdateResult)}>
-        <TitleWithContent title="사용자 확인 여부">
-          <ApplicationStatusBadge
-            text={
-              ApplicationConfirmationStatus[confirmationStatus] as ApplicationConfirmationStatusType
-            }
+    <FormProvider {...methods}>
+      <Styled.ApplicationPanelContainer>
+        <h3>작성 및 수정정보</h3>
+        <Styled.ApplicationStatusForm onSubmit={handleSubmit(handleSubmitUpdateResult)}>
+          <TitleWithContent title="사용자 확인 여부">
+            <ApplicationStatusBadge text={ApplicationConfirmationStatus[confirmationStatus]} />
+          </TitleWithContent>
+          <Styled.Divider />
+          <ControlArea
+            confirmationStatus={confirmationStatus}
+            resultStatus={resultStatus}
+            {...restProps}
           />
-        </TitleWithContent>
-        <Styled.Divider />
-        {isEdit ? edit : normal}
-      </Styled.ApplicationStatusContainer>
-    </Styled.ApplicationPanelContainer>
+        </Styled.ApplicationStatusForm>
+      </Styled.ApplicationPanelContainer>
+    </FormProvider>
   );
 };
 
