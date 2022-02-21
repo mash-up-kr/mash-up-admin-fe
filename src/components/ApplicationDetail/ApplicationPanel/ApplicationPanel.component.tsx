@@ -19,7 +19,6 @@ import { useOnClickOutSide } from '@/hooks';
 import { rangeArray } from '@/utils';
 import { postUpdateResult } from '@/api';
 import { ApplicationUpdateResultByIdRequest } from '@/types';
-import { ERROR } from '@/components/common/AlertModalDialog/AlertModalDialog.component';
 import { $modalByStorage, ModalKey } from '@/store';
 
 interface FormValues {
@@ -216,7 +215,12 @@ const ApplicationPanel = ({
         // TODO:(용재) 메시지 확정되면 추가
         setModal({
           ...modal,
-          props: ERROR,
+          props: {
+            heading: '에러가 발생했습니다.',
+            paragraph: '다시 시도해주세요.',
+            cancelButtonLabel: '취소',
+            confirmButtonLabel: '닫기',
+          },
           isOpen: true,
         });
       }

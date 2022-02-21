@@ -2,12 +2,12 @@ import React, { ReactNode, Suspense } from 'react';
 import { Routes, Route, Navigate, NavigateProps } from 'react-router-dom';
 import { Global, ThemeProvider } from '@emotion/react';
 import { useRecoilValue, useRecoilCallback } from 'recoil';
-import { ModalViewer, Layout } from '@/components';
+import { ModalViewer, Layout, Toast } from '@/components';
 
 import { theme, globalStyles } from './styles';
 
 import LoginPage from './pages/LoginPage/LoginPage.page';
-import { $me, $isAuthorized, $teams } from './store';
+import { $me, $isAuthorized, $teams, $toast } from './store';
 import * as api from './api';
 import { ACCESS_TOKEN, PATH } from './constants';
 
@@ -31,6 +31,7 @@ const RequiredAuth = ({ children, isAuth, to = PATH.LOGIN, ...restProps }: Requi
 const App = () => {
   const TOKEN = localStorage.getItem(ACCESS_TOKEN);
   const isAuthorized = useRecoilValue($isAuthorized) || !!TOKEN;
+  const toast = useRecoilValue($toast);
 
   useRecoilCallback(({ snapshot, set, reset }) => async () => {
     const isAuthorizedSnapshot = snapshot.getLoadable($isAuthorized).contents;
@@ -49,9 +50,9 @@ const App = () => {
   })();
 
   return (
-    <Suspense fallback={null}>
-      <Global styles={globalStyles} />
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <Suspense fallback={null}>
+        <Global styles={globalStyles} />
         <ModalViewer />
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -101,8 +102,9 @@ const App = () => {
             }
           />
         </Routes>
-      </ThemeProvider>
-    </Suspense>
+        {toast && <Toast />}
+      </Suspense>
+    </ThemeProvider>
   );
 };
 

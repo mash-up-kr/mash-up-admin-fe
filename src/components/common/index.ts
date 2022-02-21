@@ -18,3 +18,4 @@ export { default as UserProfile } from './UserProfile/UserProfile.component';
 export { default as Header } from './Header/Header.component';
 export { default as Layout } from './Layout/Layout.component';
 export { default as Link } from './Link/Link.component';
+export { default as Toast } from './Toast/Toast.component';
