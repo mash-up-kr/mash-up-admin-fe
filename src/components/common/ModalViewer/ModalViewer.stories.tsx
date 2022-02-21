@@ -11,6 +11,10 @@ export default {
 
 const Template: ComponentStory<typeof ModalViewer> = () => {
   const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
+  const [smsSendModal, setSmsSendModal] = useRecoilState(
+    $modalByStorage(ModalKey.smsSendModalDialog),
+  );
+
   return (
     <div>
       <Button
@@ -74,6 +78,19 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
               cancelButtonLabel: '취소',
               confirmButtonLabel: '저장',
               handleClickConfirmButton: () => {},
+            },
+            isOpen: true,
+          })
+        }
+      >
+        저장하기 모달
+      </Button>
+      <Button
+        onClick={() =>
+          setSmsSendModal({
+            ...smsSendModal,
+            props: {
+              id: '0',
             },
             isOpen: true,
           })

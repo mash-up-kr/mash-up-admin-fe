@@ -12,8 +12,6 @@ import { $me } from '@/store/login';
 import { ACCESS_TOKEN } from '@/constants';
 
 const ERROR_MESSAGE = {
-  INVALID_USERNAME: '아이디를 입력해주세요.',
-  INVALID_PASSWORD: '비밀번호를 입력해주세요.',
   AUTH_FAILED: '아이디 또는 비밀번호를 잘못 입력했습니다.',
 };
 
@@ -31,13 +29,6 @@ const LoginPage = () => {
   };
 
   const handleLogin = useRecoilCallback(({ set }) => async ({ username, password }: FormValues) => {
-    if (username.length === 0) {
-      return handleSetError(ERROR_MESSAGE.INVALID_USERNAME);
-    }
-    if (password.length === 0) {
-      return handleSetError(ERROR_MESSAGE.INVALID_PASSWORD);
-    }
-
     try {
       const { data } = await api.postLogin({ username, password });
 

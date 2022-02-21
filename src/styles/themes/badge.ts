@@ -4,6 +4,7 @@ import {
   ApplicationConfirmationStatus,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import { colors } from '.';
+import { SmsStatus } from '@/types/dto/sms';
 
 export const badge = {
   [ApplicationResultStatus.NOT_RATED]: css`
@@ -61,6 +62,22 @@ export const badge = {
   [ApplicationConfirmationStatus.FINAL_CONFIRM_REJECTED]: css`
     color: ${colors.white};
     background-color: ${colors.red70};
+  `,
+  [ApplicationConfirmationStatus.TO_BE_DETERMINED]: css`
+    color: ${colors.gray60};
+    background-color: ${colors.gray20};
+  `,
+  [SmsStatus.CREATED]: css`
+    color: ${colors.blue70};
+    border: 0.1rem solid ${colors.blue70};
+  `,
+  [SmsStatus.FAILURE]: css`
+    color: ${colors.red70};
+    border: 0.1rem solid ${colors.red70};
+  `,
+  [SmsStatus.SUCCESS]: css`
+    color: ${colors.blue70};
+    border: 0.1rem solid ${colors.blue70};
   `,
 } as const;
 

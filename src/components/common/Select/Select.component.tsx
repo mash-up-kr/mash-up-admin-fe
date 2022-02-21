@@ -27,8 +27,10 @@ export interface SelectProps {
   position?: ValueOf<typeof SelectPosition>;
   placeholder?: string;
   options: SelectOption[];
+  isFullWidth?: boolean;
   defaultValue?: string;
   onChangeOption?: (option: SelectOption) => void;
+  disabled?: boolean;
 }
 
 const Select = (
@@ -38,8 +40,10 @@ const Select = (
     position = SelectPosition.bottom,
     placeholder = '전체',
     options,
+    isFullWidth = false,
     defaultValue,
     onChangeOption,
+    disabled = false,
   }: SelectProps,
   ref: React.Ref<HTMLSelectElement>,
 ) => {
@@ -50,6 +54,10 @@ const Select = (
   const outerRef = useRef<HTMLDivElement>(null);
 
   const toggleOpened = () => {
+    if (disabled) {
+      return;
+    }
+
     setOpened(!isOpened);
   };
 
@@ -77,8 +85,14 @@ const Select = (
 
   return (
     <div ref={outerRef}>
-      <Styled.SelectContainer className={className}>
-        <Styled.Select size={size} onClick={toggleOpened} isOpened={isOpened} position={position}>
+      <Styled.SelectContainer className={className} isFullWidth={isFullWidth}>
+        <Styled.Select
+          size={size}
+          onClick={toggleOpened}
+          isOpened={isOpened}
+          position={position}
+          disabled={disabled}
+        >
           {selectedOption ? (
             <Styled.SelectValue>{selectedOption.label}</Styled.SelectValue>
           ) : (

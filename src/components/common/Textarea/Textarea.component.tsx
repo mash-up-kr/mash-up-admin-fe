@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import * as Styled from './Textarea.styled';
 
 export interface TextareaProps extends React.InputHTMLAttributes<HTMLTextAreaElement> {
@@ -7,15 +7,10 @@ export interface TextareaProps extends React.InputHTMLAttributes<HTMLTextAreaEle
   errorMessage?: string;
 }
 
-const Textarea = ({
-  id,
-  required,
-  label,
-  description,
-  className,
-  errorMessage = '',
-  ...restProps
-}: TextareaProps) => {
+const Textarea = (
+  { id, required, label, description, className, errorMessage = '', ...restProps }: TextareaProps,
+  ref: React.Ref<HTMLTextAreaElement>,
+) => {
   return (
     <Styled.TextareaWrapper className={className}>
       {label && (
@@ -25,10 +20,10 @@ const Textarea = ({
         </Styled.TextareaLabel>
       )}
       {description && <Styled.Description>{description}</Styled.Description>}
-      <Styled.Textarea {...restProps} />
+      <Styled.Textarea ref={ref} {...restProps} />
       {errorMessage && <Styled.TextareaErrorMessage>{errorMessage}</Styled.TextareaErrorMessage>}
     </Styled.TextareaWrapper>
   );
 };
 
-export default Textarea;
+export default forwardRef<HTMLTextAreaElement, TextareaProps>(Textarea);

@@ -58,6 +58,7 @@ export const AlignTopSelect: ComponentStory<typeof Select> = (args: SelectProps)
         placeholder="전체"
         options={selectOptionItems}
         size={SelectSize.md}
+        disabled
         position={SelectPosition.top}
       />
     </div>
