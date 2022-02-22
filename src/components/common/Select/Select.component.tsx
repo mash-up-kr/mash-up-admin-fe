@@ -79,8 +79,8 @@ const Select = (
           position={position}
           disabled={disabled}
         >
-          {selectedOption ? (
-            <Styled.SelectValue>{selectedOption.label}</Styled.SelectValue>
+          {selectedOption || defaultValue ? (
+            <Styled.SelectValue>{selectedOption?.label || defaultValue?.label}</Styled.SelectValue>
           ) : (
             <Styled.SelectPlaceholder>{placeholder}</Styled.SelectPlaceholder>
           )}

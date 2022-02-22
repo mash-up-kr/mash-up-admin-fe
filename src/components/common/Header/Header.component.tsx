@@ -12,7 +12,7 @@ import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.
 
 import { colors } from '@/styles';
 
-import { Navigation, UserProfile } from '@/components';
+import { Navigation, PopOver, UserProfile } from '@/components';
 import { $profile } from '@/store';
 import { PATH } from '@/constants';
 
@@ -48,7 +48,9 @@ const Header = () => {
           inActiveColor={colors.gray70}
           showBottomBorder={false}
         />
-        <UserProfile team={team as TeamType} role={role as RoleType} />
+        <PopOver>
+          <UserProfile team={team as TeamType} role={role as RoleType} />
+        </PopOver>
       </Styled.HeaderContainerInner>
     </Styled.HeaderContainer>
   );

@@ -102,14 +102,14 @@ const App = () => {
               }
             />
             {/* // TODO:(용재) 추후 404로 변경 */}
-            <Route path="*" element={<Navigate to={PATH.APPLICATION_FORM_CREATE} />} />
+            <Route path="*" element={<Navigate to={PATH.APPLICATION_FORM} />} />
             {/* // TODO:(용재) 추후 PATH.APPLICATION로 변경 */}
-            <Route path="/" element={<Navigate to={PATH.APPLICATION_FORM_CREATE} />} />
+            <Route path="/" element={<Navigate to={PATH.APPLICATION_FORM} />} />
           </Route>
           <Route
             path={PATH.LOGIN}
             element={
-              <RequiredAuth isAuth={!isAuthorized} to={PATH.APPLICATION}>
+              <RequiredAuth isAuth={!isAuthorized} to={PATH.APPLICATION_FORM}>
                 <LoginPage />
               </RequiredAuth>
             }

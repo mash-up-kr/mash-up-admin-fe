@@ -3,7 +3,7 @@ import { act } from '@testing-library/react';
 import usePagination from '@/hooks/usePagination';
 
 // usePagination 내부에서 사용하는 useSearchParams 모킹
-const mockSearchParams = { get: jest.fn() };
+const mockSearchParams = { get: jest.fn(), set: jest.fn() };
 const mockSetSearchParams = jest.fn();
 jest.mock('react-router-dom', () => {
   return {
@@ -105,9 +105,6 @@ describe('usePagination', () => {
 
     // When, Then
     act(() => handleChangePage(13));
-    expect(mockSetSearchParams).toHaveBeenCalledWith({
-      page: '13',
-      size: '20',
-    });
+    expect(mockSearchParams.set).toHaveBeenCalledWith('page', '13');
   });
 });
