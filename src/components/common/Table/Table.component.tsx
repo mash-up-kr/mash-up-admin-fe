@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import { NestedKeyOf } from '@/types';
 import { getOwnValueByKey, isSameObject } from '@/utils';
+import { colors } from '@/styles';
 import * as Styled from './Table.styled';
 import Loading from '../Loading/Loading.component';
 import Checkbox from '../Checkbox/Checkbox.component';
@@ -52,7 +53,7 @@ const TableSupportBar = ({
   supportButtons,
 }: {
   totalSummaryText: string;
-  selectedSummaryText: string;
+  selectedSummaryText?: string;
   totalCount: number;
   selectedCount?: number;
   supportButtons?: ReactNode[];
@@ -176,7 +177,9 @@ const Table = <T extends object>({
           </Styled.TableHeader>
         </Styled.Table>
         <Styled.TableBodyWrapper isLoading={isLoading}>
-          {rows.length !== 0 && isLoading && <Loading />}
+          {rows.length !== 0 && isLoading && (
+            <Loading dimmedColor={colors.whiteLoadingDimmed} spinnerColor={colors.purple40} />
+          )}
           <Styled.Table>
             {rows.length === 0 ? (
               <Styled.TableBody>
