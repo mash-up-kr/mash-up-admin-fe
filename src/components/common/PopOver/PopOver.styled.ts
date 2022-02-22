@@ -7,7 +7,9 @@ interface StyledPopOverWrapperProps {
 export const PopOverWrapper = styled.div<StyledPopOverWrapperProps>`
   ${({ isOpen }) => css`
     position: relative;
-    width: fit-content;
+    display: flex;
+    justify-content: flex-end;
+    min-width: 20rem;
     text-align: center;
 
     ${isOpen
