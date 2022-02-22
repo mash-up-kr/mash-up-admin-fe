@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useRecoilStateLoadable, useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
 import { useSearchParams } from 'react-router-dom';
 
@@ -93,48 +93,48 @@ const ApplicationFormList = () => {
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
 
-  const [applicationFormParams, setApplicationFormsParams] = useState<ApplicationFormRequest>({});
+  const [searchWord, setSearchWord] = useState('');
+  const applicationFormParams = useMemo<ApplicationFormRequest>(
+    () => ({
+      page: parseInt(page, 10) - 1,
+      size: parseInt(size, 10),
+      teamId: parseInt(teamId, 10) || undefined,
+      searchWord,
+    }),
+    [page, size, teamId, searchWord],
+  );
 
-  const [{ state, contents }] = useRecoilStateLoadable($applicationForms(applicationFormParams));
+  const [{ state, contents: tableRows }] = useRecoilStateLoadable(
+    $applicationForms(applicationFormParams),
+  );
   const refreshApplicationForms = useRecoilRefresher_UNSTABLE(
     $applicationForms(applicationFormParams),
   );
-  const [tableRows, setTableRows] = useState<ApplicationFormResponse[]>([]);
-
-  const { pageOptions, handleChangePage, handleChangeSize } = usePagination(
-    contents.page?.totalCount,
-  );
 
   const isLoading = state === 'loading';
+  const [loadedTableRows, setLoadedTableRows] = useState<ApplicationFormResponse[]>([]);
+
+  const { pageOptions, handleChangePage, handleChangeSize } = usePagination(
+    tableRows.page?.totalCount,
+  );
 
   const handleSubmit = (
     e: { target: { searchWord: { value: string } } } & FormEvent<HTMLFormElement>,
   ) => {
     e.preventDefault();
-    setApplicationFormsParams((prev) => ({
-      ...prev,
-      searchWord: e.target.searchWord.value,
-    }));
+    setSearchWord(e.target.searchWord.value);
   };
 
   useEffect(() => {
-    setApplicationFormsParams({
-      page: parseInt(page, 10) - 1,
-      size: parseInt(size, 10),
-      teamId: parseInt(teamId, 10) || undefined,
-    });
-  }, [page, size, teamId]);
-
-  useEffect(() => {
     if (!isLoading) {
-      setTableRows(contents.data);
+      setLoadedTableRows(tableRows.data);
     }
-  }, [isLoading, contents]);
+  }, [isLoading, tableRows]);
 
   useEffect(() => {
     refreshApplicationForms();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }, [page, size, teamId, searchWord]);
 
   return (
     <Styled.PageWrapper>
@@ -144,11 +144,11 @@ const ApplicationFormList = () => {
       <Table<ApplicationFormResponse>
         prefix="application"
         columns={columns}
-        rows={tableRows}
-        maxHeight={68}
+        rows={loadedTableRows}
+        maxHeight={72}
         isLoading={isLoading}
         supportBar={{
-          totalCount: contents.page?.totalCount,
+          totalCount: tableRows.page?.totalCount,
           buttons: [
             <Link to={PATH.APPLICATION_FORM_CREATE}>
               <Button $size="xs" shape="primary">
@@ -161,7 +161,7 @@ const ApplicationFormList = () => {
           <Pagination
             pageOptions={pageOptions}
             selectableSize
-            selectBoxPosition={tableRows.length > 6 ? 'top' : 'bottom'}
+            selectBoxPosition={loadedTableRows.length > 3 ? 'top' : 'bottom'}
             handleChangePage={handleChangePage}
             handleChangeSize={handleChangeSize}
           />
