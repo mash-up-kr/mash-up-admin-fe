@@ -67,21 +67,20 @@ export const TableHeader = styled.thead`
   `}
 `;
 
-export const TableBody = styled.tbody``;
-
-export const TableRow = styled.tr<{ height: number; clickable?: boolean }>`
-  ${({ theme, height, clickable }) => css`
-    height: ${height}rem;
-    border-bottom: ${theme.colors.gray20} solid 0.1rem;
-
-    ${clickable &&
-    css`
-      cursor: pointer;
-
+export const TableBody = styled.tbody`
+  ${({ theme }) => css`
+    & tr {
       &:hover {
         background-color: ${theme.colors.purple20};
       }
-    `};
+    }
+  `};
+`;
+
+export const TableRow = styled.tr<{ height: number }>`
+  ${({ theme, height }) => css`
+    height: ${height}rem;
+    border-bottom: ${theme.colors.gray20} solid 0.1rem;
   `}
 `;
 

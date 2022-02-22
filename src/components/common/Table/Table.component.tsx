@@ -23,17 +23,11 @@ export interface TableColumn<T extends object> {
   renderCustomCell?: (cellVaule: unknown) => ReactNode;
 }
 
-export interface TableClickableRow<T extends object> {
-  accessor: NestedKeyOf<T>;
-  handleClickRow: (id: string) => void;
-}
-
 interface TableProps<T extends object> {
   prefix: string;
   maxHeight?: number;
   columns: TableColumn<T>[];
   rows: T[];
-  clickableRow?: TableClickableRow<T>;
   isLoading: boolean;
   sortType?: string[];
   sortColumn?: string[];
@@ -105,7 +99,6 @@ const Table = <T extends object>({
   columns,
   rows,
   isLoading,
-  clickableRow,
   selectableRow,
   supportBar: { totalCount, totalSummaryText, selectedSummaryText, buttons: supportButtons },
   pagination,
@@ -213,14 +206,7 @@ const Table = <T extends object>({
                 </colgroup>
                 <Styled.TableBody>
                   {rows.map((row, rowIndex) => (
-                    <Styled.TableRow
-                      key={`${prefix}-row-${rowIndex}`}
-                      height={DEFAULT_ROW_HEIGHT}
-                      clickable={!!clickableRow}
-                      onClick={() =>
-                        clickableRow?.handleClickRow(getOwnValueByKey(row, clickableRow.accessor))
-                      }
-                    >
+                    <Styled.TableRow key={`${prefix}-row-${rowIndex}`} height={DEFAULT_ROW_HEIGHT}>
                       {!!selectableRow && (
                         <RowCheckBox
                           isChecked={checkedValues.current[rowIndex]}
