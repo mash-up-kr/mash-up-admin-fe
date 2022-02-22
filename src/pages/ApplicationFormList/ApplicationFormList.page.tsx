@@ -1,6 +1,6 @@
 import React, { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useRecoilStateLoadable, useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import Preview from '@/assets/svg/preview-20.svg';
 
@@ -86,6 +86,7 @@ const columns: TableColumn<ApplicationFormResponse>[] = [
 ];
 
 const ApplicationFormList = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
@@ -157,6 +158,12 @@ const ApplicationFormList = () => {
               </Button>
             </Link>,
           ],
+        }}
+        clickableRow={{
+          accessor: 'applicationFormId',
+          handleClickRow: (id) => {
+            navigate(`${PATH.APPLICATION_FORM}/${id}`);
+          },
         }}
         pagination={
           <Pagination
