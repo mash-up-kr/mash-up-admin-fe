@@ -55,11 +55,14 @@ export const ApplicationFormPreviewModal = ({
       />
       <Styled.Description>이메일 수정은 마이페이지에서 가능합니다.</Styled.Description>
       <Styled.CategoryHeadline>질문목록</Styled.CategoryHeadline>
-      {questions.map((question) => {
+      {questions.map((question, index) => {
+        const readableIndex = index + 1;
+
         const props = {
           key: question.questionId ?? uuidv4(),
-          label: question.content,
+          label: `${readableIndex}. ${question.content}`,
           description: question.description,
+          required: question.required,
         };
 
         return question.questionType === QuestionKind.multiLineText ? (

@@ -21,11 +21,23 @@ export const CategoryHeadline = styled.h3`
 `;
 
 export const CustomInput = styled(Input)`
-  margin-top: 2.4rem;
+  ${({ theme }) => css`
+    margin-top: 2.4rem;
+
+    label {
+      ${theme.fonts.bold16}
+    }
+  `}
 `;
 
 export const CustomTextarea = styled(Textarea)`
-  margin-top: 2.4rem;
+  ${({ theme }) => css`
+    margin-top: 2.4rem;
+
+    label {
+      ${theme.fonts.bold16}
+    }
+  `}
 `;
 
 export const MaxContentLength = styled.span`
