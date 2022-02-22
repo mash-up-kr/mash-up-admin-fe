@@ -113,7 +113,7 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
             )}
           </Styled.MaxContentSizeContainer>
         )}
-        <Styled.IconButton>
+        <Styled.IconButton type="button">
           <TrashCan onClick={() => handleRemoveItem(index)} />
         </Styled.IconButton>
         <Styled.Divider />

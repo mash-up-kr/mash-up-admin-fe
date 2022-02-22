@@ -108,7 +108,7 @@ const CreateApplicationForm = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formState.errors]);
+  }, [formState.errors.teamId]);
 
   return (
     <FormProvider {...methods}>
