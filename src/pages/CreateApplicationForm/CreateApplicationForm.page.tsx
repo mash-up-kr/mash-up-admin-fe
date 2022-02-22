@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useRecoilCallback, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
@@ -35,12 +35,11 @@ const CreateApplicationForm = () => {
     defaultValues: {
       questions: DEFAULT_QUESTIONS,
     },
-    shouldUnregister: true,
   });
 
   const modal = useRecoilValue($modalByStorage(ModalKey.alertModalDialog));
 
-  const { register, handleSubmit, setValue } = methods;
+  const { register, handleSubmit, setValue, formState } = methods;
 
   const navigate = useNavigate();
 
@@ -100,6 +99,16 @@ const CreateApplicationForm = () => {
   });
 
   const position = useRecoilValue($profile)[2];
+
+  useEffect(() => {
+    if (formState.errors.teamId?.type === 'required') {
+      handleAddToast({
+        type: ToastType.error,
+        message: '플랫폼을 선택해주세요.',
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formState.errors]);
 
   return (
     <FormProvider {...methods}>
