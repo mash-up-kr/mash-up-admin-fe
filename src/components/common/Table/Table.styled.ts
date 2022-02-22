@@ -69,10 +69,19 @@ export const TableHeader = styled.thead`
 
 export const TableBody = styled.tbody``;
 
-export const TableRow = styled.tr<{ height: number }>`
-  ${({ theme, height }) => css`
+export const TableRow = styled.tr<{ height: number; clickable?: boolean }>`
+  ${({ theme, height, clickable }) => css`
     height: ${height}rem;
     border-bottom: ${theme.colors.gray20} solid 0.1rem;
+
+    ${clickable &&
+    css`
+      cursor: pointer;
+
+      &:hover {
+        background-color: ${theme.colors.purple20};
+      }
+    `};
   `}
 `;
 
@@ -141,9 +150,15 @@ export const TableSummary = styled.div`
   `};
 `;
 
-export const NoData = styled(Center)`
+export const NoData = styled.div`
   ${({ theme }) => css`
-    ${theme.fonts.regular15}
+    ${theme.fonts.bold16}
+    display: flex;
+    flex-direction: column;
+    gap: 2.6rem;
+    align-items: center;
+    justify-content: center;
+    color: ${theme.colors.gray70};
   `}
 `;
 

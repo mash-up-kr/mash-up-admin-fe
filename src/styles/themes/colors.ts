@@ -27,6 +27,8 @@ export const colors = {
   green10: '#EFFFFB',
   green40: '#A5DED4',
   green70: '#0FB093',
+  whiteLoadingDimmed: '#ffffff99',
+  grayLoadingDimmed: '#ffffff99',
 } as const;
 
 export type ColorTheme = typeof colors;
