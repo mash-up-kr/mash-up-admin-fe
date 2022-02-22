@@ -20,7 +20,12 @@ export const CategoryHeadline = styled.h3`
   `}
 `;
 
-export const CustomInput = styled(Input)`
+export const PrivacyInput = styled(Input)`
+  max-width: 53.2rem;
+  margin-top: 2.4rem;
+`;
+
+export const QuestionInput = styled(Input)`
   ${({ theme }) => css`
     margin-top: 2.4rem;
 
@@ -30,7 +35,7 @@ export const CustomInput = styled(Input)`
   `}
 `;
 
-export const CustomTextarea = styled(Textarea)`
+export const QuestionTextarea = styled(Textarea)`
   ${({ theme }) => css`
     margin-top: 2.4rem;
 
