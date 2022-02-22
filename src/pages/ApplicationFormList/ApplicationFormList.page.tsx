@@ -149,6 +149,7 @@ const ApplicationFormList = () => {
         isLoading={isLoading}
         supportBar={{
           totalCount: tableRows.page?.totalCount,
+          totalSummaryText: '총 지원설문지',
           buttons: [
             <Link to={PATH.APPLICATION_FORM_CREATE}>
               <Button $size="xs" shape="primary">

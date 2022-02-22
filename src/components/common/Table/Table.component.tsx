@@ -37,29 +37,35 @@ interface TableProps<T extends object> {
   };
   supportBar: {
     totalCount: number;
+    totalSummaryText: string;
+    selectedSummaryText?: string;
     buttons?: ReactNode[];
   };
   pagination?: ReactNode;
 }
 
 const TableSupportBar = ({
+  totalSummaryText,
+  selectedSummaryText,
   totalCount,
   selectedCount,
   supportButtons,
 }: {
+  totalSummaryText: string;
+  selectedSummaryText: string;
   totalCount: number;
   selectedCount?: number;
   supportButtons?: ReactNode[];
 }) => (
   <Styled.TableSupportBar>
     <Styled.TableSummary>
-      <span>총 지원인원</span>
+      <span>{totalSummaryText}</span>
       <span>{totalCount}</span>
       {!!selectedCount && (
         <>
           <span />
           <span>{selectedCount}</span>
-          <span>명 선택</span>
+          <span>{selectedSummaryText}</span>
         </>
       )}
     </Styled.TableSummary>
@@ -92,7 +98,7 @@ const Table = <T extends object>({
   rows,
   isLoading,
   selectableRow,
-  supportBar: { totalCount, buttons: supportButtons },
+  supportBar: { totalCount, totalSummaryText, selectedSummaryText, buttons: supportButtons },
   pagination,
 }: TableProps<T>) => {
   const { selectedCount, selectedRows, setSelectedRows } = selectableRow || {};
@@ -142,6 +148,8 @@ const Table = <T extends object>({
   return (
     <Styled.TableContainer height={rows.length >= itemSizeInnerBody ? `${maxHeight}rem` : 'auto'}>
       <TableSupportBar
+        totalSummaryText={totalSummaryText}
+        selectedSummaryText={selectedSummaryText}
         totalCount={totalCount}
         selectedCount={selectedCount}
         supportButtons={supportButtons}
