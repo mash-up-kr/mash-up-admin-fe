@@ -109,7 +109,7 @@ const App = () => {
           <Route
             path={PATH.LOGIN}
             element={
-              <RequiredAuth isAuth={!isAuthorized} to={PATH.APPLICATION}>
+              <RequiredAuth isAuth={!isAuthorized} to={PATH.APPLICATION_FORM}>
                 <LoginPage />
               </RequiredAuth>
             }
