@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
-  padding: 4rem 0 8rem 0;
+  padding: 4rem 0;
 `;
 
 export const Heading = styled.h2`

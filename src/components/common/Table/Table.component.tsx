@@ -9,6 +9,8 @@ import React, {
 } from 'react';
 import { NestedKeyOf } from '@/types';
 import { getOwnValueByKey, isSameObject } from '@/utils';
+import { colors } from '@/styles';
+import QuestionFile from '@/assets/svg/question-file-72.svg';
 import * as Styled from './Table.styled';
 import Loading from '../Loading/Loading.component';
 import Checkbox from '../Checkbox/Checkbox.component';
@@ -21,11 +23,17 @@ export interface TableColumn<T extends object> {
   renderCustomCell?: (cellVaule: unknown) => ReactNode;
 }
 
+export interface TableClickableRow<T extends object> {
+  accessor: NestedKeyOf<T>;
+  handleClickRow: (id: string) => void;
+}
+
 interface TableProps<T extends object> {
   prefix: string;
   maxHeight?: number;
   columns: TableColumn<T>[];
   rows: T[];
+  clickableRow?: TableClickableRow<T>;
   isLoading: boolean;
   sortType?: string[];
   sortColumn?: string[];
@@ -37,29 +45,35 @@ interface TableProps<T extends object> {
   };
   supportBar: {
     totalCount: number;
+    totalSummaryText: string;
+    selectedSummaryText?: string;
     buttons?: ReactNode[];
   };
   pagination?: ReactNode;
 }
 
 const TableSupportBar = ({
+  totalSummaryText,
+  selectedSummaryText,
   totalCount,
   selectedCount,
   supportButtons,
 }: {
+  totalSummaryText: string;
+  selectedSummaryText?: string;
   totalCount: number;
   selectedCount?: number;
   supportButtons?: ReactNode[];
 }) => (
   <Styled.TableSupportBar>
     <Styled.TableSummary>
-      <span>총 지원인원</span>
+      <span>{totalSummaryText}</span>
       <span>{totalCount}</span>
       {!!selectedCount && (
         <>
           <span />
           <span>{selectedCount}</span>
-          <span>명 선택</span>
+          <span>{selectedSummaryText}</span>
         </>
       )}
     </Styled.TableSummary>
@@ -91,8 +105,9 @@ const Table = <T extends object>({
   columns,
   rows,
   isLoading,
+  clickableRow,
   selectableRow,
-  supportBar: { totalCount, buttons: supportButtons },
+  supportBar: { totalCount, totalSummaryText, selectedSummaryText, buttons: supportButtons },
   pagination,
 }: TableProps<T>) => {
   const { selectedCount, selectedRows, setSelectedRows } = selectableRow || {};
@@ -100,6 +115,7 @@ const Table = <T extends object>({
   const INNER_TABLE_EXTERNAL_BODY_HEIGHT = 15.6;
   const bodyHeight = maxHeight! - INNER_TABLE_EXTERNAL_BODY_HEIGHT;
   const itemSizeInnerBody = Math.floor(bodyHeight / DEFAULT_ROW_HEIGHT);
+  const isEmptyData = rows.length === 0;
 
   const checkedValues = useRef<boolean[]>(
     selectedRows
@@ -142,6 +158,8 @@ const Table = <T extends object>({
   return (
     <Styled.TableContainer height={rows.length >= itemSizeInnerBody ? `${maxHeight}rem` : 'auto'}>
       <TableSupportBar
+        totalSummaryText={totalSummaryText}
+        selectedSummaryText={selectedSummaryText}
         totalCount={totalCount}
         selectedCount={selectedCount}
         supportButtons={supportButtons}
@@ -168,13 +186,20 @@ const Table = <T extends object>({
           </Styled.TableHeader>
         </Styled.Table>
         <Styled.TableBodyWrapper isLoading={isLoading}>
-          {rows.length !== 0 && isLoading && <Loading />}
+          {!isEmptyData && isLoading && (
+            <Loading dimmedColor={colors.whiteLoadingDimmed} spinnerColor={colors.purple40} />
+          )}
           <Styled.Table>
-            {rows.length === 0 ? (
+            {isEmptyData ? (
               <Styled.TableBody>
-                <Styled.TableRow height={bodyHeight}>
+                <Styled.TableRow height={DEFAULT_ROW_HEIGHT * 5}>
                   <Styled.TableCell>
-                    <Styled.NoData>No data found</Styled.NoData>
+                    <Styled.Center>
+                      <Styled.NoData>
+                        <QuestionFile />
+                        <div>데이터가 없습니다.</div>
+                      </Styled.NoData>
+                    </Styled.Center>
                   </Styled.TableCell>
                 </Styled.TableRow>
               </Styled.TableBody>
@@ -188,7 +213,14 @@ const Table = <T extends object>({
                 </colgroup>
                 <Styled.TableBody>
                   {rows.map((row, rowIndex) => (
-                    <Styled.TableRow key={`${prefix}-row-${rowIndex}`} height={DEFAULT_ROW_HEIGHT}>
+                    <Styled.TableRow
+                      key={`${prefix}-row-${rowIndex}`}
+                      height={DEFAULT_ROW_HEIGHT}
+                      clickable={!!clickableRow}
+                      onClick={() =>
+                        clickableRow?.handleClickRow(getOwnValueByKey(row, clickableRow.accessor))
+                      }
+                    >
                       {!!selectableRow && (
                         <RowCheckBox
                           isChecked={checkedValues.current[rowIndex]}
@@ -213,7 +245,7 @@ const Table = <T extends object>({
           </Styled.Table>
         </Styled.TableBodyWrapper>
       </Styled.TableWrapper>
-      {pagination}
+      {!isEmptyData && pagination}
     </Styled.TableContainer>
   );
 };

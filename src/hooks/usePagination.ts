@@ -50,9 +50,10 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
       pagingSize: pageOptions.pagingSize,
       pageButtonsSize,
     });
-    const { currentPage, pagingSize } = newPageOptions;
+    const { currentPage } = newPageOptions;
 
-    setSearchParams({ page: currentPage.toString(), size: pagingSize.toString() });
+    searchParams.set('page', currentPage.toString());
+    setSearchParams(searchParams);
   };
 
   const handleChangeSize = (pagingSize: string) => {
@@ -71,11 +72,12 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
       };
     }
 
-    setSearchParams({ page: newPageOptions.currentPage.toString(), size: pagingSize });
+    searchParams.set('size', pagingSize);
+    setSearchParams(searchParams);
   };
 
   useEffect(() => {
-    if (totalCount === 0) return;
+    if (!totalCount) return;
 
     const currentPage = searchParams.get('page');
     const currentSize = searchParams.get('size');
