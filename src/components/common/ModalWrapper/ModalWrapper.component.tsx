@@ -60,7 +60,6 @@ export interface ModalProps extends Children {
 const PORTAL_ID = 'portal';
 const MAIN_ID = 'root';
 
-// TODO:(용재) ESC 로 모달 끄기, unmount callback 다시 보기
 export const Portal = ({ children }: Children): ReactPortal | null => {
   const [element, setElement] = useState<HTMLElement | null>(null);
 
@@ -77,12 +76,12 @@ export const Portal = ({ children }: Children): ReactPortal | null => {
 
     setElement(document.getElementById(PORTAL_ID));
 
-    // return () => {
-    //   const selectedPortalElement = document.getElementById(PORTAL_ID);
-    //   if (selectedPortalElement) {
-    //     document.body.removeChild(selectedPortalElement);
-    //   }
-    // };
+    return () => {
+      const selectedPortalElement = document.getElementById(PORTAL_ID);
+      if (selectedPortalElement) {
+        document.body.removeChild(selectedPortalElement);
+      }
+    };
   }, []);
 
   if (!element) return null;
@@ -106,22 +105,22 @@ const ModalWrapper = ({
     $rootNode?.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = 'hidden';
 
-    // const handleModalCloseWithEscHandler = ({ key }: KeyboardEvent) => {
-    //   let scheduledAnimationFrame = false;
+    const handleModalCloseWithEscHandler = ({ key }: KeyboardEvent) => {
+      let scheduledAnimationFrame = false;
 
-    //   if (scheduledAnimationFrame) {
-    //     return;
-    //   }
+      if (scheduledAnimationFrame) {
+        return;
+      }
 
-    //   scheduledAnimationFrame = true;
+      scheduledAnimationFrame = true;
 
-    //   if (key === 'Escape') {
-    //     handleCloseModal();
-    //     scheduledAnimationFrame = false;
-    //   }
-    // };
+      if (key === 'Escape') {
+        handleCloseModal();
+        scheduledAnimationFrame = false;
+      }
+    };
 
-    // window.addEventListener('keyup', handleModalCloseWithEscHandler);
+    window.addEventListener('keyup', handleModalCloseWithEscHandler);
 
     const handleFocusTrap = (e: KeyboardEvent) => {
       const focusableNodeList = dialogRef.current?.querySelectorAll<HTMLElement>(
@@ -153,7 +152,7 @@ const ModalWrapper = ({
       $rootNode?.removeAttribute('aria-hidden');
       document.body.style.overflow = 'unset';
 
-      // window.removeEventListener('keyup', handleModalCloseWithEscHandler);
+      window.removeEventListener('keyup', handleModalCloseWithEscHandler);
       window.removeEventListener('keydown', handleFocusTrap);
 
       beforeRefSnapshot?.current.focus();
@@ -161,7 +160,7 @@ const ModalWrapper = ({
   }, [beforeRef, handleCloseModal]);
 
   return (
-    <Suspense fallback={<div>sdf</div>}>
+    <Suspense fallback={null}>
       <Portal>
         <Styled.Overlay
           onClick={(e) => {
