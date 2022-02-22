@@ -141,9 +141,15 @@ export const TableSummary = styled.div`
   `};
 `;
 
-export const NoData = styled(Center)`
+export const NoData = styled.div`
   ${({ theme }) => css`
-    ${theme.fonts.regular15}
+    ${theme.fonts.bold16}
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.6rem;
+    color: ${theme.colors.gray70};
   `}
 `;
 

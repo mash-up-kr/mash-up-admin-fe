@@ -10,6 +10,7 @@ import React, {
 import { NestedKeyOf } from '@/types';
 import { getOwnValueByKey, isSameObject } from '@/utils';
 import { colors } from '@/styles';
+import QuestionFile from '@/assets/svg/question-file-72.svg';
 import * as Styled from './Table.styled';
 import Loading from '../Loading/Loading.component';
 import Checkbox from '../Checkbox/Checkbox.component';
@@ -107,6 +108,7 @@ const Table = <T extends object>({
   const INNER_TABLE_EXTERNAL_BODY_HEIGHT = 15.6;
   const bodyHeight = maxHeight! - INNER_TABLE_EXTERNAL_BODY_HEIGHT;
   const itemSizeInnerBody = Math.floor(bodyHeight / DEFAULT_ROW_HEIGHT);
+  const isEmptyData = rows.length === 0;
 
   const checkedValues = useRef<boolean[]>(
     selectedRows
@@ -177,15 +179,20 @@ const Table = <T extends object>({
           </Styled.TableHeader>
         </Styled.Table>
         <Styled.TableBodyWrapper isLoading={isLoading}>
-          {rows.length !== 0 && isLoading && (
+          {!isEmptyData && isLoading && (
             <Loading dimmedColor={colors.whiteLoadingDimmed} spinnerColor={colors.purple40} />
           )}
           <Styled.Table>
-            {rows.length === 0 ? (
+            {isEmptyData ? (
               <Styled.TableBody>
-                <Styled.TableRow height={bodyHeight}>
+                <Styled.TableRow height={DEFAULT_ROW_HEIGHT * 5}>
                   <Styled.TableCell>
-                    <Styled.NoData>No data found</Styled.NoData>
+                    <Styled.Center>
+                      <Styled.NoData>
+                        <QuestionFile />
+                        <div>데이터가 없습니다.</div>
+                      </Styled.NoData>
+                    </Styled.Center>
                   </Styled.TableCell>
                 </Styled.TableRow>
               </Styled.TableBody>
@@ -224,7 +231,7 @@ const Table = <T extends object>({
           </Styled.Table>
         </Styled.TableBodyWrapper>
       </Styled.TableWrapper>
-      {pagination}
+      {!isEmptyData && pagination}
     </Styled.TableContainer>
   );
 };
