@@ -155,9 +155,9 @@ export const NoData = styled.div`
     ${theme.fonts.bold16}
     display: flex;
     flex-direction: column;
+    gap: 2.6rem;
     align-items: center;
     justify-content: center;
-    gap: 2.6rem;
     color: ${theme.colors.gray70};
   `}
 `;
