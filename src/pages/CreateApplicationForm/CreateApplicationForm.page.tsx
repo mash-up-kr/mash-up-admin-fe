@@ -63,6 +63,8 @@ const CreateApplicationForm = () => {
         type: 'error',
         message: '최소 한가지의 질문을 작성해야합니다.',
       });
+
+      return;
     }
 
     set($modalByStorage(ModalKey.alertModalDialog), {
