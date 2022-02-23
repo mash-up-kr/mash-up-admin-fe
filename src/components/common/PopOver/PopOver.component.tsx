@@ -1,6 +1,7 @@
 import React, { ReactNode, useState } from 'react';
 import { useResetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+import BubbleArrowUp from '@/assets/svg/bubble-arrow-up-16.svg';
 import LogoutIcon from '@/assets/svg/logout-16.svg';
 import * as Styled from './PopOver.styled';
 import { ACCESS_TOKEN, PATH } from '@/constants';
@@ -33,9 +34,10 @@ const PopOver = ({ children }: PopOverProps) => {
       onMouseLeave={() => handleToggleOpen(false)}
     >
       {children}
-      <Styled.TopArrow />
+      <Styled.BlankArea />
       {isOpen && (
         <Styled.Content>
+          <BubbleArrowUp />
           <Styled.Select onClick={handleLogout}>
             <LogoutIcon />
             로그아웃

@@ -23,7 +23,7 @@ export const PopOverWrapper = styled.div<StyledPopOverWrapperProps>`
 `;
 
 // TODO:(용재) 추후 svg를 붙이거나 css로 마크업 처리하기
-export const TopArrow = styled.div`
+export const BlankArea = styled.div`
   position: absolute;
   top: 0rem;
   right: 0rem;
@@ -40,9 +40,15 @@ export const Content = styled.div`
     min-height: 5rem;
     padding: 1.7rem 2rem;
     background-color: ${theme.colors.white};
-    border: 0.15rem solid ${theme.colors.gray40};
+    border: 0.134rem solid ${theme.colors.gray40};
     border-radius: 1.5rem;
     box-shadow: 0px 0.1rem 1rem rgba(0, 0, 0, 0.08);
+
+    & > svg {
+      position: absolute;
+      top: -0.85rem;
+      right: 2rem;
+    }
   `}
 `;
 
