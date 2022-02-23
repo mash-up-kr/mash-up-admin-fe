@@ -20,12 +20,29 @@ export const CategoryHeadline = styled.h3`
   `}
 `;
 
-export const CustomInput = styled(Input)`
+export const PrivacyInput = styled(Input)`
+  max-width: 53.2rem;
   margin-top: 2.4rem;
 `;
 
-export const CustomTextarea = styled(Textarea)`
-  margin-top: 2.4rem;
+export const QuestionInput = styled(Input)`
+  ${({ theme }) => css`
+    margin-top: 2.4rem;
+
+    label {
+      ${theme.fonts.bold16}
+    }
+  `}
+`;
+
+export const QuestionTextarea = styled(Textarea)`
+  ${({ theme }) => css`
+    margin-top: 2.4rem;
+
+    label {
+      ${theme.fonts.bold16}
+    }
+  `}
 `;
 
 export const MaxContentLength = styled.span`
