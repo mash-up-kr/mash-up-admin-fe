@@ -52,7 +52,7 @@ const columns: TableColumn<ApplicationFormResponse>[] = [
     idAccessor: 'applicationFormId',
     widthRatio: '28%',
     renderCustomCell: (cellValue, id) => (
-      <Styled.FormTitleWrapper>
+      <Styled.FormTitleWrapper title={cellValue as string}>
         <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
         <Styled.TitleLink to={`${PATH.APPLICATION_FORM}/${id}`} />
       </Styled.FormTitleWrapper>
