@@ -99,13 +99,13 @@ const ApplicationFormList = () => {
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
 
-  const [searchWord, setSearchWord] = useState('');
+  const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
   const applicationFormParams = useMemo<ApplicationFormRequest>(
     () => ({
       page: parseInt(page, 10) - 1,
       size: parseInt(size, 10),
       teamId: parseInt(teamId, 10) || undefined,
-      searchWord,
+      searchWord: searchWord.value,
     }),
     [page, size, teamId, searchWord],
   );
@@ -128,7 +128,7 @@ const ApplicationFormList = () => {
     e: { target: { searchWord: { value: string } } } & FormEvent<HTMLFormElement>,
   ) => {
     e.preventDefault();
-    setSearchWord(e.target.searchWord.value);
+    setSearchWord({ value: e.target.searchWord.value });
   };
 
   useEffect(() => {
@@ -140,13 +140,19 @@ const ApplicationFormList = () => {
   useEffect(() => {
     refreshApplicationForms();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, size, teamId, searchWord]);
+  }, [page, size, searchWord]);
+
+  useEffect(() => {
+    refreshApplicationForms();
+    setSearchWord({ value: '' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamId]);
 
   return (
     <Styled.PageWrapper>
       <Styled.Heading>지원서 설문지 내역</Styled.Heading>
       <TeamNavigationTabs />
-      <SearchOptionBar handleSubmit={handleSubmit} />
+      <SearchOptionBar searchWord={searchWord} handleSubmit={handleSubmit} />
       <Table<ApplicationFormResponse>
         prefix="application"
         columns={columns}
