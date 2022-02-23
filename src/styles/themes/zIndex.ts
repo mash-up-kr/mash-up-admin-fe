@@ -4,6 +4,7 @@ export const zIndex = {
   select: 5,
   dialog: 10,
   loading: 15,
+  toast: 20,
 };
 
 export type ZIndexType = typeof zIndex;

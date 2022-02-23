@@ -1,5 +1,5 @@
 import React, { ReactNode, Suspense } from 'react';
-import { Routes, Route, Navigate, NavigateProps } from 'react-router-dom';
+import { Routes, Route, Navigate, NavigateProps, useNavigate } from 'react-router-dom';
 import { Global, ThemeProvider } from '@emotion/react';
 import { useRecoilValue, useRecoilCallback } from 'recoil';
 import { ModalViewer, Layout, Toast } from '@/components';
@@ -34,6 +34,7 @@ const RequiredAuth = ({ children, isAuth, to = PATH.LOGIN, ...restProps }: Requi
 };
 
 const App = () => {
+  const navigate = useNavigate();
   const TOKEN = localStorage.getItem(ACCESS_TOKEN);
   const isAuthorized = useRecoilValue($isAuthorized) || !!TOKEN;
   const toast = useRecoilValue($toast);
@@ -41,16 +42,17 @@ const App = () => {
   useRecoilCallback(({ snapshot, set, reset }) => async () => {
     const isAuthorizedSnapshot = snapshot.getLoadable($isAuthorized).contents;
 
-    if (!isAuthorizedSnapshot && !!TOKEN) {
-      try {
+    try {
+      if (!isAuthorizedSnapshot && !!TOKEN) {
         const { data: me } = await api.getMyInfo();
         const { data: teams } = await api.getTeams();
         set($me, { accessToken: TOKEN as string, adminMember: me });
         set($teams, teams);
-      } catch (e) {
-        localStorage.removeItem(ACCESS_TOKEN);
-        reset($me);
       }
+    } catch (e) {
+      localStorage.removeItem(ACCESS_TOKEN);
+      reset($me);
+      navigate(PATH.LOGIN);
     }
   })();
 
@@ -64,9 +66,9 @@ const App = () => {
             <Route
               path={PATH.APPLICATION_FORM}
               element={
-                // <RequiredAuth isAuth={isAuthorized} to={PATH.LOGIN}>
-                <ApplicationFormList />
-                // </RequiredAuth>
+                <RequiredAuth isAuth={isAuthorized}>
+                  <ApplicationFormList />
+                </RequiredAuth>
               }
             />
             <Route
@@ -101,10 +103,16 @@ const App = () => {
                 </RequiredAuth>
               }
             />
-            {/* // TODO:(용재) 추후 404로 변경 */}
-            <Route path="*" element={<Navigate to={PATH.APPLICATION_FORM} />} />
             {/* // TODO:(용재) 추후 PATH.APPLICATION로 변경 */}
-            <Route path="/" element={<Navigate to={PATH.APPLICATION_FORM} />} />
+            <Route
+              path="/"
+              element={<Navigate to={TOKEN ? PATH.APPLICATION_FORM : PATH.LOGIN} />}
+            />
+            {/* // TODO:(용재) 추후 404로 변경 */}
+            <Route
+              path="*"
+              element={<Navigate to={TOKEN ? PATH.APPLICATION_FORM : PATH.LOGIN} />}
+            />
           </Route>
           <Route
             path={PATH.LOGIN}

@@ -34,6 +34,14 @@ export const ModalCard = styled.div`
       right: 2.4rem;
       background-color: ${theme.colors.gray10};
       border-width: 0;
+
+      &:hover {
+        background-color: ${theme.colors.gray20};
+      }
+
+      & > svg > path {
+        stroke: ${theme.colors.gray80};
+      }
     }
   `}
 `;

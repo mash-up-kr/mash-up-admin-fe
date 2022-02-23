@@ -10,6 +10,7 @@ interface StyledToastProps {
 export const Toast = styled.div<StyledToastProps>`
   ${({ theme, type }) => css`
     ${theme.toast.type[type]};
+    ${theme.zIndex.toast};
 
     position: fixed;
     top: 7rem;

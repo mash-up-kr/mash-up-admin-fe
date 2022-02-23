@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilCallback, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilCallback, useRecoilState, useResetRecoilState } from 'recoil';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { ApplicationFormSection, ApplicationFormAside } from '@/components';
@@ -30,19 +30,19 @@ const ApplicationFormDetail = () => {
     $applicationFormDetail({ id: id ?? '' }),
   );
 
-  const modal = useRecoilValue($modalByStorage(ModalKey.alertModalDialog));
-
   const resetApplicationFormDetail = useResetRecoilState($applicationFormDetail({ id: id ?? '' }));
 
   const methods = useForm<FormValues>({ defaultValues: { questions } });
 
-  const handleRemoveQuestion = useRecoilCallback(({ set }) => async () => {
+  const handleRemoveQuestion = useRecoilCallback(({ set, snapshot }) => async () => {
     if (!id) {
       return;
     }
 
+    const modalSnapshot = snapshot.getLoadable($modalByStorage(ModalKey.alertModalDialog)).contents;
+
     set($modalByStorage(ModalKey.alertModalDialog), {
-      ...modal,
+      ...modalSnapshot,
       isOpen: true,
       props: {
         heading: '삭제하시겠습니까?',
@@ -59,7 +59,7 @@ const ApplicationFormDetail = () => {
               });
 
               set($modalByStorage(ModalKey.alertModalDialog), {
-                ...modal,
+                ...modalSnapshot,
                 isOpen: false,
               });
               navigate(PATH.APPLICATION_FORM);
