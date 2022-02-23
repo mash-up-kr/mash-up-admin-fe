@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilCallback, useRecoilState } from 'recoil';
+import { useRecoilCallback } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { InputField, ModalWrapper } from '@/components';
@@ -18,9 +18,14 @@ export interface SmsSendModalDialogProps {
 
 const SmsSendModalDialog = ({ id }: SmsSendModalDialogProps) => {
   const navigate = useNavigate();
-  const [smsModal, setSmsModal] = useRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
 
-  const handleRemoveCurrentModal = () => setSmsModal({ ...smsModal, isOpen: false });
+  const handleRemoveCurrentModal = useRecoilCallback(({ set }) => () => {
+    set($modalByStorage(ModalKey.smsSendModalDialog), {
+      key: ModalKey.smsSendModalDialog,
+      isOpen: false,
+    });
+  });
+
   const { handleSubmit, register } = useForm<FormValues>();
 
   const handleSendSms = useRecoilCallback(
@@ -100,7 +105,7 @@ const SmsSendModalDialog = ({ id }: SmsSendModalDialogProps) => {
         type: 'submit',
       },
     },
-    handleCloseModal: () => handleRemoveCurrentModal(),
+    handleCloseModal: handleRemoveCurrentModal,
   };
 
   return (

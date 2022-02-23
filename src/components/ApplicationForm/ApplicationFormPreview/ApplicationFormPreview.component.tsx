@@ -34,19 +34,19 @@ export const ApplicationFormPreviewModal = ({
   >
     <Styled.ApplicationFormPreview>
       <Styled.CategoryHeadline>개인정보</Styled.CategoryHeadline>
-      <Styled.CustomInput
+      <Styled.PrivacyInput
         $size={InputSize.md}
         label="이름"
         placeholder="내용을 입력해주세요"
         required
       />
-      <Styled.CustomInput
+      <Styled.PrivacyInput
         $size={InputSize.md}
         label="전화번호"
         placeholder="내용을 입력해주세요"
         required
       />
-      <Styled.CustomInput
+      <Styled.PrivacyInput
         $size={InputSize.md}
         label="이메일"
         placeholder="mashup12th@gmail.com"
@@ -55,22 +55,25 @@ export const ApplicationFormPreviewModal = ({
       />
       <Styled.Description>이메일 수정은 마이페이지에서 가능합니다.</Styled.Description>
       <Styled.CategoryHeadline>질문목록</Styled.CategoryHeadline>
-      {questions.map((question) => {
+      {questions.map((question, index) => {
+        const readableIndex = index + 1;
+
         const props = {
           key: question.questionId ?? uuidv4(),
-          label: question.content,
+          label: `${readableIndex}. ${question.content}`,
           description: question.description,
+          required: question.required,
         };
 
         return question.questionType === QuestionKind.multiLineText ? (
           <>
-            <Styled.CustomTextarea {...props} />
+            <Styled.QuestionTextarea {...props} />
             {question.maxContentLength && (
               <Styled.MaxContentLength>{`0/${question.maxContentLength}`}</Styled.MaxContentLength>
             )}
           </>
         ) : (
-          <Styled.CustomInput {...props} $size={InputSize.md} />
+          <Styled.QuestionInput {...props} $size={InputSize.md} />
         );
       })}
       {/* TODO:(@mango906): 개인정보 수집 링크 생기면 링크 걸어주기 */}

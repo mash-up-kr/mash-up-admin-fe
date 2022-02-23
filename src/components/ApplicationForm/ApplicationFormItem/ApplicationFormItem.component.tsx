@@ -104,12 +104,16 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
               <InputField
                 $size={InputSize.xs}
                 type="number"
-                {...register(`questions.${index}.maxContentLength`, { required: true })}
+                {...register(`questions.${index}.maxContentLength`, {
+                  required: true,
+                  pattern: /[^0-9]/,
+                  min: 0,
+                })}
               />
             )}
           </Styled.MaxContentSizeContainer>
         )}
-        <Styled.IconButton>
+        <Styled.IconButton type="button">
           <TrashCan onClick={() => handleRemoveItem(index)} />
         </Styled.IconButton>
         <Styled.Divider />

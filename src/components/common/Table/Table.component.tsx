@@ -18,14 +18,10 @@ import Checkbox from '../Checkbox/Checkbox.component';
 export interface TableColumn<T extends object> {
   title: string;
   accessor?: NestedKeyOf<T>;
+  idAccessor?: NestedKeyOf<T>;
   widthRatio: string;
   sortable?: boolean;
-  renderCustomCell?: (cellVaule: unknown) => ReactNode;
-}
-
-export interface TableClickableRow<T extends object> {
-  accessor: NestedKeyOf<T>;
-  handleClickRow: (id: string) => void;
+  renderCustomCell?: (cellVaule: unknown, id?: string) => ReactNode;
 }
 
 interface TableProps<T extends object> {
@@ -33,7 +29,6 @@ interface TableProps<T extends object> {
   maxHeight?: number;
   columns: TableColumn<T>[];
   rows: T[];
-  clickableRow?: TableClickableRow<T>;
   isLoading: boolean;
   sortType?: string[];
   sortColumn?: string[];
@@ -105,7 +100,6 @@ const Table = <T extends object>({
   columns,
   rows,
   isLoading,
-  clickableRow,
   selectableRow,
   supportBar: { totalCount, totalSummaryText, selectedSummaryText, buttons: supportButtons },
   pagination,
@@ -213,14 +207,7 @@ const Table = <T extends object>({
                 </colgroup>
                 <Styled.TableBody>
                   {rows.map((row, rowIndex) => (
-                    <Styled.TableRow
-                      key={`${prefix}-row-${rowIndex}`}
-                      height={DEFAULT_ROW_HEIGHT}
-                      clickable={!!clickableRow}
-                      onClick={() =>
-                        clickableRow?.handleClickRow(getOwnValueByKey(row, clickableRow.accessor))
-                      }
-                    >
+                    <Styled.TableRow key={`${prefix}-row-${rowIndex}`} height={DEFAULT_ROW_HEIGHT}>
                       {!!selectableRow && (
                         <RowCheckBox
                           isChecked={checkedValues.current[rowIndex]}
@@ -228,12 +215,13 @@ const Table = <T extends object>({
                         />
                       )}
                       {columns.map((column, columnIndex) => {
-                        const { accessor, renderCustomCell } = column;
+                        const { accessor, idAccessor, renderCustomCell } = column;
                         const cellValue = accessor ? getOwnValueByKey(row, accessor) : null;
+                        const id = idAccessor ? getOwnValueByKey(row, idAccessor) : null;
 
                         return (
                           <Styled.TableCell key={`cell-${columnIndex}`}>
-                            {renderCustomCell ? renderCustomCell(cellValue) : cellValue}
+                            {renderCustomCell ? renderCustomCell(cellValue, id) : cellValue}
                           </Styled.TableCell>
                         );
                       })}

@@ -60,10 +60,6 @@ export interface MessageListPanelProps {
 const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
   const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
 
-  if (smsRequests.length === 0) {
-    return null;
-  }
-
   return (
     <Styled.MessageListPanelContainer>
       <Styled.MessageListPanelTitle>
@@ -83,7 +79,7 @@ const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
         </Button>
       </Styled.MessageListPanelTitle>
       <Styled.MessageListPanelContent>
-        {smsRequests.map((each: MessageInfoProps) => (
+        {smsRequests?.map((each: MessageInfoProps) => (
           <MessageInfo key={each.smsRequestId} {...each} />
         ))}
       </Styled.MessageListPanelContent>

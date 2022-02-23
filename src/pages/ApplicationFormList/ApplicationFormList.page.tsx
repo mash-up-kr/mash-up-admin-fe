@@ -1,6 +1,6 @@
 import React, { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useRecoilStateLoadable, useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import Preview from '@/assets/svg/preview-20.svg';
 
@@ -49,8 +49,14 @@ const columns: TableColumn<ApplicationFormResponse>[] = [
   {
     title: '지원서 설문지 문서명',
     accessor: 'name',
+    idAccessor: 'applicationFormId',
     widthRatio: '28%',
-    renderCustomCell: (cellValue) => <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>,
+    renderCustomCell: (cellValue, id) => (
+      <Styled.FormTitleWrapper title={cellValue as string}>
+        <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
+        <Styled.TitleLink to={`${PATH.APPLICATION_FORM}/${id}`} />
+      </Styled.FormTitleWrapper>
+    ),
   },
   {
     title: '작성자',
@@ -86,7 +92,6 @@ const columns: TableColumn<ApplicationFormResponse>[] = [
 ];
 
 const ApplicationFormList = () => {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
@@ -94,13 +99,13 @@ const ApplicationFormList = () => {
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
 
-  const [searchWord, setSearchWord] = useState('');
+  const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
   const applicationFormParams = useMemo<ApplicationFormRequest>(
     () => ({
       page: parseInt(page, 10) - 1,
       size: parseInt(size, 10),
       teamId: parseInt(teamId, 10) || undefined,
-      searchWord,
+      searchWord: searchWord.value,
     }),
     [page, size, teamId, searchWord],
   );
@@ -123,7 +128,7 @@ const ApplicationFormList = () => {
     e: { target: { searchWord: { value: string } } } & FormEvent<HTMLFormElement>,
   ) => {
     e.preventDefault();
-    setSearchWord(e.target.searchWord.value);
+    setSearchWord({ value: e.target.searchWord.value });
   };
 
   useEffect(() => {
@@ -135,13 +140,19 @@ const ApplicationFormList = () => {
   useEffect(() => {
     refreshApplicationForms();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, size, teamId, searchWord]);
+  }, [page, size, searchWord]);
+
+  useEffect(() => {
+    refreshApplicationForms();
+    setSearchWord({ value: '' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamId]);
 
   return (
     <Styled.PageWrapper>
       <Styled.Heading>지원서 설문지 내역</Styled.Heading>
       <TeamNavigationTabs />
-      <SearchOptionBar handleSubmit={handleSubmit} />
+      <SearchOptionBar searchWord={searchWord} handleSubmit={handleSubmit} />
       <Table<ApplicationFormResponse>
         prefix="application"
         columns={columns}
@@ -158,12 +169,6 @@ const ApplicationFormList = () => {
               </Button>
             </Link>,
           ],
-        }}
-        clickableRow={{
-          accessor: 'applicationFormId',
-          handleClickRow: (id) => {
-            navigate(`${PATH.APPLICATION_FORM}/${id}`);
-          },
         }}
         pagination={
           <Pagination
