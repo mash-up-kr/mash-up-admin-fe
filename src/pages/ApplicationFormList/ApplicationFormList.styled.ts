@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Link } from '@/components';
 
 export const PageWrapper = styled.div`
   padding: 4rem 0;
@@ -15,13 +16,36 @@ export const Heading = styled.h2`
   `};
 `;
 
+export const FormTitleWrapper = styled.div`
+  ${({ theme }) => css`
+    position: relative;
+
+    &:hover {
+      color: ${theme.colors.purple90};
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-position: under;
+    }
+  `};
+`;
+
 export const FormTitle = styled.div`
-  width: 100%;
-  padding: 0 1rem;
-  overflow: hidden;
-  white-space: nowrap;
-  text-align: left;
-  text-overflow: ellipsis;
+  ${({ theme }) => css`
+    width: 100%;
+    height: 100%;
+    padding: 0 1rem;
+    overflow: hidden;
+    color: ${theme.colors.purple80};
+    line-height: 5.2rem;
+    white-space: nowrap;
+    text-align: left;
+    text-overflow: ellipsis;
+  `};
+`;
+
+export const TitleLink = styled(Link)`
+  position: absolute;
+  inset: 0;
 `;
 
 export const CustomUserProfile = styled.div`
@@ -36,4 +60,5 @@ export const Center = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100%;
 `;

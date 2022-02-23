@@ -1,6 +1,6 @@
 import React, { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useRecoilStateLoadable, useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import Preview from '@/assets/svg/preview-20.svg';
 
@@ -49,8 +49,14 @@ const columns: TableColumn<ApplicationFormResponse>[] = [
   {
     title: '지원서 설문지 문서명',
     accessor: 'name',
+    idAccessor: 'applicationFormId',
     widthRatio: '28%',
-    renderCustomCell: (cellValue) => <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>,
+    renderCustomCell: (cellValue, id) => (
+      <Styled.FormTitleWrapper>
+        <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
+        <Styled.TitleLink to={`${PATH.APPLICATION_FORM}/${id}`} />
+      </Styled.FormTitleWrapper>
+    ),
   },
   {
     title: '작성자',
@@ -86,7 +92,6 @@ const columns: TableColumn<ApplicationFormResponse>[] = [
 ];
 
 const ApplicationFormList = () => {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
@@ -158,12 +163,6 @@ const ApplicationFormList = () => {
               </Button>
             </Link>,
           ],
-        }}
-        clickableRow={{
-          accessor: 'applicationFormId',
-          handleClickRow: (id) => {
-            navigate(`${PATH.APPLICATION_FORM}/${id}`);
-          },
         }}
         pagination={
           <Pagination

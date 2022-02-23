@@ -97,6 +97,7 @@ export const TableCell = styled.td`
   ${({ theme }) => css`
     ${theme.fonts.regular14}
 
+    height: 0;
     color: ${theme.colors.gray80};
     vertical-align: middle;
   `}

@@ -18,9 +18,10 @@ import Checkbox from '../Checkbox/Checkbox.component';
 export interface TableColumn<T extends object> {
   title: string;
   accessor?: NestedKeyOf<T>;
+  idAccessor?: NestedKeyOf<T>;
   widthRatio: string;
   sortable?: boolean;
-  renderCustomCell?: (cellVaule: unknown) => ReactNode;
+  renderCustomCell?: (cellVaule: unknown, id?: string) => ReactNode;
 }
 
 interface TableProps<T extends object> {
@@ -214,12 +215,13 @@ const Table = <T extends object>({
                         />
                       )}
                       {columns.map((column, columnIndex) => {
-                        const { accessor, renderCustomCell } = column;
+                        const { accessor, idAccessor, renderCustomCell } = column;
                         const cellValue = accessor ? getOwnValueByKey(row, accessor) : null;
+                        const id = idAccessor ? getOwnValueByKey(row, idAccessor) : null;
 
                         return (
                           <Styled.TableCell key={`cell-${columnIndex}`}>
-                            {renderCustomCell ? renderCustomCell(cellValue) : cellValue}
+                            {renderCustomCell ? renderCustomCell(cellValue, id) : cellValue}
                           </Styled.TableCell>
                         );
                       })}
