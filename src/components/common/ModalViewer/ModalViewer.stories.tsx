@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import ModalViewer from './ModalViewer.component';
 import { Button } from '@/components';
 import { $modalByStorage, ModalKey } from '@/store';
@@ -10,17 +10,16 @@ export default {
 } as ComponentMeta<typeof ModalViewer>;
 
 const Template: ComponentStory<typeof ModalViewer> = () => {
-  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
-  const [smsSendModal, setSmsSendModal] = useRecoilState(
-    $modalByStorage(ModalKey.smsSendModalDialog),
-  );
-
+  const setAlertModal = useSetRecoilState($modalByStorage(ModalKey.alertModalDialog));
+  const setSmsSendModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+  const setChangeResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
   return (
     <div>
+      <ModalViewer />
       <Button
         onClick={() =>
-          setModal({
-            ...modal,
+          setAlertModal({
+            key: ModalKey.alertModalDialog,
             props: {
               heading: 'SMS 발송 완료',
               paragraph: 'SMS 발송내역 페이지로 이동하시겠습니까?',
@@ -36,8 +35,8 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          setModal({
-            ...modal,
+          setAlertModal({
+            key: ModalKey.alertModalDialog,
             props: {
               heading: '팝업을 닫으시겠습니까?',
               paragraph: '변경 또는 작성하신 데이터가 삭제됩니다.',
@@ -53,8 +52,8 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          setModal({
-            ...modal,
+          setAlertModal({
+            key: ModalKey.alertModalDialog,
             props: {
               heading: '삭제하시겠습니까?',
               paragraph: '작성 또는 수정하신 데이터가 삭제됩니다.',
@@ -70,8 +69,8 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          setModal({
-            ...modal,
+          setAlertModal({
+            key: ModalKey.alertModalDialog,
             props: {
               heading: '저장하시겠습니까?',
               paragraph: '지원서 설문지 내역에서 확인하실 수 있습니다.',
@@ -88,7 +87,7 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       <Button
         onClick={() =>
           setSmsSendModal({
-            ...smsSendModal,
+            key: ModalKey.smsSendModalDialog,
             props: {
               id: '0',
             },
@@ -96,7 +95,21 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
           })
         }
       >
-        저장하기 모달
+        SMS 발송
+      </Button>
+      <Button
+        onClick={() =>
+          setChangeResultModal({
+            key: ModalKey.changeResultModalDialog,
+            props: {
+              selectedList: [0, 1, 2, 3, 4],
+              selectedResults: ['SCREENING_PASSED', 'SCREENING_FAILED'],
+            },
+            isOpen: true,
+          })
+        }
+      >
+        합격 여부 상태 변경
       </Button>
       <ModalViewer />
     </div>
