@@ -113,9 +113,7 @@ const Table = <T extends object>({
 
   const checkedValues = useRef<boolean[]>(
     selectedRows
-      ? rows.map((row) => {
-          return selectedRows.some((selectedRow) => isSameObject(selectedRow, row));
-        })
+      ? rows.map((row) => selectedRows.some((selectedRow) => isSameObject(selectedRow, row)))
       : [],
   );
   const isAllChecked = checkedValues.current.filter(Boolean).length === rows.length;
@@ -123,28 +121,27 @@ const Table = <T extends object>({
   const handleSelectRow: (index: number) => ChangeEventHandler<HTMLInputElement> =
     (index) => (e) => {
       if (e.target.checked) {
-        setSelectedRows?.((prev) => {
-          return [...prev, rows[index]];
-        });
+        setSelectedRows?.((prev) => [...prev, rows[index]]);
         checkedValues.current[index] = true;
       } else {
-        setSelectedRows?.((prev) => {
-          return prev.filter((selectedRow) => !isSameObject(selectedRow, rows[index]));
-        });
+        setSelectedRows?.((prev) =>
+          prev.filter((selectedRow) => !isSameObject(selectedRow, rows[index])),
+        );
         checkedValues.current[index] = false;
       }
     };
 
   const handleSelectAllRow: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (e.target.checked) {
-      setSelectedRows?.((prev) => {
-        return [...new Set([...prev, ...rows])];
-      });
+      setSelectedRows?.((prev) => [
+        ...prev.filter((selectedRow) => !rows.some((row) => isSameObject(row, selectedRow))),
+        ...rows,
+      ]);
       checkedValues.current = Array(rows.length).fill(true);
     } else {
-      setSelectedRows?.((prev) => {
-        return prev.filter((selectedRow) => !rows.some((row) => isSameObject(row, selectedRow)));
-      });
+      setSelectedRows?.((prev) =>
+        prev.filter((selectedRow) => !rows.some((row) => isSameObject(row, selectedRow))),
+      );
       checkedValues.current = Array(rows.length).fill(false);
     }
   };
@@ -161,7 +158,7 @@ const Table = <T extends object>({
       <Styled.TableWrapper>
         <Styled.Table>
           <colgroup>
-            {!!selectableRow && <col width="3%" />}
+            {!!selectableRow && <col width="4%" />}
             {columns.map((column, columnIndex) => (
               <col key={`${prefix}-col-${columnIndex}`} width={column.widthRatio} />
             ))}
@@ -200,7 +197,7 @@ const Table = <T extends object>({
             ) : (
               <>
                 <colgroup>
-                  {!!selectableRow && <col width="3%" />}
+                  {!!selectableRow && <col width="4%" />}
                   {columns.map((column, columnIndex) => (
                     <col key={`${prefix}-col-${columnIndex}`} width={column.widthRatio} />
                   ))}
