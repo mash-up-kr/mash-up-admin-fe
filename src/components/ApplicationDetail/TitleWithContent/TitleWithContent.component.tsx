@@ -6,6 +6,7 @@ export interface TitleWithContentProps {
   title: string;
   isLineThrough?: boolean;
   isActive?: boolean;
+  className?: string;
 }
 
 const TitleWithContent = ({
@@ -13,9 +14,10 @@ const TitleWithContent = ({
   title,
   isLineThrough = false,
   isActive = false,
+  className,
 }: TitleWithContentProps) => {
   return (
-    <Styled.TitleWithContentWrapper>
+    <Styled.TitleWithContentWrapper className={className}>
       <Styled.Label isActive={isActive}>{title}</Styled.Label>
       <Styled.Content isLineThrough={isLineThrough}>{children}</Styled.Content>
     </Styled.TitleWithContentWrapper>
