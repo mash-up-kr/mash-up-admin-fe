@@ -167,7 +167,10 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
         <ApplicationStatusBadge text={ApplicationResultStatus[resultStatus]} />
       </TitleWithContent>
       {isShowInterviewSchedule && (
-        <TitleWithContent title="면접 일시" isLineThrough={isInterviewConfirmed}>
+        <TitleWithContent
+          title="면접 일시"
+          isLineThrough={confirmationStatus === 'INTERVIEW_CONFIRM_REJECTED'}
+        >
           {formatDate(date.format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
       )}
