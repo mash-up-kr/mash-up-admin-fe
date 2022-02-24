@@ -90,6 +90,12 @@ const CreateApplicationForm = () => {
 
               navigate(getApplicationFormDetailPage(applicationFormId));
             },
+            onCompleted: () => {
+              set($modalByStorage(ModalKey.alertModalDialog), {
+                key: ModalKey.alertModalDialog,
+                isOpen: false,
+              });
+            },
           });
         },
       },
