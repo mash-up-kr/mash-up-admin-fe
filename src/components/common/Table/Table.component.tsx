@@ -30,6 +30,12 @@ export interface SortType<T extends object> {
   type: ValueOf<typeof SORT_TYPE>;
 }
 
+interface SortOptions<T extends object> {
+  sortTypes: SortType<T>[];
+  disableMultiSort?: boolean;
+  handleSortColumn: (sortTypes: SortType<T>[]) => void;
+}
+
 interface TableProps<T extends object> {
   prefix: string;
   maxHeight?: number;
@@ -41,10 +47,7 @@ interface TableProps<T extends object> {
     selectedRows: T[];
     setSelectedRows: Dispatch<SetStateAction<T[]>>;
   };
-  sortOptions?: {
-    sortTypes: SortType<T>[];
-    handleSortColumn: (sortTypes: SortType<T>[]) => void;
-  };
+  sortOptions?: SortOptions<T>;
   supportBar: {
     totalCount: number;
     totalSummaryText: string;
@@ -106,10 +109,7 @@ const TableColumnCell = <T extends object>({
   sortOptions,
 }: {
   column: TableColumn<T>;
-  sortOptions?: {
-    sortTypes: SortType<T>[];
-    handleSortColumn: (sortTypes: SortType<T>[]) => void;
-  };
+  sortOptions?: SortOptions<T>;
 }) => {
   const sortColumnIndex = sortOptions?.sortTypes.findIndex(
     (sortType) => sortType.accessor === column.accessor,
@@ -131,12 +131,22 @@ const TableColumnCell = <T extends object>({
 
       return SORT_TYPE.DEFAULT;
     };
-    const nextSortTypes: SortType<T>[] = [...sortOptions.sortTypes];
+    let nextSortTypes: SortType<T>[] = [...sortOptions.sortTypes];
     const nextSortType: SortType<T> = {
       ...nextSortTypes[sortColumnIndex!],
       type: getNextType(nextSortTypes[sortColumnIndex!].type),
     };
     nextSortTypes.splice(sortColumnIndex!, 1);
+
+    if (sortOptions.disableMultiSort) {
+      nextSortTypes = nextSortTypes.map((sortType) => {
+        return {
+          ...sortType,
+          type: SORT_TYPE.DEFAULT,
+        };
+      });
+    }
+
     nextSortTypes.push(nextSortType);
 
     sortOptions?.handleSortColumn(nextSortTypes);
