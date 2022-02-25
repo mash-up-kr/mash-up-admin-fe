@@ -300,7 +300,7 @@ const Table = <T extends object>({
           )}
           <Styled.Table>
             {isEmptyData ? (
-              <Styled.TableBody>
+              <Styled.TableBody isEmpty>
                 <Styled.TableRow height={DEFAULT_ROW_HEIGHT * 5}>
                   <Styled.TableCell>
                     <Styled.Center>

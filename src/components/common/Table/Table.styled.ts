@@ -69,11 +69,11 @@ export const TableHeader = styled.thead`
   `}
 `;
 
-export const TableBody = styled.tbody`
-  ${({ theme }) => css`
+export const TableBody = styled.tbody<{ isEmpty?: boolean }>`
+  ${({ theme, isEmpty }) => css`
     & tr {
       &:hover {
-        background-color: ${theme.colors.purple20};
+        background-color: ${isEmpty ? 'transparent' : theme.colors.purple20};
       }
     }
   `};
