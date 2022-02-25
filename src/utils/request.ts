@@ -5,9 +5,15 @@ interface Request<T> {
   requestFunc: () => Promise<T>;
   errorHandler: (toast: ToastProps) => void;
   onSuccess?: (data: T) => void;
+  onCompleted?: () => void;
 }
 
-export const request = async <T>({ requestFunc, errorHandler, onSuccess }: Request<T>) => {
+export const request = async <T>({
+  requestFunc,
+  errorHandler,
+  onSuccess,
+  onCompleted,
+}: Request<T>) => {
   try {
     onSuccess?.(await requestFunc());
   } catch (error) {
@@ -21,5 +27,7 @@ export const request = async <T>({ requestFunc, errorHandler, onSuccess }: Reque
         }
       }
     }
+  } finally {
+    onCompleted?.();
   }
 };

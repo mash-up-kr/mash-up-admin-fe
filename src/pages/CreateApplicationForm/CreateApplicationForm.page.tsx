@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useRecoilCallback, useRecoilValue } from 'recoil';
+import { useRecoilCallback, useRecoilState, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { ApplicationFormAside, ApplicationFormSection } from '@/components';
 import * as Styled from './CreateApplicationForm.styled';
@@ -23,7 +23,11 @@ interface FormValues {
 }
 
 const DEFAULT_QUESTION: Partial<Question> = {
+  content: '',
+  description: '',
+  maxContentLength: null,
   questionType: QuestionKind.multiLineText,
+  required: false,
 };
 
 const current = new Date().toISOString();
@@ -37,7 +41,7 @@ const CreateApplicationForm = () => {
     },
   });
 
-  const modal = useRecoilValue($modalByStorage(ModalKey.alertModalDialog));
+  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
 
   const { register, handleSubmit, setValue, formState } = methods;
 
@@ -91,6 +95,12 @@ const CreateApplicationForm = () => {
               });
 
               navigate(getApplicationFormDetailPage(applicationFormId));
+            },
+            onCompleted: () => {
+              setModal({
+                ...modal,
+                isOpen: false,
+              });
             },
           });
         },
