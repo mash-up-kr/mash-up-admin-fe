@@ -13,7 +13,11 @@ interface FormValues {
 }
 
 const DEFAULT_QUESTION: Partial<Question> = {
+  content: '',
+  description: '',
+  maxContentLength: null,
   questionType: QuestionKind.multiLineText,
+  required: false,
 };
 
 const ApplicationFormTemplate = () => {
@@ -41,12 +45,7 @@ const ApplicationFormTemplate = () => {
       </Styled.Content>
       <Styled.QuestionContent>
         {fields.map((field, index) => (
-          <ApplicationFormItem
-            {...field}
-            key={field.id}
-            index={index}
-            handleRemoveItem={handleRemoveItem}
-          />
+          <ApplicationFormItem key={field.id} index={index} handleRemoveItem={handleRemoveItem} />
         ))}
         <Styled.Divider />
         <Styled.AddButton type="button" onClick={() => append(DEFAULT_QUESTION)}>
