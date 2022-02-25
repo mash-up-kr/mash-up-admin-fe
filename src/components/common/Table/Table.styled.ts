@@ -160,31 +160,62 @@ export const TableSupportBar = styled.div`
 
 export const TableSummary = styled.div`
   ${({ theme }) => css`
-    & span:nth-of-type(1) {
+    display: flex;
+
+    & > div {
+      display: flex;
+      align-items: center;
+    }
+
+    & > div:nth-of-type(1) {
       ${theme.fonts.regular14}
       margin-right: 0.2rem;
       color: ${theme.colors.gray60};
     }
 
-    & span:nth-of-type(2) {
+    & > div:nth-of-type(2) {
       ${theme.fonts.regular14}
       color: ${theme.colors.gray60}
     }
 
-    & span:nth-of-type(3) {
-      height: 1.2rem;
-      margin: 0 0.8rem;
-      border: 0.1rem solid ${theme.colors.gray30};
-    }
-
-    & span:nth-of-type(4) {
+    & > div:nth-of-type(4) {
       ${theme.fonts.medium14}
       color: ${theme.colors.purple70}
     }
 
-    & span:nth-of-type(5) {
+    & > div:nth-of-type(5) {
       ${theme.fonts.regular14}
       color: ${theme.colors.purple60}
+    }
+
+    & > div:nth-of-type(3) > div {
+      height: 1.2rem;
+      margin: 0 0.8rem;
+      border-left: 0.1rem solid ${theme.colors.gray30};
+    }
+  `};
+`;
+
+export const TotalSelectBox = styled.div`
+  ${({ theme }) => css`
+    ${theme.fonts.regular13};
+    display: flex;
+    gap: 1rem;
+    height: 3.6rem;
+    margin-left: 1.2rem;
+    padding: 0.8rem 1.6rem;
+    color: ${theme.colors.gray70};
+    background-color: ${theme.colors.gray20};
+    border-radius: 0.9rem;
+
+    & span {
+      ${theme.fonts.medium13};
+    }
+
+    & button {
+      ${theme.fonts.medium13};
+      padding: 0;
+      color: ${theme.colors.purple70};
     }
   `};
 `;

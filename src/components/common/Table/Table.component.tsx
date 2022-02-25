@@ -46,6 +46,7 @@ interface TableProps<T extends object> {
     selectedCount: number;
     selectedRows: T[];
     setSelectedRows: Dispatch<SetStateAction<T[]>>;
+    handleSelectAll: (checkedValue: boolean) => void;
   };
   sortOptions?: SortOptions<T>;
   supportBar: {
@@ -57,38 +58,74 @@ interface TableProps<T extends object> {
   pagination?: ReactNode;
 }
 
+interface TableSupportBarProps {
+  totalSummaryText: string;
+  selectedSummaryText?: string;
+  totalCount: number;
+  selectedCount?: number;
+  rowCount?: number;
+  allInAPageChecked?: boolean;
+  handleSelectAll?: (checkedValue: boolean) => void;
+  supportButtons?: ReactNode[];
+}
+
 const TableSupportBar = ({
   totalSummaryText,
   selectedSummaryText,
   totalCount,
   selectedCount,
+  rowCount,
+  allInAPageChecked,
+  handleSelectAll,
   supportButtons,
-}: {
-  totalSummaryText: string;
-  selectedSummaryText?: string;
-  totalCount: number;
-  selectedCount?: number;
-  supportButtons?: ReactNode[];
-}) => (
-  <Styled.TableSupportBar>
-    <Styled.TableSummary>
-      <span>{totalSummaryText}</span>
-      <span>{totalCount}</span>
-      {!!selectedCount && (
-        <>
-          <span />
-          <span>{selectedCount}</span>
-          <span>{selectedSummaryText}</span>
-        </>
-      )}
-    </Styled.TableSummary>
-    <Styled.TableSupportButtonContainer>
-      {supportButtons?.map((button, index) => (
-        <Fragment key={`supportButton-${index}`}>{button}</Fragment>
-      ))}
-    </Styled.TableSupportButtonContainer>
-  </Styled.TableSupportBar>
-);
+}: TableSupportBarProps) => {
+  const allChecked = totalCount === selectedCount;
+  return (
+    <Styled.TableSupportBar>
+      <Styled.TableSummary>
+        <div>{totalSummaryText}</div>
+        <div>{totalCount}</div>
+        {!!selectedCount && (
+          <>
+            <div>
+              <div />
+            </div>
+            <div>{selectedCount}</div>
+            <div>{selectedSummaryText}</div>
+          </>
+        )}
+        {allInAPageChecked && (
+          <Styled.TotalSelectBox>
+            {allChecked ? (
+              <>
+                <div>
+                  모든 페이지에 있는 <span>{totalCount}개</span>가 모두 선택되었습니다.
+                </div>
+                <button type="button" onClick={() => handleSelectAll!(true)}>
+                  선택최소
+                </button>
+              </>
+            ) : (
+              <>
+                <div>
+                  이 페이지에 있는 <span>{rowCount}개</span>가 모두 선택되었습니다.
+                </div>
+                <button type="button" onClick={() => handleSelectAll!(false)}>
+                  전체인원 {totalCount}개 모두 선택
+                </button>
+              </>
+            )}
+          </Styled.TotalSelectBox>
+        )}
+      </Styled.TableSummary>
+      <Styled.TableSupportButtonContainer>
+        {supportButtons?.map((button, index) => (
+          <Fragment key={`supportButton-${index}`}>{button}</Fragment>
+        ))}
+      </Styled.TableSupportButtonContainer>
+    </Styled.TableSupportBar>
+  );
+};
 
 const RowCheckBox = ({
   isChecked,
@@ -177,7 +214,7 @@ const Table = <T extends object>({
   supportBar: { totalCount, totalSummaryText, selectedSummaryText, buttons: supportButtons },
   pagination,
 }: TableProps<T>) => {
-  const { selectedCount, selectedRows, setSelectedRows } = selectableRow || {};
+  const { selectedCount, selectedRows, setSelectedRows, handleSelectAll } = selectableRow || {};
   const DEFAULT_ROW_HEIGHT = 5.2;
   const INNER_TABLE_EXTERNAL_BODY_HEIGHT = 15.6;
   const bodyHeight = maxHeight! - INNER_TABLE_EXTERNAL_BODY_HEIGHT;
@@ -192,7 +229,7 @@ const Table = <T extends object>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [rows],
   );
-  const allChecked = useMemo(
+  const allInAPageChecked = useMemo(
     () => checkedValues.filter(Boolean).length === rows.length,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [checkedValues],
@@ -229,6 +266,9 @@ const Table = <T extends object>({
         selectedSummaryText={selectedSummaryText}
         totalCount={totalCount}
         selectedCount={selectedCount}
+        rowCount={rows.length}
+        allInAPageChecked={allInAPageChecked}
+        handleSelectAll={handleSelectAll}
         supportButtons={supportButtons}
       />
       <Styled.TableWrapper>
@@ -242,7 +282,7 @@ const Table = <T extends object>({
           <Styled.TableHeader>
             <Styled.TableRow height={DEFAULT_ROW_HEIGHT}>
               {!!selectableRow && (
-                <RowCheckBox isChecked={allChecked} handleToggle={handleSelectAllRow} />
+                <RowCheckBox isChecked={allInAPageChecked} handleToggle={handleSelectAllRow} />
               )}
               {columns.map((column, columnIndex) => (
                 <TableColumnCell
