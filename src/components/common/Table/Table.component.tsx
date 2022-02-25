@@ -230,7 +230,7 @@ const Table = <T extends object>({
     [rows],
   );
   const allInAPageChecked = useMemo(
-    () => checkedValues.filter(Boolean).length === rows.length,
+    () => !!rows.length && checkedValues.filter(Boolean).length === rows.length,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [checkedValues],
   );
