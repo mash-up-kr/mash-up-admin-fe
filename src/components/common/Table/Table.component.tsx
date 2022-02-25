@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-prop-types */
 import React, {
   ReactNode,
   ChangeEventHandler,
@@ -7,21 +6,28 @@ import React, {
   SetStateAction,
   Fragment,
 } from 'react';
-import { NestedKeyOf } from '@/types';
+import { NestedKeyOf, ValueOf } from '@/types';
 import { getOwnValueByKey, isSameObject } from '@/utils';
 import { colors } from '@/styles';
 import QuestionFile from '@/assets/svg/question-file-72.svg';
+import CaretUpdown from '@/assets/svg/caret-updown-16.svg';
+import CaretUp from '@/assets/svg/caret-up-16.svg';
 import * as Styled from './Table.styled';
 import Loading from '../Loading/Loading.component';
 import Checkbox from '../Checkbox/Checkbox.component';
+import { SORT_TYPE } from '@/constants';
 
 export interface TableColumn<T extends object> {
   title: string;
   accessor?: NestedKeyOf<T>;
   idAccessor?: NestedKeyOf<T>;
   widthRatio: string;
-  sortable?: boolean;
   renderCustomCell?: (cellVaule: unknown, id?: string) => ReactNode;
+}
+
+export interface SortType<T extends object> {
+  accessor: NestedKeyOf<T>;
+  type: ValueOf<typeof SORT_TYPE>;
 }
 
 interface TableProps<T extends object> {
@@ -30,13 +36,14 @@ interface TableProps<T extends object> {
   columns: TableColumn<T>[];
   rows: T[];
   isLoading: boolean;
-  sortType?: string[];
-  sortColumn?: string[];
-  handleSortColumn?: () => void;
   selectableRow?: {
     selectedCount: number;
     selectedRows: T[];
     setSelectedRows: Dispatch<SetStateAction<T[]>>;
+  };
+  sortOptions?: {
+    sortTypes: SortType<T>[];
+    handleSortColumn: (sortTypes: SortType<T>[]) => void;
   };
   supportBar: {
     totalCount: number;
@@ -87,12 +94,67 @@ const RowCheckBox = ({
   isChecked: boolean;
   handleToggle: ChangeEventHandler<HTMLInputElement>;
 }) => (
-  <Styled.TableColumn>
-    <Styled.Center>
+  <Styled.TableCell>
+    <Styled.CheckboxWrapper>
       <Checkbox isChecked={isChecked} handleToggle={handleToggle} />
-    </Styled.Center>
-  </Styled.TableColumn>
+    </Styled.CheckboxWrapper>
+  </Styled.TableCell>
 );
+
+const TableColumnCell = <T extends object>({
+  column,
+  sortOptions,
+}: {
+  column: TableColumn<T>;
+  sortOptions?: {
+    sortTypes: SortType<T>[];
+    handleSortColumn: (sortTypes: SortType<T>[]) => void;
+  };
+}) => {
+  const sortColumnIndex = sortOptions?.sortTypes.findIndex(
+    (sortType) => sortType.accessor === column.accessor,
+  );
+  const sortable = sortOptions && sortColumnIndex !== -1;
+
+  if (!sortable) {
+    return <Styled.TableColumn>{column.title}</Styled.TableColumn>;
+  }
+
+  const handleClickColumn = () => {
+    const getNextType = (sortType: ValueOf<typeof SORT_TYPE>) => {
+      if (sortType === SORT_TYPE.DEFAULT) {
+        return SORT_TYPE.ASC;
+      }
+      if (sortType === SORT_TYPE.ASC) {
+        return SORT_TYPE.DESC;
+      }
+
+      return SORT_TYPE.DEFAULT;
+    };
+    const nextSortTypes: SortType<T>[] = [...sortOptions.sortTypes];
+    const nextSortType: SortType<T> = {
+      ...nextSortTypes[sortColumnIndex!],
+      type: getNextType(nextSortTypes[sortColumnIndex!].type),
+    };
+    nextSortTypes.splice(sortColumnIndex!, 1);
+    nextSortTypes.push(nextSortType);
+
+    sortOptions?.handleSortColumn(nextSortTypes);
+  };
+
+  return (
+    <Styled.TableColumn sortable={!!sortOptions} onClick={() => handleClickColumn()}>
+      {column.title}
+      {sortOptions.sortTypes[sortColumnIndex!].type === SORT_TYPE.DEFAULT ? (
+        <CaretUpdown />
+      ) : (
+        <Styled.CaretUpWrapper type={sortOptions.sortTypes[sortColumnIndex!].type}>
+          <CaretUp />
+        </Styled.CaretUpWrapper>
+      )}
+    </Styled.TableColumn>
+  );
+};
 
 const Table = <T extends object>({
   prefix,
@@ -101,6 +163,7 @@ const Table = <T extends object>({
   rows,
   isLoading,
   selectableRow,
+  sortOptions,
   supportBar: { totalCount, totalSummaryText, selectedSummaryText, buttons: supportButtons },
   pagination,
 }: TableProps<T>) => {
@@ -169,9 +232,11 @@ const Table = <T extends object>({
                 <RowCheckBox isChecked={isAllChecked} handleToggle={handleSelectAllRow} />
               )}
               {columns.map((column, columnIndex) => (
-                <Styled.TableColumn key={`${prefix}-column-${columnIndex}`}>
-                  {column.title}
-                </Styled.TableColumn>
+                <TableColumnCell
+                  key={`${prefix}-column-${columnIndex}`}
+                  column={column}
+                  sortOptions={sortOptions}
+                />
               ))}
             </Styled.TableRow>
           </Styled.TableHeader>
