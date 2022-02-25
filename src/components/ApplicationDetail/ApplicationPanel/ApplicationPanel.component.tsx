@@ -204,21 +204,19 @@ const ApplicationPanel = ({
   const { handleSubmit } = methods;
 
   const handleSubmitUpdateResult = useRecoilCallback(
-    ({ set, snapshot }) =>
+    ({ set }) =>
       async (data: FormValues) => {
         const requestDto: ApplicationUpdateResultByIdRequest = {
           ...data,
           applicationId,
         };
 
-        const modal = snapshot.getLoadable($modalByStorage(ModalKey.alertModalDialog)).contents;
-
         try {
           await postUpdateResult(requestDto);
         } catch (e) {
           // TODO:(용재) 메시지 확정되면 추가
           set($modalByStorage(ModalKey.alertModalDialog), {
-            ...modal,
+            key: ModalKey.alertModalDialog,
             props: {
               heading: '에러가 발생했습니다.',
               paragraph: '다시 시도해주세요.',

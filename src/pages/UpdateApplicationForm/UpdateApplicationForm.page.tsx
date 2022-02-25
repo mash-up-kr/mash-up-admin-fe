@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilCallback, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilCallback, useRecoilState, useResetRecoilState } from 'recoil';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm, useFormState } from 'react-hook-form';
 import * as Styled from './UpdateApplicationForm.styled';
@@ -24,8 +24,6 @@ const UpdateApplicationForm = () => {
   const [{ questions, name, createdAt, team, createdBy, updatedAt, updatedBy }] = useRecoilState(
     $applicationFormDetail({ id: id ?? '' }),
   );
-
-  const modal = useRecoilValue($modalByStorage(ModalKey.alertModalDialog));
 
   const resetApplicationFormDetail = useResetRecoilState($applicationFormDetail({ id: id ?? '' }));
 
@@ -60,7 +58,7 @@ const UpdateApplicationForm = () => {
     }
 
     set($modalByStorage(ModalKey.alertModalDialog), {
-      ...modal,
+      key: ModalKey.alertModalDialog,
       isOpen: true,
       props: {
         heading: '저장하시겠습니까?',
@@ -72,7 +70,7 @@ const UpdateApplicationForm = () => {
             errorHandler: handleAddToast,
             onSuccess: () => {
               set($modalByStorage(ModalKey.alertModalDialog), {
-                ...modal,
+                key: ModalKey.alertModalDialog,
                 isOpen: false,
               });
 
