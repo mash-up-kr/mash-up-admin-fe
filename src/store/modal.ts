@@ -5,10 +5,12 @@ import { AlertModalDialogProps } from '@/components/common/AlertModalDialog/Aler
 import { ValueOf } from '@/types';
 import { SmsSendModalDialogProps } from '@/components/ApplicationDetail/SmsSendModalDialog/SmsSendModalDialog.component';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
+import { MultipleSmsSendModalDialogProps } from '@/components/modal/MultipleSmsSendModalDialog/MultipleSmsSendModalDialog.component';
 
 export const ModalKey = {
   alertModalDialog: 'alertModalDialog',
   smsSendModalDialog: 'smsSendModalDialog',
+  multipleSmsSendModalDialog: 'multipleSmsSendModalDialog',
   changeResultModalDialog: 'changeResultModalDialog',
 } as const;
 
@@ -16,7 +18,8 @@ export type ModalKeyType = ValueOf<typeof ModalKey>;
 export type ModalProps =
   | AlertModalDialogProps
   | SmsSendModalDialogProps
-  | ChangeResultModalDialogProps;
+  | ChangeResultModalDialogProps
+  | MultipleSmsSendModalDialogProps;
 
 export interface Modal {
   key: ModalKeyType;
