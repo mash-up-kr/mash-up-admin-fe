@@ -1,10 +1,10 @@
 import React, {
   ReactNode,
   ChangeEventHandler,
-  useRef,
   Dispatch,
   SetStateAction,
   Fragment,
+  useMemo,
 } from 'react';
 import { NestedKeyOf, ValueOf } from '@/types';
 import { getOwnValueByKey, isSameObject } from '@/utils';
@@ -184,23 +184,28 @@ const Table = <T extends object>({
   const itemSizeInnerBody = Math.floor(bodyHeight / DEFAULT_ROW_HEIGHT);
   const isEmptyData = rows.length === 0;
 
-  const checkedValues = useRef<boolean[]>(
-    selectedRows
-      ? rows.map((row) => selectedRows.some((selectedRow) => isSameObject(selectedRow, row)))
-      : [],
+  const checkedValues = useMemo(
+    () =>
+      selectedRows
+        ? rows.map((row) => selectedRows.some((selectedRow) => isSameObject(selectedRow, row)))
+        : [],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [rows],
   );
-  const isAllChecked = checkedValues.current.filter(Boolean).length === rows.length;
+  const allChecked = useMemo(
+    () => checkedValues.filter(Boolean).length === rows.length,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [checkedValues],
+  );
 
   const handleSelectRow: (index: number) => ChangeEventHandler<HTMLInputElement> =
     (index) => (e) => {
       if (e.target.checked) {
         setSelectedRows?.((prev) => [...prev, rows[index]]);
-        checkedValues.current[index] = true;
       } else {
         setSelectedRows?.((prev) =>
           prev.filter((selectedRow) => !isSameObject(selectedRow, rows[index])),
         );
-        checkedValues.current[index] = false;
       }
     };
 
@@ -210,12 +215,10 @@ const Table = <T extends object>({
         ...prev.filter((selectedRow) => !rows.some((row) => isSameObject(row, selectedRow))),
         ...rows,
       ]);
-      checkedValues.current = Array(rows.length).fill(true);
     } else {
       setSelectedRows?.((prev) =>
         prev.filter((selectedRow) => !rows.some((row) => isSameObject(row, selectedRow))),
       );
-      checkedValues.current = Array(rows.length).fill(false);
     }
   };
 
@@ -239,7 +242,7 @@ const Table = <T extends object>({
           <Styled.TableHeader>
             <Styled.TableRow height={DEFAULT_ROW_HEIGHT}>
               {!!selectableRow && (
-                <RowCheckBox isChecked={isAllChecked} handleToggle={handleSelectAllRow} />
+                <RowCheckBox isChecked={allChecked} handleToggle={handleSelectAllRow} />
               )}
               {columns.map((column, columnIndex) => (
                 <TableColumnCell
@@ -282,7 +285,7 @@ const Table = <T extends object>({
                     <Styled.TableRow key={`${prefix}-row-${rowIndex}`} height={DEFAULT_ROW_HEIGHT}>
                       {!!selectableRow && (
                         <RowCheckBox
-                          isChecked={checkedValues.current[rowIndex]}
+                          isChecked={checkedValues[rowIndex]}
                           handleToggle={handleSelectRow(rowIndex)}
                         />
                       )}
