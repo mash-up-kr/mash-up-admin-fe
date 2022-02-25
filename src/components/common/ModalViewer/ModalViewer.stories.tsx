@@ -13,6 +13,9 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
   const setAlertModal = useSetRecoilState($modalByStorage(ModalKey.alertModalDialog));
   const setSmsSendModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
   const setChangeResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
+  const setMultipleSmsSendModal = useSetRecoilState(
+    $modalByStorage(ModalKey.multipleSmsSendModalDialog),
+  );
   return (
     <div>
       <ModalViewer />
@@ -111,7 +114,21 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       >
         합격 여부 상태 변경
       </Button>
-      <ModalViewer />
+      <Button
+        onClick={() =>
+          setMultipleSmsSendModal({
+            key: ModalKey.multipleSmsSendModalDialog,
+            props: {
+              selectedList: [0, 1, 2, 3, 4],
+              confirmationStatus: 'FINAL_CONFIRM_ACCEPTED',
+              resultStatus: 'SCREENING_PASSED',
+            },
+            isOpen: true,
+          })
+        }
+      >
+        SMS 발송(여러명)
+      </Button>
     </div>
   );
 };
