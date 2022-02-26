@@ -21,7 +21,7 @@ const DEFAULT_QUESTION: Partial<Question> = {
 };
 
 const ApplicationFormTemplate = () => {
-  const { register, control } = useFormContext<FormValues>();
+  const { register, control, clearErrors } = useFormContext<FormValues>();
 
   const { fields, append, remove } = useFieldArray({
     name: 'questions',
@@ -30,6 +30,7 @@ const ApplicationFormTemplate = () => {
 
   const handleRemoveItem = (index: number) => {
     remove(index);
+    clearErrors('questions');
   };
 
   return (
