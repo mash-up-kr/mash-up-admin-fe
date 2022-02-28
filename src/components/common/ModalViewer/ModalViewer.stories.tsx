@@ -1,15 +1,16 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ModalViewer from './ModalViewer.component';
-import { Button } from '@/components';
-import { $modalByStorage, ModalKey } from '@/store';
+import { Button, Toast } from '@/components';
+import { $modalByStorage, $toast, ModalKey } from '@/store';
 
 export default {
   title: 'Modal Viewer',
 } as ComponentMeta<typeof ModalViewer>;
 
 const Template: ComponentStory<typeof ModalViewer> = () => {
+  const toast = useRecoilValue($toast);
   const setAlertModal = useSetRecoilState($modalByStorage(ModalKey.alertModalDialog));
   const setSmsSendModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
   const setChangeResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
@@ -19,6 +20,7 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
   return (
     <div>
       <ModalViewer />
+      {toast && <Toast />}
       <Button
         onClick={() =>
           setAlertModal({
