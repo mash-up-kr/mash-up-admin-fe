@@ -25,7 +25,7 @@ const Portal = ({ children }: Children): ReactPortal | null => {
 
     return () => {
       const selectedPortalElement = document.getElementById(PORTAL_ID);
-      if (selectedPortalElement) {
+      if (selectedPortalElement && selectedPortalElement.children.length === 1) {
         document.body.removeChild(selectedPortalElement);
       }
     };
