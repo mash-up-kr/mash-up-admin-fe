@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import SelectComponent from '@/components/common/Select/Select.component';
 
 export const ApplicationPanelContainer = styled.aside`
   ${({ theme }) => css`
@@ -57,21 +56,26 @@ export const SelectContainer = styled.div<StyledSelectorContainerProps>`
   `}
 `;
 
-export const Select = styled.div`
-  ${({ theme }) => css`
+interface StyledSelectWrapperProps {
+  isDatePickerOpened: boolean;
+}
+
+export const SelectWrapper = styled.div<StyledSelectWrapperProps>`
+  ${({ theme, isDatePickerOpened }) => css`
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 4.8rem;
     padding: 0.8rem 1.2rem;
     background-color: ${theme.colors.white};
+    border: 0.1rem solid ${theme.colors.gray30};
+    border-color: ${isDatePickerOpened ? theme.colors.purple70 : theme.colors.gray30};
+    border-radius: 0.9rem;
+    cursor: pointer;
 
     &:hover {
       border: 0.1rem solid ${theme.colors.purple40};
     }
-    border: 0.1rem solid ${theme.colors.gray30};
-    border-radius: 0.9rem;
-    cursor: pointer;
   `}
 `;
 
@@ -89,8 +93,8 @@ export const SelectMenu = styled.div<StyledSelectMenuProps>`
   `}
 `;
 
-export const SelectTimeField = styled(SelectComponent)`
-  & ul {
+export const SelectTimeField = styled.div`
+  ul {
     height: 26.8rem;
     overflow-y: auto;
   }
