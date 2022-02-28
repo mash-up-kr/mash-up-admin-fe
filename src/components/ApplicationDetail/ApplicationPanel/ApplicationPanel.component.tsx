@@ -18,7 +18,7 @@ import { SelectOption, SelectSize } from '@/components/common/Select/Select.comp
 import { useOnClickOutSide } from '@/hooks';
 import { rangeArray } from '@/utils';
 import { postUpdateResult } from '@/api';
-import { ApplicationUpdateResultByIdRequest } from '@/types';
+import { ApplicationConfirmationStatusInDto, ApplicationUpdateResultByIdRequest } from '@/types';
 import { $modalByStorage, ModalKey } from '@/store';
 
 interface FormValues {
@@ -169,7 +169,9 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
       {isShowInterviewSchedule && (
         <TitleWithContent
           title="면접 일시"
-          isLineThrough={confirmationStatus === 'INTERVIEW_CONFIRM_REJECTED'}
+          isLineThrough={
+            confirmationStatus === ApplicationConfirmationStatusInDto.FINAL_CONFIRM_REJECTED
+          }
         >
           {formatDate(date.format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
