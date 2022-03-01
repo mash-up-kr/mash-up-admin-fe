@@ -5,6 +5,11 @@ module.exports = {
   addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
   framework: '@storybook/react',
   webpackFinal: (config) => {
+    config.optimization = {
+      minimize: false,
+      minimizer: [],
+    };
+
     config.resolve.alias = {
       '@': path.resolve(__dirname, '../src'),
     };
@@ -19,4 +24,4 @@ module.exports = {
     return config;
   },
   staticDirs: ['../public'],
-}
+};
