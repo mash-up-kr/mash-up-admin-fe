@@ -17,7 +17,7 @@ export const TableWrapper = styled.div`
 export const TableBodyWrapper = styled.div<{ isLoading: boolean }>`
   ${({ theme, isLoading }) => css`
     position: relative;
-    width: 120rem;
+    width: 100%;
     height: calc(100% - 5.2rem);
     overflow-x: hidden;
     overflow-y: auto;
@@ -56,7 +56,7 @@ export const TableBodyWrapper = styled.div<{ isLoading: boolean }>`
 `;
 
 export const Table = styled.table`
-  width: 120rem;
+  width: 100%;
   text-align: center;
   table-layout: fixed;
   border-collapse: collapse;

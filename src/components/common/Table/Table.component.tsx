@@ -36,7 +36,7 @@ interface SortOptions<T extends object> {
   handleSortColumn: (sortTypes: SortType<T>[]) => void;
 }
 
-interface TableProps<T extends object> {
+export interface TableProps<T extends object> {
   prefix: string;
   maxHeight?: number;
   columns: TableColumn<T>[];
