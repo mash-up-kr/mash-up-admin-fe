@@ -7,6 +7,7 @@ import { UserProfile } from '@/components';
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 import { formatDate } from '@/utils';
 import { SORT_TYPE } from '@/constants';
+import { SortType } from '@/components/common/Table/Table.component';
 
 export default {
   title: 'Table',
@@ -440,7 +441,7 @@ Sortable.args = {
       { accessor: 'name', type: SORT_TYPE.DEFAULT },
       { accessor: 'createdAt', type: SORT_TYPE.DEFAULT },
       { accessor: 'updatedAt', type: SORT_TYPE.DEFAULT },
-    ],
+    ] as SortType<object>[],
     disableMultiSort: true,
     handleSortColumn: () => {},
   },
