@@ -1,6 +1,7 @@
 const { merge } = require('webpack-merge');
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const baseConfig = require('./webpack.base');
 
@@ -14,6 +15,11 @@ module.exports = merge(baseConfig, {
     new HtmlWebPackPlugin({
       template: path.resolve(TEMPLATE_PATH, 'index.html'),
       minify: true,
+    }),
+    new CopyPlugin({
+      patterns: [
+        { context: path.resolve(PROJECT_ROOT, 'public/fonts'), from: '*.woff2', to: 'fonts' },
+      ],
     }),
   ],
 });
