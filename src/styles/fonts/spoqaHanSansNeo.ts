@@ -6,7 +6,7 @@ const spoqaHanSansNeo = css`
     font-family: 'SpoqaHanSansNeo';
     font-style: normal;
     src: local('Spoqa Han Sans Neo Regular'), local('SpoqaHanSansNeo-Regular'),
-      url('../../public/fonts/SpoqaHanSansNeo-Regular.woff2') format('woff2');
+      url('fonts/SpoqaHanSansNeo-Regular.woff2') format('woff2');
     font-display: swap;
   }
 
@@ -15,7 +15,7 @@ const spoqaHanSansNeo = css`
     font-family: 'SpoqaHanSansNeo';
     font-style: normal;
     src: local('Spoqa Han Sans Neo Medium'), local('SpoqaHanSansNeo-Medium'),
-      url('../../public/fonts/SpoqaHanSansNeo-Medium.woff2') format('woff2');
+      url('fonts/SpoqaHanSansNeo-Medium.woff2') format('woff2');
     font-display: swap;
   }
 
@@ -24,7 +24,7 @@ const spoqaHanSansNeo = css`
     font-family: 'SpoqaHanSansNeo';
     font-style: normal;
     src: local('Spoqa Han Sans Neo Bold'), local('SpoqaHanSansNeo-Bold'),
-      url('../../public/fonts/SpoqaHanSansNeo-Bold.woff2') format('woff2');
+      url('fonts/SpoqaHanSansNeo-Bold.woff2') format('woff2');
     font-display: swap;
   }
 `;
