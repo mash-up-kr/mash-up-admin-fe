@@ -61,22 +61,18 @@ const ChangeResultModalDialog = ({
                     applicationIds: selectedList,
                     applicationResultStatus,
                   }),
-                errorHandler: (param) => {
-                  set($modalByStorage(ModalKey.alertModalDialog), {
-                    key: ModalKey.alertModalDialog,
-                    isOpen: false,
-                  });
-                  handleAddToast(param);
-                },
+                errorHandler: handleAddToast,
                 onSuccess: () => {
-                  set($modalByStorage(ModalKey.alertModalDialog), {
-                    key: ModalKey.alertModalDialog,
-                    isOpen: false,
-                  });
                   handleRemoveCurrentModal();
                   handleAddToast({
                     type: ToastType.success,
                     message: '성공적으로 합격여부를 변경했습니다.',
+                  });
+                },
+                onCompleted: () => {
+                  set($modalByStorage(ModalKey.alertModalDialog), {
+                    key: ModalKey.alertModalDialog,
+                    isOpen: false,
                   });
                 },
               });
