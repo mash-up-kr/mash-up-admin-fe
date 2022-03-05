@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { SORT_TYPE } from '@/constants';
+import { ValueOf } from '@/types';
 
 export const TableContainer = styled.div<{ height: string }>`
   ${({ height }) => css`
@@ -15,7 +17,7 @@ export const TableWrapper = styled.div`
 export const TableBodyWrapper = styled.div<{ isLoading: boolean }>`
   ${({ theme, isLoading }) => css`
     position: relative;
-    width: 120rem;
+    width: 100%;
     height: calc(100% - 5.2rem);
     overflow-x: hidden;
     overflow-y: auto;
@@ -54,7 +56,7 @@ export const TableBodyWrapper = styled.div<{ isLoading: boolean }>`
 `;
 
 export const Table = styled.table`
-  width: 120rem;
+  width: 100%;
   text-align: center;
   table-layout: fixed;
   border-collapse: collapse;
@@ -67,11 +69,11 @@ export const TableHeader = styled.thead`
   `}
 `;
 
-export const TableBody = styled.tbody`
-  ${({ theme }) => css`
+export const TableBody = styled.tbody<{ isEmpty?: boolean }>`
+  ${({ theme, isEmpty }) => css`
     & tr {
       &:hover {
-        background-color: ${theme.colors.purple20};
+        background-color: ${isEmpty ? 'transparent' : theme.colors.purple20};
       }
     }
   `};
@@ -84,12 +86,21 @@ export const TableRow = styled.tr<{ height: number }>`
   `}
 `;
 
-export const TableColumn = styled.th`
-  ${({ theme }) => css`
+export const TableColumn = styled.th<{ sortable?: boolean }>`
+  ${({ theme, sortable }) => css`
     ${theme.fonts.medium14}
 
     color: ${theme.colors.gray70};
     vertical-align: middle;
+
+    & svg {
+      transform: translate(0.1rem, 0.27rem);
+    }
+
+    ${sortable &&
+    css`
+      cursor: pointer;
+    `}
   `}
 `;
 
@@ -111,6 +122,34 @@ export const Center = styled.div`
   height: 100%;
 `;
 
+export const CheckboxWrapper = styled(Center)`
+  & label {
+    transform: translateX(-0.5rem);
+  }
+`;
+
+// TODO: (@minsour) 애니메이션 스펙 확정 후 지우거나 적용할 예정
+// export const rotate = keyframes`
+//   100% {
+//     transform: rotate(180deg); // translate(-0.1rem, -0.27rem);
+//     transform: rotate(180deg) translate(-0.1rem, -0.27rem);
+//   }
+// `;
+
+export const CaretUpWrapper = styled.span<{ type: ValueOf<typeof SORT_TYPE> }>`
+  ${({ type }) => css`
+    ${type === SORT_TYPE.DESC &&
+    css`
+      & svg {
+        /* TODO: (@minsour) 애니메이션 스펙 확정 후 지우거나 적용할 예정;
+        transform: translate(-0.1rem, -0.27rem);
+        animation: rotate 0.5s ease forwards; */
+        transform: rotate(180deg) translate(-0.1rem, -0.25rem);
+      }
+    `}
+  `}
+`;
+
 export const TableSupportBar = styled.div`
   display: flex;
   align-items: center;
@@ -121,31 +160,62 @@ export const TableSupportBar = styled.div`
 
 export const TableSummary = styled.div`
   ${({ theme }) => css`
-    & span:nth-of-type(1) {
+    display: flex;
+
+    & > div {
+      display: flex;
+      align-items: center;
+    }
+
+    & > div:nth-of-type(1) {
       ${theme.fonts.regular14}
       margin-right: 0.2rem;
       color: ${theme.colors.gray60};
     }
 
-    & span:nth-of-type(2) {
+    & > div:nth-of-type(2) {
       ${theme.fonts.regular14}
       color: ${theme.colors.gray60}
     }
 
-    & span:nth-of-type(3) {
-      height: 1.2rem;
-      margin: 0 0.8rem;
-      border: 0.1rem solid ${theme.colors.gray30};
-    }
-
-    & span:nth-of-type(4) {
+    & > div:nth-of-type(4) {
       ${theme.fonts.medium14}
       color: ${theme.colors.purple70}
     }
 
-    & span:nth-of-type(5) {
+    & > div:nth-of-type(5) {
       ${theme.fonts.regular14}
       color: ${theme.colors.purple60}
+    }
+
+    & > div:nth-of-type(3) > div {
+      height: 1.2rem;
+      margin: 0 0.8rem;
+      border-left: 0.1rem solid ${theme.colors.gray30};
+    }
+  `};
+`;
+
+export const TotalSelectBox = styled.div`
+  ${({ theme }) => css`
+    ${theme.fonts.regular13};
+    display: flex;
+    gap: 1rem;
+    height: 3.6rem;
+    margin-left: 1.2rem;
+    padding: 0.8rem 1.6rem;
+    color: ${theme.colors.gray70};
+    background-color: ${theme.colors.gray20};
+    border-radius: 0.9rem;
+
+    & span {
+      ${theme.fonts.medium13};
+    }
+
+    & button {
+      ${theme.fonts.medium13};
+      padding: 0;
+      color: ${theme.colors.purple70};
     }
   `};
 `;
