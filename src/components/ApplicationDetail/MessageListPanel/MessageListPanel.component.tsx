@@ -58,7 +58,7 @@ export interface MessageListPanelProps {
 }
 
 const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
-  const setModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+  const handleControlModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
 
   return (
     <Styled.MessageListPanelContainer>
@@ -68,7 +68,7 @@ const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
           $size="xs"
           shape="defaultLine"
           onClick={() =>
-            setModal({
+            handleControlModal({
               key: ModalKey.smsSendModalDialog,
               props: { id },
               isOpen: true,

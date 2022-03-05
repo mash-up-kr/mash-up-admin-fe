@@ -10,10 +10,12 @@ export default {
 } as ComponentMeta<typeof ModalViewer>;
 
 const Template: ComponentStory<typeof ModalViewer> = () => {
-  const setAlertModal = useSetRecoilState($modalByStorage(ModalKey.alertModalDialog));
-  const setSmsSendModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
-  const setChangeResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
-  const setMultipleSmsSendModal = useSetRecoilState(
+  const handleControlAlertModal = useSetRecoilState($modalByStorage(ModalKey.alertModalDialog));
+  const handleControlSmsSendModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+  const handleControlChangeResultModal = useSetRecoilState(
+    $modalByStorage(ModalKey.changeResultModalDialog),
+  );
+  const handleControlMultipleSmsSendModal = useSetRecoilState(
     $modalByStorage(ModalKey.multipleSmsSendModalDialog),
   );
   return (
@@ -21,7 +23,7 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       <ModalViewer />
       <Button
         onClick={() =>
-          setAlertModal({
+          handleControlAlertModal({
             key: ModalKey.alertModalDialog,
             props: {
               heading: 'SMS 발송 완료',
@@ -38,7 +40,7 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          setAlertModal({
+          handleControlAlertModal({
             key: ModalKey.alertModalDialog,
             props: {
               heading: '팝업을 닫으시겠습니까?',
@@ -55,7 +57,7 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          setAlertModal({
+          handleControlAlertModal({
             key: ModalKey.alertModalDialog,
             props: {
               heading: '삭제하시겠습니까?',
@@ -72,7 +74,7 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          setAlertModal({
+          handleControlAlertModal({
             key: ModalKey.alertModalDialog,
             props: {
               heading: '저장하시겠습니까?',
@@ -89,7 +91,7 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          setSmsSendModal({
+          handleControlSmsSendModal({
             key: ModalKey.smsSendModalDialog,
             props: {
               id: '0',
@@ -102,7 +104,7 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          setChangeResultModal({
+          handleControlChangeResultModal({
             key: ModalKey.changeResultModalDialog,
             props: {
               selectedList: [0, 1, 2, 3, 4],
@@ -116,7 +118,7 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          setMultipleSmsSendModal({
+          handleControlMultipleSmsSendModal({
             key: ModalKey.multipleSmsSendModalDialog,
             props: {
               selectedList: [0, 1, 2, 3, 4],
