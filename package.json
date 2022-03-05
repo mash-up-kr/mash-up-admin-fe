@@ -57,6 +57,7 @@
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
     "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^10.2.4",
     "dotenv-webpack": "^7.0.3",
     "emotion-ts-plugin": "^1.1.0",
     "eslint": "^8.7.0",
@@ -113,9 +114,9 @@
   "engines": {
     "node": "^14.19.0",
     "npm": "please-use-yarn",
-    "yarn": "^3.1.1"
+    "yarn": "^3.2.0"
   },
-  "packageManager": "yarn@3.1.1",
+  "packageManager": "yarn@3.2.0",
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "yarn lint:code-fix --cache",
