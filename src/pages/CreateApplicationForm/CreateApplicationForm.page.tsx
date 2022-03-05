@@ -37,8 +37,6 @@ const CreateApplicationForm = () => {
     },
   });
 
-  const modal = useRecoilValue($modalByStorage(ModalKey.alertModalDialog));
-
   const { register, handleSubmit, setValue, formState } = methods;
 
   const navigate = useNavigate();
@@ -67,7 +65,7 @@ const CreateApplicationForm = () => {
     }
 
     set($modalByStorage(ModalKey.alertModalDialog), {
-      ...modal,
+      key: ModalKey.alertModalDialog,
       isOpen: true,
       props: {
         heading: '저장하시겠습니까?',
@@ -79,7 +77,7 @@ const CreateApplicationForm = () => {
             errorHandler: handleAddToast,
             onSuccess: (response) => {
               set($modalByStorage(ModalKey.alertModalDialog), {
-                ...modal,
+                key: ModalKey.alertModalDialog,
                 isOpen: false,
               });
 

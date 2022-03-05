@@ -55,6 +55,7 @@ export interface ModalProps extends Children {
   handleCloseModal: Dispatch<SetStateAction<void>> | any;
   closeOnClickOverlay?: boolean;
   beforeRef?: MutableRefObject<HTMLButtonElement>;
+  isContentScroll?: boolean;
 }
 
 const PORTAL_ID = 'portal';
@@ -97,6 +98,7 @@ const ModalWrapper = ({
   handleCloseModal,
   closeOnClickOverlay = true,
   beforeRef,
+  isContentScroll = true,
 }: ModalProps) => {
   const dialogRef = useRef<HTMLDivElement>(null);
 
@@ -176,7 +178,7 @@ const ModalWrapper = ({
                 <h2>{heading}</h2>
               </Styled.ModalHeader>
             )}
-            <Styled.ModalContent>{children}</Styled.ModalContent>
+            <Styled.ModalContent isContentScroll={isContentScroll}>{children}</Styled.ModalContent>
             <Styled.ModalFooter position={footer.position || Position.right}>
               <Button
                 $size={ButtonSize.sm}

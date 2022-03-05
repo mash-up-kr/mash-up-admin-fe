@@ -167,7 +167,10 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
         <ApplicationStatusBadge text={ApplicationResultStatus[resultStatus]} />
       </TitleWithContent>
       {isShowInterviewSchedule && (
-        <TitleWithContent title="면접 일시" isLineThrough={isInterviewConfirmed}>
+        <TitleWithContent
+          title="면접 일시"
+          isLineThrough={confirmationStatus === 'INTERVIEW_CONFIRM_REJECTED'}
+        >
           {formatDate(date.format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
       )}
@@ -201,21 +204,19 @@ const ApplicationPanel = ({
   const { handleSubmit } = methods;
 
   const handleSubmitUpdateResult = useRecoilCallback(
-    ({ set, snapshot }) =>
+    ({ set }) =>
       async (data: FormValues) => {
         const requestDto: ApplicationUpdateResultByIdRequest = {
           ...data,
           applicationId,
         };
 
-        const modal = snapshot.getLoadable($modalByStorage(ModalKey.alertModalDialog)).contents;
-
         try {
           await postUpdateResult(requestDto);
         } catch (e) {
           // TODO:(용재) 메시지 확정되면 추가
           set($modalByStorage(ModalKey.alertModalDialog), {
-            ...modal,
+            key: ModalKey.alertModalDialog,
             props: {
               heading: '에러가 발생했습니다.',
               paragraph: '다시 시도해주세요.',

@@ -38,7 +38,7 @@ export const Content = styled.div`
     right: 0rem;
     width: 14rem;
     min-height: 5rem;
-    padding: 1.7rem 2rem;
+    padding: 0.8rem;
     background-color: ${theme.colors.white};
     border: 0.134rem solid ${theme.colors.gray40};
     border-radius: 1.5rem;
@@ -60,7 +60,7 @@ export const Select = styled.button`
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    padding: 0;
+    padding: 0.8rem;
     color: ${theme.colors.gray70};
     background-color: transparent;
 

@@ -28,70 +28,59 @@ const SmsSendModalDialog = ({ id }: SmsSendModalDialogProps) => {
 
   const { handleSubmit, register } = useForm<FormValues>();
 
-  const handleSendSms = useRecoilCallback(
-    ({ snapshot, set }) =>
-      async ({ content, name }: FormValues) => {
-        const smsModalSnapshot = snapshot.getLoadable(
-          $modalByStorage(ModalKey.smsSendModalDialog),
-        ).contents;
+  const handleSendSms = useRecoilCallback(({ set }) => async ({ content, name }: FormValues) => {
+    const handleClickButton = (isCancel: boolean) => {
+      set($modalByStorage(ModalKey.smsSendModalDialog), {
+        key: ModalKey.smsSendModalDialog,
+        isOpen: false,
+      });
+      set($modalByStorage(ModalKey.alertModalDialog), {
+        key: ModalKey.alertModalDialog,
+        isOpen: false,
+      });
 
-        const alertModalSnapshot = snapshot.getLoadable(
-          $modalByStorage(ModalKey.alertModalDialog),
-        ).contents;
+      if (isCancel) {
+        return null;
+      }
 
-        const handleClickButton = (isCancel: boolean) => {
-          set($modalByStorage(ModalKey.smsSendModalDialog), {
-            ...smsModalSnapshot,
-            isOpen: false,
-          });
-          set($modalByStorage(ModalKey.alertModalDialog), {
-            ...alertModalSnapshot,
-            isOpen: false,
-          });
+      navigate('/sms');
+    };
 
-          if (isCancel) {
-            return null;
-          }
+    const handleClickCancelButton = () => handleClickButton(true);
+    const handleClickConfirmButton = () => handleClickButton(false);
 
-          navigate('/sms');
-        };
+    const MODAL_PROPS = {
+      cancelButtonLabel: '취소',
+      confirmButtonLabel: '이동',
+      handleClickCancelButton,
+      handleClickConfirmButton,
+    };
 
-        const handleClickCancelButton = () => handleClickButton(true);
-        const handleClickConfirmButton = () => handleClickButton(false);
+    try {
+      await api.postSmsSend({ applicantIds: [Number(id)], content, name });
 
-        const MODAL_PROPS = {
-          cancelButtonLabel: '취소',
-          confirmButtonLabel: '이동',
-          handleClickCancelButton,
-          handleClickConfirmButton,
-        };
+      $applicationById({ applicationId: id });
 
-        try {
-          await api.postSmsSend({ applicantIds: [Number(id)], content, name });
-
-          $applicationById({ applicationId: id });
-
-          set($modalByStorage(ModalKey.alertModalDialog), {
-            ...alertModalSnapshot,
-            props: {
-              ...MODAL_PROPS,
-              heading: 'SMS 발송 완료',
-              paragraph: 'SMS 발송내역 페이지로 이동하시겠습니까?',
-            },
-            isOpen: true,
-          });
-        } catch ({ status }) {
-          set($modalByStorage(ModalKey.alertModalDialog), {
-            ...alertModalSnapshot,
-            props: {
-              ...MODAL_PROPS,
-              heading: '에러가 발생했습니다',
-            },
-            isOpen: true,
-          });
-        }
-      },
-  );
+      set($modalByStorage(ModalKey.alertModalDialog), {
+        key: ModalKey.alertModalDialog,
+        props: {
+          ...MODAL_PROPS,
+          heading: 'SMS 발송 완료',
+          paragraph: 'SMS 발송내역 페이지로 이동하시겠습니까?',
+        },
+        isOpen: true,
+      });
+    } catch ({ status }) {
+      set($modalByStorage(ModalKey.alertModalDialog), {
+        key: ModalKey.alertModalDialog,
+        props: {
+          ...MODAL_PROPS,
+          heading: '에러가 발생했습니다',
+        },
+        isOpen: true,
+      });
+    }
+  });
 
   const props = {
     heading: 'SMS 발송',

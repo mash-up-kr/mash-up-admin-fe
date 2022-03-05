@@ -4,6 +4,9 @@ import { SmsStatus, SmsStatusType } from '@/types/dto/sms';
 
 export const MessageListPanelContainer = styled.div`
   ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     width: 38.4rem;
     height: fit-content;
     padding: 2.4rem;
@@ -13,7 +16,6 @@ export const MessageListPanelContainer = styled.div`
 
     & h3 {
       ${theme.fonts.bold24}
-      margin-bottom: 2rem;
     }
   `}
 `;
