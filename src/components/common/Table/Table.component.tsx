@@ -148,10 +148,14 @@ const TableColumnCell = <T extends object>({
   column: TableColumn<T>;
   sortOptions?: SortOptions<T>;
 }) => {
-  const sortColumnIndex = sortOptions?.sortTypes.findIndex(
-    (sortType) => sortType.accessor === column.accessor,
+  const sortColumnIndex = useMemo(
+    () => sortOptions?.sortTypes.findIndex((sortType) => sortType.accessor === column.accessor),
+    [sortOptions, column],
   );
-  const sortable = sortOptions && sortColumnIndex !== -1;
+  const sortable = useMemo(
+    () => sortOptions && sortColumnIndex !== -1,
+    [sortOptions, sortColumnIndex],
+  );
 
   if (!sortable) {
     return <Styled.TableColumn>{column.title}</Styled.TableColumn>;
