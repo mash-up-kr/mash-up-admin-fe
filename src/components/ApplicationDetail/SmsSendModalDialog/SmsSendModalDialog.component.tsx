@@ -6,6 +6,9 @@ import { InputField, ModalWrapper } from '@/components';
 import * as Styled from './SmsSendModalDialog.styled';
 import * as api from '@/api';
 import { $applicationById, $modalByStorage, ModalKey } from '@/store';
+import { request } from '@/utils';
+import { useToast } from '@/hooks';
+import { ToastType } from '@/components/common/Toast/Toast.component';
 
 interface FormValues {
   name: string;
@@ -18,6 +21,7 @@ export interface SmsSendModalDialogProps {
 
 const SmsSendModalDialog = ({ id }: SmsSendModalDialogProps) => {
   const navigate = useNavigate();
+  const { handleAddToast } = useToast();
 
   const handleRemoveCurrentModal = useRecoilCallback(({ set }) => () => {
     set($modalByStorage(ModalKey.smsSendModalDialog), {
@@ -28,58 +32,41 @@ const SmsSendModalDialog = ({ id }: SmsSendModalDialogProps) => {
 
   const { handleSubmit, register } = useForm<FormValues>();
 
-  const handleSendSms = useRecoilCallback(({ set }) => async ({ content, name }: FormValues) => {
-    const handleClickButton = (isCancel: boolean) => {
-      set($modalByStorage(ModalKey.smsSendModalDialog), {
-        key: ModalKey.smsSendModalDialog,
-        isOpen: false,
-      });
-      set($modalByStorage(ModalKey.alertModalDialog), {
-        key: ModalKey.alertModalDialog,
-        isOpen: false,
-      });
+  const handleSendSms = useRecoilCallback(({ set }) => ({ content, name }: FormValues) => {
+    set($modalByStorage(ModalKey.alertModalDialog), {
+      key: ModalKey.alertModalDialog,
+      isOpen: true,
+      props: {
+        heading: '발송하시겠습니까?',
+        paragraph: 'SMS 발송내역에서 확인하실 수 있습니다.',
+        confirmButtonLabel: '발송',
+        handleClickConfirmButton: () => {
+          request({
+            requestFunc: async () => {
+              await api.postSmsSend({ applicantIds: [Number(id)], content, name });
 
-      if (isCancel) {
-        return null;
-      }
+              $applicationById({ applicationId: id });
+            },
 
-      navigate('/sms');
-    };
-
-    const handleClickCancelButton = () => handleClickButton(true);
-    const handleClickConfirmButton = () => handleClickButton(false);
-
-    const MODAL_PROPS = {
-      cancelButtonLabel: '취소',
-      confirmButtonLabel: '이동',
-      handleClickCancelButton,
-      handleClickConfirmButton,
-    };
-
-    try {
-      await api.postSmsSend({ applicantIds: [Number(id)], content, name });
-
-      $applicationById({ applicationId: id });
-
-      set($modalByStorage(ModalKey.alertModalDialog), {
-        key: ModalKey.alertModalDialog,
-        props: {
-          ...MODAL_PROPS,
-          heading: 'SMS 발송 완료',
-          paragraph: 'SMS 발송내역 페이지로 이동하시겠습니까?',
+            errorHandler: handleAddToast,
+            onSuccess: () => {
+              handleRemoveCurrentModal();
+              handleAddToast({
+                type: ToastType.success,
+                message: 'SMS 발송 완료',
+              });
+              navigate('/sms');
+            },
+            onCompleted: () => {
+              set($modalByStorage(ModalKey.alertModalDialog), {
+                key: ModalKey.alertModalDialog,
+                isOpen: false,
+              });
+            },
+          });
         },
-        isOpen: true,
-      });
-    } catch ({ status }) {
-      set($modalByStorage(ModalKey.alertModalDialog), {
-        key: ModalKey.alertModalDialog,
-        props: {
-          ...MODAL_PROPS,
-          heading: '에러가 발생했습니다',
-        },
-        isOpen: true,
-      });
-    }
+      },
+    });
   });
 
   const props = {
