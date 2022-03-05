@@ -162,6 +162,8 @@ const TableColumnCell = <T extends object>({
   }
 
   const handleClickColumn = () => {
+    if (!sortOptions) return;
+
     const getNextType = (sortType: ValueOf<typeof SORT_TYPE>) => {
       if (sortType === SORT_TYPE.DEFAULT) {
         return SORT_TYPE.ASC;
@@ -196,13 +198,14 @@ const TableColumnCell = <T extends object>({
   return (
     <Styled.TableColumn sortable={!!sortOptions} onClick={() => handleClickColumn()}>
       {column.title}
-      {sortOptions.sortTypes[sortColumnIndex!].type === SORT_TYPE.DEFAULT ? (
-        <CaretUpdown />
-      ) : (
-        <Styled.CaretUpWrapper type={sortOptions.sortTypes[sortColumnIndex!].type}>
-          <CaretUp />
-        </Styled.CaretUpWrapper>
-      )}
+      {sortOptions &&
+        (sortOptions.sortTypes[sortColumnIndex!].type === SORT_TYPE.DEFAULT ? (
+          <CaretUpdown />
+        ) : (
+          <Styled.CaretUpWrapper type={sortOptions.sortTypes[sortColumnIndex!].type}>
+            <CaretUp />
+          </Styled.CaretUpWrapper>
+        ))}
     </Styled.TableColumn>
   );
 };
