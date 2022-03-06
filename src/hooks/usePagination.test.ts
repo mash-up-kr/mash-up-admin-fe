@@ -12,6 +12,10 @@ jest.mock('react-router-dom', () => {
   };
 });
 
+jest.mock('@/components', () => ({
+  Textarea: 'Textarea',
+}));
+
 describe('usePagination', () => {
   it('아이템의 수가 없는 경우, 속성값들은 전부 0으로 초기화된다.', () => {
     // Given
