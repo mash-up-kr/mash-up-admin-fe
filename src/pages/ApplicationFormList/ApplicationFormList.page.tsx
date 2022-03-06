@@ -21,7 +21,7 @@ import { formatDate } from '@/utils';
 import { TableColumn } from '@/components/common/Table/Table.component';
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 import { ApplicationFormPreviewModal } from '@/components/ApplicationForm/ApplicationFormPreview/ApplicationFormPreview.component';
-import { ButtonShape } from '@/components/common/Button/Button.component';
+import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 
 import * as Styled from './ApplicationFormList.styled';
 
@@ -154,7 +154,7 @@ const ApplicationFormList = () => {
       <TeamNavigationTabs />
       <SearchOptionBar searchWord={searchWord} handleSubmit={handleSubmit} />
       <Table<ApplicationFormResponse>
-        prefix="application"
+        prefix="application-form"
         columns={columns}
         rows={loadedTableRows}
         maxHeight={72}
@@ -164,7 +164,7 @@ const ApplicationFormList = () => {
           totalSummaryText: '총 지원설문지',
           buttons: [
             <Link to={PATH.APPLICATION_FORM_CREATE}>
-              <Button $size="xs" shape="primary">
+              <Button $size={ButtonSize.xs} shape={ButtonShape.primary}>
                 지원서 설문지 작성
               </Button>
             </Link>,

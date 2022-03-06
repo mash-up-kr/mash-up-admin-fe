@@ -12,6 +12,7 @@ import { ACCESS_TOKEN, PATH } from './constants';
 
 import {
   LoginPage,
+  ApplicationList,
   ApplicationFormList,
   CreateApplicationForm,
   UpdateApplicationForm,
@@ -63,6 +64,14 @@ const App = () => {
         <ModalViewer />
         <Routes>
           <Route path="/" element={<Layout />}>
+            <Route
+              path={PATH.APPLICATION}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <ApplicationList />
+                </RequiredAuth>
+              }
+            />
             <Route
               path={PATH.APPLICATION_FORM}
               element={
