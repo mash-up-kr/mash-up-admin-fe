@@ -15,9 +15,6 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
   const handleControlChangeResultModal = useSetRecoilState(
     $modalByStorage(ModalKey.changeResultModalDialog),
   );
-  const handleControlMultipleSmsSendModal = useSetRecoilState(
-    $modalByStorage(ModalKey.multipleSmsSendModalDialog),
-  );
   return (
     <div>
       <ModalViewer />
@@ -92,19 +89,6 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          handleControlSmsSendModal({
-            key: ModalKey.smsSendModalDialog,
-            props: {
-              id: '0',
-            },
-            isOpen: true,
-          })
-        }
-      >
-        SMS 발송
-      </Button>
-      <Button
-        onClick={() =>
           handleControlChangeResultModal({
             key: ModalKey.changeResultModalDialog,
             props: {
@@ -119,8 +103,21 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          handleControlMultipleSmsSendModal({
-            key: ModalKey.multipleSmsSendModalDialog,
+          handleControlSmsSendModal({
+            key: ModalKey.smsSendModalDialog,
+            props: {
+              selectedList: [0],
+            },
+            isOpen: true,
+          })
+        }
+      >
+        SMS 발송
+      </Button>
+      <Button
+        onClick={() =>
+          handleControlSmsSendModal({
+            key: ModalKey.smsSendModalDialog,
             props: {
               selectedList: [0, 1, 2, 3, 4],
               confirmationStatus: 'FINAL_CONFIRM_ACCEPTED',
