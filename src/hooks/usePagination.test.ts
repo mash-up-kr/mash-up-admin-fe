@@ -8,6 +8,7 @@ const mockSetSearchParams = jest.fn();
 jest.mock('react-router-dom', () => {
   return {
     useSearchParams: jest.fn().mockImplementation(() => [mockSearchParams, mockSetSearchParams]),
+    Link: 'Link',
   };
 });
 
