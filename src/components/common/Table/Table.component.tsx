@@ -233,8 +233,7 @@ const Table = <T extends object>({
       selectedRows
         ? rows.map((row) => selectedRows.some((selectedRow) => isSameObject(selectedRow, row)))
         : [],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [rows],
+    [selectedRows, rows],
   );
   const allInAPageChecked = useMemo(
     () => !!rows.length && checkedValues.filter(Boolean).length === rows.length,
