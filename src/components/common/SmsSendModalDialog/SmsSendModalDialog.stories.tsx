@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import SmsSendModalDialog, { SmsSendModalDialogProps } from './SmsSendModalDialog.component';
 
 export default {
-  title: 'modal/Multiple Sms Send Modal Dialog',
+  title: 'common/Sms Send Modal Dialog',
   component: SmsSendModalDialog,
 } as ComponentMeta<typeof SmsSendModalDialog>;
 
