@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import SmsSendModalDialog, { SmsSendModalDialogProps } from './SmsSendModalDialog.component';
 
 export default {
-  title: 'ApplicationDetail/Sms Send Modal Dialog',
+  title: 'modal/Multiple Sms Send Modal Dialog',
   component: SmsSendModalDialog,
 } as ComponentMeta<typeof SmsSendModalDialog>;
 
@@ -14,5 +14,7 @@ const Template: ComponentStory<typeof SmsSendModalDialog> = (args: SmsSendModalD
 export const smsSendModalDialog = Template.bind({});
 
 smsSendModalDialog.args = {
-  id: '1',
+  selectedList: [0, 1, 2, 3, 4],
+  confirmationStatus: 'FINAL_CONFIRM_ACCEPTED',
+  resultStatus: 'SCREENING_PASSED',
 };

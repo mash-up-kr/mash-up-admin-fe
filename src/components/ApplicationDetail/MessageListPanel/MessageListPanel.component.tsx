@@ -70,7 +70,9 @@ const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
           onClick={() =>
             handleControlModal({
               key: ModalKey.smsSendModalDialog,
-              props: { id },
+              props: {
+                selectedList: [Number(id)],
+              },
               isOpen: true,
             })
           }

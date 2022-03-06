@@ -2,13 +2,21 @@ import React from 'react';
 import { useRecoilCallback } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { InputField, ModalWrapper } from '@/components';
+import { InputField, ModalWrapper, TitleWithContent } from '@/components';
 import * as Styled from './SmsSendModalDialog.styled';
 import * as api from '@/api';
-import { $applicationById, $modalByStorage, ModalKey } from '@/store';
+import { $modalByStorage, ModalKey } from '@/store';
+import ApplicationStatusBadge, {
+  ApplicationConfirmationStatus,
+  ApplicationConfirmationStatusKeyType,
+  ApplicationResultStatus,
+  ApplicationResultStatusKeyType,
+} from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
+import ArrowRight from '@/assets/svg/chevron-right-16.svg';
 import { request } from '@/utils';
 import { useToast } from '@/hooks';
-import { ToastType } from '@/components/common/Toast/Toast.component';
+import { ToastType } from '../Toast/Toast.component';
+import { PATH } from '@/constants';
 
 interface FormValues {
   name: string;
@@ -16,12 +24,18 @@ interface FormValues {
 }
 
 export interface SmsSendModalDialogProps {
-  id: string;
+  selectedList: number[];
+  resultStatus?: ApplicationResultStatusKeyType;
+  confirmationStatus?: ApplicationConfirmationStatusKeyType;
 }
 
-const SmsSendModalDialog = ({ id }: SmsSendModalDialogProps) => {
-  const navigate = useNavigate();
+const SmsSendModalDialog = ({
+  selectedList,
+  resultStatus,
+  confirmationStatus,
+}: SmsSendModalDialogProps) => {
   const { handleAddToast } = useToast();
+  const navigate = useNavigate();
 
   const handleRemoveCurrentModal = useRecoilCallback(({ set }) => () => {
     set($modalByStorage(ModalKey.smsSendModalDialog), {
@@ -43,9 +57,7 @@ const SmsSendModalDialog = ({ id }: SmsSendModalDialogProps) => {
         handleClickConfirmButton: () => {
           request({
             requestFunc: async () => {
-              await api.postSmsSend({ applicantIds: [Number(id)], content, name });
-
-              $applicationById({ applicationId: id });
+              await api.postSmsSend({ applicantIds: selectedList, content, name });
             },
 
             errorHandler: handleAddToast,
@@ -55,7 +67,7 @@ const SmsSendModalDialog = ({ id }: SmsSendModalDialogProps) => {
                 type: ToastType.success,
                 message: 'SMS 발송 완료',
               });
-              navigate('/sms');
+              navigate(PATH.SMS);
             },
             onCompleted: () => {
               set($modalByStorage(ModalKey.alertModalDialog), {
@@ -87,6 +99,25 @@ const SmsSendModalDialog = ({ id }: SmsSendModalDialogProps) => {
   return (
     <ModalWrapper {...props}>
       <Styled.SmsSendModalContainer>
+        {confirmationStatus && resultStatus && (
+          <>
+            <Styled.TitleArea>
+              <TitleWithContent title="총 발송 인원">{selectedList.length}</TitleWithContent>
+              {/* // TODO:(용재) 발송 인원 상세 리스트 모달 구현시 여는 로직 추가 */}
+              <button type="button">
+                발송 인원 상세보기
+                <ArrowRight />
+              </button>
+            </Styled.TitleArea>
+            <TitleWithContent title="사용자 확인 여부">
+              <ApplicationStatusBadge text={ApplicationConfirmationStatus[confirmationStatus]} />
+            </TitleWithContent>
+            <TitleWithContent title="합격 여부">
+              <ApplicationStatusBadge text={ApplicationResultStatus[resultStatus]} />
+            </TitleWithContent>
+            <Styled.Divider />
+          </>
+        )}
         <InputField
           required
           $size="xs"
