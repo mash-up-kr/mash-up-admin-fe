@@ -69,17 +69,18 @@ const UpdateApplicationForm = () => {
             requestFunc: () => api.updateApplicationForm(id, data),
             errorHandler: handleAddToast,
             onSuccess: () => {
-              set($modalByStorage(ModalKey.alertModalDialog), {
-                key: ModalKey.alertModalDialog,
-                isOpen: false,
-              });
-
               handleAddToast({
                 type: ToastType.success,
                 message: '성공적으로 지원서 설문지를 수정했습니다.',
               });
 
               navigate(getApplicationFormDetailPage(id));
+            },
+            onCompleted: () => {
+              set($modalByStorage(ModalKey.alertModalDialog), {
+                key: ModalKey.alertModalDialog,
+                isOpen: false,
+              });
             },
           });
         },

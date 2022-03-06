@@ -2,8 +2,8 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useSetRecoilState } from 'recoil';
 import ModalViewer from './ModalViewer.component';
-import { Button } from '@/components';
-import { $modalByStorage, ModalKey } from '@/store';
+import { Button, Toast } from '@/components';
+import { $modalByStorage, $toast, ModalKey } from '@/store';
 
 export default {
   title: 'Modal Viewer',
@@ -15,12 +15,10 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
   const handleControlChangeResultModal = useSetRecoilState(
     $modalByStorage(ModalKey.changeResultModalDialog),
   );
-  const handleControlMultipleSmsSendModal = useSetRecoilState(
-    $modalByStorage(ModalKey.multipleSmsSendModalDialog),
-  );
   return (
     <div>
       <ModalViewer />
+      {$toast && <Toast />}
       <Button
         onClick={() =>
           handleControlAlertModal({
@@ -91,19 +89,6 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          handleControlSmsSendModal({
-            key: ModalKey.smsSendModalDialog,
-            props: {
-              id: '0',
-            },
-            isOpen: true,
-          })
-        }
-      >
-        SMS 발송
-      </Button>
-      <Button
-        onClick={() =>
           handleControlChangeResultModal({
             key: ModalKey.changeResultModalDialog,
             props: {
@@ -118,8 +103,21 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          handleControlMultipleSmsSendModal({
-            key: ModalKey.multipleSmsSendModalDialog,
+          handleControlSmsSendModal({
+            key: ModalKey.smsSendModalDialog,
+            props: {
+              selectedList: [0],
+            },
+            isOpen: true,
+          })
+        }
+      >
+        SMS 발송
+      </Button>
+      <Button
+        onClick={() =>
+          handleControlSmsSendModal({
+            key: ModalKey.smsSendModalDialog,
             props: {
               selectedList: [0, 1, 2, 3, 4],
               confirmationStatus: 'FINAL_CONFIRM_ACCEPTED',

@@ -3,14 +3,12 @@ import { recoilPersist } from 'recoil-persist';
 
 import { AlertModalDialogProps } from '@/components/common/AlertModalDialog/AlertModalDialog.component';
 import { ValueOf } from '@/types';
-import { SmsSendModalDialogProps } from '@/components/ApplicationDetail/SmsSendModalDialog/SmsSendModalDialog.component';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
-import { MultipleSmsSendModalDialogProps } from '@/components/modal/MultipleSmsSendModalDialog/MultipleSmsSendModalDialog.component';
+import { SmsSendModalDialogProps } from '@/components/common/SmsSendModalDialog/SmsSendModalDialog.component';
 
 export const ModalKey = {
   alertModalDialog: 'alertModalDialog',
   smsSendModalDialog: 'smsSendModalDialog',
-  multipleSmsSendModalDialog: 'multipleSmsSendModalDialog',
   changeResultModalDialog: 'changeResultModalDialog',
 } as const;
 
@@ -18,8 +16,7 @@ export type ModalKeyType = ValueOf<typeof ModalKey>;
 export type ModalProps =
   | AlertModalDialogProps
   | SmsSendModalDialogProps
-  | ChangeResultModalDialogProps
-  | MultipleSmsSendModalDialogProps;
+  | ChangeResultModalDialogProps;
 
 export interface Modal {
   key: ModalKeyType;

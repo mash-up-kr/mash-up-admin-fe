@@ -56,11 +56,13 @@ const ApplicationFormDetail = () => {
                 message: '성공적으로 지원서 설문지를 삭제했습니다.',
               });
 
+              navigate(PATH.APPLICATION_FORM);
+            },
+            onCompleted: () => {
               set($modalByStorage(ModalKey.alertModalDialog), {
                 key: ModalKey.alertModalDialog,
                 isOpen: false,
               });
-              navigate(PATH.APPLICATION_FORM);
             },
           });
         },

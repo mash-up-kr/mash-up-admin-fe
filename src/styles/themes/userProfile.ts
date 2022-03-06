@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import { colors } from '.';
 
+// TODO:(용재) 추후 원인 파악
 const Role = {
   leader: 'LEADER',
   subLeader: 'SUBLEADER',

@@ -3,6 +3,10 @@ import { ApplicationResponse } from '@/types';
 import { TableColumn } from './Table.component';
 import { renderTable } from './Table.testUtil';
 
+jest.mock('@/components', () => ({
+  Textarea: 'Textarea',
+}));
+
 describe('<Table />', () => {
   const getMockProps = (renderCustomNameColumn?: (cellValue: unknown) => ReactNode) => {
     const columns: TableColumn<ApplicationResponse>[] = [

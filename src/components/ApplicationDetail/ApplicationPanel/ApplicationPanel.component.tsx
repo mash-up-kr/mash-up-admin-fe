@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import dayjs, { Dayjs } from 'dayjs';
 import { useRecoilCallback } from 'recoil';
-import { Button, DatePicker, SelectField } from '@/components';
+import { Button, DatePicker, Select, SelectField } from '@/components';
 import * as Styled from './ApplicationPanel.styled';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 import { TitleWithContent } from '..';
@@ -18,7 +18,7 @@ import { SelectOption, SelectSize } from '@/components/common/Select/Select.comp
 import { useOnClickOutSide } from '@/hooks';
 import { rangeArray } from '@/utils';
 import { postUpdateResult } from '@/api';
-import { ApplicationUpdateResultByIdRequest } from '@/types';
+import { ApplicationConfirmationStatusInDto, ApplicationUpdateResultByIdRequest } from '@/types';
 import { $modalByStorage, ModalKey } from '@/store';
 
 interface FormValues {
@@ -130,21 +130,26 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
             {/* // TODO:(용재) pointer-events: none; 하긴 했는데 클릭 자체가 실행 안되도록 못하도록 처리해야 함 - onClick 두고 캡쳐링을 막으면 될까.. */}
             <Styled.SelectContainer disabled={isInterviewConfirmed}>
               <div ref={outerRef}>
-                <Styled.Select onClick={handleToggleDatePicker}>
+                <Styled.SelectWrapper
+                  onClick={handleToggleDatePicker}
+                  isDatePickerOpened={isDatePickerOpened}
+                >
                   {formatDate(date.format(), 'YYYY년 M월 D일(ddd)')}
-                </Styled.Select>
+                </Styled.SelectWrapper>
                 <Styled.SelectMenu isDatePickerOpened={isDatePickerOpened}>
                   <DatePicker handleSelectDate={handleSelectDate} selectedDate={date} />
                 </Styled.SelectMenu>
               </div>
-              <Styled.SelectTimeField
-                size={SelectSize.md}
-                options={timeOptions}
-                isFullWidth
-                onChangeOption={handleChangeTimeSelect}
-                disabled={isInterviewConfirmed}
-                defaultValue={timeOptions.find((option) => option.value === dayjs(date).format())}
-              />
+              <Styled.SelectTimeField>
+                <Select
+                  size={SelectSize.md}
+                  options={timeOptions}
+                  isFullWidth
+                  onChangeOption={handleChangeTimeSelect}
+                  disabled={isInterviewConfirmed}
+                  defaultValue={timeOptions.find((option) => option.value === dayjs(date).format())}
+                />
+              </Styled.SelectTimeField>
             </Styled.SelectContainer>
           </TitleWithContent>
         )}
@@ -169,7 +174,9 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
       {isShowInterviewSchedule && (
         <TitleWithContent
           title="면접 일시"
-          isLineThrough={confirmationStatus === 'INTERVIEW_CONFIRM_REJECTED'}
+          isLineThrough={
+            confirmationStatus === ApplicationConfirmationStatusInDto.FINAL_CONFIRM_REJECTED
+          }
         >
           {formatDate(date.format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
