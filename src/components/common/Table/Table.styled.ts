@@ -174,8 +174,8 @@ export const TableSummary = styled.div`
     }
 
     & > div:nth-of-type(2) {
-      ${theme.fonts.regular14}
-      color: ${theme.colors.gray60}
+      ${theme.fonts.medium14}
+      color: ${theme.colors.gray70}
     }
 
     & > div:nth-of-type(4) {
