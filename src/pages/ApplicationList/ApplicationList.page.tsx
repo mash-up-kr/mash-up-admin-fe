@@ -1,6 +1,7 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useRecoilStateLoadable, useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
+import * as api from '@/api';
 import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
 import { formatDate } from '@/utils';
 import { SORT_TYPE } from '@/constants';
@@ -87,6 +88,22 @@ const ApplicationList = () => {
     setSearchWord({ value: e.target.searchWord.value });
   };
 
+  const handleSelectAll = useCallback(
+    async (checkedValue) => {
+      if (checkedValue) {
+        setSelectedRows([]);
+      } else {
+        const EXTRA = 100;
+        const { data: allRows } = await api.getApplications({
+          page: 0,
+          size: tableRows.page.totalCount + EXTRA,
+        });
+        setSelectedRows(allRows);
+      }
+    },
+    [tableRows.page?.totalCount],
+  );
+
   useEffect(() => {
     if (!isLoading) {
       setLoadedTableRows(tableRows.data);
@@ -135,7 +152,7 @@ const ApplicationList = () => {
           selectedCount: selectedRows.length,
           selectedRows,
           setSelectedRows,
-          handleSelectAll: () => {},
+          handleSelectAll,
         }}
         sortOptions={{
           sortTypes,
