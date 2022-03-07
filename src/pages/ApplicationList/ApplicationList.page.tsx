@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-// import { useSearchParams } from 'react-router-dom';
-// import { useRecoilValue } from 'recoil';
-import { usePagination } from '@/hooks';
+import React, { useMemo, useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { useRecoilStateLoadable, useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
 import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
-import { ApplicationResponse } from '@/types';
-import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { formatDate } from '@/utils';
 import { SORT_TYPE } from '@/constants';
-
-import * as Styled from './ApplicationList.styled';
-// import { $teamIdByName } from '@/store';
+import { $applications, $teamIdByName } from '@/store';
+import { usePagination } from '@/hooks';
+import { ApplicationResponse } from '@/types';
+import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
+import * as Styled from './ApplicationList.styled';
 
 const columns: TableColumn<ApplicationResponse>[] = [
   {
@@ -47,24 +46,29 @@ const columns: TableColumn<ApplicationResponse>[] = [
 ];
 
 const ApplicationList = () => {
-  // const [searchParams] = useSearchParams();
-  // const teamName = searchParams.get('team');
-  // const teamId = useRecoilValue($teamIdByName(teamName));
+  const [searchParams] = useSearchParams();
+  const teamName = searchParams.get('team');
+  const teamId = useRecoilValue($teamIdByName(teamName));
 
-  // const page = searchParams.get('page') || '1';
-  // const size = searchParams.get('size') || '20';
+  const page = searchParams.get('page') || '1';
+  const size = searchParams.get('size') || '20';
 
   const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
-  // const applicationParams = useMemo<ApplicationResponse>(
-  //   () => ({
-  //     page: parseInt(page, 10) - 1,
-  //     size: parseInt(size, 10),
-  //     teamId: parseInt(teamId, 10) || undefined,
-  //     searchWord: searchWord.value,
-  //   }),
-  //   [page, size, teamId, searchWord],
-  // );
-  const data = [];
+  const applicationParams = useMemo<ApplicationResponse>(
+    () => ({
+      page: parseInt(page, 10) - 1,
+      size: parseInt(size, 10),
+      teamId: parseInt(teamId, 10) || undefined,
+      searchWord: searchWord.value,
+    }),
+    [page, size, teamId, searchWord],
+  );
+
+  const [{ state, contents: tableRows }] = useRecoilStateLoadable($applications(applicationParams));
+  const refreshApplications = useRecoilRefresher_UNSTABLE($applications(applicationParams));
+
+  const isLoading = state === 'loading';
+  const [loadedTableRows, setLoadedTableRows] = useState<ApplicationResponse[]>([]);
 
   const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
   const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
@@ -72,28 +76,47 @@ const ApplicationList = () => {
     { accessor: 'result.interviewStartedAt', type: SORT_TYPE.DEFAULT },
   ]);
 
-  const { pageOptions, handleChangePage, handleChangeSize } = usePagination(0);
+  const { pageOptions, handleChangePage, handleChangeSize } = usePagination(
+    tableRows.page?.totalCount,
+  );
 
-  const handleSubmit = (
+  const handleSearch = (
     e: { target: { searchWord: { value: string } } } & FormEvent<HTMLFormElement>,
   ) => {
     e.preventDefault();
     setSearchWord({ value: e.target.searchWord.value });
   };
 
+  useEffect(() => {
+    if (!isLoading) {
+      setLoadedTableRows(tableRows.data);
+    }
+  }, [isLoading, tableRows]);
+
+  useEffect(() => {
+    refreshApplications();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, size, searchWord]);
+
+  useEffect(() => {
+    refreshApplications();
+    setSearchWord({ value: '' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamId]);
+
   return (
     <Styled.PageWrapper>
       <Styled.Heading>지원서 내역</Styled.Heading>
       <TeamNavigationTabs />
-      <SearchOptionBar searchWord={searchWord} handleSubmit={handleSubmit} />
+      <SearchOptionBar searchWord={searchWord} handleSubmit={handleSearch} />
       <Table
         prefix="application"
         maxHeight={72}
         columns={columns}
-        rows={data}
-        isLoading={false}
+        rows={loadedTableRows}
+        isLoading={isLoading}
         supportBar={{
-          totalCount: 0,
+          totalCount: tableRows.page?.totalCount,
           totalSummaryText: '총 지원인원',
           selectedSummaryText: '명 선택',
           buttons: [
@@ -112,13 +135,7 @@ const ApplicationList = () => {
           selectedCount: selectedRows.length,
           selectedRows,
           setSelectedRows,
-          handleSelectAll: (checkedValue) => {
-            if (checkedValue) {
-              setSelectedRows([]);
-            } else {
-              // setSelectedRows([{All}])
-            }
-          },
+          handleSelectAll: () => {},
         }}
         sortOptions={{
           sortTypes,
@@ -131,7 +148,7 @@ const ApplicationList = () => {
           <Pagination
             pageOptions={pageOptions}
             selectableSize
-            selectBoxPosition={data.length > 3 ? 'top' : 'bottom'}
+            selectBoxPosition={loadedTableRows.length > 3 ? 'top' : 'bottom'}
             handleChangePage={handleChangePage}
             handleChangeSize={handleChangeSize}
           />
