@@ -8,6 +8,7 @@ import CloseRed from '@/assets/svg/close-red-32.svg';
 import CloseGreen from '@/assets/svg/close-green-32.svg';
 import { $toast } from '@/store';
 import { useToast } from '@/hooks';
+import { Portal } from '@/components';
 
 export const ToastType = {
   success: 'success',
@@ -40,13 +41,15 @@ const Toast = () => {
   const { type, message } = toast;
 
   return (
-    <Styled.Toast type={type}>
-      {icon[type]}
-      <span>{message}</span>
-      <button type="button" onClick={handleRemoveToast}>
-        {closeButton[type]}
-      </button>
-    </Styled.Toast>
+    <Portal>
+      <Styled.Toast type={type}>
+        {icon[type]}
+        <span>{message}</span>
+        <button type="button" onClick={handleRemoveToast}>
+          {closeButton[type]}
+        </button>
+      </Styled.Toast>
+    </Portal>
   );
 };
 

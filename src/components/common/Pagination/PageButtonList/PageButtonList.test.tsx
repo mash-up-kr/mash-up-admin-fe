@@ -1,5 +1,9 @@
 import { renderPageButtonList } from './PageButtonList.testUtil';
 
+jest.mock('@/components', () => ({
+  Textarea: 'Textarea',
+}));
+
 describe('<PageButtonList />', () => {
   it('페이지가 없는 경우, 렌더링 되어서는 안된다.', () => {
     // Given, When
