@@ -18,6 +18,9 @@ interface FormValues {
   questions: Question[];
 }
 
+const PRIVACY_POLICY_URL =
+  'https://snow-chestnut-45b.notion.site/Mash-Up-Recruit-62a5f6dabcb34e61ba8f26c4fb3a21f0';
+
 export const ApplicationFormPreviewModal = ({
   questions,
   toggleModalOpened,
@@ -76,8 +79,16 @@ export const ApplicationFormPreviewModal = ({
           <Styled.QuestionInput {...props} $size={InputSize.md} />
         );
       })}
-      {/* TODO:(@mango906): 개인정보 수집 링크 생기면 링크 걸어주기 */}
-      <Styled.PrivacyCheckBox label="개인정보 수집 및 이용에 동의합니다." />
+      <Styled.PrivacyCheckBox
+        label={
+          <Styled.PrivacyCheckBoxLabel>
+            <a href={PRIVACY_POLICY_URL} target="_blank" rel="noreferrer">
+              개인정보 수집 및 이용
+            </a>
+            에 동의합니다.
+          </Styled.PrivacyCheckBoxLabel>
+        }
+      />
       <Styled.ButtonContainer>
         <Styled.Col>
           <Button
