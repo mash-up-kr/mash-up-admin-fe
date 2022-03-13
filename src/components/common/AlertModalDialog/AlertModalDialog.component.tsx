@@ -1,25 +1,9 @@
-import React, { MutableRefObject } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { MouseEventHandler, MutableRefObject } from 'react';
 import { useRecoilState } from 'recoil';
 import { ModalWrapper } from '@/components';
 import * as Styled from './AlertModalDialog.styled';
 import { $modalByStorage, ModalKey } from '@/store';
 import { Position } from '@/components/common/ModalWrapper/ModalWrapper.component';
-
-export const SMS_COMPLETE = {
-  heading: 'SMS 발송 완료',
-  paragraph: 'SMS 발송내역 페이지로 이동하시겠습니까?',
-  cancelButtonLabel: '취소',
-  confirmButtonLabel: '이동',
-  linkTo: 'sms',
-};
-
-export const POPUP_CLOSE = {
-  heading: '팝업을 닫으시겠습니까?',
-  paragraph: '변경 또는 작성하신 데이터가 삭제됩니다.',
-  cancelButtonLabel: '취소',
-  confirmButtonLabel: '닫기',
-};
 
 export interface AlertModalDialogProps {
   heading: string;
@@ -28,6 +12,8 @@ export interface AlertModalDialogProps {
   confirmButtonLabel?: string;
   linkTo?: string;
   beforeRef?: MutableRefObject<HTMLButtonElement>;
+  handleClickCancelButton?: MouseEventHandler<HTMLButtonElement>;
+  handleClickConfirmButton?: MouseEventHandler<HTMLButtonElement>;
 }
 
 const AlertModalDialog = ({
@@ -35,25 +21,28 @@ const AlertModalDialog = ({
   paragraph,
   cancelButtonLabel = '취소',
   confirmButtonLabel = '확인',
-  linkTo,
+  handleClickCancelButton,
+  handleClickConfirmButton,
 }: AlertModalDialogProps) => {
-  const navigate = useNavigate();
   const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
 
-  const handleRemoveCurrentModal = () => setModal({ ...modal, isOpen: false });
+  const handleRemoveCurrentModal: MouseEventHandler<HTMLButtonElement> = () => {
+    setModal({ ...modal, isOpen: false });
+  };
 
   const props = {
     footer: {
       cancelButton: {
         label: cancelButtonLabel,
+        onClick: handleClickCancelButton || handleRemoveCurrentModal,
       },
       confirmButton: {
         label: confirmButtonLabel,
-        onClick: linkTo ? () => navigate(linkTo) : () => handleRemoveCurrentModal(),
+        onClick: handleClickConfirmButton || handleRemoveCurrentModal,
       },
       position: Position.center,
     },
-    handleCloseModal: () => handleRemoveCurrentModal(),
+    handleCloseModal: handleClickCancelButton || handleRemoveCurrentModal,
   };
 
   return (

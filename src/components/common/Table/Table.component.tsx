@@ -9,6 +9,8 @@ import React, {
 } from 'react';
 import { NestedKeyOf } from '@/types';
 import { getOwnValueByKey, isSameObject } from '@/utils';
+import { colors } from '@/styles';
+import QuestionFile from '@/assets/svg/question-file-72.svg';
 import * as Styled from './Table.styled';
 import Loading from '../Loading/Loading.component';
 import Checkbox from '../Checkbox/Checkbox.component';
@@ -16,9 +18,10 @@ import Checkbox from '../Checkbox/Checkbox.component';
 export interface TableColumn<T extends object> {
   title: string;
   accessor?: NestedKeyOf<T>;
+  idAccessor?: NestedKeyOf<T>;
   widthRatio: string;
   sortable?: boolean;
-  renderCustomCell?: (cellVaule: unknown) => ReactNode;
+  renderCustomCell?: (cellVaule: unknown, id?: string) => ReactNode;
 }
 
 interface TableProps<T extends object> {
@@ -37,29 +40,35 @@ interface TableProps<T extends object> {
   };
   supportBar: {
     totalCount: number;
+    totalSummaryText: string;
+    selectedSummaryText?: string;
     buttons?: ReactNode[];
   };
   pagination?: ReactNode;
 }
 
 const TableSupportBar = ({
+  totalSummaryText,
+  selectedSummaryText,
   totalCount,
   selectedCount,
   supportButtons,
 }: {
+  totalSummaryText: string;
+  selectedSummaryText?: string;
   totalCount: number;
   selectedCount?: number;
   supportButtons?: ReactNode[];
 }) => (
   <Styled.TableSupportBar>
     <Styled.TableSummary>
-      <span>총 지원인원</span>
+      <span>{totalSummaryText}</span>
       <span>{totalCount}</span>
       {!!selectedCount && (
         <>
           <span />
           <span>{selectedCount}</span>
-          <span>명 선택</span>
+          <span>{selectedSummaryText}</span>
         </>
       )}
     </Styled.TableSummary>
@@ -92,7 +101,7 @@ const Table = <T extends object>({
   rows,
   isLoading,
   selectableRow,
-  supportBar: { totalCount, buttons: supportButtons },
+  supportBar: { totalCount, totalSummaryText, selectedSummaryText, buttons: supportButtons },
   pagination,
 }: TableProps<T>) => {
   const { selectedCount, selectedRows, setSelectedRows } = selectableRow || {};
@@ -100,6 +109,7 @@ const Table = <T extends object>({
   const INNER_TABLE_EXTERNAL_BODY_HEIGHT = 15.6;
   const bodyHeight = maxHeight! - INNER_TABLE_EXTERNAL_BODY_HEIGHT;
   const itemSizeInnerBody = Math.floor(bodyHeight / DEFAULT_ROW_HEIGHT);
+  const isEmptyData = rows.length === 0;
 
   const checkedValues = useRef<boolean[]>(
     selectedRows
@@ -142,6 +152,8 @@ const Table = <T extends object>({
   return (
     <Styled.TableContainer height={rows.length >= itemSizeInnerBody ? `${maxHeight}rem` : 'auto'}>
       <TableSupportBar
+        totalSummaryText={totalSummaryText}
+        selectedSummaryText={selectedSummaryText}
         totalCount={totalCount}
         selectedCount={selectedCount}
         supportButtons={supportButtons}
@@ -168,13 +180,20 @@ const Table = <T extends object>({
           </Styled.TableHeader>
         </Styled.Table>
         <Styled.TableBodyWrapper isLoading={isLoading}>
-          {rows.length !== 0 && isLoading && <Loading />}
+          {!isEmptyData && isLoading && (
+            <Loading dimmedColor={colors.whiteLoadingDimmed} spinnerColor={colors.purple40} />
+          )}
           <Styled.Table>
-            {rows.length === 0 ? (
+            {isEmptyData ? (
               <Styled.TableBody>
-                <Styled.TableRow height={bodyHeight}>
+                <Styled.TableRow height={DEFAULT_ROW_HEIGHT * 5}>
                   <Styled.TableCell>
-                    <Styled.NoData>No data found</Styled.NoData>
+                    <Styled.Center>
+                      <Styled.NoData>
+                        <QuestionFile />
+                        <div>데이터가 없습니다.</div>
+                      </Styled.NoData>
+                    </Styled.Center>
                   </Styled.TableCell>
                 </Styled.TableRow>
               </Styled.TableBody>
@@ -196,12 +215,13 @@ const Table = <T extends object>({
                         />
                       )}
                       {columns.map((column, columnIndex) => {
-                        const { accessor, renderCustomCell } = column;
+                        const { accessor, idAccessor, renderCustomCell } = column;
                         const cellValue = accessor ? getOwnValueByKey(row, accessor) : null;
+                        const id = idAccessor ? getOwnValueByKey(row, idAccessor) : null;
 
                         return (
                           <Styled.TableCell key={`cell-${columnIndex}`}>
-                            {renderCustomCell ? renderCustomCell(cellValue) : cellValue}
+                            {renderCustomCell ? renderCustomCell(cellValue, id) : cellValue}
                           </Styled.TableCell>
                         );
                       })}
@@ -213,7 +233,7 @@ const Table = <T extends object>({
           </Styled.Table>
         </Styled.TableBodyWrapper>
       </Styled.TableWrapper>
-      {pagination}
+      {!isEmptyData && pagination}
     </Styled.TableContainer>
   );
 };

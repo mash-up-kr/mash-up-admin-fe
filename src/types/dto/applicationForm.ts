@@ -15,6 +15,14 @@ export interface Question {
   questionId?: string;
 }
 
+export interface ApplicationFormRequest {
+  page?: number;
+  searchWord?: string;
+  size?: number;
+  sort?: string;
+  teamId?: number;
+}
+
 export interface ApplicationFormResponse {
   applicationFormId: number;
   createdAt: string;

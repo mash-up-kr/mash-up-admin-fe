@@ -9,6 +9,7 @@ import React, {
   Dispatch,
   SetStateAction,
   MutableRefObject,
+  Suspense,
 } from 'react';
 import ReactDOM from 'react-dom';
 import * as Styled from './ModalWrapper.styled';
@@ -51,7 +52,7 @@ export interface ModalProps extends Children {
     };
     position?: PositionType;
   };
-  handleCloseModal: Dispatch<SetStateAction<void>>;
+  handleCloseModal: Dispatch<SetStateAction<void>> | any;
   closeOnClickOverlay?: boolean;
   beforeRef?: MutableRefObject<HTMLButtonElement>;
 }
@@ -159,39 +160,53 @@ const ModalWrapper = ({
   }, [beforeRef, handleCloseModal]);
 
   return (
-    <Portal>
-      <Styled.Overlay
-        onClick={(e) => {
-          if (e.target === e.currentTarget && closeOnClickOverlay) {
-            handleCloseModal();
-          }
-        }}
-        tabIndex={-1}
-      >
-        <Styled.ModalCard ref={dialogRef} className={className}>
-          {heading && (
-            <Styled.ModalHeader>
-              <h2>{heading}</h2>
-            </Styled.ModalHeader>
-          )}
-          <Styled.ModalContent>{children}</Styled.ModalContent>
-          <Styled.ModalFooter position={footer.position || Position.right}>
-            <Button
-              $size={ButtonSize.sm}
-              shape={ButtonShape.defaultLine}
-              {...footer.cancelButton}
-              onClick={
-                footer.cancelButton.onClick ? footer.cancelButton.onClick : () => handleCloseModal()
-              }
-            />
-            {footer?.confirmButton && (
-              <Button $size={ButtonSize.sm} shape={ButtonShape.primary} {...footer.confirmButton} />
+    <Suspense fallback={null}>
+      <Portal>
+        <Styled.Overlay
+          onClick={(e) => {
+            if (e.target === e.currentTarget && closeOnClickOverlay) {
+              handleCloseModal();
+            }
+          }}
+          tabIndex={-1}
+        >
+          <Styled.ModalCard ref={dialogRef} className={className}>
+            {heading && (
+              <Styled.ModalHeader>
+                <h2>{heading}</h2>
+              </Styled.ModalHeader>
             )}
-          </Styled.ModalFooter>
-          <Button Icon={CloseIcon} shape={ButtonShape.icon} onClick={() => handleCloseModal()} />
-        </Styled.ModalCard>
-      </Styled.Overlay>
-    </Portal>
+            <Styled.ModalContent>{children}</Styled.ModalContent>
+            <Styled.ModalFooter position={footer.position || Position.right}>
+              <Button
+                $size={ButtonSize.sm}
+                shape={ButtonShape.defaultLine}
+                {...footer.cancelButton}
+                onClick={
+                  footer.cancelButton.onClick
+                    ? footer.cancelButton.onClick
+                    : () => handleCloseModal()
+                }
+              />
+              {footer?.confirmButton && (
+                <Button
+                  $size={ButtonSize.sm}
+                  shape={ButtonShape.primary}
+                  {...footer.confirmButton}
+                />
+              )}
+            </Styled.ModalFooter>
+            {heading && (
+              <Button
+                Icon={CloseIcon}
+                shape={ButtonShape.icon}
+                onClick={() => handleCloseModal()}
+              />
+            )}
+          </Styled.ModalCard>
+        </Styled.Overlay>
+      </Portal>
+    </Suspense>
   );
 };
 

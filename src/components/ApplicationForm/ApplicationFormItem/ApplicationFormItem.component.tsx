@@ -39,6 +39,8 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
 
   const questionType = watch(`questions.${index}.questionType`);
 
+  const defaultSelectValue = options.find((option) => option.value === questionType);
+
   const readableIndex = index + 1;
 
   const handleChangeSelect = (option: SelectOption) => {
@@ -53,6 +55,13 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasMaxContentLength, index]);
+
+  useEffect(() => {
+    if (defaultSelectValue) {
+      handleChangeSelect(defaultSelectValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultSelectValue]);
 
   return (
     <Styled.ApplicationFormItemContainer>
@@ -85,7 +94,7 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
           size={SelectSize.xs}
           options={options}
           onChangeOption={handleChangeSelect}
-          defaultValue={questionType}
+          defaultValue={defaultSelectValue}
         />
         {questionType === QuestionKind.multiLineText && (
           <Styled.MaxContentSizeContainer>
@@ -95,12 +104,16 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
               <InputField
                 $size={InputSize.xs}
                 type="number"
-                {...register(`questions.${index}.maxContentLength`, { required: true })}
+                {...register(`questions.${index}.maxContentLength`, {
+                  required: true,
+                  pattern: /[^0-9]/,
+                  min: 0,
+                })}
               />
             )}
           </Styled.MaxContentSizeContainer>
         )}
-        <Styled.IconButton>
+        <Styled.IconButton type="button">
           <TrashCan onClick={() => handleRemoveItem(index)} />
         </Styled.IconButton>
         <Styled.Divider />

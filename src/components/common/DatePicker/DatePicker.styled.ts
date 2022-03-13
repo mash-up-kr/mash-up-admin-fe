@@ -11,6 +11,7 @@ export const DatePickerWrapper = styled.div`
     justify-content: flex-start;
     width: 33.6rem;
     min-height: 30.4rem;
+    background-color: ${theme.colors.white};
     border: 0.1rem solid ${theme.colors.gray30};
     border-radius: 1.2rem;
   `}

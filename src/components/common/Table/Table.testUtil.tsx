@@ -25,7 +25,7 @@ export const renderTable = <T extends object>({
         columns={_columns}
         rows={_data}
         isLoading={isLoading}
-        supportBar={{ totalCount: _data.length }}
+        supportBar={{ totalCount: _data.length, totalSummaryText: '총 지원설문지' }}
       />
     </ThemeProvider>,
   );

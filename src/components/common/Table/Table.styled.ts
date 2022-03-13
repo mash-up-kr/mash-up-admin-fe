@@ -22,14 +22,13 @@ export const TableBodyWrapper = styled.div<{ isLoading: boolean }>`
 
     /* reference: https://css-tricks.com/scrollbars-on-hover */
     mask-image: linear-gradient(to top, transparent, black),
-      linear-gradient(to left, transparent 17px, black 17px);
+      linear-gradient(to left, transparent 0.7rem, black 0.7rem);
     mask-size: 100% 20000px;
     mask-position: left bottom;
     -webkit-mask-image: linear-gradient(to top, transparent, black),
-      linear-gradient(to left, transparent 17px, black 17px);
+      linear-gradient(to left, transparent 0.7rem, black 0.7rem);
     -webkit-mask-size: 100% 20000px;
     -webkit-mask-position: left bottom;
-    transition: mask-position 0.3s, -webkit-mask-position 0.3s;
 
     &::-webkit-scrollbar {
       width: 0.7rem;
@@ -47,7 +46,6 @@ export const TableBodyWrapper = styled.div<{ isLoading: boolean }>`
     ${isLoading &&
     css`
       overflow-y: hidden;
-      transition: mask-position 0s, -webkit-mask-position 0s;
       -webkit-mask-position: left top;
     `}
   `}
@@ -56,6 +54,7 @@ export const TableBodyWrapper = styled.div<{ isLoading: boolean }>`
 export const Table = styled.table`
   width: 120rem;
   text-align: center;
+  table-layout: fixed;
   border-collapse: collapse;
 `;
 
@@ -66,7 +65,15 @@ export const TableHeader = styled.thead`
   `}
 `;
 
-export const TableBody = styled.tbody``;
+export const TableBody = styled.tbody`
+  ${({ theme }) => css`
+    & tr {
+      &:hover {
+        background-color: ${theme.colors.purple20};
+      }
+    }
+  `};
+`;
 
 export const TableRow = styled.tr<{ height: number }>`
   ${({ theme, height }) => css`
@@ -88,6 +95,7 @@ export const TableCell = styled.td`
   ${({ theme }) => css`
     ${theme.fonts.regular14}
 
+    height: 0;
     color: ${theme.colors.gray80};
     vertical-align: middle;
   `}
@@ -140,9 +148,15 @@ export const TableSummary = styled.div`
   `};
 `;
 
-export const NoData = styled(Center)`
+export const NoData = styled.div`
   ${({ theme }) => css`
-    ${theme.fonts.regular15}
+    ${theme.fonts.bold16}
+    display: flex;
+    flex-direction: column;
+    gap: 2.6rem;
+    align-items: center;
+    justify-content: center;
+    color: ${theme.colors.gray70};
   `}
 `;
 

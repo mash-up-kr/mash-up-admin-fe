@@ -1,5 +1,5 @@
 import React from 'react';
-import { ValueOf } from '@/types';
+import { KeyOf, ValueOf } from '@/types';
 import * as Styled from './ApplicationStatusBadge.styled';
 
 export const ApplicationConfirmationStatus = {
@@ -11,6 +11,7 @@ export const ApplicationConfirmationStatus = {
   FINAL_CONFIRM_WAITING: '최종 확인 대기',
   FINAL_CONFIRM_ACCEPTED: '최종 합격',
   FINAL_CONFIRM_REJECTED: '최종 거절',
+  TO_BE_DETERMINED: '미정',
 } as const;
 
 export const ApplicationResultStatus = {
@@ -23,7 +24,9 @@ export const ApplicationResultStatus = {
 } as const;
 
 export type ApplicationConfirmationStatusType = ValueOf<typeof ApplicationConfirmationStatus>;
+export type ApplicationConfirmationStatusKeyType = KeyOf<typeof ApplicationConfirmationStatus>;
 export type ApplicationResultStatusType = ValueOf<typeof ApplicationResultStatus>;
+export type ApplicationResultStatusKeyType = KeyOf<typeof ApplicationResultStatus>;
 
 export interface ApplicationStatusBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   text: ApplicationConfirmationStatusType | ApplicationResultStatusType;

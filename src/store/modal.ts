@@ -3,13 +3,15 @@ import { recoilPersist } from 'recoil-persist';
 
 import { AlertModalDialogProps } from '@/components/common/AlertModalDialog/AlertModalDialog.component';
 import { ValueOf } from '@/types';
+import { SmsSendModalDialogProps } from '@/components/ApplicationDetail/SmsSendModalDialog/SmsSendModalDialog.component';
 
 export const ModalKey = {
   alertModalDialog: 'alertModalDialog',
+  smsSendModalDialog: 'smsSendModalDialog',
 } as const;
 
 export type ModalKeyType = ValueOf<typeof ModalKey>;
-export type ModalProps = AlertModalDialogProps;
+export type ModalProps = AlertModalDialogProps | SmsSendModalDialogProps;
 
 export interface Modal {
   key: ModalKeyType;
@@ -35,6 +37,9 @@ export const $modalByStorage = selectorFamily<Modal, ModalKeyType>({
     (key) =>
     ({ get }) => {
       const hash = Object.values(ModalKey).reduce<string>((acc, cur) => {
+        if (cur === ModalKey.alertModalDialog) {
+          return acc;
+        }
         const curVal = get($modal(cur));
         return curVal.isOpen ? `${acc}#${curVal.key}` : acc;
       }, '');

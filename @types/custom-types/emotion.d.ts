@@ -12,5 +12,6 @@ declare module '@emotion/react' {
     navigation: import('@/styles').NavigationTheme;
     badge: import('@/styles').BadgeTheme;
     select: import('@/styles').SelectTheme;
+    toast: import('@/styles').ToastTheme;
   }
 }

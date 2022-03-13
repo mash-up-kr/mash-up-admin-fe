@@ -1,14 +1,20 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useRecoilCallback, useRecoilValue } from 'recoil';
+import { useRecoilCallback, useRecoilState, useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import { ApplicationFormAside, ApplicationFormSection } from '@/components';
 import * as Styled from './CreateApplicationForm.styled';
 
 import { Question, QuestionKind } from '@/types/dto/applicationForm';
 import * as api from '@/api';
-import { $profile, $teams } from '@/store';
+import { $modalByStorage, $profile, $teams, ModalKey } from '@/store';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import ApplicationFormTemplate from '@/components/ApplicationForm/ApplicationFormTemplate/ApplicationFormTemplate.component';
+import { useToast } from '@/hooks';
+
+import { request } from '@/utils';
+import { ToastType } from '@/components/common/Toast/Toast.component';
+import { getApplicationFormDetailPage } from '@/constants';
 
 interface FormValues {
   name: string;
@@ -17,7 +23,11 @@ interface FormValues {
 }
 
 const DEFAULT_QUESTION: Partial<Question> = {
+  content: '',
+  description: '',
+  maxContentLength: null,
   questionType: QuestionKind.multiLineText,
+  required: false,
 };
 
 const current = new Date().toISOString();
@@ -31,7 +41,11 @@ const CreateApplicationForm = () => {
     },
   });
 
-  const { register, handleSubmit, setValue } = methods;
+  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
+
+  const { register, handleSubmit, setValue, formState } = methods;
+
+  const navigate = useNavigate();
 
   const teams = useRecoilValue($teams);
 
@@ -44,18 +58,67 @@ const CreateApplicationForm = () => {
     [teams],
   );
 
-  const handleSubmitForm = useRecoilCallback(() => async (data: FormValues) => {
-    // TODO:(@mango906): 입력값 제대로 입력안했을 떄 어떻게 알려줄지 정하기
+  const { handleAddToast } = useToast();
+
+  const handleSubmitForm = useRecoilCallback(({ set }) => async (data: FormValues) => {
     if (data.questions.length === 0) {
+      handleAddToast({
+        type: 'error',
+        message: '최소 한가지의 질문을 작성해야합니다.',
+      });
+
       return;
     }
 
-    // TODO:(@mango906): api 요청 완료후 로직 만들어주기
-    api.createApplicationForm(data);
+    set($modalByStorage(ModalKey.alertModalDialog), {
+      ...modal,
+      isOpen: true,
+      props: {
+        heading: '저장하시겠습니까?',
+        paragraph: '지원서 설문지 내역에서 확인하실 수 있습니다.',
+        confirmButtonLabel: '저장',
+        handleClickConfirmButton: () => {
+          request({
+            requestFunc: () => api.createApplicationForm(data),
+            errorHandler: handleAddToast,
+            onSuccess: (response) => {
+              set($modalByStorage(ModalKey.alertModalDialog), {
+                ...modal,
+                isOpen: false,
+              });
+
+              const { applicationFormId } = response.data;
+
+              handleAddToast({
+                type: ToastType.success,
+                message: '성공적으로 지원서 설문지를 작성했습니다.',
+              });
+
+              navigate(getApplicationFormDetailPage(applicationFormId));
+            },
+            onCompleted: () => {
+              setModal({
+                ...modal,
+                isOpen: false,
+              });
+            },
+          });
+        },
+      },
+    });
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-redeclare
   const position = useRecoilValue($profile)[2];
+
+  useEffect(() => {
+    if (formState.errors.teamId?.type === 'required') {
+      handleAddToast({
+        type: ToastType.error,
+        message: '플랫폼을 선택해주세요.',
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formState.errors.teamId]);
 
   return (
     <FormProvider {...methods}>
@@ -77,7 +140,7 @@ const CreateApplicationForm = () => {
               />
             }
             createdBy={position}
-            leftActionButton={{ text: '취소' }}
+            leftActionButton={{ text: '취소', onClick: () => navigate(-1) }}
             rightActionButton={{ text: '저장', type: 'submit' }}
           />
         </form>
