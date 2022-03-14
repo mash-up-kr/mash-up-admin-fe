@@ -22,14 +22,13 @@ export const TableBodyWrapper = styled.div<{ isLoading: boolean }>`
 
     /* reference: https://css-tricks.com/scrollbars-on-hover */
     mask-image: linear-gradient(to top, transparent, black),
-      linear-gradient(to left, transparent 17px, black 17px);
+      linear-gradient(to left, transparent 0.7rem, black 0.7rem);
     mask-size: 100% 20000px;
     mask-position: left bottom;
     -webkit-mask-image: linear-gradient(to top, transparent, black),
-      linear-gradient(to left, transparent 17px, black 17px);
+      linear-gradient(to left, transparent 0.7rem, black 0.7rem);
     -webkit-mask-size: 100% 20000px;
     -webkit-mask-position: left bottom;
-    transition: mask-position 0.3s, -webkit-mask-position 0.3s;
 
     &::-webkit-scrollbar {
       width: 0.7rem;
@@ -47,7 +46,6 @@ export const TableBodyWrapper = styled.div<{ isLoading: boolean }>`
     ${isLoading &&
     css`
       overflow-y: hidden;
-      transition: mask-position 0s, -webkit-mask-position 0s;
       -webkit-mask-position: left top;
     `}
   `}

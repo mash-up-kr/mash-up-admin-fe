@@ -89,3 +89,9 @@ export const Col = styled.div`
     margin-left: 1.6rem;
   }
 `;
+
+export const PrivacyCheckBoxLabel = styled.span`
+  a {
+    text-decoration: underline;
+  }
+`;
