@@ -72,6 +72,7 @@ export const ApplicationFormPreviewModal = ({
         $size={InputSize.md}
         label="소속"
         placeholder="소속을 입력해주세요 ex) 회사, 학교, 동아리, 취준생... "
+        required
       />
 
       <Styled.CategoryHeadline>질문목록</Styled.CategoryHeadline>
