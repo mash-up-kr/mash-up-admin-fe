@@ -56,7 +56,25 @@ export const ApplicationFormPreviewModal = ({
         required
         disabled
       />
-      <Styled.Description>이메일 수정은 마이페이지에서 가능합니다.</Styled.Description>
+      <Styled.PrivacyInput
+        $size={InputSize.md}
+        label="생년월일"
+        placeholder="생년월일을 입력해주세요 ex) 2000-01-15"
+        required
+      />
+      <Styled.PrivacyInput
+        $size={InputSize.md}
+        label="거주지역"
+        placeholder="거주지역을 입력해주세요 ex) 서울시 강남구"
+        required
+      />
+      <Styled.PrivacyInput
+        $size={InputSize.md}
+        label="소속"
+        placeholder="소속을 입력해주세요 ex) 회사, 학교, 동아리, 취준생... "
+        required
+      />
+
       <Styled.CategoryHeadline>질문목록</Styled.CategoryHeadline>
       {questions.map((question, index) => {
         const readableIndex = index + 1;
