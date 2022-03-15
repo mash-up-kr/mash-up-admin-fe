@@ -89,3 +89,11 @@ export const Col = styled.div`
     margin-left: 1.6rem;
   }
 `;
+
+export const PrivacyCheckBoxLabel = styled.span`
+  ${({ theme }) => css`
+    a {
+      border-bottom: 1px solid ${theme.colors.gray70};
+    }
+  `}
+`;

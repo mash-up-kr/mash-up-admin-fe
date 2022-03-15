@@ -6,7 +6,7 @@ export interface CheckboxProps extends React.LabelHTMLAttributes<HTMLLabelElemen
   handleToggle?: ChangeEventHandler<HTMLInputElement>;
   disabled?: boolean;
   isChecked?: boolean;
-  label?: string;
+  label?: React.ReactNode;
 }
 
 const Checkbox = ({
