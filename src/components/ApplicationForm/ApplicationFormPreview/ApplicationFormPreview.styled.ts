@@ -91,7 +91,9 @@ export const Col = styled.div`
 `;
 
 export const PrivacyCheckBoxLabel = styled.span`
-  a {
-    text-decoration: underline;
-  }
+  ${({ theme }) => css`
+    a {
+      border-bottom: 1px solid ${theme.colors.gray70};
+    }
+  `}
 `;
