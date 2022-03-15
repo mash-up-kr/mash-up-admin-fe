@@ -16,7 +16,7 @@ import {
 import { usePagination, useToggleState } from '@/hooks';
 import { $applicationForms, $teamIdByName } from '@/store';
 import { ApplicationFormResponse, Question, ApplicationFormRequest } from '@/types';
-import { PATH } from '@/constants';
+import { PATH, SORT_TYPE } from '@/constants';
 import { formatDate } from '@/utils';
 import { TableColumn } from '@/components/common/Table/Table.component';
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
@@ -100,14 +100,30 @@ const ApplicationFormList = () => {
   const size = searchParams.get('size') || '20';
 
   const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
+
+  const [sortTypes, setSortTypes] = useState<SortType<ApplicationFormRequest>[]>([
+    { accessor: 'team.name', type: SORT_TYPE.DEFAULT },
+    { accessor: 'name', type: SORT_TYPE.DEFAULT },
+    { accessor: 'createdAt', type: SORT_TYPE.DEFAULT },
+    { accessor: 'updatedAt', type: SORT_TYPE.DEFAULT },
+  ]);
+  const sortParam = useMemo(() => {
+    const matched = sortTypes.find((sortType) => sortType.type !== SORT_TYPE.DEFAULT);
+    if (!matched) return '';
+
+    const { accessor, type } = matched;
+    return `${accessor},${type}`;
+  }, [sortTypes]);
+
   const applicationFormParams = useMemo<ApplicationFormRequest>(
     () => ({
       page: parseInt(page, 10) - 1,
       size: parseInt(size, 10),
       teamId: parseInt(teamId, 10) || undefined,
       searchWord: searchWord.value,
+      sort: sortParam,
     }),
-    [page, size, teamId, searchWord],
+    [page, size, teamId, searchWord, sortParam],
   );
 
   const [{ state, contents: tableRows }] = useRecoilStateLoadable(
@@ -169,6 +185,13 @@ const ApplicationFormList = () => {
               </Button>
             </Link>,
           ],
+        }}
+        sortOptions={{
+          sortTypes,
+          disableMultiSort: true,
+          handleSortColumn: (_sortTypes) => {
+            setSortTypes(_sortTypes);
+          },
         }}
         pagination={
           <Pagination

@@ -55,14 +55,35 @@ const ApplicationList = () => {
   const size = searchParams.get('size') || '20';
 
   const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
+
+  const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
+    { accessor: 'applicant.name', type: SORT_TYPE.DEFAULT },
+    { accessor: 'result.interviewStartedAt', type: SORT_TYPE.DEFAULT },
+  ]);
+  const sortParam = useMemo(() => {
+    const matched = sortTypes.find((sortType) => sortType.type !== SORT_TYPE.DEFAULT);
+    if (!matched) return '';
+
+    const { accessor, type } = matched;
+    const accessorKeys = accessor.split('.');
+
+    if (accessorKeys[0] === 'result') {
+      const resultAccessor = ['applicationResult'].concat(accessorKeys.slice(1)).join('.');
+      return `${resultAccessor},${type}`;
+    }
+
+    return `${accessor},${type}`;
+  }, [sortTypes]);
+
   const applicationParams = useMemo<ApplicationResponse>(
     () => ({
       page: parseInt(page, 10) - 1,
       size: parseInt(size, 10),
       teamId: parseInt(teamId, 10) || undefined,
       searchWord: searchWord.value,
+      sort: sortParam,
     }),
-    [page, size, teamId, searchWord],
+    [page, size, teamId, searchWord, sortParam],
   );
 
   const [{ state, contents: tableRows }] = useRecoilStateLoadable($applications(applicationParams));
@@ -70,12 +91,7 @@ const ApplicationList = () => {
 
   const isLoading = state === 'loading';
   const [loadedTableRows, setLoadedTableRows] = useState<ApplicationResponse[]>([]);
-
   const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
-  const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
-    { accessor: 'applicant.name', type: SORT_TYPE.DEFAULT },
-    { accessor: 'result.interviewStartedAt', type: SORT_TYPE.DEFAULT },
-  ]);
 
   const { pageOptions, handleChangePage, handleChangeSize } = usePagination(
     tableRows.page?.totalCount,
