@@ -173,7 +173,6 @@ const ApplicationFormList = () => {
         prefix="application-form"
         columns={columns}
         rows={loadedTableRows}
-        maxHeight={72}
         isLoading={isLoading}
         supportBar={{
           totalCount: tableRows.page?.totalCount,

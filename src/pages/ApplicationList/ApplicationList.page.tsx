@@ -166,7 +166,6 @@ const ApplicationList = () => {
       <SearchOptionBar searchWord={searchWord} handleSubmit={handleSearch} />
       <Table
         prefix="application"
-        maxHeight={72}
         columns={columns}
         rows={loadedTableRows}
         isLoading={isLoading}

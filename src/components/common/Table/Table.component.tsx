@@ -17,6 +17,8 @@ import Loading from '../Loading/Loading.component';
 import Checkbox from '../Checkbox/Checkbox.component';
 import { SORT_TYPE } from '@/constants';
 
+const NAV_BAR_AND_SEARCH_BAR_HEIGHT = 187;
+const TABLE_DEFAULT_HEIGHT = (window.innerHeight - NAV_BAR_AND_SEARCH_BAR_HEIGHT) / 10;
 export interface TableColumn<T extends object> {
   title: string;
   accessor?: NestedKeyOf<T>;
@@ -212,7 +214,7 @@ const TableColumnCell = <T extends object>({
 
 const Table = <T extends object>({
   prefix,
-  maxHeight,
+  maxHeight = TABLE_DEFAULT_HEIGHT,
   columns,
   rows,
   isLoading,
