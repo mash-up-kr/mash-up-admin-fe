@@ -1,5 +1,4 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { Input, Select } from '@/components';
 import { ButtonSize, ButtonShape } from '@/components/common/Button/Button.component';
 import * as Styled from './SearchOptionBar.styled';
@@ -26,8 +25,6 @@ const SearchOptionBar = ({
   handleChangeApplicationConfirmationStatus,
   handleChangeApplicationResultStatus,
 }: SearchOptionBarProps) => {
-  const [currentParam, setCurrentParam] = useState('');
-  const [searchParams] = useSearchParams();
   const [applicationConfirmationStatusValue, setApplicationConfirmationStatusValue] =
     useState<SelectOption>();
   const [applicationResultStatusValue, setApplicationResultStatusValue] = useState<SelectOption>();
@@ -41,13 +38,9 @@ const SearchOptionBar = ({
   };
 
   useEffect(() => {
-    if (currentParam !== searchParams.get('team')) {
-      handleApplicationConfirmStatus(DEFAULT);
-      handleApplicationResultStatus(DEFAULT);
-
-      setCurrentParam(searchParams.get('team') || '');
-    }
-  }, [searchParams]);
+    handleApplicationConfirmStatus(DEFAULT);
+    handleApplicationResultStatus(DEFAULT);
+  }, [searchWord]);
 
   useEffect(() => {
     if (applicationConfirmationStatusValue && handleChangeApplicationConfirmationStatus) {
