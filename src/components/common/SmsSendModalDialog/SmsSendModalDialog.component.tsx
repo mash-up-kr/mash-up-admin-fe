@@ -2,7 +2,7 @@ import React from 'react';
 import { useRecoilCallback } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { InputField, ModalWrapper, TitleWithContent } from '@/components';
+import { InputField, ModalWrapper, TitleWithContent, Textarea } from '@/components';
 import * as Styled from './SmsSendModalDialog.styled';
 import * as api from '@/api';
 import { $modalByStorage, ModalKey } from '@/store';
@@ -122,13 +122,14 @@ const SmsSendModalDialog = ({
           required
           $size="xs"
           label="발송메모"
-          placeholder="내용을 입려해주세요"
+          placeholder="내용을 입력해주세요"
           {...register('name', { required: true })}
         />
-        <Styled.CustomTextarea
+        <Textarea
+          className="textarea"
           required
           label="발송메세지"
-          placeholder="내용을 입려해주세요"
+          placeholder="내용을 입력해주세요"
           {...register('content', { required: true })}
         />
       </Styled.SmsSendModalContainer>
