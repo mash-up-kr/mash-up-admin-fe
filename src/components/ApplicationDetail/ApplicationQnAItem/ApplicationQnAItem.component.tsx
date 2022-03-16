@@ -6,7 +6,7 @@ const ApplicationQnAItem = ({ content, description, maxContentLength }: Question
   return (
     <Styled.ApplicationQnAItemContainer>
       <Styled.Title>{content}</Styled.Title>
-      <Styled.Description>{description}</Styled.Description>
+      {description && <Styled.Description>{description}</Styled.Description>}
       {maxContentLength && (
         <Styled.TextLength>
           총 <strong>{description?.length}</strong>

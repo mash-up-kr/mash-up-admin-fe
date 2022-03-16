@@ -80,11 +80,13 @@ const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
           SMS 발송
         </Button>
       </Styled.MessageListPanelTitle>
-      <Styled.MessageListPanelContent>
-        {smsRequests?.map((each: MessageInfoProps) => (
-          <MessageInfo key={each.smsRequestId} {...each} />
-        ))}
-      </Styled.MessageListPanelContent>
+      {smsRequests.length > 0 && (
+        <Styled.MessageListPanelContent>
+          {smsRequests?.map((each: MessageInfoProps) => (
+            <MessageInfo key={each.smsRequestId} {...each} />
+          ))}
+        </Styled.MessageListPanelContent>
+      )}
     </Styled.MessageListPanelContainer>
   );
 };

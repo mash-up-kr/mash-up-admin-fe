@@ -32,10 +32,21 @@ const ApplicationDetailView = () => {
             <section>
               <div>
                 <TitleWithContent title="이름">{data.applicant.name}</TitleWithContent>
-                <TitleWithContent title="지원 플랫폼">{data.team.name}</TitleWithContent>
+                <TitleWithContent title="이메일">{data.applicant.email}</TitleWithContent>
+                <TitleWithContent title="거주지역">TODO</TitleWithContent>
               </div>
               <div>
                 <TitleWithContent title="전화번호">{data.applicant.phoneNumber}</TitleWithContent>
+                <TitleWithContent title="생년월일">TODO</TitleWithContent>
+                <TitleWithContent title="소속">TODO</TitleWithContent>
+              </div>
+            </section>
+            <Styled.Divider />
+            <section>
+              <div>
+                <TitleWithContent title="지원플랫폼">{data.team.name}</TitleWithContent>
+              </div>
+              <div>
                 <TitleWithContent title="지원일시">
                   {formatDate(data.applicant.updatedAt, 'YYYY년 M월 D일(ddd)')}
                 </TitleWithContent>
