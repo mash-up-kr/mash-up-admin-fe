@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { BackButton } from '@/components';
 import * as Styled from './ApplicationDetailView.styled';
@@ -12,8 +12,10 @@ import {
 } from '@/components/ApplicationDetail';
 import { $applicationById } from '@/store';
 import { ApplicationByIdResponseData, Question } from '@/types';
+import { PATH } from '@/constants';
 
 const ApplicationDetailView = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const data = useRecoilValue<ApplicationByIdResponseData>(
     $applicationById({ applicationId: id as string }),
@@ -22,7 +24,7 @@ const ApplicationDetailView = () => {
   return (
     <Styled.ApplicationDetailViewPage>
       <section>
-        <BackButton label="목록 돌아가기" />
+        <BackButton label="목록 돌아가기" onClick={() => navigate(PATH.APPLICATION)} />
         <Styled.Headline>지원설문지 상세</Styled.Headline>
       </section>
       <div>
