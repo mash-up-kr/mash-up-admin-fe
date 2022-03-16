@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import * as Styled from './Select.styled';
 import ChevronDown from '@/assets/svg/chevron-down-16.svg';
 import { useOnClickOutSide } from '@/hooks';
@@ -31,6 +31,7 @@ export interface SelectProps {
   onChangeOption?: (option: SelectOption) => void;
   disabled?: boolean;
   defaultValue?: SelectOption;
+  currentValue?: SelectOption;
 }
 
 const Select = (
@@ -42,6 +43,7 @@ const Select = (
     options,
     isFullWidth = false,
     defaultValue,
+    currentValue,
     onChangeOption,
     disabled = false,
   }: SelectProps,
@@ -66,6 +68,12 @@ const Select = (
     toggleOpened();
     onChangeOption?.(option);
   };
+
+  useEffect(() => {
+    if (currentValue) {
+      setSelectedOption(currentValue);
+    }
+  }, [currentValue]);
 
   useOnClickOutSide(outerRef, () => setOpened(false));
 

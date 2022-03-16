@@ -17,6 +17,25 @@ export const BarContainer = styled.form`
   `};
 `;
 
+export const SelectContainer = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    gap: 3.6rem;
+
+    & > div {
+      ${theme.fonts.medium13}
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      color: ${theme.colors.gray70};
+
+      & span {
+        color: ${theme.colors.gray80};
+      }
+    }
+  `}
+`;
+
 export const SearchInputContainer = styled.div`
   display: flex;
   gap: 0.4rem;
