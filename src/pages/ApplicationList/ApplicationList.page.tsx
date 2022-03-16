@@ -108,6 +108,7 @@ const ApplicationList = () => {
     [page, size, teamId, searchWord, sortParam],
   );
 
+  const [totalCount, setTotalCount] = useState(0);
   const [{ state, contents: tableRows }] = useRecoilStateLoadable($applications(applicationParams));
   const refreshApplications = useRecoilRefresher_UNSTABLE($applications(applicationParams));
 
@@ -132,11 +133,12 @@ const ApplicationList = () => {
         setSelectedRows([]);
       } else {
         const EXTRA = 100;
-        const { data: allRows } = await api.getApplications({
+        const applications = await api.getApplications({
           page: 0,
           size: tableRows.page.totalCount + EXTRA,
         });
-        setSelectedRows(allRows);
+        setSelectedRows(applications.data);
+        setTotalCount(applications.page.totalCount);
       }
     },
     [tableRows.page?.totalCount],
@@ -145,6 +147,7 @@ const ApplicationList = () => {
   useEffect(() => {
     if (!isLoading) {
       setLoadedTableRows(tableRows.data);
+      setTotalCount(tableRows.page.totalCount);
     }
   }, [isLoading, tableRows]);
 
@@ -170,7 +173,7 @@ const ApplicationList = () => {
         rows={loadedTableRows}
         isLoading={isLoading}
         supportBar={{
-          totalCount: tableRows.page?.totalCount,
+          totalCount,
           totalSummaryText: '총 지원인원',
           selectedSummaryText: '명 선택',
           buttons: [

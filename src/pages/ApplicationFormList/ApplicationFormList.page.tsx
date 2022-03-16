@@ -126,6 +126,7 @@ const ApplicationFormList = () => {
     [page, size, teamId, searchWord, sortParam],
   );
 
+  const [totalCount, setTotalCount] = useState(0);
   const [{ state, contents: tableRows }] = useRecoilStateLoadable(
     $applicationForms(applicationFormParams),
   );
@@ -150,6 +151,7 @@ const ApplicationFormList = () => {
   useEffect(() => {
     if (!isLoading) {
       setLoadedTableRows(tableRows.data);
+      setTotalCount(tableRows.page.totalCount);
     }
   }, [isLoading, tableRows]);
 
@@ -175,7 +177,7 @@ const ApplicationFormList = () => {
         rows={loadedTableRows}
         isLoading={isLoading}
         supportBar={{
-          totalCount: tableRows.page?.totalCount,
+          totalCount,
           totalSummaryText: '총 지원설문지',
           buttons: [
             <Link to={PATH.APPLICATION_FORM_CREATE}>
