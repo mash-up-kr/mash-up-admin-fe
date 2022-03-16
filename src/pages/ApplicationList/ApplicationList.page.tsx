@@ -4,45 +4,67 @@ import { useRecoilStateLoadable, useRecoilValue, useRecoilRefresher_UNSTABLE } f
 import * as api from '@/api';
 import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
 import { formatDate } from '@/utils';
-import { SORT_TYPE } from '@/constants';
+import { PATH, SORT_TYPE } from '@/constants';
 import { $applications, $teamIdByName } from '@/store';
 import { usePagination } from '@/hooks';
 import { ApplicationResponse } from '@/types';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 import * as Styled from './ApplicationList.styled';
+import ApplicationStatusBadge, {
+  ApplicationConfirmationStatus,
+  ApplicationResultStatus,
+} from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 
 const columns: TableColumn<ApplicationResponse>[] = [
   {
     title: '이름',
     accessor: 'applicant.name',
+    idAccessor: 'applicationId',
     widthRatio: '10%',
+    renderCustomCell: (cellValue, id) => (
+      <Styled.FormTitleWrapper title={cellValue as string}>
+        <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
+        <Styled.TitleLink to={`${PATH.APPLICATION}/${id}`} />
+      </Styled.FormTitleWrapper>
+    ),
   },
   {
     title: '전화번호',
     accessor: 'applicant.phoneNumber',
-    widthRatio: '15%',
+    widthRatio: '17%',
   },
   {
     title: '지원플랫폼',
     accessor: 'team.name',
-    widthRatio: '10%',
+    widthRatio: '13%',
   },
   {
     title: '면접 일시',
     accessor: 'result.interviewStartedAt',
-    widthRatio: '25%',
-    renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+    widthRatio: '20%',
+    renderCustomCell: (cellValue) =>
+      cellValue ? formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분') : '-',
   },
   {
     title: '사용자확인여부',
     accessor: 'confirmationStatus',
-    widthRatio: '25%',
+    widthRatio: '15%',
+    renderCustomCell: (cellValue) => (
+      <Styled.Center>
+        <ApplicationStatusBadge text={ApplicationConfirmationStatus[cellValue]} />
+      </Styled.Center>
+    ),
   },
   {
     title: '합격여부',
     accessor: 'result.status',
-    widthRatio: '20%',
+    widthRatio: '15%',
+    renderCustomCell: (cellValue) => (
+      <Styled.Center>
+        <ApplicationStatusBadge text={ApplicationResultStatus[cellValue]} />
+      </Styled.Center>
+    ),
   },
 ];
 
