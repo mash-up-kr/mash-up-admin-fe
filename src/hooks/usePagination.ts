@@ -41,7 +41,7 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
     pagingSize: 0,
   });
 
-  const handleChangePage = (page: number) => {
+  const handleChangePage = (page: number, isReplace?: boolean) => {
     if (page === 0) return;
 
     const newPageOptions = getPageOptions({
@@ -53,7 +53,7 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
     const { currentPage } = newPageOptions;
 
     searchParams.set('page', currentPage.toString());
-    setSearchParams(searchParams);
+    setSearchParams(searchParams, { replace: isReplace });
   };
 
   const handleChangeSize = (pagingSize: string) => {
