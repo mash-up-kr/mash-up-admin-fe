@@ -105,29 +105,30 @@ const SearchOptionBar = ({
 
   return (
     <Styled.BarContainer onSubmit={handleSubmit}>
-      <Styled.SelectContainer>
-        <div>
-          <div>합격여부</div>
-          <Select
-            size={SelectSize.xs}
-            options={applicationResultStatusOptions}
-            onChangeOption={handleApplicationConfirmStatus}
-            defaultValue={DEFAULT}
-            currentValue={applicationConfirmationStatusValue}
-          />
-        </div>
-        <div>
-          <div>사용자 확인여부</div>
-          <Select
-            size={SelectSize.xs}
-            options={applicationConfirmationStatusOptions}
-            onChangeOption={handleApplicationResultStatus}
-            defaultValue={DEFAULT}
-            currentValue={applicationResultStatusValue}
-          />
-        </div>
-      </Styled.SelectContainer>
-
+      {handleChangeApplicationConfirmationStatus && handleChangeApplicationResultStatus && (
+        <Styled.SelectContainer>
+          <div>
+            <div>합격여부</div>
+            <Select
+              size={SelectSize.xs}
+              options={applicationResultStatusOptions}
+              onChangeOption={handleApplicationConfirmStatus}
+              defaultValue={DEFAULT}
+              currentValue={applicationConfirmationStatusValue}
+            />
+          </div>
+          <div>
+            <div>사용자 확인여부</div>
+            <Select
+              size={SelectSize.xs}
+              options={applicationConfirmationStatusOptions}
+              onChangeOption={handleApplicationResultStatus}
+              defaultValue={DEFAULT}
+              currentValue={applicationResultStatusValue}
+            />
+          </div>
+        </Styled.SelectContainer>
+      )}
       <div />
       <Styled.SearchInputContainer>
         <Input ref={ref} name="searchWord" $size="xs" placeholder="지원서 설문지 문서명 검색" />
