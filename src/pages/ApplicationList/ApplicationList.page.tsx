@@ -1,12 +1,12 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState, useEffect, useLayoutEffect, useCallback, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
 import * as api from '@/api';
-import { Button, Link, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
+import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
 import { formatDate } from '@/utils';
 import { PATH, SORT_TYPE } from '@/constants';
 import { $applications, $teamIdByName } from '@/store';
-import { usePagination } from '@/hooks';
+import { useDirty, usePagination } from '@/hooks';
 import { ApplicationResponse } from '@/types';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
@@ -72,6 +72,7 @@ const ApplicationList = () => {
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
+  const teamTabRef = useRef<HTMLDivElement>(null);
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
@@ -121,6 +122,8 @@ const ApplicationList = () => {
     tableRows.page?.totalCount,
   );
 
+  const { makeDirty, isDirty } = useDirty(1);
+
   const handleSearch = (
     e: { target: { searchWord: { value: string } } } & FormEvent<HTMLFormElement>,
   ) => {
@@ -149,18 +152,28 @@ const ApplicationList = () => {
     if (!isLoading) {
       setLoadedTableRows(tableRows.data);
       setTotalCount(tableRows.page.totalCount);
+      makeDirty();
     }
-  }, [isLoading, tableRows]);
+  }, [isLoading, tableRows, makeDirty]);
 
   useEffect(() => {
     setSearchWord({ value: '' });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamName]);
 
+  useLayoutEffect(() => {
+    if (teamTabRef.current && isDirty && !isLoading) {
+      window.scrollTo(0, teamTabRef.current.offsetTop);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadedTableRows]);
+
   return (
     <Styled.PageWrapper>
       <Styled.Heading>지원서 내역</Styled.Heading>
-      <TeamNavigationTabs />
+      <div ref={teamTabRef}>
+        <TeamNavigationTabs />
+      </div>
       <SearchOptionBar searchWord={searchWord} handleSubmit={handleSearch} />
       <Table
         prefix="application"
@@ -206,7 +219,6 @@ const ApplicationList = () => {
           />
         }
       />
-      <Link to="/application/1327">link</Link>
     </Styled.PageWrapper>
   );
 };

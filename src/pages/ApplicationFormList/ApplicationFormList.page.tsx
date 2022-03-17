@@ -13,7 +13,7 @@ import {
   UserProfile,
   SearchOptionBar,
 } from '@/components';
-import { usePagination, useToggleState } from '@/hooks';
+import { useDirty, usePagination, useToggleState } from '@/hooks';
 import { $applicationForms, $teamIdByName } from '@/store';
 import { ApplicationFormResponse, Question, ApplicationFormRequest } from '@/types';
 import { PATH, SORT_TYPE } from '@/constants';
@@ -140,6 +140,8 @@ const ApplicationFormList = () => {
     tableRows.page?.totalCount,
   );
 
+  const { makeDirty, isDirty } = useDirty(1);
+
   const handleSubmit = (
     e: { target: { searchWord: { value: string } } } & FormEvent<HTMLFormElement>,
   ) => {
@@ -151,6 +153,7 @@ const ApplicationFormList = () => {
     if (!isLoading) {
       setLoadedTableRows(tableRows.data);
       setTotalCount(tableRows.page.totalCount);
+      makeDirty();
     }
   }, [isLoading, tableRows]);
 
@@ -158,6 +161,13 @@ const ApplicationFormList = () => {
     setSearchWord({ value: '' });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamName]);
+
+  useLayoutEffect(() => {
+    if (teamTabRef.current && isDirty && !isLoading) {
+      window.scrollTo(0, teamTabRef.current.offsetTop);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadedTableRows]);
 
   return (
     <Styled.PageWrapper>
