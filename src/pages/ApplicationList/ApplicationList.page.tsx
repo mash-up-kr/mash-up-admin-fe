@@ -1,8 +1,8 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useRecoilStateLoadable, useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
+import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
 import * as api from '@/api';
-import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
+import { Button, Link, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
 import { formatDate } from '@/utils';
 import { PATH, SORT_TYPE } from '@/constants';
 import { $applications, $teamIdByName } from '@/store';
@@ -110,11 +110,12 @@ const ApplicationList = () => {
 
   const [totalCount, setTotalCount] = useState(0);
   const [{ state, contents: tableRows }] = useRecoilStateLoadable($applications(applicationParams));
-  const refreshApplications = useRecoilRefresher_UNSTABLE($applications(applicationParams));
+  const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
 
   const isLoading = state === 'loading';
-  const [loadedTableRows, setLoadedTableRows] = useState<ApplicationResponse[]>([]);
-  const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
+  const [loadedTableRows, setLoadedTableRows] = useState<ApplicationFormResponse[]>(
+    tableRows.data || [],
+  );
 
   const { pageOptions, handleChangePage, handleChangeSize } = usePagination(
     tableRows.page?.totalCount,
@@ -152,12 +153,6 @@ const ApplicationList = () => {
   }, [isLoading, tableRows]);
 
   useEffect(() => {
-    refreshApplications();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, size, searchWord]);
-
-  useEffect(() => {
-    refreshApplications();
     setSearchWord({ value: '' });
     if (pageOptions.currentPage) {
       handleChangePage(1, true);
@@ -214,6 +209,7 @@ const ApplicationList = () => {
           />
         }
       />
+      <Link to="/application/1327">link</Link>
     </Styled.PageWrapper>
   );
 };

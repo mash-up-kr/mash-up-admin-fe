@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useMemo, useState } from 'react';
-import { useRecoilStateLoadable, useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
+import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
 import { useSearchParams } from 'react-router-dom';
 
 import Preview from '@/assets/svg/preview-20.svg';
@@ -130,12 +130,11 @@ const ApplicationFormList = () => {
   const [{ state, contents: tableRows }] = useRecoilStateLoadable(
     $applicationForms(applicationFormParams),
   );
-  const refreshApplicationForms = useRecoilRefresher_UNSTABLE(
-    $applicationForms(applicationFormParams),
-  );
 
   const isLoading = state === 'loading';
-  const [loadedTableRows, setLoadedTableRows] = useState<ApplicationFormResponse[]>([]);
+  const [loadedTableRows, setLoadedTableRows] = useState<ApplicationFormResponse[]>(
+    tableRows.data || [],
+  );
 
   const { pageOptions, handleChangePage, handleChangeSize } = usePagination(
     tableRows.page?.totalCount,
@@ -156,12 +155,6 @@ const ApplicationFormList = () => {
   }, [isLoading, tableRows]);
 
   useEffect(() => {
-    refreshApplicationForms();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, size, searchWord]);
-
-  useEffect(() => {
-    refreshApplicationForms();
     setSearchWord({ value: '' });
     if (pageOptions.currentPage) {
       handleChangePage(1, true);
