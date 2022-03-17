@@ -1,4 +1,12 @@
-import React, { useMemo, useState, useEffect, useLayoutEffect, useCallback, useRef } from 'react';
+import React, {
+  useMemo,
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useCallback,
+  useRef,
+  FormEvent,
+} from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
 import * as api from '@/api';
@@ -7,13 +15,15 @@ import { formatDate } from '@/utils';
 import { PATH, SORT_TYPE } from '@/constants';
 import { $applications, $teamIdByName } from '@/store';
 import { useDirty, usePagination } from '@/hooks';
-import { ApplicationResponse } from '@/types';
+import { ApplicationRequest, ApplicationResponse } from '@/types';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 import * as Styled from './ApplicationList.styled';
 import ApplicationStatusBadge, {
   ApplicationConfirmationStatus,
+  ApplicationConfirmationStatusKeyType,
   ApplicationResultStatus,
+  ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 
 const columns: TableColumn<ApplicationResponse>[] = [
@@ -59,7 +69,9 @@ const columns: TableColumn<ApplicationResponse>[] = [
     widthRatio: '13%',
     renderCustomCell: (cellValue) => (
       <Styled.Center>
-        <ApplicationStatusBadge text={ApplicationConfirmationStatus[cellValue]} />
+        <ApplicationStatusBadge
+          text={ApplicationConfirmationStatus[cellValue as ApplicationConfirmationStatusKeyType]}
+        />
       </Styled.Center>
     ),
   },
@@ -69,7 +81,9 @@ const columns: TableColumn<ApplicationResponse>[] = [
     widthRatio: '13%',
     renderCustomCell: (cellValue) => (
       <Styled.Center>
-        <ApplicationStatusBadge text={ApplicationResultStatus[cellValue]} />
+        <ApplicationStatusBadge
+          text={ApplicationResultStatus[cellValue as ApplicationResultStatusKeyType]}
+        />
       </Styled.Center>
     ),
   },
@@ -106,7 +120,7 @@ const ApplicationList = () => {
     return `${accessor},${type}`;
   }, [sortTypes]);
 
-  const applicationParams = useMemo<ApplicationResponse>(
+  const applicationParams = useMemo<ApplicationRequest>(
     () => ({
       page: parseInt(page, 10) - 1,
       size: parseInt(size, 10),
@@ -122,7 +136,7 @@ const ApplicationList = () => {
   const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
 
   const isLoading = state === 'loading';
-  const [loadedTableRows, setLoadedTableRows] = useState<ApplicationFormResponse[]>(
+  const [loadedTableRows, setLoadedTableRows] = useState<ApplicationResponse[]>(
     tableRows.data || [],
   );
 
@@ -150,7 +164,9 @@ const ApplicationList = () => {
           size: tableRows.page.totalCount + EXTRA,
         });
         setSelectedRows(applications.data);
-        setTotalCount(applications.page.totalCount);
+        if (applications.page) {
+          setTotalCount(applications.page.totalCount);
+        }
       }
     },
     [tableRows.page?.totalCount],

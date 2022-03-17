@@ -18,7 +18,7 @@ import { $applicationForms, $teamIdByName } from '@/store';
 import { ApplicationFormResponse, Question, ApplicationFormRequest } from '@/types';
 import { PATH, SORT_TYPE } from '@/constants';
 import { formatDate } from '@/utils';
-import { TableColumn } from '@/components/common/Table/Table.component';
+import { TableColumn, SortType } from '@/components/common/Table/Table.component';
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 import { ApplicationFormPreviewModal } from '@/components/ApplicationForm/ApplicationFormPreview/ApplicationFormPreview.component';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
@@ -102,7 +102,7 @@ const ApplicationFormList = () => {
 
   const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
 
-  const [sortTypes, setSortTypes] = useState<SortType<ApplicationFormRequest>[]>([
+  const [sortTypes, setSortTypes] = useState<SortType<ApplicationFormResponse>[]>([
     { accessor: 'team.name', type: SORT_TYPE.DEFAULT },
     { accessor: 'name', type: SORT_TYPE.DEFAULT },
     { accessor: 'createdAt', type: SORT_TYPE.DEFAULT },
