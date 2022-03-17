@@ -2,7 +2,7 @@ import React from 'react';
 import * as Styled from './ApplicationQnAItem.styled';
 import { Question, Answer } from '@/types';
 
-interface ApplicationQnAItemProps extends Question {
+export interface ApplicationQnAItemProps extends Question {
   answer: Answer;
 }
 
