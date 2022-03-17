@@ -66,6 +66,12 @@ export const ApplicantStatus = {
 
 export type ApplicantStatusType = ValueOf<typeof ApplicantStatus>;
 
+export interface Answer {
+  answerId: number;
+  content: string;
+  questionId: number;
+}
+
 export interface ApplicationByIdRequest {
   applicationId: string;
 }
@@ -82,11 +88,7 @@ export interface ApplicationUpdateMultipleResultRequest {
 }
 
 export interface ApplicationByIdResponseData extends Array<Team> {
-  answers: {
-    answerId: number;
-    content: string;
-    questionId: number;
-  }[];
+  answers: Answer[];
   applicant: {
     applicantId: number;
     birthdate: string;

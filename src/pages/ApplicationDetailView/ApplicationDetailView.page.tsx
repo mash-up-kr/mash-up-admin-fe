@@ -58,8 +58,8 @@ const ApplicationDetailView = () => {
           <Styled.QuestionList>
             <h3>질문 리스트</h3>
             <section>
-              {data?.questions.map((each: Question) => (
-                <ApplicationQnAItem {...each} key={each.questionId} />
+              {data?.questions.map((each: Question, index) => (
+                <ApplicationQnAItem {...each} answer={data?.answers[index]} key={each.questionId} />
               ))}
             </section>
           </Styled.QuestionList>

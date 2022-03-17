@@ -18,6 +18,13 @@ export const Title = styled.div`
 
 export const Description = styled.div`
   ${({ theme }) => css`
+    ${theme.fonts.regular13};
+    color: ${theme.colors.gray60};
+  `}
+`;
+
+export const Answer = styled.div`
+  ${({ theme }) => css`
     ${theme.fonts.regular15};
     margin-top: 1.2rem;
     color: ${theme.colors.gray70};
