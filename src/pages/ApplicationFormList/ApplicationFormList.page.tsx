@@ -156,11 +156,8 @@ const ApplicationFormList = () => {
 
   useEffect(() => {
     setSearchWord({ value: '' });
-    if (pageOptions.currentPage) {
-      handleChangePage(1, true);
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [teamId]);
+  }, [teamName]);
 
   return (
     <Styled.PageWrapper>
