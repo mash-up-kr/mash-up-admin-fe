@@ -4,7 +4,7 @@ const useDirty = (chance?: number) => {
   const [count, setCount] = useState(0);
 
   const makeDirty = () => setCount((prev) => prev + 1);
-  const isDirty = useMemo(() => count > chance || 0, [count, chance]);
+  const isDirty = useMemo(() => count > (chance || 0), [count, chance]);
 
   return {
     makeDirty,
