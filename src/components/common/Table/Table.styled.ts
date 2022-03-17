@@ -216,6 +216,7 @@ export const TotalSelectBox = styled.div`
       ${theme.fonts.medium13};
       padding: 0;
       color: ${theme.colors.purple70};
+      background-color: transparent;
     }
   `};
 `;
@@ -237,6 +238,12 @@ export const TableSupportButtonContainer = styled.div`
 
   & button {
     margin-right: 0.4rem;
+
+    /* TODO: (@minsour) 버튼에 함수 바인딩할때 제거  */
+    cursor: not-allowed;
+    &:hover {
+      background-color: inherit;
+    }
   }
 
   & button:last-child {
