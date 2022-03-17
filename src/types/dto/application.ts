@@ -89,10 +89,13 @@ export interface ApplicationByIdResponseData extends Array<Team> {
   }[];
   applicant: {
     applicantId: number;
+    birthdate: string;
     createdAt: string;
+    department: string;
     email: string;
     name: string;
     phoneNumber: string;
+    residence: string;
     status: ApplicantStatusType;
     updatedAt: string;
   };

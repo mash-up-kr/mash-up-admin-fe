@@ -35,12 +35,12 @@ const ApplicationDetailView = () => {
               <div>
                 <TitleWithContent title="이름">{data.applicant.name}</TitleWithContent>
                 <TitleWithContent title="이메일">{data.applicant.email}</TitleWithContent>
-                <TitleWithContent title="거주지역">TODO</TitleWithContent>
+                <TitleWithContent title="거주지역">{data.applicant.residence}</TitleWithContent>
               </div>
               <div>
                 <TitleWithContent title="전화번호">{data.applicant.phoneNumber}</TitleWithContent>
-                <TitleWithContent title="생년월일">TODO</TitleWithContent>
-                <TitleWithContent title="소속">TODO</TitleWithContent>
+                <TitleWithContent title="생년월일">{data.applicant.birthdate}</TitleWithContent>
+                <TitleWithContent title="소속">{data.applicant.department}</TitleWithContent>
               </div>
             </section>
             <Styled.Divider />
