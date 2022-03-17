@@ -112,21 +112,14 @@ const App = () => {
                 </RequiredAuth>
               }
             />
-            {/* // TODO:(용재) 추후 PATH.APPLICATION로 변경 */}
-            <Route
-              path="/"
-              element={<Navigate to={TOKEN ? PATH.APPLICATION_FORM : PATH.LOGIN} />}
-            />
+            <Route path="/" element={<Navigate to={TOKEN ? PATH.APPLICATION : PATH.LOGIN} />} />
             {/* // TODO:(용재) 추후 404로 변경 */}
-            <Route
-              path="*"
-              element={<Navigate to={TOKEN ? PATH.APPLICATION_FORM : PATH.LOGIN} />}
-            />
+            <Route path="*" element={<Navigate to={TOKEN ? PATH.APPLICATION : PATH.LOGIN} />} />
           </Route>
           <Route
             path={PATH.LOGIN}
             element={
-              <RequiredAuth isAuth={!isAuthorized} to={PATH.APPLICATION_FORM}>
+              <RequiredAuth isAuth={!isAuthorized} to={PATH.APPLICATION}>
                 <LoginPage />
               </RequiredAuth>
             }
