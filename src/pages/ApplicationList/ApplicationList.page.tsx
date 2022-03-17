@@ -32,24 +32,31 @@ const columns: TableColumn<ApplicationResponse>[] = [
   {
     title: '전화번호',
     accessor: 'applicant.phoneNumber',
-    widthRatio: '17%',
+    widthRatio: '14%',
   },
   {
     title: '지원플랫폼',
     accessor: 'team.name',
-    widthRatio: '13%',
+    widthRatio: '8%',
   },
   {
-    title: '면접 일시',
+    title: '지원일시',
+    accessor: 'updatedAt',
+    widthRatio: '21%',
+    renderCustomCell: (cellValue) =>
+      cellValue ? formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분') : '-',
+  },
+  {
+    title: '면접일시',
     accessor: 'result.interviewStartedAt',
-    widthRatio: '20%',
+    widthRatio: '21%',
     renderCustomCell: (cellValue) =>
       cellValue ? formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분') : '-',
   },
   {
     title: '사용자확인여부',
     accessor: 'confirmationStatus',
-    widthRatio: '15%',
+    widthRatio: '13%',
     renderCustomCell: (cellValue) => (
       <Styled.Center>
         <ApplicationStatusBadge text={ApplicationConfirmationStatus[cellValue]} />
@@ -59,7 +66,7 @@ const columns: TableColumn<ApplicationResponse>[] = [
   {
     title: '합격여부',
     accessor: 'result.status',
-    widthRatio: '15%',
+    widthRatio: '13%',
     renderCustomCell: (cellValue) => (
       <Styled.Center>
         <ApplicationStatusBadge text={ApplicationResultStatus[cellValue]} />
@@ -81,6 +88,7 @@ const ApplicationList = () => {
 
   const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
     { accessor: 'applicant.name', type: SORT_TYPE.DEFAULT },
+    { accessor: 'updatedAt', type: SORT_TYPE.DEFAULT },
     { accessor: 'result.interviewStartedAt', type: SORT_TYPE.DEFAULT },
   ]);
   const sortParam = useMemo(() => {
