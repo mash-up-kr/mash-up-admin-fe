@@ -82,7 +82,7 @@ const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
       </Styled.MessageListPanelTitle>
       {smsRequests.length > 0 && (
         <Styled.MessageListPanelContent>
-          {smsRequests?.map((each: MessageInfoProps) => (
+          {smsRequests.map((each: MessageInfoProps) => (
             <MessageInfo key={each.smsRequestId} {...each} />
           ))}
         </Styled.MessageListPanelContent>
