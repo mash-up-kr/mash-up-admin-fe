@@ -154,7 +154,8 @@ const ApplicationList = () => {
       setTotalCount(tableRows.page.totalCount);
       makeDirty();
     }
-  }, [isLoading, tableRows, makeDirty]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading, tableRows]);
 
   useEffect(() => {
     setSearchWord({ value: '' });
