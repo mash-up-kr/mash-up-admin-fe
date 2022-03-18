@@ -18,6 +18,9 @@ interface FormValues {
   questions: Question[];
 }
 
+const PRIVACY_POLICY_URL =
+  'https://snow-chestnut-45b.notion.site/Mash-Up-Recruit-62a5f6dabcb34e61ba8f26c4fb3a21f0';
+
 export const ApplicationFormPreviewModal = ({
   questions,
   toggleModalOpened,
@@ -53,7 +56,25 @@ export const ApplicationFormPreviewModal = ({
         required
         disabled
       />
-      <Styled.Description>이메일 수정은 마이페이지에서 가능합니다.</Styled.Description>
+      <Styled.PrivacyInput
+        $size={InputSize.md}
+        label="생년월일"
+        placeholder="생년월일을 입력해주세요 ex) 2000-01-15"
+        required
+      />
+      <Styled.PrivacyInput
+        $size={InputSize.md}
+        label="거주지역"
+        placeholder="거주지역을 입력해주세요 ex) 서울시 강남구"
+        required
+      />
+      <Styled.PrivacyInput
+        $size={InputSize.md}
+        label="소속"
+        placeholder="소속을 입력해주세요 ex) 회사, 학교, 동아리, 취준생... "
+        required
+      />
+
       <Styled.CategoryHeadline>질문목록</Styled.CategoryHeadline>
       {questions.map((question, index) => {
         const readableIndex = index + 1;
@@ -76,8 +97,16 @@ export const ApplicationFormPreviewModal = ({
           <Styled.QuestionInput {...props} $size={InputSize.md} />
         );
       })}
-      {/* TODO:(@mango906): 개인정보 수집 링크 생기면 링크 걸어주기 */}
-      <Styled.PrivacyCheckBox label="개인정보 수집 및 이용에 동의합니다." />
+      <Styled.PrivacyCheckBox
+        label={
+          <Styled.PrivacyCheckBoxLabel>
+            <a href={PRIVACY_POLICY_URL} target="_blank" rel="noreferrer">
+              개인정보 수집 및 이용
+            </a>
+            에 동의합니다.
+          </Styled.PrivacyCheckBoxLabel>
+        }
+      />
       <Styled.ButtonContainer>
         <Styled.Col>
           <Button

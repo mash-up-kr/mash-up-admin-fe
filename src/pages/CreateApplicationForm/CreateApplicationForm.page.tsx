@@ -23,7 +23,11 @@ interface FormValues {
 }
 
 const DEFAULT_QUESTION: Partial<Question> = {
+  content: '',
+  description: '',
+  maxContentLength: null,
   questionType: QuestionKind.multiLineText,
+  required: false,
 };
 
 const current = new Date().toISOString();
