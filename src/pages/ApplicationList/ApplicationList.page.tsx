@@ -26,6 +26,8 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 
+const APPLICATION_EXTRA_SIZE = 100;
+
 const columns: TableColumn<ApplicationResponse>[] = [
   {
     title: '이름',
@@ -158,10 +160,9 @@ const ApplicationList = () => {
       if (checkedValue) {
         setSelectedRows([]);
       } else {
-        const EXTRA = 100;
         const applications = await api.getApplications({
           page: 0,
-          size: tableRows.page.totalCount + EXTRA,
+          size: tableRows.page.totalCount + APPLICATION_EXTRA_SIZE,
         });
         setSelectedRows(applications.data);
         if (applications.page) {
