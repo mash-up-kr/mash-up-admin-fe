@@ -1,6 +1,12 @@
-import { ApplicationByIdRequest, ApplicationByIdResponseData } from '@/types/dto';
+import {
+  ApplicationByIdRequest,
+  ApplicationByIdResponseData,
+  ApplicationRequest,
+  ApplicationResponse,
+  BaseResponse,
+} from '@/types';
 import { selectorFamilyWithRefresher } from './recoil';
-import { getApplicationById } from '@/api';
+import * as api from '@/api';
 
 export const $applicationById = selectorFamilyWithRefresher<
   ApplicationByIdResponseData,
@@ -8,8 +14,19 @@ export const $applicationById = selectorFamilyWithRefresher<
 >({
   key: 'applicationById',
   get: (params) => async () => {
-    const { data } = await getApplicationById(params);
+    const { data } = await api.getApplicationById(params);
 
+    return data;
+  },
+});
+
+export const $applications = selectorFamilyWithRefresher<
+  BaseResponse<ApplicationResponse[]>,
+  ApplicationRequest
+>({
+  key: 'applications',
+  get: (params) => async () => {
+    const data = await api.getApplications(params);
     return data;
   },
 });

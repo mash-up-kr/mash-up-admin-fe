@@ -1,28 +1,25 @@
 import React from 'react';
 import * as Styled from './ApplicationQnAItem.styled';
-import { QuestionKindType } from '@/types';
+import { Question, Answer } from '@/types';
 
-export interface ApplicationQnAItemProps {
-  content: string;
-  description: string;
-  maxContentLength: number;
-  questionId: number;
-  questionType: QuestionKindType;
-  required: boolean;
+export interface ApplicationQnAItemProps extends Question {
+  answer: Answer;
 }
 
 const ApplicationQnAItem = ({
   content,
   description,
   maxContentLength,
+  answer,
 }: ApplicationQnAItemProps) => {
   return (
     <Styled.ApplicationQnAItemContainer>
       <Styled.Title>{content}</Styled.Title>
-      <Styled.Description>{description}</Styled.Description>
+      {description && <Styled.Description>{description}</Styled.Description>}
+      {answer.content && <Styled.Answer>{answer.content}</Styled.Answer>}
       {maxContentLength && (
         <Styled.TextLength>
-          총 <strong>{description?.length}</strong>
+          총 <strong>{answer.content.length}</strong>
           자/{maxContentLength}자
         </Styled.TextLength>
       )}

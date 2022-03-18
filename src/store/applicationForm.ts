@@ -18,7 +18,7 @@ export const $applicationForms = selectorFamilyWithRefresher<
   BaseResponse<ApplicationFormResponse[]>,
   ApplicationFormRequest
 >({
-  key: 'applications',
+  key: 'applicationForms',
   get: (params) => async () => {
     const data = await api.getApplicationForms(params);
     return data;

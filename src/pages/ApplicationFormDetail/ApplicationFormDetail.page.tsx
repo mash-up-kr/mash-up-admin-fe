@@ -34,15 +34,13 @@ const ApplicationFormDetail = () => {
 
   const methods = useForm<FormValues>({ defaultValues: { questions } });
 
-  const handleRemoveQuestion = useRecoilCallback(({ set, snapshot }) => async () => {
+  const handleRemoveQuestion = useRecoilCallback(({ set }) => async () => {
     if (!id) {
       return;
     }
 
-    const modalSnapshot = snapshot.getLoadable($modalByStorage(ModalKey.alertModalDialog)).contents;
-
     set($modalByStorage(ModalKey.alertModalDialog), {
-      ...modalSnapshot,
+      key: ModalKey.alertModalDialog,
       isOpen: true,
       props: {
         heading: '삭제하시겠습니까?',
@@ -62,7 +60,7 @@ const ApplicationFormDetail = () => {
             },
             onCompleted: () => {
               set($modalByStorage(ModalKey.alertModalDialog), {
-                ...modalSnapshot,
+                key: ModalKey.alertModalDialog,
                 isOpen: false,
               });
             },

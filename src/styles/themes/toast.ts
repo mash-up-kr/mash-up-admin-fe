@@ -1,6 +1,11 @@
 import { css } from '@emotion/react';
-import { ToastType } from '@/components/common/Toast/Toast.component';
 import { colors } from './colors';
+
+// TODO:(용재) 추후 원인 파악
+export const ToastType = {
+  success: 'success',
+  error: 'error',
+} as const;
 
 export const toast = {
   type: {

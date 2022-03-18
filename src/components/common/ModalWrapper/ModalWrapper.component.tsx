@@ -1,9 +1,5 @@
 import React, {
   MouseEventHandler,
-  ReactNode,
-  ReactPortal,
-  useLayoutEffect,
-  useState,
   useEffect,
   useRef,
   Dispatch,
@@ -11,10 +7,9 @@ import React, {
   MutableRefObject,
   Suspense,
 } from 'react';
-import ReactDOM from 'react-dom';
 import * as Styled from './ModalWrapper.styled';
 
-import { Button } from '@/components';
+import { Button, Portal } from '@/components';
 import {
   ButtonSize,
   ButtonShape,
@@ -23,10 +18,7 @@ import {
 
 import CloseIcon from '@/assets/svg/popup-close-44.svg';
 import { ValueOf } from '@/types';
-
-interface Children {
-  children?: ReactNode;
-}
+import { Children } from '../Portal/Portal.component';
 
 export const Position = {
   left: 'flex-start',
@@ -55,39 +47,10 @@ export interface ModalProps extends Children {
   handleCloseModal: Dispatch<SetStateAction<void>> | any;
   closeOnClickOverlay?: boolean;
   beforeRef?: MutableRefObject<HTMLButtonElement>;
+  isContentScroll?: boolean;
 }
 
-const PORTAL_ID = 'portal';
 const MAIN_ID = 'root';
-
-export const Portal = ({ children }: Children): ReactPortal | null => {
-  const [element, setElement] = useState<HTMLElement | null>(null);
-
-  useLayoutEffect(() => {
-    const portalElement = document.getElementById(PORTAL_ID);
-
-    if (!portalElement) {
-      const tempElement = document.createElement('div');
-
-      tempElement.id = PORTAL_ID;
-
-      document.body.appendChild(tempElement);
-    }
-
-    setElement(document.getElementById(PORTAL_ID));
-
-    return () => {
-      const selectedPortalElement = document.getElementById(PORTAL_ID);
-      if (selectedPortalElement) {
-        document.body.removeChild(selectedPortalElement);
-      }
-    };
-  }, []);
-
-  if (!element) return null;
-
-  return ReactDOM.createPortal(children, element);
-};
 
 const ModalWrapper = ({
   className,
@@ -97,6 +60,7 @@ const ModalWrapper = ({
   handleCloseModal,
   closeOnClickOverlay = true,
   beforeRef,
+  isContentScroll = true,
 }: ModalProps) => {
   const dialogRef = useRef<HTMLDivElement>(null);
 
@@ -176,7 +140,7 @@ const ModalWrapper = ({
                 <h2>{heading}</h2>
               </Styled.ModalHeader>
             )}
-            <Styled.ModalContent>{children}</Styled.ModalContent>
+            <Styled.ModalContent isContentScroll={isContentScroll}>{children}</Styled.ModalContent>
             <Styled.ModalFooter position={footer.position || Position.right}>
               <Button
                 $size={ButtonSize.sm}

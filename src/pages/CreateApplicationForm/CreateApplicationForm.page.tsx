@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useRecoilCallback, useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilCallback, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { ApplicationFormAside, ApplicationFormSection } from '@/components';
 import * as Styled from './CreateApplicationForm.styled';
@@ -41,8 +41,6 @@ const CreateApplicationForm = () => {
     },
   });
 
-  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
-
   const { register, handleSubmit, setValue, formState } = methods;
 
   const navigate = useNavigate();
@@ -71,7 +69,7 @@ const CreateApplicationForm = () => {
     }
 
     set($modalByStorage(ModalKey.alertModalDialog), {
-      ...modal,
+      key: ModalKey.alertModalDialog,
       isOpen: true,
       props: {
         heading: '저장하시겠습니까?',
@@ -83,7 +81,7 @@ const CreateApplicationForm = () => {
             errorHandler: handleAddToast,
             onSuccess: (response) => {
               set($modalByStorage(ModalKey.alertModalDialog), {
-                ...modal,
+                key: ModalKey.alertModalDialog,
                 isOpen: false,
               });
 
@@ -97,8 +95,8 @@ const CreateApplicationForm = () => {
               navigate(getApplicationFormDetailPage(applicationFormId));
             },
             onCompleted: () => {
-              setModal({
-                ...modal,
+              set($modalByStorage(ModalKey.alertModalDialog), {
+                key: ModalKey.alertModalDialog,
                 isOpen: false,
               });
             },

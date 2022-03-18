@@ -12,6 +12,7 @@ import { ACCESS_TOKEN, PATH } from './constants';
 
 import {
   LoginPage,
+  ApplicationList,
   ApplicationFormList,
   CreateApplicationForm,
   UpdateApplicationForm,
@@ -64,6 +65,14 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route
+              path={PATH.APPLICATION}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <ApplicationList />
+                </RequiredAuth>
+              }
+            />
+            <Route
               path={PATH.APPLICATION_FORM}
               element={
                 <RequiredAuth isAuth={isAuthorized}>
@@ -103,21 +112,14 @@ const App = () => {
                 </RequiredAuth>
               }
             />
-            {/* // TODO:(용재) 추후 PATH.APPLICATION로 변경 */}
-            <Route
-              path="/"
-              element={<Navigate to={TOKEN ? PATH.APPLICATION_FORM : PATH.LOGIN} />}
-            />
+            <Route path="/" element={<Navigate to={TOKEN ? PATH.APPLICATION : PATH.LOGIN} />} />
             {/* // TODO:(용재) 추후 404로 변경 */}
-            <Route
-              path="*"
-              element={<Navigate to={TOKEN ? PATH.APPLICATION_FORM : PATH.LOGIN} />}
-            />
+            <Route path="*" element={<Navigate to={TOKEN ? PATH.APPLICATION : PATH.LOGIN} />} />
           </Route>
           <Route
             path={PATH.LOGIN}
             element={
-              <RequiredAuth isAuth={!isAuthorized} to={PATH.APPLICATION_FORM}>
+              <RequiredAuth isAuth={!isAuthorized} to={PATH.APPLICATION}>
                 <LoginPage />
               </RequiredAuth>
             }

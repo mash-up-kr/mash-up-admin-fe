@@ -19,6 +19,10 @@ module.exports = merge(baseConfig, {
     new CopyPlugin({
       patterns: [
         { context: path.resolve(PROJECT_ROOT, 'public/fonts'), from: '*.woff2', to: 'fonts' },
+        {
+          from: path.resolve(PROJECT_ROOT, 'public/', 'assets'),
+          to: path.resolve(PROJECT_ROOT, 'dist/', 'assets'),
+        },
       ],
     }),
   ],

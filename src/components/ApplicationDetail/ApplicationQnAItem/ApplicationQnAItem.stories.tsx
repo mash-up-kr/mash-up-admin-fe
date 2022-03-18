@@ -19,4 +19,9 @@ applicationQnAItem.args = {
   maxContentLength: 300,
   questionId: 0,
   required: false,
+  answer: {
+    answerId: 0,
+    content: 'ㅎㅇㅎㅇㅎㅇㅎ',
+    questionId: 0,
+  },
 };

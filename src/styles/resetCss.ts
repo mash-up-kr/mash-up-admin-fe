@@ -8,6 +8,7 @@ const resetCss = css`
   html {
     /* 1rem = 10px */
     font-size: 62.5%;
+    scroll-behavior: smooth;
   }
 
   html,

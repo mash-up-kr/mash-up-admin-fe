@@ -25,8 +25,6 @@ const UpdateApplicationForm = () => {
     $applicationFormDetail({ id: id ?? '' }),
   );
 
-  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
-
   const resetApplicationFormDetail = useResetRecoilState($applicationFormDetail({ id: id ?? '' }));
 
   const methods = useForm<FormValues>({
@@ -60,7 +58,7 @@ const UpdateApplicationForm = () => {
     }
 
     set($modalByStorage(ModalKey.alertModalDialog), {
-      ...modal,
+      key: ModalKey.alertModalDialog,
       isOpen: true,
       props: {
         heading: '저장하시겠습니까?',
@@ -71,11 +69,6 @@ const UpdateApplicationForm = () => {
             requestFunc: () => api.updateApplicationForm(id, data),
             errorHandler: handleAddToast,
             onSuccess: () => {
-              set($modalByStorage(ModalKey.alertModalDialog), {
-                ...modal,
-                isOpen: false,
-              });
-
               handleAddToast({
                 type: ToastType.success,
                 message: '성공적으로 지원서 설문지를 수정했습니다.',
@@ -84,8 +77,8 @@ const UpdateApplicationForm = () => {
               navigate(getApplicationFormDetailPage(id));
             },
             onCompleted: () => {
-              setModal({
-                ...modal,
+              set($modalByStorage(ModalKey.alertModalDialog), {
+                key: ModalKey.alertModalDialog,
                 isOpen: false,
               });
             },

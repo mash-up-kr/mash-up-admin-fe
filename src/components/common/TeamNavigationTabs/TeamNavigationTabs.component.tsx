@@ -10,6 +10,7 @@ const TeamNavigationTabs = () => {
   const handleClickTab = (teamParam: string) => {
     if (teamParam) {
       searchParams.set('team', teamParam);
+      searchParams.delete('page');
     } else {
       searchParams.delete('team');
     }
