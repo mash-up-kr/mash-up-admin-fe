@@ -4,3 +4,4 @@ export { default as CreateApplicationForm } from './CreateApplicationForm/Create
 export { default as ApplicationFormDetail } from './ApplicationFormDetail/ApplicationFormDetail.page';
 export { default as UpdateApplicationForm } from './UpdateApplicationForm/UpdateApplicationForm.page';
 export { default as ApplicationFormList } from './ApplicationFormList/ApplicationFormList.page';
+export { default as ApplicationList } from './ApplicationList/ApplicationList.page';

@@ -69,6 +69,8 @@ export const TableHeader = styled.thead`
 
 export const TableBody = styled.tbody<{ isEmpty?: boolean }>`
   ${({ theme, isEmpty }) => css`
+    position: relative;
+
     & tr {
       &:hover {
         background-color: ${isEmpty ? 'transparent' : theme.colors.purple20};
@@ -172,8 +174,8 @@ export const TableSummary = styled.div`
     }
 
     & > div:nth-of-type(2) {
-      ${theme.fonts.regular14}
-      color: ${theme.colors.gray60}
+      ${theme.fonts.medium14}
+      color: ${theme.colors.gray70}
     }
 
     & > div:nth-of-type(4) {
@@ -214,6 +216,7 @@ export const TotalSelectBox = styled.div`
       ${theme.fonts.medium13};
       padding: 0;
       color: ${theme.colors.purple70};
+      background-color: transparent;
     }
   `};
 `;
@@ -235,6 +238,12 @@ export const TableSupportButtonContainer = styled.div`
 
   & button {
     margin-right: 0.4rem;
+
+    /* TODO: (@minsour) 버튼에 함수 바인딩할때 제거  */
+    cursor: not-allowed;
+    &:hover {
+      background-color: inherit;
+    }
   }
 
   & button:last-child {
