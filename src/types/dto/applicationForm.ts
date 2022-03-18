@@ -12,7 +12,7 @@ export interface Question {
   maxContentLength: number | null;
   questionType: QuestionKindType;
   required: boolean;
-  questionId?: string;
+  questionId?: number;
 }
 
 export interface ApplicationFormRequest {

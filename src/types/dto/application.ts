@@ -2,7 +2,6 @@ import { ValueOf, Team, Question } from '@/types';
 import { SmsContent } from './sms';
 
 export const ApplicationConfirmationStatusInDto = {
-  TBD: 'TBD',
   NOT_APPLICABLE: 'NOT_APPLICABLE',
   INTERVIEW_CONFIRM_WAITING: 'INTERVIEW_CONFIRM_WAITING',
   INTERVIEW_CONFIRM_ACCEPTED: 'INTERVIEW_CONFIRM_ACCEPTED',
@@ -15,7 +14,7 @@ export const ApplicationConfirmationStatusInDto = {
 
 export const ApplicationResultStatusInDto = {
   NOT_RATED: 'NOT_RATED',
-  SCREENING_TBD: 'SCREENING_TBD',
+  SCREENING_TBD: 'SCREENING_TO_BE_DETERMINED',
   SCREENING_FAILED: 'SCREENING_FAILED',
   SCREENING_PASSED: 'SCREENING_PASSED',
   INTERVIEW_FAILED: 'INTERVIEW_FAILED',
@@ -66,6 +65,12 @@ export const ApplicantStatus = {
 
 export type ApplicantStatusType = ValueOf<typeof ApplicantStatus>;
 
+export interface Answer {
+  answerId: number;
+  content: string;
+  questionId: number;
+}
+
 export interface ApplicationByIdRequest {
   applicationId: string;
 }
@@ -82,17 +87,16 @@ export interface ApplicationUpdateMultipleResultRequest {
 }
 
 export interface ApplicationByIdResponseData extends Array<Team> {
-  answers: {
-    answerId: number;
-    content: string;
-    questionId: number;
-  }[];
+  answers: Answer[];
   applicant: {
     applicantId: number;
+    birthdate: string;
     createdAt: string;
+    department: string;
     email: string;
     name: string;
     phoneNumber: string;
+    residence: string;
     status: ApplicantStatusType;
     updatedAt: string;
   };

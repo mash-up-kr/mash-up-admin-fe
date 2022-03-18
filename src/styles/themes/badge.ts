@@ -11,7 +11,7 @@ export const badge = {
     color: ${colors.gray60};
     background-color: ${colors.gray20};
   `,
-  [ApplicationResultStatus.SCREENING_TBD]: css`
+  [ApplicationResultStatus.SCREENING_TO_BE_DETERMINED]: css`
     color: ${colors.blue70};
     background-color: ${colors.blue20};
   `,
@@ -31,7 +31,7 @@ export const badge = {
     color: ${colors.white};
     background-color: ${colors.green70};
   `,
-  [ApplicationConfirmationStatus.TBD]: css`
+  [ApplicationConfirmationStatus.TO_BE_DETERMINED]: css`
     color: ${colors.gray60};
     background-color: ${colors.gray20};
   `,

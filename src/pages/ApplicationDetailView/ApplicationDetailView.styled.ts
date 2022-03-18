@@ -39,7 +39,7 @@ export const ApplicantInfo = styled.div`
       & > div {
         display: flex;
         flex-direction: column;
-        gap: 2.8rem;
+        gap: 2rem;
         width: 50%;
       }
     }
@@ -79,8 +79,9 @@ export const Aside = styled.aside`
 
 export const Divider = styled.div`
   ${({ theme }) => css`
+    width: 100%;
     height: 0.1rem;
-    margin: 0 3.2rem;
+    margin-top: 2rem;
     background-color: ${theme.colors.gray30};
   `}
 `;

@@ -6,6 +6,8 @@ import {
   BaseResponse,
   ApplicationUpdateResultByIdRequest,
   ApplicationUpdateMultipleResultRequest,
+  ApplicationRequest,
+  ApplicationResponse,
 } from '@/types';
 
 export const getApplicationById = ({
@@ -13,6 +15,14 @@ export const getApplicationById = ({
 }: ApplicationByIdRequest): Promise<BaseResponse<ApplicationByIdResponseData>> =>
   http.get({
     url: `/applications/${applicationId}`,
+  });
+
+export const getApplications = (
+  params: ApplicationRequest,
+): Promise<BaseResponse<ApplicationResponse[]>> =>
+  http.get({
+    url: '/applications',
+    params,
   });
 
 export const postUpdateResult = ({

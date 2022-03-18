@@ -17,6 +17,8 @@ import Loading from '../Loading/Loading.component';
 import Checkbox from '../Checkbox/Checkbox.component';
 import { SORT_TYPE } from '@/constants';
 
+const NAV_BAR_AND_SEARCH_BAR_HEIGHT = 187;
+const TABLE_DEFAULT_HEIGHT = (window.innerHeight - NAV_BAR_AND_SEARCH_BAR_HEIGHT) / 10;
 export interface TableColumn<T extends object> {
   title: string;
   accessor?: NestedKeyOf<T>;
@@ -212,7 +214,7 @@ const TableColumnCell = <T extends object>({
 
 const Table = <T extends object>({
   prefix,
-  maxHeight,
+  maxHeight = TABLE_DEFAULT_HEIGHT,
   columns,
   rows,
   isLoading,
@@ -233,8 +235,7 @@ const Table = <T extends object>({
       selectedRows
         ? rows.map((row) => selectedRows.some((selectedRow) => isSameObject(selectedRow, row)))
         : [],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [rows],
+    [selectedRows, rows],
   );
   const allInAPageChecked = useMemo(
     () => !!rows.length && checkedValues.filter(Boolean).length === rows.length,
@@ -302,9 +303,6 @@ const Table = <T extends object>({
           </Styled.TableHeader>
         </Styled.Table>
         <Styled.TableBodyWrapper isLoading={isLoading}>
-          {!isEmptyData && isLoading && (
-            <Loading dimmedColor={colors.whiteLoadingDimmed} spinnerColor={colors.purple40} />
-          )}
           <Styled.Table>
             {isEmptyData ? (
               <Styled.TableBody isEmpty>
@@ -328,6 +326,12 @@ const Table = <T extends object>({
                   ))}
                 </colgroup>
                 <Styled.TableBody>
+                  {isLoading && (
+                    <Loading
+                      dimmedColor={colors.whiteLoadingDimmed}
+                      spinnerColor={colors.whiteLoadingDimmed}
+                    />
+                  )}
                   {rows.map((row, rowIndex) => (
                     <Styled.TableRow key={`${prefix}-row-${rowIndex}`} height={DEFAULT_ROW_HEIGHT}>
                       {!!selectableRow && (

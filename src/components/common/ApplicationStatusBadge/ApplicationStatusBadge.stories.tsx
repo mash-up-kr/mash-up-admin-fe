@@ -23,7 +23,7 @@ NOT_RATED.args = {
 
 export const SCREENING_TBD = Template.bind({});
 SCREENING_TBD.args = {
-  text: ApplicationResultStatus.SCREENING_TBD,
+  text: ApplicationResultStatus.SCREENING_TO_BE_DETERMINED,
 };
 
 export const SCREENING_FAILED = Template.bind({});
