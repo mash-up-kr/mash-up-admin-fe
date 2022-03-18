@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, MutableRefObject } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { ModalWrapper } from '@/components';
 import * as Styled from './AlertModalDialog.styled';
 import { $modalByStorage, ModalKey } from '@/store';
@@ -7,7 +7,7 @@ import { Position } from '@/components/common/ModalWrapper/ModalWrapper.componen
 
 export interface AlertModalDialogProps {
   heading: string;
-  paragraph: string;
+  paragraph?: string;
   cancelButtonLabel?: string;
   confirmButtonLabel?: string;
   linkTo?: string;
@@ -18,16 +18,16 @@ export interface AlertModalDialogProps {
 
 const AlertModalDialog = ({
   heading,
-  paragraph,
+  paragraph = '',
   cancelButtonLabel = '취소',
   confirmButtonLabel = '확인',
   handleClickCancelButton,
   handleClickConfirmButton,
 }: AlertModalDialogProps) => {
-  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.alertModalDialog));
+  const setModal = useSetRecoilState($modalByStorage(ModalKey.alertModalDialog));
 
   const handleRemoveCurrentModal: MouseEventHandler<HTMLButtonElement> = () => {
-    setModal({ ...modal, isOpen: false });
+    setModal({ key: ModalKey.alertModalDialog, isOpen: false });
   };
 
   const props = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import UserProfile, {
   splitMemberPosition,
 } from '@/components/common/UserProfile/UserProfile.component';
@@ -58,7 +58,7 @@ export interface MessageListPanelProps {
 }
 
 const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
-  const [modal, setModal] = useRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+  const handleControlModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
 
   return (
     <Styled.MessageListPanelContainer>
@@ -68,9 +68,11 @@ const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
           $size="xs"
           shape="defaultLine"
           onClick={() =>
-            setModal({
-              ...modal,
-              props: { id },
+            handleControlModal({
+              key: ModalKey.smsSendModalDialog,
+              props: {
+                selectedList: [Number(id)],
+              },
               isOpen: true,
             })
           }

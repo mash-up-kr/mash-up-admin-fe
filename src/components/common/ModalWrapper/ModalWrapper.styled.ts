@@ -60,14 +60,25 @@ export const ModalHeader = styled.div`
   `}
 `;
 
-export const ModalContent = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow: auto;
+interface StyledModalContentProps {
+  isContentScroll: boolean;
+}
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
+export const ModalContent = styled.div<StyledModalContentProps>`
+  ${({ isContentScroll }) => css`
+    width: 100%;
+    height: 100%;
+
+    ${isContentScroll
+      ? css`
+          overflow: auto;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        `
+      : css``}
+  `}
 `;
 
 interface StyledModalFooter {

@@ -1,21 +1,8 @@
 import React from 'react';
 import * as Styled from './ApplicationQnAItem.styled';
-import { QuestionKindType } from '@/types';
+import { Question } from '@/types';
 
-export interface ApplicationQnAItemProps {
-  content: string;
-  description: string;
-  maxContentLength: number;
-  questionId: number;
-  questionType: QuestionKindType;
-  required: boolean;
-}
-
-const ApplicationQnAItem = ({
-  content,
-  description,
-  maxContentLength,
-}: ApplicationQnAItemProps) => {
+const ApplicationQnAItem = ({ content, description, maxContentLength }: Question) => {
   return (
     <Styled.ApplicationQnAItemContainer>
       <Styled.Title>{content}</Styled.Title>

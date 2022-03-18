@@ -5,6 +5,7 @@ import {
   MeResponse,
   BaseResponse,
   ApplicationUpdateResultByIdRequest,
+  ApplicationUpdateMultipleResultRequest,
 } from '@/types';
 
 export const getApplicationById = ({
@@ -20,11 +21,23 @@ export const postUpdateResult = ({
   interviewEndedAt,
   interviewStartedAt,
 }: ApplicationUpdateResultByIdRequest): Promise<BaseResponse<MeResponse>> =>
-  http.get({
+  http.post({
     url: `/applications/${applicationId}`,
     data: {
       applicationResultStatus,
       interviewEndedAt,
       interviewStartedAt,
+    },
+  });
+
+export const postUpdateMultipleResult = ({
+  applicationIds,
+  applicationResultStatus,
+}: ApplicationUpdateMultipleResultRequest): Promise<BaseResponse<MeResponse>> =>
+  http.post({
+    url: `/applications/update-result`,
+    data: {
+      applicationResultStatus,
+      applicationIds,
     },
   });
