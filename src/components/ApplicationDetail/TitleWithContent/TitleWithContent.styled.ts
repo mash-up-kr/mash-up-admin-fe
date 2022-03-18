@@ -31,10 +31,12 @@ interface StyledContentProps {
 
 export const Content = styled.span<StyledContentProps>`
   ${({ theme, isLineThrough }) => css`
+    ${theme.fonts.regular16}
+
     width: 100%;
     margin-top: 0.4rem;
     color: ${theme.colors.gray80};
-    font-size: 1.6rem;
+    font-weight: 500;
     line-height: 2.4rem;
 
     ${isLineThrough
