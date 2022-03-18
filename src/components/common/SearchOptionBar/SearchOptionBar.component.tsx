@@ -46,13 +46,13 @@ const SearchOptionBar = ({
     if (applicationConfirmationStatusValue && handleChangeApplicationConfirmationStatus) {
       handleChangeApplicationConfirmationStatus(applicationConfirmationStatusValue);
     }
-  }, [applicationConfirmationStatusValue]);
+  }, [applicationConfirmationStatusValue, handleChangeApplicationConfirmationStatus]);
 
   useEffect(() => {
     if (applicationResultStatusValue && handleChangeApplicationResultStatus) {
       handleChangeApplicationResultStatus(applicationResultStatusValue);
     }
-  }, [applicationResultStatusValue]);
+  }, [applicationResultStatusValue, handleChangeApplicationResultStatus]);
 
   const ref = useRef<HTMLInputElement>(null);
 
