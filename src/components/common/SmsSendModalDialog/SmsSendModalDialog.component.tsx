@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilCallback } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -27,12 +27,16 @@ export interface SmsSendModalDialogProps {
   selectedList: number[];
   resultStatus?: ApplicationResultStatusKeyType;
   confirmationStatus?: ApplicationConfirmationStatusKeyType;
+  isSendFailed?: boolean;
+  messageContent?: string;
 }
 
 const SmsSendModalDialog = ({
   selectedList,
   resultStatus,
   confirmationStatus,
+  isSendFailed = false,
+  messageContent,
 }: SmsSendModalDialogProps) => {
   const { handleAddToast } = useToast();
   const navigate = useNavigate();
@@ -44,7 +48,13 @@ const SmsSendModalDialog = ({
     });
   });
 
-  const { handleSubmit, register } = useForm<FormValues>();
+  const { setValue, handleSubmit, register } = useForm<FormValues>();
+
+  useEffect(() => {
+    if (isSendFailed && messageContent) {
+      setValue('content', messageContent);
+    }
+  }, [isSendFailed, messageContent, setValue]);
 
   const handleSendSms = useRecoilCallback(({ set }) => ({ content, name }: FormValues) => {
     set($modalByStorage(ModalKey.alertModalDialog), {
@@ -82,7 +92,7 @@ const SmsSendModalDialog = ({
   });
 
   const props = {
-    heading: 'SMS 발송',
+    heading: isSendFailed ? '실패인원 SMS 재발송' : 'SMS 발송',
     footer: {
       cancelButton: {
         label: '취소',
@@ -91,6 +101,7 @@ const SmsSendModalDialog = ({
         label: '발송',
         onClick: handleSubmit(handleSendSms),
         type: 'submit',
+        // TODO:(@dididy) sms 작업 완료 시 아래 라인 삭제
         disabled: true,
       },
     },
@@ -105,17 +116,21 @@ const SmsSendModalDialog = ({
             <Styled.TitleArea>
               <TitleWithContent title="총 발송 인원">{selectedList.length}</TitleWithContent>
               {/* // TODO:(용재) 발송 인원 상세 리스트 모달 구현시 여는 로직 추가 */}
-              <button type="button">
-                발송 인원 상세보기
-                <ArrowRight />
-              </button>
+              {!isSendFailed && (
+                <button type="button">
+                  발송 인원 상세보기
+                  <ArrowRight />
+                </button>
+              )}
             </Styled.TitleArea>
-            <TitleWithContent title="사용자 확인 여부">
-              <ApplicationStatusBadge text={ApplicationConfirmationStatus[confirmationStatus]} />
-            </TitleWithContent>
-            <TitleWithContent title="합격 여부">
-              <ApplicationStatusBadge text={ApplicationResultStatus[resultStatus]} />
-            </TitleWithContent>
+            <Styled.StatusArea isSendFailed={isSendFailed}>
+              <TitleWithContent title="사용자 확인 여부">
+                <ApplicationStatusBadge text={ApplicationConfirmationStatus[confirmationStatus]} />
+              </TitleWithContent>
+              <TitleWithContent title="합격 여부">
+                <ApplicationStatusBadge text={ApplicationResultStatus[resultStatus]} />
+              </TitleWithContent>
+            </Styled.StatusArea>
             <Styled.Divider />
           </>
         )}
@@ -132,6 +147,7 @@ const SmsSendModalDialog = ({
           label="발송메세지"
           placeholder="내용을 입력해주세요"
           {...register('content', { required: true })}
+          disabled={isSendFailed}
         />
       </Styled.SmsSendModalContainer>
     </ModalWrapper>
