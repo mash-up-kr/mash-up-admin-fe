@@ -1,6 +1,7 @@
 import React, { useMemo, useRef } from 'react';
 import { useRecoilCallback } from 'recoil';
 import { useForm } from 'react-hook-form';
+import { request } from '@/utils';
 import { ModalWrapper, SelectField, TitleWithContent } from '@/components';
 import * as Styled from './ChangeResultModalDialog.styled';
 import * as api from '@/api';
@@ -11,6 +12,8 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
   ApplicationResultStatusType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
+import { useToast } from '@/hooks';
+import { ToastType } from '@/components/common/Toast/Toast.component';
 
 interface FormValues {
   applicationResultStatus: ApplicationResultStatusKeyType;
@@ -31,7 +34,9 @@ const ChangeResultModalDialog = ({
   selectedResults,
 }: ChangeResultModalDialogProps) => {
   const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
-  const { setValue } = useForm<FormValues>();
+  const { handleAddToast } = useToast();
+  const { setValue, handleSubmit } = useForm<FormValues>();
+
   const handleRemoveCurrentModal = useRecoilCallback(({ set }) => () => {
     set($modalByStorage(ModalKey.changeResultModalDialog), {
       key: ModalKey.changeResultModalDialog,
@@ -39,58 +44,46 @@ const ChangeResultModalDialog = ({
     });
   });
 
-  const { handleSubmit } = useForm<FormValues>();
-
   const handleSendSms = useRecoilCallback(
     ({ set }) =>
       async ({ applicationResultStatus }: FormValues) => {
-        const handleClickButton = () => {
-          set($modalByStorage(ModalKey.changeResultModalDialog), {
-            key: ModalKey.changeResultModalDialog,
-            isOpen: false,
-          });
-          set($modalByStorage(ModalKey.alertModalDialog), {
-            key: ModalKey.alertModalDialog,
-            isOpen: false,
-          });
-        };
-
-        const MODAL_PROPS = {
-          cancelButtonLabel: '취소',
-          confirmButtonLabel: '이동',
-          handleClickCancelButton: handleClickButton,
-          handleClickConfirmButton: handleClickButton,
-        };
-
-        try {
-          await api.postUpdateMultipleResult({
-            applicationIds: selectedList,
-            applicationResultStatus,
-          });
-
-          set($modalByStorage(ModalKey.alertModalDialog), {
-            key: ModalKey.alertModalDialog,
-            props: {
-              ...MODAL_PROPS,
-              heading: '합격 여부 변경 완료',
+        await set($modalByStorage(ModalKey.alertModalDialog), {
+          key: ModalKey.alertModalDialog,
+          isOpen: true,
+          props: {
+            heading: '저장하시겠습니까?',
+            paragraph: '지원서 설문지 내역에서 확인하실 수 있습니다.',
+            confirmButtonLabel: '저장',
+            handleClickConfirmButton: () => {
+              request({
+                requestFunc: () =>
+                  api.postUpdateMultipleResult({
+                    applicationIds: selectedList,
+                    applicationResultStatus,
+                  }),
+                errorHandler: handleAddToast,
+                onSuccess: () => {
+                  handleRemoveCurrentModal();
+                  handleAddToast({
+                    type: ToastType.success,
+                    message: '성공적으로 합격여부를 변경했습니다.',
+                  });
+                },
+                onCompleted: () => {
+                  set($modalByStorage(ModalKey.alertModalDialog), {
+                    key: ModalKey.alertModalDialog,
+                    isOpen: false,
+                  });
+                },
+              });
             },
-            isOpen: true,
-          });
-        } catch ({ status }) {
-          set($modalByStorage(ModalKey.alertModalDialog), {
-            key: ModalKey.alertModalDialog,
-            props: {
-              ...MODAL_PROPS,
-              heading: '에러가 발생했습니다',
-            },
-            isOpen: true,
-          });
-        }
+          },
+        });
       },
   );
 
   const props = {
-    heading: '합격 여부 상태 변경',
+    heading: '합격여부 상태 변경',
     footer: {
       cancelButton: {
         label: '취소',
@@ -124,13 +117,13 @@ const ChangeResultModalDialog = ({
     <ModalWrapper {...props}>
       <Styled.ChangeResultModalContainer>
         <TitleWithContent title="선택인원">{selectedList.length}</TitleWithContent>
-        <Styled.SelectedResultArea title="선택된 합격 여부 상태">
+        <Styled.SelectedResultArea title="선택된 합격여부 상태">
           {selectedResults?.map((each) => (
             <ApplicationStatusBadge key={each} text={ApplicationResultStatus[each]} />
           ))}
         </Styled.SelectedResultArea>
         <Styled.Divider> </Styled.Divider>
-        <TitleWithContent title="변경할 합격 여부 상태" isActive>
+        <TitleWithContent title="변경할 합격여부 상태" isActive>
           <SelectField
             size={SelectSize.md}
             options={applicationResultOptions}

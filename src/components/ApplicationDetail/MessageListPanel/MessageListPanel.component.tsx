@@ -58,7 +58,7 @@ export interface MessageListPanelProps {
 }
 
 const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
-  const setModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+  const handleControlModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
 
   return (
     <Styled.MessageListPanelContainer>
@@ -68,9 +68,11 @@ const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
           $size="xs"
           shape="defaultLine"
           onClick={() =>
-            setModal({
+            handleControlModal({
               key: ModalKey.smsSendModalDialog,
-              props: { id },
+              props: {
+                selectedList: [Number(id)],
+              },
               isOpen: true,
             })
           }
@@ -78,11 +80,13 @@ const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
           SMS 발송
         </Button>
       </Styled.MessageListPanelTitle>
-      <Styled.MessageListPanelContent>
-        {smsRequests?.map((each: MessageInfoProps) => (
-          <MessageInfo key={each.smsRequestId} {...each} />
-        ))}
-      </Styled.MessageListPanelContent>
+      {smsRequests.length > 0 && (
+        <Styled.MessageListPanelContent>
+          {smsRequests.map((each: MessageInfoProps) => (
+            <MessageInfo key={each.smsRequestId} {...each} />
+          ))}
+        </Styled.MessageListPanelContent>
+      )}
     </Styled.MessageListPanelContainer>
   );
 };

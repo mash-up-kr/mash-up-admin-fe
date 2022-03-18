@@ -1,6 +1,10 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useMount } from '@/hooks';
 
+jest.mock('@/components', () => ({
+  Textarea: 'Textarea',
+}));
+
 describe('useMount', () => {
   it('인자로 받은 함수는 mount 될 때 한 번만 실행되어야 한다.', () => {
     // Given

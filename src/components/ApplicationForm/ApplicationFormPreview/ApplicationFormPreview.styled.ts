@@ -56,16 +56,6 @@ export const MaxContentLength = styled.span`
   `}
 `;
 
-export const Description = styled.span`
-  ${({ theme }) => css`
-    ${theme.fonts.regular15};
-
-    display: inline-block;
-    margin-top: 0.6rem;
-    color: ${theme.colors.gray60};
-  `}
-`;
-
 export const PrivacyCheckBox = styled(Checkbox)`
   margin-top: 3.6rem;
 `;
@@ -88,4 +78,12 @@ export const Col = styled.div`
   button:nth-of-type(2) {
     margin-left: 1.6rem;
   }
+`;
+
+export const PrivacyCheckBoxLabel = styled.span`
+  ${({ theme }) => css`
+    a {
+      border-bottom: 1px solid ${theme.colors.gray70};
+    }
+  `}
 `;

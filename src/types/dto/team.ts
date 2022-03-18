@@ -1,12 +1,10 @@
-import { MemberPositionType } from './adminMember';
-
 export interface Team {
   createdAt: string;
-  createdBy: MemberPositionType;
+  createdBy: string;
   name: string;
   teamId: number;
   updatedAt: string;
-  updatedBy: MemberPositionType;
+  updatedBy: string;
 }
 
 export type TeamResponse = Team[];

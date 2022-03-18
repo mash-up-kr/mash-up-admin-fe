@@ -8,8 +8,13 @@ const mockSetSearchParams = jest.fn();
 jest.mock('react-router-dom', () => {
   return {
     useSearchParams: jest.fn().mockImplementation(() => [mockSearchParams, mockSetSearchParams]),
+    Link: 'Link',
   };
 });
+
+jest.mock('@/components', () => ({
+  Textarea: 'Textarea',
+}));
 
 describe('usePagination', () => {
   it('아이템의 수가 없는 경우, 속성값들은 전부 0으로 초기화된다.', () => {

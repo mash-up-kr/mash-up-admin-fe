@@ -106,8 +106,7 @@ const ApplicationFormItem = ({ index, handleRemoveItem }: ApplicationFormItemPro
                 type="number"
                 {...register(`questions.${index}.maxContentLength`, {
                   required: true,
-                  pattern: /[^0-9]/,
-                  min: 0,
+                  min: 1,
                 })}
               />
             )}

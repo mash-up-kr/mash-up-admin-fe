@@ -3,9 +3,9 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useLocation } from 'react-router-dom';
 import { $modalByStorage, ModalKey, ModalKeyType } from '@/store';
 import { AlertModalDialog, ChangeResultModalDialog, SmsSendModalDialog } from '@/components';
-import { SmsSendModalDialogProps } from '@/components/ApplicationDetail/SmsSendModalDialog/SmsSendModalDialog.component';
 import { AlertModalDialogProps } from '../AlertModalDialog/AlertModalDialog.component';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
+import { SmsSendModalDialogProps } from '../SmsSendModalDialog/SmsSendModalDialog.component';
 
 const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
   const modal = useRecoilValue($modalByStorage(modalKey));

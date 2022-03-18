@@ -1,9 +1,31 @@
-import {
-  ApplicationConfirmationStatusKeyType,
-  ApplicationResultStatusKeyType,
-} from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { ValueOf, QuestionKindType, Team } from '@/types';
+import { ValueOf, Team, Question } from '@/types';
 import { SmsContent } from './sms';
+
+export const ApplicationConfirmationStatusInDto = {
+  TBD: 'TBD',
+  NOT_APPLICABLE: 'NOT_APPLICABLE',
+  INTERVIEW_CONFIRM_WAITING: 'INTERVIEW_CONFIRM_WAITING',
+  INTERVIEW_CONFIRM_ACCEPTED: 'INTERVIEW_CONFIRM_ACCEPTED',
+  INTERVIEW_CONFIRM_REJECTED: 'INTERVIEW_CONFIRM_REJECTED',
+  FINAL_CONFIRM_WAITING: 'FINAL_CONFIRM_WAITING',
+  FINAL_CONFIRM_ACCEPTED: 'FINAL_CONFIRM_ACCEPTED',
+  FINAL_CONFIRM_REJECTED: 'FINAL_CONFIRM_REJECTED',
+  TO_BE_DETERMINED: 'TO_BE_DETERMINED',
+} as const;
+
+export const ApplicationResultStatusInDto = {
+  NOT_RATED: 'NOT_RATED',
+  SCREENING_TBD: 'SCREENING_TBD',
+  SCREENING_FAILED: 'SCREENING_FAILED',
+  SCREENING_PASSED: 'SCREENING_PASSED',
+  INTERVIEW_FAILED: 'INTERVIEW_FAILED',
+  INTERVIEW_PASSED: 'INTERVIEW_PASSED',
+} as const;
+
+export type ApplicationConfirmationStatusInDtoType = ValueOf<
+  typeof ApplicationConfirmationStatusInDto
+>;
+export type ApplicationResultStatusInDtoType = ValueOf<typeof ApplicationResultStatusInDto>;
 
 export interface ApplicationRequest {
   confirmStatus?: string;
@@ -32,14 +54,7 @@ export interface ApplicationResponse {
     interviewStartedAt: string;
     status: string;
   };
-  team: {
-    createdAt: string;
-    createdBy: string;
-    name: string;
-    teamId: number;
-    updatedAt: string;
-    updatedBy: string;
-  };
+  team: Team;
   createdAt: string;
   updatedAt: string;
 }
@@ -51,61 +66,52 @@ export const ApplicantStatus = {
 
 export type ApplicantStatusType = ValueOf<typeof ApplicantStatus>;
 
+export interface Answer {
+  answerId: number;
+  content: string;
+  questionId: number;
+}
+
 export interface ApplicationByIdRequest {
   applicationId: string;
 }
 
 export interface ApplicationUpdateResultByIdRequest extends ApplicationByIdRequest {
-  applicationResultStatus: ApplicationResultStatusKeyType;
+  applicationResultStatus: ApplicationResultStatusInDtoType;
   interviewEndedAt?: string;
   interviewStartedAt: string;
 }
 
 export interface ApplicationUpdateMultipleResultRequest {
   applicationIds: number[];
-  applicationResultStatus: ApplicationResultStatusKeyType;
+  applicationResultStatus: ApplicationResultStatusInDtoType;
 }
 
 export interface ApplicationByIdResponseData extends Array<Team> {
-  answers: {
-    answerId: number;
-    content: string;
-    questionId: number;
-  }[];
+  answers: Answer[];
   applicant: {
     applicantId: number;
+    birthdate: string;
     createdAt: string;
+    department: string;
     email: string;
     name: string;
     phoneNumber: string;
+    residence: string;
     status: ApplicantStatusType;
     updatedAt: string;
   };
   applicationId: number;
-  confirmationStatus: ApplicationConfirmationStatusKeyType;
+  confirmationStatus: ApplicationConfirmationStatusInDtoType;
   createdAt: string;
-  questions: {
-    content: string;
-    description: string;
-    maxContentLength: number;
-    questionId: number;
-    questionType: QuestionKindType;
-    required: boolean;
-  }[];
+  questions: Question[];
   result: {
     interviewEndedAt: string;
     interviewStartedAt: string;
-    status: ApplicationResultStatusKeyType;
+    status: ApplicationResultStatusInDtoType;
   };
   smsRequests: SmsContent[];
   submittedAt: string;
-  team: {
-    createdAt: string;
-    createdBy: string;
-    name: string;
-    teamId: number;
-    updatedAt: string;
-    updatedBy: string;
-  };
+  team: Team;
   updatedAt: string;
 }
