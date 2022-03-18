@@ -101,6 +101,7 @@ const ApplicationList = () => {
   const size = searchParams.get('size') || '20';
 
   const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
+  const [filterValues, setFilterValues] = useState<ApplicationFilterValuesType>({});
 
   const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
     { accessor: 'applicant.name', type: SORT_TYPE.DEFAULT },
@@ -128,8 +129,11 @@ const ApplicationList = () => {
       size: parseInt(size, 10),
       teamId: parseInt(teamId, 10) || undefined,
       searchWord: searchWord.value,
+      confirmStatus: filterValues?.confirmStatus?.value,
+      resultStatus: filterValues?.resultStatus?.value,
       sort: sortParam,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [page, size, teamId, searchWord, sortParam],
   );
 
@@ -200,7 +204,12 @@ const ApplicationList = () => {
       <div ref={teamTabRef}>
         <TeamNavigationTabs />
       </div>
-      <SearchOptionBar searchWord={searchWord} handleSubmit={handleSearch} />
+      <SearchOptionBar
+        filterValues={filterValues}
+        setFilterValues={setFilterValues}
+        searchWord={searchWord}
+        handleSubmit={handleSearch}
+      />
       <Table
         prefix="application"
         columns={columns}

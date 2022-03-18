@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useLayoutEffect, useMemo, useRef } from 'react';
 import { Input, Select } from '@/components';
 import { ButtonSize, ButtonShape } from '@/components/common/Button/Button.component';
 import * as Styled from './SearchOptionBar.styled';
@@ -10,51 +10,41 @@ import {
   ApplicationResultStatusKeyType,
 } from '../ApplicationStatusBadge/ApplicationStatusBadge.component';
 
+export interface ApplicationFilterValuesType {
+  confirmStatus: SelectOption;
+  resultStatus: SelectOption;
+}
+
 interface SearchOptionBarProps {
   searchWord: { value: string };
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
-  handleChangeApplicationConfirmationStatus?: (option: SelectOption) => void;
-  handleChangeApplicationResultStatus?: (option: SelectOption) => void;
+  filterValues?: ApplicationFilterValuesType;
+  setFilterValues?: Dispatch<SetStateAction<ApplicationFilterValuesType>>;
 }
 
-const DEFAULT = { label: '전체', value: 'DEFAULT' };
+const DEFAULT = { label: '전체', value: '' };
 
 const SearchOptionBar = ({
   searchWord,
   handleSubmit,
-  handleChangeApplicationConfirmationStatus,
-  handleChangeApplicationResultStatus,
+  filterValues,
+  setFilterValues,
 }: SearchOptionBarProps) => {
-  const [applicationConfirmationStatusValue, setApplicationConfirmationStatusValue] =
-    useState<SelectOption>();
-  const [applicationResultStatusValue, setApplicationResultStatusValue] = useState<SelectOption>();
+  const ref = useRef<HTMLInputElement>(null);
 
   const handleApplicationConfirmStatus = (option: SelectOption) => {
-    setApplicationConfirmationStatusValue(option);
+    setFilterValues?.((prev) => ({
+      ...prev,
+      confirmStatus: option,
+    }));
   };
 
   const handleApplicationResultStatus = (option: SelectOption) => {
-    setApplicationResultStatusValue(option);
+    setFilterValues?.((prev) => ({
+      ...prev,
+      resultStatus: option,
+    }));
   };
-
-  useEffect(() => {
-    handleApplicationConfirmStatus(DEFAULT);
-    handleApplicationResultStatus(DEFAULT);
-  }, [searchWord]);
-
-  useEffect(() => {
-    if (applicationConfirmationStatusValue && handleChangeApplicationConfirmationStatus) {
-      handleChangeApplicationConfirmationStatus(applicationConfirmationStatusValue);
-    }
-  }, [applicationConfirmationStatusValue, handleChangeApplicationConfirmationStatus]);
-
-  useEffect(() => {
-    if (applicationResultStatusValue && handleChangeApplicationResultStatus) {
-      handleChangeApplicationResultStatus(applicationResultStatusValue);
-    }
-  }, [applicationResultStatusValue, handleChangeApplicationResultStatus]);
-
-  const ref = useRef<HTMLInputElement>(null);
 
   useLayoutEffect(() => {
     if (ref.current) {
@@ -62,7 +52,7 @@ const SearchOptionBar = ({
     }
   }, [searchWord]);
 
-  const applicationConfirmationStatusOptions = useMemo(
+  const applicationConfirmStatusOptions = useMemo(
     () => [
       DEFAULT,
       ...Object.keys(ApplicationConfirmationStatus).reduce<SelectOption[]>(
@@ -98,26 +88,26 @@ const SearchOptionBar = ({
 
   return (
     <Styled.BarContainer onSubmit={handleSubmit}>
-      {handleChangeApplicationConfirmationStatus && handleChangeApplicationResultStatus && (
+      {filterValues && (
         <Styled.SelectContainer>
           <div>
             <div>합격여부</div>
             <Select
               size={SelectSize.xs}
               options={applicationResultStatusOptions}
-              onChangeOption={handleApplicationConfirmStatus}
+              onChangeOption={handleApplicationResultStatus}
               defaultValue={DEFAULT}
-              currentValue={applicationConfirmationStatusValue}
+              currentValue={filterValues.resultStatus}
             />
           </div>
           <div>
             <div>사용자 확인여부</div>
             <Select
               size={SelectSize.xs}
-              options={applicationConfirmationStatusOptions}
-              onChangeOption={handleApplicationResultStatus}
+              options={applicationConfirmStatusOptions}
+              onChangeOption={handleApplicationConfirmStatus}
               defaultValue={DEFAULT}
-              currentValue={applicationResultStatusValue}
+              currentValue={filterValues.confirmStatus}
             />
           </div>
         </Styled.SelectContainer>

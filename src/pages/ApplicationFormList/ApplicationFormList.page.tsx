@@ -166,7 +166,7 @@ const ApplicationFormList = () => {
 
   useLayoutEffect(() => {
     if (teamTabRef.current && isDirty && !isLoading) {
-      window.scrollTo(0, teamTabRef.current.offsetTop);
+      teamTabRef.current.scrollIntoView();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedTableRows]);
