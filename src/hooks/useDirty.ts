@@ -1,10 +1,10 @@
 import { useState, useMemo } from 'react';
 
-const useDirty = (chance?: number) => {
+const useDirty = (chance = 0) => {
   const [count, setCount] = useState(0);
 
   const makeDirty = () => setCount((prev) => prev + 1);
-  const isDirty = useMemo(() => count > (chance || 0), [count, chance]);
+  const isDirty = useMemo(() => count > chance, [count, chance]);
 
   return {
     makeDirty,
