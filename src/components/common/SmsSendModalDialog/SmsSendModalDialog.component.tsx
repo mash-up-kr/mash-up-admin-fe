@@ -91,6 +91,7 @@ const SmsSendModalDialog = ({
         label: '발송',
         onClick: handleSubmit(handleSendSms),
         type: 'submit',
+        disabled: true,
       },
     },
     handleCloseModal: handleRemoveCurrentModal,
