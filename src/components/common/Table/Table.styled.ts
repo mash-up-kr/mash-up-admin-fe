@@ -71,6 +71,8 @@ export const TableHeader = styled.thead`
 
 export const TableBody = styled.tbody<{ isEmpty?: boolean }>`
   ${({ theme, isEmpty }) => css`
+    position: relative;
+
     & tr {
       &:hover {
         background-color: ${isEmpty ? 'transparent' : theme.colors.purple20};

@@ -303,9 +303,6 @@ const Table = <T extends object>({
           </Styled.TableHeader>
         </Styled.Table>
         <Styled.TableBodyWrapper isLoading={isLoading}>
-          {!isEmptyData && isLoading && (
-            <Loading dimmedColor={colors.whiteLoadingDimmed} spinnerColor={colors.purple40} />
-          )}
           <Styled.Table>
             {isEmptyData ? (
               <Styled.TableBody isEmpty>
@@ -329,6 +326,12 @@ const Table = <T extends object>({
                   ))}
                 </colgroup>
                 <Styled.TableBody>
+                  {isLoading && (
+                    <Loading
+                      dimmedColor={colors.whiteLoadingDimmed}
+                      spinnerColor={colors.whiteLoadingDimmed}
+                    />
+                  )}
                   {rows.map((row, rowIndex) => (
                     <Styled.TableRow key={`${prefix}-row-${rowIndex}`} height={DEFAULT_ROW_HEIGHT}>
                       {!!selectableRow && (
