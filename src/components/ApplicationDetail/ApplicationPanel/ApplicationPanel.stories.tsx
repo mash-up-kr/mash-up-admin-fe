@@ -14,7 +14,7 @@ const Template: ComponentStory<typeof ApplicationPanel> = (args: ApplicationPane
 export const applicationPanelTBD = Template.bind({});
 
 applicationPanelTBD.args = {
-  confirmationStatus: 'TBD',
+  confirmationStatus: 'TO_BE_DETERMINED',
   resultStatus: 'NOT_RATED',
   interviewDate: '2022-02-22T08:10:11+09:00',
 };

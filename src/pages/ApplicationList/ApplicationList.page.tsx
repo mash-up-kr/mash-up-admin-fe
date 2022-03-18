@@ -25,6 +25,7 @@ import ApplicationStatusBadge, {
   ApplicationResultStatus,
   ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
+import { ApplicationFilterValuesType } from '@/components/common/SearchOptionBar/SearchOptionBar.component';
 
 const APPLICATION_EXTRA_SIZE = 100;
 
@@ -101,7 +102,10 @@ const ApplicationList = () => {
   const size = searchParams.get('size') || '20';
 
   const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
-  const [filterValues, setFilterValues] = useState<ApplicationFilterValuesType>({});
+  const [filterValues, setFilterValues] = useState<ApplicationFilterValuesType>({
+    confirmStatus: { label: '', value: '' },
+    resultStatus: { label: '', value: '' },
+  });
 
   const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
     { accessor: 'applicant.name', type: SORT_TYPE.DEFAULT },
