@@ -1,11 +1,10 @@
-// TODO:(용재) 추후 SMS 관련 로직 성공 후 주석 제거
 import React from 'react';
 import { useRecoilCallback } from 'recoil';
 import { useForm } from 'react-hook-form';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { InputField, ModalWrapper, TitleWithContent, Textarea } from '@/components';
 import * as Styled from './SmsSendModalDialog.styled';
-// import * as api from '@/api';
+import * as api from '@/api';
 import { $modalByStorage, ModalKey } from '@/store';
 import ApplicationStatusBadge, {
   ApplicationConfirmationStatus,
@@ -14,10 +13,10 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import ArrowRight from '@/assets/svg/chevron-right-16.svg';
-// import { request } from '@/utils';
-// import { useToast } from '@/hooks';
-// import { ToastType } from '../Toast/Toast.component';
-// import { PATH } from '@/constants';
+import { request } from '@/utils';
+import { useToast } from '@/hooks';
+import { ToastType } from '../Toast/Toast.component';
+import { PATH } from '@/constants';
 
 interface FormValues {
   name: string;
@@ -35,8 +34,8 @@ const SmsSendModalDialog = ({
   resultStatus,
   confirmationStatus,
 }: SmsSendModalDialogProps) => {
-  // const { handleAddToast } = useToast();
-  // const navigate = useNavigate();
+  const { handleAddToast } = useToast();
+  const navigate = useNavigate();
 
   const handleRemoveCurrentModal = useRecoilCallback(({ set }) => () => {
     set($modalByStorage(ModalKey.smsSendModalDialog), {
@@ -45,43 +44,42 @@ const SmsSendModalDialog = ({
     });
   });
 
-  const { register } = useForm<FormValues>();
-  // const { handleSubmit, register } = useForm<FormValues>();
+  const { handleSubmit, register } = useForm<FormValues>();
 
-  // const handleSendSms = useRecoilCallback(({ set }) => ({ content, name }: FormValues) => {
-  //   set($modalByStorage(ModalKey.alertModalDialog), {
-  //     key: ModalKey.alertModalDialog,
-  //     isOpen: true,
-  //     props: {
-  //       heading: '발송하시겠습니까?',
-  //       paragraph: 'SMS 발송내역에서 확인하실 수 있습니다.',
-  //       confirmButtonLabel: '발송',
-  //       handleClickConfirmButton: () => {
-  //         request({
-  //           requestFunc: async () => {
-  //             await api.postSmsSend({ applicantIds: selectedList, content, name });
-  //           },
+  const handleSendSms = useRecoilCallback(({ set }) => ({ content, name }: FormValues) => {
+    set($modalByStorage(ModalKey.alertModalDialog), {
+      key: ModalKey.alertModalDialog,
+      isOpen: true,
+      props: {
+        heading: '발송하시겠습니까?',
+        paragraph: 'SMS 발송내역에서 확인하실 수 있습니다.',
+        confirmButtonLabel: '발송',
+        handleClickConfirmButton: () => {
+          request({
+            requestFunc: async () => {
+              await api.postSmsSend({ applicantIds: selectedList, content, name });
+            },
 
-  //           errorHandler: handleAddToast,
-  //           onSuccess: () => {
-  //             handleRemoveCurrentModal();
-  //             handleAddToast({
-  //               type: ToastType.success,
-  //               message: 'SMS 발송 완료',
-  //             });
-  //             navigate(PATH.SMS);
-  //           },
-  //           onCompleted: () => {
-  //             set($modalByStorage(ModalKey.alertModalDialog), {
-  //               key: ModalKey.alertModalDialog,
-  //               isOpen: false,
-  //             });
-  //           },
-  //         });
-  //       },
-  //     },
-  //   });
-  // });
+            errorHandler: handleAddToast,
+            onSuccess: () => {
+              handleRemoveCurrentModal();
+              handleAddToast({
+                type: ToastType.success,
+                message: 'SMS 발송 완료',
+              });
+              navigate(PATH.SMS);
+            },
+            onCompleted: () => {
+              set($modalByStorage(ModalKey.alertModalDialog), {
+                key: ModalKey.alertModalDialog,
+                isOpen: false,
+              });
+            },
+          });
+        },
+      },
+    });
+  });
 
   const props = {
     heading: 'SMS 발송',
@@ -89,11 +87,11 @@ const SmsSendModalDialog = ({
       cancelButton: {
         label: '취소',
       },
-      // confirmButton: {
-      //   label: '발송',
-      //   onClick: handleSubmit(handleSendSms),
-      //   type: 'submit',
-      // },
+      confirmButton: {
+        label: '발송',
+        onClick: handleSubmit(handleSendSms),
+        type: 'submit',
+      },
     },
     handleCloseModal: handleRemoveCurrentModal,
   };
