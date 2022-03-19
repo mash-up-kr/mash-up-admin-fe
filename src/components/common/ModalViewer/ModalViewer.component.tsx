@@ -5,6 +5,7 @@ import { $modalByStorage, ModalKey, ModalKeyType } from '@/store';
 import {
   AlertModalDialog,
   ChangeResultModalDialog,
+  SmsSendDetailInfoModalDialog,
   SmsSendDetailListModalDialog,
   SmsSendModalDialog,
 } from '@/components';
@@ -33,6 +34,10 @@ const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
     return <SmsSendDetailListModalDialog key={modalKey} />;
   }
 
+  if (modalKey === ModalKey.smsSendDetailInfoModalDialog && modal.isOpen) {
+    return <SmsSendDetailInfoModalDialog key={modalKey} />;
+  }
+
   return null;
 };
 
@@ -42,6 +47,9 @@ const ModalViewer = () => {
   const setSmsSendModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
   const setSmsSendDetailListModal = useSetRecoilState(
     $modalByStorage(ModalKey.smsSendDetailListModalDialog),
+  );
+  const setSmsSendDetailInfoModal = useSetRecoilState(
+    $modalByStorage(ModalKey.smsSendDetailInfoModalDialog),
   );
 
   const { pathname } = useLocation();
@@ -57,7 +65,18 @@ const ModalViewer = () => {
       key: ModalKey.smsSendDetailListModalDialog,
       isOpen: false,
     });
-  }, [setAlertModal, setChangeResultModal, setSmsSendModal, pathname, setSmsSendDetailListModal]);
+    setSmsSendDetailInfoModal({
+      key: ModalKey.smsSendDetailInfoModalDialog,
+      isOpen: false,
+    });
+  }, [
+    setAlertModal,
+    setChangeResultModal,
+    setSmsSendModal,
+    pathname,
+    setSmsSendDetailListModal,
+    setSmsSendDetailInfoModal,
+  ]);
 
   return (
     <>
