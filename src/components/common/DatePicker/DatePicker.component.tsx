@@ -71,7 +71,10 @@ const DayCell = ({
     ...resetProps,
     disabled: isDisabled,
     today: date.isSame(today, 'day'),
-    selected: date.isSame(selectedDate),
+    selected:
+      date.isSame(selectedDate, 'year') &&
+      date.isSame(selectedDate, 'month') &&
+      date.isSame(selectedDate, 'date'),
   };
 
   return <Styled.DatePickerTd {...props}>{date.format('D')}</Styled.DatePickerTd>;
