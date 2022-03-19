@@ -57,7 +57,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
       ['SCREENING_PASSED', 'INTERVIEW_FAILED', 'INTERVIEW_PASSED'].some(
         (each) => each === resultStatus,
       ),
-    [],
+    [resultStatus],
   );
   const [isShowInterviewSchedule, setIsShowInterviewSchedule] = useState(isScreeningPassed);
   const [isEdit, setIsEdit] = useState(false);
