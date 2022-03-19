@@ -125,7 +125,6 @@ const SmsSendModalDialog = ({
           <>
             <Styled.TitleArea>
               <TitleWithContent title="총 발송 인원">{selectedList.length}</TitleWithContent>
-              {/* // TODO:(용재) 발송 인원 상세 리스트 모달 구현시 여는 로직 추가 */}
               {!isSendFailed && (
                 <button type="button" onClick={handleOpenSmsSendDetailListModalDialog}>
                   발송 인원 상세보기
