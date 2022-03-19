@@ -37,6 +37,9 @@ interface ControlAreaProps {
 }
 
 const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: ControlAreaProps) => {
+  const { setValue, getValues, register } = useFormContext<FormValues>();
+  const date = getValues('interviewStartedAt');
+
   const isInterviewConfirmed = useMemo(
     () =>
       [
@@ -48,30 +51,32 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
       ].some((each) => each === confirmationStatus),
     [confirmationStatus],
   );
-  const isShowInterviewSchedule = useMemo(
+
+  const isScreeningPassed = useMemo(
     () =>
       ['SCREENING_PASSED', 'INTERVIEW_FAILED', 'INTERVIEW_PASSED'].some(
         (each) => each === resultStatus,
       ),
-    [resultStatus],
+    [],
   );
-
-  const { setValue } = useFormContext<FormValues>();
-
+  const [isShowInterviewSchedule, setIsShowInterviewSchedule] = useState(isScreeningPassed);
   const [isEdit, setIsEdit] = useState(false);
-  const outerRef = useRef<HTMLDivElement>(null);
-
   const [isDatePickerOpened, setIsDatePickerOpened] = useState(false);
-  const [date, setDate] = useState<Dayjs>(dayjs(interviewDate));
+  const outerRef = useRef<HTMLDivElement>(null);
   const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
+
   const handleSelectDate = (clickedDate: Dayjs) => {
-    setDate(clickedDate);
+    const currentDate = dayjs(date);
+    setValue(
+      `interviewStartedAt`,
+      dayjs(clickedDate).hour(currentDate.hour()).second(currentDate.second()).format(),
+    );
     setIsDatePickerOpened(false);
   };
 
   const handleToggleIsEdit = () => {
     setIsEdit((prev) => {
-      if (prev) setDate(dayjs(interviewDate));
+      if (prev) setValue(`interviewStartedAt`, interviewDate || dayjs().format());
       return !prev;
     });
   };
@@ -82,6 +87,9 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
 
   const handleChangeApplicationResultSelect = (option: SelectOption) => {
     setValue(`applicationResultStatus`, option.value as ApplicationResultStatusKeyType);
+    if (option.value === ApplicationResultStatusInDto.SCREENING_PASSED) {
+      setIsShowInterviewSchedule(true);
+    }
   };
 
   const handleChangeTimeSelect = (option: SelectOption) => {
@@ -99,19 +107,19 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
       [],
     );
 
-    if (resultStatus === ApplicationResultStatusInDto.SCREENING_PASSED) {
+    if (isScreeningPassed) {
       return resultOption.slice(3, 6);
     }
 
     return resultOption.slice(0, 4);
-  }, [resultStatus]);
+  }, [isScreeningPassed]);
 
   const timeOptions = useMemo(
     () =>
       rangeArray(14 * 6 + 1).reduce<SelectOption[]>((acc: SelectOption[], cur: number) => {
         const min = (cur % 6) - 1;
         const hour = Math.floor(cur / 6);
-        const d = date
+        const d = dayjs(date)
           .clone()
           .hour(8 + hour)
           .minute(min * 10)
@@ -134,7 +142,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
             defaultValue={applicationResultOptions.find((option) => option.value === resultStatus)}
           />
         </TitleWithContent>
-        {isShowInterviewSchedule && (
+        {(isScreeningPassed || isShowInterviewSchedule) && (
           <TitleWithContent title="면접 일시" isActive={!isInterviewConfirmed}>
             {/* // TODO:(용재) pointer-events: none; 하긴 했는데 클릭 자체가 실행 안되도록 못하도록 처리해야 함 - onClick 두고 캡쳐링을 막으면 될까.. */}
             <Styled.SelectContainer disabled={isInterviewConfirmed}>
@@ -143,10 +151,10 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
                   onClick={handleToggleDatePicker}
                   isDatePickerOpened={isDatePickerOpened}
                 >
-                  {formatDate(date.format(), 'YYYY년 M월 D일(ddd)')}
+                  {formatDate(date, 'YYYY년 M월 D일(ddd)')}
                 </Styled.SelectWrapper>
                 <Styled.SelectMenu isDatePickerOpened={isDatePickerOpened}>
-                  <DatePicker handleSelectDate={handleSelectDate} selectedDate={date} />
+                  <DatePicker handleSelectDate={handleSelectDate} selectedDate={dayjs(date)} />
                 </Styled.SelectMenu>
               </div>
               <Styled.SelectTimeField>
@@ -157,6 +165,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
                   onChangeOption={handleChangeTimeSelect}
                   disabled={isInterviewConfirmed}
                   defaultValue={timeOptions.find((option) => option.value === dayjs(date).format())}
+                  {...register(`interviewStartedAt`, { required: true })}
                 />
               </Styled.SelectTimeField>
             </Styled.SelectContainer>
@@ -180,14 +189,14 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
       <TitleWithContent title="합격 여부">
         <ApplicationStatusBadge text={ApplicationResultStatus[resultStatus]} />
       </TitleWithContent>
-      {isShowInterviewSchedule && (
+      {isScreeningPassed && (
         <TitleWithContent
           title="면접 일시"
           isLineThrough={
             confirmationStatus === ApplicationConfirmationStatusInDto.FINAL_CONFIRM_REJECTED
           }
         >
-          {formatDate(date.format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
+          {formatDate(date, 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
       )}
       <Styled.ButtonContainer>
@@ -216,7 +225,13 @@ const ApplicationPanel = ({
   applicationId,
   ...restProps
 }: ApplicationPanelProps) => {
-  const methods = useForm<FormValues>({});
+  const methods = useForm<FormValues>({
+    defaultValues: {
+      applicationResultStatus: resultStatus,
+      interviewStartedAt: interviewDate || dayjs().hour(8).minute(0).format(),
+    },
+  });
+
   const { handleSubmit } = methods;
 
   const handleSubmitUpdateResult = useRecoilCallback(
@@ -224,6 +239,7 @@ const ApplicationPanel = ({
       async (data: FormValues) => {
         const requestDto: ApplicationUpdateResultByIdRequest = {
           ...data,
+          interviewEndedAt: data.interviewStartedAt,
           applicationId,
         };
 
