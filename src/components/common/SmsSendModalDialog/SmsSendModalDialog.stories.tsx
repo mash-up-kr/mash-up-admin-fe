@@ -11,10 +11,26 @@ const Template: ComponentStory<typeof SmsSendModalDialog> = (args: SmsSendModalD
   <SmsSendModalDialog {...args} />
 );
 
-export const smsSendModalDialog = Template.bind({});
+export const smsSendModalDialogNormal = Template.bind({});
 
-smsSendModalDialog.args = {
+smsSendModalDialogNormal.args = {
+  selectedList: [0],
+};
+
+export const smsSendModalDialogWithResult = Template.bind({});
+
+smsSendModalDialogWithResult.args = {
+  selectedList: [0, 4],
+  confirmationStatus: 'FINAL_CONFIRM_ACCEPTED',
+  resultStatus: 'SCREENING_PASSED',
+};
+
+export const smsSendModalDialogSendFailure = Template.bind({});
+
+smsSendModalDialogSendFailure.args = {
   selectedList: [0, 1, 2, 3, 4],
   confirmationStatus: 'FINAL_CONFIRM_ACCEPTED',
   resultStatus: 'SCREENING_PASSED',
+  isSendFailed: true,
+  messageContent: 'ABCD',
 };

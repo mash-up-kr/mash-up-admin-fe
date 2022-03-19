@@ -181,14 +181,14 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
           {formatDate(date.format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
       )}
-      {/* <Styled.ButtonContainer>
+      <Styled.ButtonContainer>
         <Button
           $size={ButtonSize.sm}
           shape={ButtonShape.primaryLine}
           label="수정"
           onClick={handleToggleIsEdit}
         />
-      </Styled.ButtonContainer> */}
+      </Styled.ButtonContainer>
     </>
   );
 };
