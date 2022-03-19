@@ -10,6 +10,7 @@ export const ModalKey = {
   alertModalDialog: 'alertModalDialog',
   smsSendModalDialog: 'smsSendModalDialog',
   changeResultModalDialog: 'changeResultModalDialog',
+  smsSendDetailListModalDialog: 'smsSendDetailListModalDialog',
 } as const;
 
 export type ModalKeyType = ValueOf<typeof ModalKey>;

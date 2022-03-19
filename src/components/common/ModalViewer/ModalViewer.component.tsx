@@ -2,7 +2,12 @@ import React, { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useLocation } from 'react-router-dom';
 import { $modalByStorage, ModalKey, ModalKeyType } from '@/store';
-import { AlertModalDialog, ChangeResultModalDialog, SmsSendModalDialog } from '@/components';
+import {
+  AlertModalDialog,
+  ChangeResultModalDialog,
+  SmsSendDetailListModalDialog,
+  SmsSendModalDialog,
+} from '@/components';
 import { AlertModalDialogProps } from '../AlertModalDialog/AlertModalDialog.component';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
 import { SmsSendModalDialogProps } from '../SmsSendModalDialog/SmsSendModalDialog.component';
@@ -24,6 +29,10 @@ const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
     return <SmsSendModalDialog key={modalKey} {...(modal.props as SmsSendModalDialogProps)} />;
   }
 
+  if (modalKey === ModalKey.smsSendDetailListModalDialog && modal.isOpen) {
+    return <SmsSendDetailListModalDialog key={modalKey} />;
+  }
+
   return null;
 };
 
@@ -31,6 +40,10 @@ const ModalViewer = () => {
   const setAlertModal = useSetRecoilState($modalByStorage(ModalKey.alertModalDialog));
   const setChangeResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
   const setSmsSendModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+  const setSmsSendDetailListModal = useSetRecoilState(
+    $modalByStorage(ModalKey.smsSendDetailListModalDialog),
+  );
+
   const { pathname } = useLocation();
 
   // TODO:(용재) 추후 더 나은 방법 찾아보기..
@@ -40,7 +53,11 @@ const ModalViewer = () => {
     if (!/\/application\/\d/g.test(pathname)) {
       setSmsSendModal({ key: ModalKey.smsSendModalDialog, isOpen: false });
     }
-  }, [setAlertModal, setChangeResultModal, setSmsSendModal, pathname]);
+    setSmsSendDetailListModal({
+      key: ModalKey.smsSendDetailListModalDialog,
+      isOpen: false,
+    });
+  }, [setAlertModal, setChangeResultModal, setSmsSendModal, pathname, setSmsSendDetailListModal]);
 
   return (
     <>
