@@ -19,14 +19,6 @@ applicationPanelTBD.args = {
   interviewDate: '2022-02-22T08:10:11+09:00',
 };
 
-export const applicationPanelREJECTED = Template.bind({});
-
-applicationPanelREJECTED.args = {
-  confirmationStatus: 'INTERVIEW_CONFIRM_REJECTED',
-  resultStatus: 'NOT_RATED',
-  interviewDate: '2022-02-22T08:10:11+09:00',
-};
-
 export const 서류_불합격 = Template.bind({});
 
 서류_불합격.args = {
