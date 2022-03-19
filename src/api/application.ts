@@ -32,7 +32,7 @@ export const postUpdateResult = ({
   interviewStartedAt,
 }: ApplicationUpdateResultByIdRequest): Promise<BaseResponse<MeResponse>> =>
   http.post({
-    url: `/applications/${applicationId}`,
+    url: `/applications/${applicationId}/update-result`,
     data: {
       applicationResultStatus,
       interviewEndedAt,
