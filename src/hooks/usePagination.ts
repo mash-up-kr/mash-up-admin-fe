@@ -101,7 +101,6 @@ const usePagination = ({
 
     const currentPage = searchParams.get('page');
     const currentSize = usingSearchParams ? searchParams.get('size') : '';
-    console.log({ currentSize });
     const newPageOptions = getPageOptions({
       totalCount,
       pageIndex: currentPage ? parseInt(currentPage, 10) - 1 : FIRST_PAGE - 1,
