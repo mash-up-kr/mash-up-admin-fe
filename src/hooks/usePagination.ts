@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { URLSearchParamsInit, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { PageOptions, FIRST_PAGE } from '@/components/common/Pagination/Pagination.component';
 
 const DEFAULT_PAGING_SIZE = 20;
@@ -14,7 +14,8 @@ interface GetPageOptionsParams {
 
 interface UsePaginationParams {
   totalCount: number;
-  isReplaceUrl?: boolean;
+  usingSearchParams?: boolean;
+  pagingSize?: number;
   pageButtonsSize?: number;
 }
 
@@ -39,7 +40,8 @@ const getPageOptions = ({
 
 const usePagination = ({
   totalCount,
-  isReplaceUrl = false,
+  usingSearchParams = true,
+  pagingSize = DEFAULT_PAGING_SIZE,
   pageButtonsSize = DEFAULT_PAGE_BUTTONS_SIZE,
 }: UsePaginationParams) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -50,12 +52,6 @@ const usePagination = ({
     totalPages: 0,
     pagingSize: 0,
   });
-
-  const handleSearchParams = (urlSearchParams: URLSearchParamsInit) => {
-    setSearchParams(urlSearchParams, {
-      replace: isReplaceUrl,
-    });
-  };
 
   const handleChangePage = (page: number) => {
     if (page === 0) return;
@@ -68,44 +64,53 @@ const usePagination = ({
     });
     const { currentPage } = newPageOptions;
 
-    searchParams.set('page', currentPage.toString());
-    handleSearchParams(searchParams);
+    if (usingSearchParams) {
+      searchParams.set('page', currentPage.toString());
+      setSearchParams(searchParams);
+    } else {
+      setPageOptions(newPageOptions);
+    }
   };
 
-  const handleChangeSize = (pagingSize: string) => {
-    let newPageOptions = getPageOptions({
-      totalCount,
-      pageIndex: pageOptions.currentPage - 1,
-      pagingSize: parseInt(pagingSize, 10),
-      pageButtonsSize,
-    });
+  const handleChangeSize = (_pagingSize: string) => {
+    if (usingSearchParams) {
+      searchParams.set('size', _pagingSize);
+      setSearchParams(searchParams);
+    } else {
+      let newPageOptions = getPageOptions({
+        totalCount,
+        pageIndex: pageOptions.currentPage - 1,
+        pagingSize: parseInt(_pagingSize, 10),
+        pageButtonsSize,
+      });
+      const { currentPage, endPage } = newPageOptions;
 
-    const { currentPage, endPage } = newPageOptions;
-    if (currentPage > endPage) {
-      newPageOptions = {
-        ...newPageOptions,
-        currentPage: newPageOptions.endPage,
-      };
+      if (currentPage > endPage) {
+        newPageOptions = {
+          ...newPageOptions,
+          currentPage: newPageOptions.endPage,
+        };
+      }
+
+      setPageOptions(newPageOptions);
     }
-
-    searchParams.set('size', pagingSize);
-    handleSearchParams(searchParams);
   };
 
   useEffect(() => {
     if (!totalCount) return;
 
     const currentPage = searchParams.get('page');
-    const currentSize = searchParams.get('size');
+    const currentSize = usingSearchParams ? searchParams.get('size') : '';
+    console.log({ currentSize });
     const newPageOptions = getPageOptions({
       totalCount,
       pageIndex: currentPage ? parseInt(currentPage, 10) - 1 : FIRST_PAGE - 1,
-      pagingSize: currentSize ? parseInt(currentSize, 10) : DEFAULT_PAGING_SIZE,
+      pagingSize: currentSize ? parseInt(currentSize, 10) : pagingSize,
       pageButtonsSize,
     });
 
     if (newPageOptions.currentPage > newPageOptions.endPage) {
-      handleSearchParams({
+      setSearchParams({
         page: newPageOptions.endPage.toString(),
         size: newPageOptions.pagingSize.toString(),
       });
