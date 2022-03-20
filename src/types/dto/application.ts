@@ -78,7 +78,7 @@ export interface ApplicationByIdRequest {
 export interface ApplicationUpdateResultByIdRequest extends ApplicationByIdRequest {
   applicationResultStatus: ApplicationResultStatusInDtoType;
   interviewEndedAt?: string;
-  interviewStartedAt: string;
+  interviewStartedAt?: string;
 }
 
 export interface ApplicationUpdateMultipleResultRequest {

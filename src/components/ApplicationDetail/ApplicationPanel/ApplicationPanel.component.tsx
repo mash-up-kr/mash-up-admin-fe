@@ -1,7 +1,8 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import dayjs, { Dayjs } from 'dayjs';
 import { useRecoilCallback } from 'recoil';
+import utc from 'dayjs/plugin/utc';
 import { Button, DatePicker, Select, SelectField } from '@/components';
 import * as Styled from './ApplicationPanel.styled';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
@@ -15,30 +16,34 @@ import ApplicationStatusBadge, {
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import { formatDate } from '@/utils/date';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
-import { useOnClickOutSide } from '@/hooks';
-import { rangeArray } from '@/utils';
-import { postUpdateResult } from '@/api';
+import { useOnClickOutSide, useToast } from '@/hooks';
+import { rangeArray, request } from '@/utils';
+import * as api from '@/api';
 import {
   ApplicationConfirmationStatusInDto,
   ApplicationResultStatusInDto,
   ApplicationUpdateResultByIdRequest,
 } from '@/types';
-import { $modalByStorage, ModalKey } from '@/store';
+import { $applicationById } from '@/store';
+import { ToastType } from '@/styles';
+
+dayjs.extend(utc);
 
 interface FormValues {
   applicationResultStatus: ApplicationResultStatusKeyType;
   interviewStartedAt: string;
+  isEdit: boolean;
 }
 
 interface ControlAreaProps {
   confirmationStatus: ApplicationConfirmationStatusKeyType;
   resultStatus: ApplicationResultStatusKeyType;
-  interviewDate?: string;
 }
 
-const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: ControlAreaProps) => {
-  const { setValue, getValues, register } = useFormContext<FormValues>();
+const ControlArea = ({ confirmationStatus, resultStatus }: ControlAreaProps) => {
+  const { setValue, getValues, watch, register } = useFormContext<FormValues>();
   const date = getValues('interviewStartedAt');
+  const isEdit = watch('isEdit');
 
   const isInterviewConfirmed = useMemo(
     () =>
@@ -59,42 +64,50 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
       ),
     [resultStatus],
   );
+
   const [isShowInterviewSchedule, setIsShowInterviewSchedule] = useState(isScreeningPassed);
-  const [isEdit, setIsEdit] = useState(false);
   const [isDatePickerOpened, setIsDatePickerOpened] = useState(false);
   const outerRef = useRef<HTMLDivElement>(null);
   const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
 
-  const handleSelectDate = (clickedDate: Dayjs) => {
-    const currentDate = dayjs(date);
-    setValue(
-      `interviewStartedAt`,
-      dayjs(clickedDate).hour(currentDate.hour()).second(currentDate.second()).format(),
-    );
-    setIsDatePickerOpened(false);
-  };
+  const handleSelectDate = useCallback(
+    (clickedDate: Dayjs) => {
+      const currentDate = dayjs.utc(date);
+      setValue(
+        `interviewStartedAt`,
+        dayjs.utc(clickedDate).hour(currentDate.hour()).second(currentDate.second()).format(),
+      );
+      setIsDatePickerOpened(false);
+    },
+    [date, setValue],
+  );
 
-  const handleToggleIsEdit = () => {
-    setIsEdit((prev) => {
-      if (prev) setValue(`interviewStartedAt`, interviewDate || dayjs().format());
-      return !prev;
-    });
-  };
+  const handleToggleIsEdit = useCallback(() => {
+    setValue('isEdit', !isEdit);
+  }, [isEdit, setValue]);
 
   const handleToggleDatePicker = () => {
     setIsDatePickerOpened((prev) => !prev);
   };
 
-  const handleChangeApplicationResultSelect = (option: SelectOption) => {
-    setValue(`applicationResultStatus`, option.value as ApplicationResultStatusKeyType);
-    if (option.value === ApplicationResultStatusInDto.SCREENING_PASSED) {
-      setIsShowInterviewSchedule(true);
-    }
-  };
+  const handleChangeApplicationResultSelect = useCallback(
+    (option: SelectOption) => {
+      setValue(`applicationResultStatus`, option.value as ApplicationResultStatusKeyType);
+      if (option.value === ApplicationResultStatusInDto.SCREENING_PASSED) {
+        setIsShowInterviewSchedule(true);
+      } else {
+        setIsShowInterviewSchedule(false);
+      }
+    },
+    [setValue],
+  );
 
-  const handleChangeTimeSelect = (option: SelectOption) => {
-    setValue(`interviewStartedAt`, option.value);
-  };
+  const handleChangeTimeSelect = useCallback(
+    (option: SelectOption) => {
+      setValue(`interviewStartedAt`, option.value);
+    },
+    [setValue],
+  );
 
   useOnClickOutSide(outerRef, () => setIsDatePickerOpened(false));
 
@@ -108,7 +121,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
     );
 
     if (isScreeningPassed) {
-      return resultOption.slice(3, 6);
+      return resultOption.slice(1, 6);
     }
 
     return resultOption.slice(0, 4);
@@ -120,6 +133,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
         const min = (cur % 6) - 1;
         const hour = Math.floor(cur / 6);
         const d = dayjs(date)
+          .utc()
           .clone()
           .hour(8 + hour)
           .minute(min * 10)
@@ -142,7 +156,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
             defaultValue={applicationResultOptions.find((option) => option.value === resultStatus)}
           />
         </TitleWithContent>
-        {(isScreeningPassed || isShowInterviewSchedule) && (
+        {isShowInterviewSchedule && (
           <TitleWithContent title="면접 일시" isActive={!isInterviewConfirmed}>
             {/* // TODO:(용재) pointer-events: none; 하긴 했는데 클릭 자체가 실행 안되도록 못하도록 처리해야 함 - onClick 두고 캡쳐링을 막으면 될까.. */}
             <Styled.SelectContainer disabled={isInterviewConfirmed}>
@@ -154,7 +168,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
                   {formatDate(date, 'YYYY년 M월 D일(ddd)')}
                 </Styled.SelectWrapper>
                 <Styled.SelectMenu isDatePickerOpened={isDatePickerOpened}>
-                  <DatePicker handleSelectDate={handleSelectDate} selectedDate={dayjs(date)} />
+                  <DatePicker handleSelectDate={handleSelectDate} selectedDate={dayjs.utc(date)} />
                 </Styled.SelectMenu>
               </div>
               <Styled.SelectTimeField>
@@ -164,7 +178,9 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
                   isFullWidth
                   onChangeOption={handleChangeTimeSelect}
                   disabled={isInterviewConfirmed}
-                  defaultValue={timeOptions.find((option) => option.value === dayjs(date).format())}
+                  defaultValue={timeOptions.find(
+                    (option) => option.value === dayjs.utc(date).format(),
+                  )}
                   {...register(`interviewStartedAt`, { required: true })}
                 />
               </Styled.SelectTimeField>
@@ -225,39 +241,50 @@ const ApplicationPanel = ({
   applicationId,
   ...restProps
 }: ApplicationPanelProps) => {
+  const { handleAddToast } = useToast();
   const methods = useForm<FormValues>({
     defaultValues: {
       applicationResultStatus: resultStatus,
-      interviewStartedAt: interviewDate || dayjs().hour(8).minute(0).format(),
+      interviewStartedAt: interviewDate || dayjs.utc().hour(8).minute(0).format(),
+      isEdit: false,
     },
   });
 
   const { handleSubmit } = methods;
 
   const handleSubmitUpdateResult = useRecoilCallback(
-    ({ set }) =>
-      async (data: FormValues) => {
+    ({ refresh }) =>
+      async ({ applicationResultStatus, interviewStartedAt }: FormValues) => {
         const requestDto: ApplicationUpdateResultByIdRequest = {
-          ...data,
-          interviewEndedAt: data.interviewStartedAt,
+          applicationResultStatus,
+          interviewStartedAt,
+          interviewEndedAt: interviewStartedAt,
           applicationId,
         };
 
-        try {
-          await postUpdateResult(requestDto);
-        } catch (e) {
-          // TODO:(용재) 메시지 확정되면 추가
-          set($modalByStorage(ModalKey.alertModalDialog), {
-            key: ModalKey.alertModalDialog,
-            props: {
-              heading: '에러가 발생했습니다.',
-              paragraph: '다시 시도해주세요.',
-              cancelButtonLabel: '취소',
-              confirmButtonLabel: '닫기',
-            },
-            isOpen: true,
-          });
+        if (applicationResultStatus !== ApplicationResultStatusInDto.SCREENING_PASSED) {
+          delete requestDto.interviewStartedAt;
+          delete requestDto.interviewEndedAt;
         }
+
+        request({
+          requestFunc: async () => {
+            await api.postUpdateResult(requestDto);
+          },
+
+          errorHandler: handleAddToast,
+          onSuccess: async () => {
+            await refresh($applicationById({ applicationId }));
+
+            methods.setValue('isEdit', false);
+          },
+          onCompleted: () => {
+            handleAddToast({
+              type: ToastType.success,
+              message: '성공적으로 합격 여부가 변경되었습니다.',
+            });
+          },
+        });
       },
     [],
   );
@@ -274,7 +301,6 @@ const ApplicationPanel = ({
           <ControlArea
             confirmationStatus={confirmationStatus}
             resultStatus={resultStatus}
-            interviewDate={interviewDate}
             {...restProps}
           />
         </Styled.ApplicationStatusForm>
