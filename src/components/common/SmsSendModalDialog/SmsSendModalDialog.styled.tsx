@@ -65,6 +65,11 @@ export const StatusArea = styled.div<StyledStatusAreaProps>`
           display: flex;
           flex-direction: column;
           gap: 1.6rem;
+
+          & > div > span {
+            display: flex;
+            gap: 0.6rem;
+          }
         `}
   `}
 `;

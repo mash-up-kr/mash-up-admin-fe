@@ -124,8 +124,8 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
             key: ModalKey.smsSendModalDialog,
             props: {
               selectedList: [0, 1, 2, 3, 4],
-              confirmationStatus: 'FINAL_CONFIRM_ACCEPTED',
-              resultStatus: 'SCREENING_PASSED',
+              selectedConfirmStatuses: ['FINAL_CONFIRM_ACCEPTED'],
+              selectedResults: ['SCREENING_PASSED'],
             },
             isOpen: true,
           })

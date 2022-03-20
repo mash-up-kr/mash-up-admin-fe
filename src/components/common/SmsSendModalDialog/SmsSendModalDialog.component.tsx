@@ -25,16 +25,16 @@ interface FormValues {
 
 export interface SmsSendModalDialogProps {
   selectedList: number[];
-  resultStatus?: ApplicationResultStatusKeyType;
-  confirmationStatus?: ApplicationConfirmationStatusKeyType;
+  selectedResults?: ApplicationResultStatusKeyType[];
+  selectedConfirmStatuses?: ApplicationConfirmationStatusKeyType[];
   isSendFailed?: boolean;
   messageContent?: string;
 }
 
 const SmsSendModalDialog = ({
   selectedList,
-  resultStatus,
-  confirmationStatus,
+  selectedResults,
+  selectedConfirmStatuses,
   isSendFailed = false,
   messageContent,
 }: SmsSendModalDialogProps) => {
@@ -121,7 +121,7 @@ const SmsSendModalDialog = ({
   return (
     <ModalWrapper {...props}>
       <Styled.SmsSendModalContainer>
-        {confirmationStatus && resultStatus && (
+        {selectedConfirmStatuses && selectedResults && (
           <>
             <Styled.TitleArea>
               <TitleWithContent title="총 발송 인원">{selectedList.length}</TitleWithContent>
@@ -134,10 +134,14 @@ const SmsSendModalDialog = ({
             </Styled.TitleArea>
             <Styled.StatusArea isSendFailed={isSendFailed}>
               <TitleWithContent title="사용자 확인 여부">
-                <ApplicationStatusBadge text={ApplicationConfirmationStatus[confirmationStatus]} />
+                {selectedConfirmStatuses?.map((each) => (
+                  <ApplicationStatusBadge key={each} text={ApplicationConfirmationStatus[each]} />
+                ))}
               </TitleWithContent>
               <TitleWithContent title="합격 여부">
-                <ApplicationStatusBadge text={ApplicationResultStatus[resultStatus]} />
+                {selectedResults?.map((each) => (
+                  <ApplicationStatusBadge key={each} text={ApplicationResultStatus[each]} />
+                ))}
               </TitleWithContent>
             </Styled.StatusArea>
             <Styled.Divider />
