@@ -210,7 +210,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
             confirmationStatus === ApplicationConfirmationStatusInDto.FINAL_CONFIRM_REJECTED
           }
         >
-          {formatDate(interviewDate, 'YYYY년 M월 D일(ddd) a hh시 mm분')}
+          {formatDate(dayjs.utc(interviewDate).format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
       )}
       <Styled.ButtonContainer>
@@ -256,7 +256,7 @@ const ApplicationPanel = ({
         const requestDto: ApplicationUpdateResultByIdRequest = {
           applicationResultStatus,
           interviewStartedAt: dayjs.utc(interviewStartedAt).format(),
-          interviewEndedAt: dayjs.utc(interviewStartedAt).format(),
+          interviewEndedAt: dayjs.utc(interviewStartedAt).add(1, 's').format(),
           applicationId,
         };
 
