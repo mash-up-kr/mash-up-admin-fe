@@ -245,7 +245,7 @@ const ApplicationPanel = ({
   const methods = useForm<FormValues>({
     defaultValues: {
       applicationResultStatus: resultStatus,
-      interviewStartedAt: interviewDate || dayjs.utc().hour(8).minute(0).format(),
+      interviewStartedAt: interviewDate || dayjs.utc().add(1, 'd').hour(8).minute(0).format(),
       isEdit: false,
     },
   });
