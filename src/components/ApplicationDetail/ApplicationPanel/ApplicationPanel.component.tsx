@@ -38,9 +38,10 @@ interface FormValues {
 interface ControlAreaProps {
   confirmationStatus: ApplicationConfirmationStatusKeyType;
   resultStatus: ApplicationResultStatusKeyType;
+  interviewDate?: string;
 }
 
-const ControlArea = ({ confirmationStatus, resultStatus }: ControlAreaProps) => {
+const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: ControlAreaProps) => {
   const { setValue, getValues, watch, register } = useFormContext<FormValues>();
   const date = getValues('interviewStartedAt');
   const isEdit = watch('isEdit');
@@ -72,10 +73,10 @@ const ControlArea = ({ confirmationStatus, resultStatus }: ControlAreaProps) => 
 
   const handleSelectDate = useCallback(
     (clickedDate: Dayjs) => {
-      const currentDate = dayjs.utc(date);
+      const currentDate = dayjs(date);
       setValue(
         `interviewStartedAt`,
-        dayjs.utc(clickedDate).hour(currentDate.hour()).second(currentDate.second()).format(),
+        dayjs(clickedDate).hour(currentDate.hour()).second(currentDate.second()).format(),
       );
       setIsDatePickerOpened(false);
     },
@@ -133,7 +134,6 @@ const ControlArea = ({ confirmationStatus, resultStatus }: ControlAreaProps) => 
         const min = (cur % 6) - 1;
         const hour = Math.floor(cur / 6);
         const d = dayjs(date)
-          .utc()
           .clone()
           .hour(8 + hour)
           .minute(min * 10)
@@ -168,7 +168,7 @@ const ControlArea = ({ confirmationStatus, resultStatus }: ControlAreaProps) => 
                   {formatDate(date, 'YYYY년 M월 D일(ddd)')}
                 </Styled.SelectWrapper>
                 <Styled.SelectMenu isDatePickerOpened={isDatePickerOpened}>
-                  <DatePicker handleSelectDate={handleSelectDate} selectedDate={dayjs.utc(date)} />
+                  <DatePicker handleSelectDate={handleSelectDate} selectedDate={dayjs(date)} />
                 </Styled.SelectMenu>
               </div>
               <Styled.SelectTimeField>
@@ -178,9 +178,7 @@ const ControlArea = ({ confirmationStatus, resultStatus }: ControlAreaProps) => 
                   isFullWidth
                   onChangeOption={handleChangeTimeSelect}
                   disabled={isInterviewConfirmed}
-                  defaultValue={timeOptions.find(
-                    (option) => option.value === dayjs.utc(date).format(),
-                  )}
+                  defaultValue={timeOptions.find((option) => option.value === dayjs(date).format())}
                   {...register(`interviewStartedAt`, { required: true })}
                 />
               </Styled.SelectTimeField>
@@ -205,14 +203,14 @@ const ControlArea = ({ confirmationStatus, resultStatus }: ControlAreaProps) => 
       <TitleWithContent title="합격 여부">
         <ApplicationStatusBadge text={ApplicationResultStatus[resultStatus]} />
       </TitleWithContent>
-      {isScreeningPassed && (
+      {isScreeningPassed && interviewDate && (
         <TitleWithContent
           title="면접 일시"
           isLineThrough={
             confirmationStatus === ApplicationConfirmationStatusInDto.FINAL_CONFIRM_REJECTED
           }
         >
-          {formatDate(date, 'YYYY년 M월 D일(ddd) a hh시 mm분')}
+          {formatDate(interviewDate, 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
       )}
       <Styled.ButtonContainer>
@@ -245,7 +243,7 @@ const ApplicationPanel = ({
   const methods = useForm<FormValues>({
     defaultValues: {
       applicationResultStatus: resultStatus,
-      interviewStartedAt: interviewDate || dayjs.utc().add(1, 'd').hour(8).minute(0).format(),
+      interviewStartedAt: interviewDate || dayjs().add(1, 'd').hour(8).minute(0).format(),
       isEdit: false,
     },
   });
@@ -257,8 +255,8 @@ const ApplicationPanel = ({
       async ({ applicationResultStatus, interviewStartedAt }: FormValues) => {
         const requestDto: ApplicationUpdateResultByIdRequest = {
           applicationResultStatus,
-          interviewStartedAt,
-          interviewEndedAt: interviewStartedAt,
+          interviewStartedAt: dayjs.utc(interviewStartedAt).format(),
+          interviewEndedAt: dayjs.utc(interviewStartedAt).format(),
           applicationId,
         };
 
@@ -271,14 +269,10 @@ const ApplicationPanel = ({
           requestFunc: async () => {
             await api.postUpdateResult(requestDto);
           },
-
           errorHandler: handleAddToast,
           onSuccess: async () => {
             await refresh($applicationById({ applicationId }));
-
             methods.setValue('isEdit', false);
-          },
-          onCompleted: () => {
             handleAddToast({
               type: ToastType.success,
               message: '성공적으로 합격 여부가 변경되었습니다.',
@@ -301,6 +295,7 @@ const ApplicationPanel = ({
           <ControlArea
             confirmationStatus={confirmationStatus}
             resultStatus={resultStatus}
+            interviewDate={interviewDate}
             {...restProps}
           />
         </Styled.ApplicationStatusForm>
