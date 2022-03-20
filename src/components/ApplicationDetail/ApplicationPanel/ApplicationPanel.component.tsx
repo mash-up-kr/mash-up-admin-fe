@@ -18,7 +18,11 @@ import { SelectOption, SelectSize } from '@/components/common/Select/Select.comp
 import { useOnClickOutSide } from '@/hooks';
 import { rangeArray } from '@/utils';
 import { postUpdateResult } from '@/api';
-import { ApplicationConfirmationStatusInDto, ApplicationUpdateResultByIdRequest } from '@/types';
+import {
+  ApplicationConfirmationStatusInDto,
+  ApplicationResultStatusInDto,
+  ApplicationUpdateResultByIdRequest,
+} from '@/types';
 import { $modalByStorage, ModalKey } from '@/store';
 
 interface FormValues {
@@ -86,16 +90,21 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
 
   useOnClickOutSide(outerRef, () => setIsDatePickerOpened(false));
 
-  const applicationResultOptions = useMemo(
-    () =>
-      Object.values(ApplicationResultStatus).reduce<SelectOption[]>(
-        (acc: SelectOption[], cur: ApplicationResultStatusType, index) => {
-          return [...acc, { value: Object.keys(ApplicationResultStatus)[index], label: cur }];
-        },
-        [],
-      ),
-    [],
-  );
+  const applicationResultOptions = useMemo(() => {
+    const resultOption = Object.values(ApplicationResultStatus).reduce<SelectOption[]>(
+      (acc: SelectOption[], cur: ApplicationResultStatusType, index) => [
+        ...acc,
+        { value: Object.keys(ApplicationResultStatus)[index], label: cur },
+      ],
+      [],
+    );
+
+    if (resultStatus === ApplicationResultStatusInDto.SCREENING_PASSED) {
+      return resultOption.slice(3, 6);
+    }
+
+    return resultOption.slice(0, 4);
+  }, [resultStatus]);
 
   const timeOptions = useMemo(
     () =>
