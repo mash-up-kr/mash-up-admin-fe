@@ -15,6 +15,10 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
   const handleControlChangeResultModal = useSetRecoilState(
     $modalByStorage(ModalKey.changeResultModalDialog),
   );
+  const handleControlSmsSendDetailInfoModal = useSetRecoilState(
+    $modalByStorage(ModalKey.smsSendDetailInfoModalDialog),
+  );
+
   return (
     <div>
       <ModalViewer />
@@ -128,6 +132,16 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
         }
       >
         SMS 발송(여러명)
+      </Button>
+      <Button
+        onClick={() =>
+          handleControlSmsSendDetailInfoModal({
+            key: ModalKey.smsSendDetailInfoModalDialog,
+            isOpen: true,
+          })
+        }
+      >
+        SMS 발송 상세내역
       </Button>
     </div>
   );
