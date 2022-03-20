@@ -69,7 +69,9 @@ TwentyFivePagesCase.args = {
 };
 
 export const UsingPagination = () => {
-  const { pageOptions, handleChangePage, handleChangeSize } = usePagination(550);
+  const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
+    totalCount: 550,
+  });
 
   return (
     <Pagination

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { URLSearchParamsInit, useSearchParams } from 'react-router-dom';
 import { PageOptions, FIRST_PAGE } from '@/components/common/Pagination/Pagination.component';
 
 const DEFAULT_PAGING_SIZE = 20;
@@ -10,6 +10,12 @@ interface GetPageOptionsParams {
   pageIndex: number;
   pagingSize: number;
   pageButtonsSize: number;
+}
+
+interface UsePaginationParams {
+  totalCount: number;
+  isReplaceUrl?: boolean;
+  pageButtonsSize?: number;
 }
 
 const getPageOptions = ({
@@ -31,7 +37,11 @@ const getPageOptions = ({
   };
 };
 
-const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTONS_SIZE) => {
+const usePagination = ({
+  totalCount,
+  isReplaceUrl = false,
+  pageButtonsSize = DEFAULT_PAGE_BUTTONS_SIZE,
+}: UsePaginationParams) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageOptions, setPageOptions] = useState<PageOptions>({
     currentPage: 0,
@@ -40,6 +50,12 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
     totalPages: 0,
     pagingSize: 0,
   });
+
+  const handleSearchParams = (urlSearchParams: URLSearchParamsInit) => {
+    setSearchParams(urlSearchParams, {
+      replace: isReplaceUrl,
+    });
+  };
 
   const handleChangePage = (page: number) => {
     if (page === 0) return;
@@ -53,7 +69,7 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
     const { currentPage } = newPageOptions;
 
     searchParams.set('page', currentPage.toString());
-    setSearchParams(searchParams);
+    handleSearchParams(searchParams);
   };
 
   const handleChangeSize = (pagingSize: string) => {
@@ -73,7 +89,7 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
     }
 
     searchParams.set('size', pagingSize);
-    setSearchParams(searchParams);
+    handleSearchParams(searchParams);
   };
 
   useEffect(() => {
@@ -89,7 +105,7 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
     });
 
     if (newPageOptions.currentPage > newPageOptions.endPage) {
-      setSearchParams({
+      handleSearchParams({
         page: newPageOptions.endPage.toString(),
         size: newPageOptions.pagingSize.toString(),
       });

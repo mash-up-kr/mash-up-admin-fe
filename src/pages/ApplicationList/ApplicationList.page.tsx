@@ -153,9 +153,9 @@ const ApplicationList = () => {
     tableRows.data || [],
   );
 
-  const { pageOptions, handleChangePage, handleChangeSize } = usePagination(
-    tableRows.page?.totalCount,
-  );
+  const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
+    totalCount: tableRows.page?.totalCount,
+  });
 
   const { makeDirty, isDirty } = useDirty(1);
 
