@@ -54,7 +54,7 @@ const MessageInfo = ({
 
 export interface MessageListPanelProps {
   smsRequests: MessageInfoProps[];
-  id: string;
+  id: number;
 }
 
 const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {

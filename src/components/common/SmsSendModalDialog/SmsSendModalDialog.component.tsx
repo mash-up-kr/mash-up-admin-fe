@@ -102,7 +102,6 @@ const SmsSendModalDialog = ({
         onClick: handleSubmit(handleSendSms),
         type: 'submit',
         // TODO:(@dididy) sms 작업 완료 시 아래 라인 삭제
-        disabled: true,
       },
     },
     handleCloseModal: handleRemoveCurrentModal,
