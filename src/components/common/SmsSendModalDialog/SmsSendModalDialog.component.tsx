@@ -13,10 +13,11 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import ArrowRight from '@/assets/svg/chevron-right-16.svg';
-import { request } from '@/utils';
+import { request, uniqArray } from '@/utils';
 import { useToast } from '@/hooks';
 import { ToastType } from '../Toast/Toast.component';
 import { PATH } from '@/constants';
+import { ApplicationResponse } from '@/types';
 
 interface FormValues {
   name: string;
@@ -24,20 +25,24 @@ interface FormValues {
 }
 
 export interface SmsSendModalDialogProps {
-  selectedList: number[];
-  selectedResults?: ApplicationResultStatusKeyType[];
-  selectedConfirmStatuses?: ApplicationConfirmationStatusKeyType[];
+  selectedApplications: ApplicationResponse[];
   isSendFailed?: boolean;
   messageContent?: string;
 }
 
 const SmsSendModalDialog = ({
-  selectedList,
-  selectedResults,
-  selectedConfirmStatuses,
+  selectedApplications,
   isSendFailed = false,
   messageContent,
 }: SmsSendModalDialogProps) => {
+  const selectedIds = selectedApplications.map((application) => application.applicationId);
+  const selectedResults: ApplicationResultStatusKeyType[] = uniqArray(
+    selectedApplications.map((application) => application.result.status),
+  );
+  const selectedConfirmStatuses: ApplicationConfirmationStatusKeyType[] = uniqArray(
+    selectedApplications.map((application) => application.confirmationStatus),
+  );
+
   const { handleAddToast } = useToast();
   const navigate = useNavigate();
   const setSmsSendDetailListModal = useSetRecoilState(
@@ -47,6 +52,9 @@ const SmsSendModalDialog = ({
   const handleOpenSmsSendDetailListModalDialog = () => {
     setSmsSendDetailListModal({
       key: ModalKey.smsSendDetailListModalDialog,
+      props: {
+        selectedApplications,
+      },
       isOpen: true,
     });
   };
@@ -77,7 +85,7 @@ const SmsSendModalDialog = ({
         handleClickConfirmButton: () => {
           request({
             requestFunc: async () => {
-              await api.postSmsSend({ applicantIds: selectedList, content, name });
+              await api.postSmsSend({ applicantIds: selectedIds, content, name });
             },
 
             errorHandler: handleAddToast,
@@ -124,7 +132,7 @@ const SmsSendModalDialog = ({
         {selectedConfirmStatuses && selectedResults && (
           <>
             <Styled.TitleArea>
-              <TitleWithContent title="총 발송 인원">{selectedList.length}</TitleWithContent>
+              <TitleWithContent title="총 발송 인원">{selectedIds.length}</TitleWithContent>
               {!isSendFailed && (
                 <button type="button" onClick={handleOpenSmsSendDetailListModalDialog}>
                   발송 인원 상세보기

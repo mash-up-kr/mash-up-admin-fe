@@ -234,13 +234,7 @@ const ApplicationList = () => {
                 handleSMSModal({
                   key: ModalKey.smsSendModalDialog,
                   props: {
-                    selectedList: selectedRows.map((row) => row.applicationId),
-                    selectedResults: uniqArray(
-                      selectedRows.map((row) => row.result.status),
-                    ) as ApplicationResultStatusKeyType[],
-                    selectedConfirmStatuses: uniqArray(
-                      selectedRows.map((row) => row.confirmationStatus),
-                    ) as ApplicationConfirmationStatusKeyType[],
+                    selectedApplications: selectedRows,
                   },
                   isOpen: true,
                 })
