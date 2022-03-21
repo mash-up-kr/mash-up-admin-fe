@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useRecoilCallback, useRecoilValue } from 'recoil';
+import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { InputField, ModalWrapper, TitleWithContent, Textarea } from '@/components';
@@ -41,6 +41,16 @@ const SmsSendModalDialog = ({
   const { handleAddToast } = useToast();
   const navigate = useNavigate();
   const { adminMember } = useRecoilValue($me);
+  const setSmsSendDetailListModal = useSetRecoilState(
+    $modalByStorage(ModalKey.smsSendDetailListModalDialog),
+  );
+
+  const handleOpenSmsSendDetailListModalDialog = () => {
+    setSmsSendDetailListModal({
+      key: ModalKey.smsSendDetailListModalDialog,
+      isOpen: true,
+    });
+  };
 
   const handleRemoveCurrentModal = useRecoilCallback(({ set }) => () => {
     set($modalByStorage(ModalKey.smsSendModalDialog), {
@@ -115,9 +125,8 @@ const SmsSendModalDialog = ({
           <>
             <Styled.TitleArea>
               <TitleWithContent title="총 발송 인원">{selectedList.length}</TitleWithContent>
-              {/* // TODO:(용재) 발송 인원 상세 리스트 모달 구현시 여는 로직 추가 */}
               {!isSendFailed && (
-                <button type="button">
+                <button type="button" onClick={handleOpenSmsSendDetailListModalDialog}>
                   발송 인원 상세보기
                   <ArrowRight />
                 </button>
