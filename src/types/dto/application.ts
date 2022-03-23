@@ -56,6 +56,7 @@ export interface ApplicationResponse {
   team: Team;
   createdAt: string;
   updatedAt: string;
+  submittedAt: string;
 }
 
 export const ApplicantStatus = {
