@@ -11,7 +11,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useRecoilStateLoadable, useRecoilValue, useSetRecoilState } from 'recoil';
 import * as api from '@/api';
 import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
-import { formatDate } from '@/utils';
+import { formatDate, uniqArray } from '@/utils';
 import { PATH, SORT_TYPE } from '@/constants';
 import { $applications, $teamIdByName, ModalKey, $modalByStorage } from '@/store';
 import { useDirty, usePagination } from '@/hooks';
@@ -237,7 +237,9 @@ const ApplicationList = () => {
                   key: ModalKey.changeResultModalDialog,
                   props: {
                     selectedList: selectedRows.map((row) => row.applicationId),
-                    selectedResults: [...new Set(selectedRows.map((row) => row.result.status))],
+                    selectedResults: uniqArray(
+                      selectedRows.map((row) => row.result.status),
+                    ) as ApplicationResultStatusKeyType[],
                   },
                   isOpen: true,
                 })
