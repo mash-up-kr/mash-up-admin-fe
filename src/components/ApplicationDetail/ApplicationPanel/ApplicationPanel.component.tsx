@@ -210,7 +210,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
             confirmationStatus === ApplicationConfirmationStatusInDto.FINAL_CONFIRM_REJECTED
           }
         >
-          {formatDate(dayjs.utc(interviewDate).format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
+          {formatDate(dayjs(interviewDate).format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
       )}
       <Styled.ButtonContainer>
@@ -244,7 +244,7 @@ const ApplicationPanel = ({
     defaultValues: {
       applicationResultStatus: resultStatus,
       interviewStartedAt: interviewDate
-        ? dayjs.utc(interviewDate).format()
+        ? dayjs(interviewDate).format()
         : dayjs().add(1, 'd').hour(8).minute(0).format(),
       isEdit: false,
     },
@@ -257,8 +257,12 @@ const ApplicationPanel = ({
       async ({ applicationResultStatus, interviewStartedAt }: FormValues) => {
         const requestDto: ApplicationUpdateResultByIdRequest = {
           applicationResultStatus,
-          interviewStartedAt: dayjs.utc(interviewStartedAt).format(),
-          interviewEndedAt: dayjs.utc(interviewStartedAt).add(1, 's').format(),
+          interviewStartedAt: dayjs(interviewStartedAt).utc(true).format().replace('Z', ''),
+          interviewEndedAt: dayjs(interviewStartedAt)
+            .utc(true)
+            .add(1, 's')
+            .format()
+            .replace('Z', ''),
           applicationId,
         };
 
