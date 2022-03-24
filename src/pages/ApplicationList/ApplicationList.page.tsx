@@ -8,12 +8,12 @@ import React, {
   FormEvent,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
+import { useRecoilStateLoadable, useRecoilValue, useSetRecoilState } from 'recoil';
 import * as api from '@/api';
 import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
-import { formatDate } from '@/utils';
+import { formatDate, uniqArray } from '@/utils';
 import { PATH, SORT_TYPE } from '@/constants';
-import { $applications, $teamIdByName } from '@/store';
+import { $applications, $teamIdByName, ModalKey, $modalByStorage } from '@/store';
 import { useDirty, usePagination } from '@/hooks';
 import { ApplicationRequest, ApplicationResponse } from '@/types';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
@@ -93,6 +93,8 @@ const columns: TableColumn<ApplicationResponse>[] = [
 ];
 
 const ApplicationList = () => {
+  const handleControlModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
+
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
@@ -224,15 +226,30 @@ const ApplicationList = () => {
           totalSummaryText: '총 지원인원',
           selectedSummaryText: '명 선택',
           buttons: [
-            <Button $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
+            <Styled.DisabledButton $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
               SMS 발송
-            </Button>,
-            <Button $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
+            </Styled.DisabledButton>,
+            <Button
+              $size={ButtonSize.xs}
+              shape={ButtonShape.defaultLine}
+              onClick={() =>
+                handleControlModal({
+                  key: ModalKey.changeResultModalDialog,
+                  props: {
+                    selectedList: selectedRows.map((row) => row.applicationId),
+                    selectedResults: uniqArray(
+                      selectedRows.map((row) => row.result.status),
+                    ) as ApplicationResultStatusKeyType[],
+                  },
+                  isOpen: true,
+                })
+              }
+            >
               합격 여부 변경
             </Button>,
-            <Button $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
+            <Styled.DisabledButton $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
               Export to Google Sheets
-            </Button>,
+            </Styled.DisabledButton>,
           ],
         }}
         selectableRow={{
