@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { useRecoilCallback, useSetRecoilState } from 'recoil';
+import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { InputField, ModalWrapper, TitleWithContent, Textarea } from '@/components';
 import * as Styled from './SmsSendModalDialog.styled';
 import * as api from '@/api';
-import { $modalByStorage, ModalKey } from '@/store';
+import { $me, $modalByStorage, ModalKey } from '@/store';
 import ApplicationStatusBadge, {
   ApplicationConfirmationStatus,
   ApplicationConfirmationStatusKeyType,
@@ -45,6 +45,7 @@ const SmsSendModalDialog = ({
 
   const { handleAddToast } = useToast();
   const navigate = useNavigate();
+  const { adminMember } = useRecoilValue($me);
   const setSmsSendDetailListModal = useSetRecoilState(
     $modalByStorage(ModalKey.smsSendDetailListModalDialog),
   );
@@ -120,7 +121,6 @@ const SmsSendModalDialog = ({
         onClick: handleSubmit(handleSendSms),
         type: 'submit',
         // TODO:(@dididy) sms 작업 완료 시 아래 라인 삭제
-        disabled: true,
       },
     },
     handleCloseModal: handleRemoveCurrentModal,
@@ -140,6 +140,11 @@ const SmsSendModalDialog = ({
                 </button>
               )}
             </Styled.TitleArea>
+            {!isSendFailed && (
+              <Styled.TitleArea>
+                <TitleWithContent title="발송번호">{adminMember.phoneNumber}</TitleWithContent>
+              </Styled.TitleArea>
+            )}
             <Styled.StatusArea isSendFailed={isSendFailed}>
               <TitleWithContent title="사용자 확인 여부">
                 {selectedConfirmStatuses?.map((each) => (

@@ -24,6 +24,7 @@ export type MemberPositionType = ValueOf<typeof MemberPosition>;
 
 interface Member {
   adminMemberId: number;
+  phoneNumber: string;
   position?: MemberPositionType;
   username: string;
 }

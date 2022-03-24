@@ -56,6 +56,7 @@ export interface ApplicationResponse {
   team: Team;
   createdAt: string;
   updatedAt: string;
+  submittedAt: string;
 }
 
 export const ApplicantStatus = {
@@ -78,7 +79,7 @@ export interface ApplicationByIdRequest {
 export interface ApplicationUpdateResultByIdRequest extends ApplicationByIdRequest {
   applicationResultStatus: ApplicationResultStatusInDtoType;
   interviewEndedAt?: string;
-  interviewStartedAt: string;
+  interviewStartedAt?: string;
 }
 
 export interface ApplicationUpdateMultipleResultRequest {
