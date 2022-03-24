@@ -54,7 +54,7 @@ const columns: TableColumn<ApplicationResponse>[] = [
   },
   {
     title: '지원일시',
-    accessor: 'updatedAt',
+    accessor: 'submittedAt',
     widthRatio: '21%',
     renderCustomCell: (cellValue) =>
       cellValue ? formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분') : '-',
@@ -111,7 +111,7 @@ const ApplicationList = () => {
 
   const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
     { accessor: 'applicant.name', type: SORT_TYPE.DEFAULT },
-    { accessor: 'updatedAt', type: SORT_TYPE.DEFAULT },
+    { accessor: 'submittedAt', type: SORT_TYPE.DEFAULT },
     { accessor: 'result.interviewStartedAt', type: SORT_TYPE.DEFAULT },
   ]);
   const sortParam = useMemo(() => {
