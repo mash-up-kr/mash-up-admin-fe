@@ -8,6 +8,8 @@ import {
   ApplicationUpdateMultipleResultRequest,
   ApplicationRequest,
   ApplicationResponse,
+  ApplicationResultStatusInDto,
+  ApplicationConfirmationStatusInDto,
 } from '@/types';
 
 export const getApplicationById = ({
@@ -25,13 +27,29 @@ export const getApplications = (
     params,
   });
 
-export const postUpdateResult = ({
+export const postUpdateResult = async ({
   applicationId,
   applicationResultStatus,
   interviewEndedAt,
   interviewStartedAt,
-}: ApplicationUpdateResultByIdRequest): Promise<BaseResponse<MeResponse>> =>
-  http.post({
+}: ApplicationUpdateResultByIdRequest): Promise<BaseResponse<MeResponse>> => {
+  const STATUS = {
+    [ApplicationResultStatusInDto.SCREENING_PASSED]:
+      ApplicationConfirmationStatusInDto.INTERVIEW_CONFIRM_WAITING,
+    [ApplicationResultStatusInDto.INTERVIEW_PASSED]:
+      ApplicationConfirmationStatusInDto.FINAL_CONFIRM_WAITING,
+  }[applicationResultStatus as string];
+
+  if (STATUS) {
+    await http.post({
+      url: `${process.env.BASE_URL_RECRUIT}/api/vi/applications/${applicationId}/confirm`,
+      data: {
+        status: STATUS,
+      },
+    });
+  }
+
+  return http.post({
     url: `/applications/${applicationId}/update-result`,
     data: {
       applicationResultStatus,
@@ -39,6 +57,7 @@ export const postUpdateResult = ({
       interviewStartedAt,
     },
   });
+};
 
 export const postUpdateMultipleResult = ({
   applicationIds,
