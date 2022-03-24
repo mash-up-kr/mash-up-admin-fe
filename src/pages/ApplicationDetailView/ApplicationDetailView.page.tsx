@@ -50,7 +50,7 @@ const ApplicationDetailView = () => {
               </div>
               <div>
                 <TitleWithContent title="지원일시">
-                  {formatDate(data.applicant.updatedAt, 'YYYY년 M월 D일(ddd)')}
+                  {formatDate(data.submittedAt, 'YYYY년 M월 D일(ddd)')}
                 </TitleWithContent>
               </div>
             </section>
@@ -71,7 +71,7 @@ const ApplicationDetailView = () => {
             interviewDate={data.result.interviewStartedAt}
             applicationId={id as string}
           />
-          <MessageListPanel smsRequests={data.smsRequests} id={id as string} />
+          <MessageListPanel smsRequests={data.smsRequests} id={data.applicant.applicantId} />
         </Styled.Aside>
       </div>
     </Styled.ApplicationDetailViewPage>

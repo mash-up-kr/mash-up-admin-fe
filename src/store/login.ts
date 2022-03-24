@@ -9,6 +9,7 @@ export const $me = atom<LoginResponse>({
     accessToken: '',
     adminMember: {
       adminMemberId: 0,
+      phoneNumber: '',
       username: '',
     },
   },

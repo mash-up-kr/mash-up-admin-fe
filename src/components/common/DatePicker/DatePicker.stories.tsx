@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import DatePicker, { DatePickerProps } from './DatePicker.component';
 
 export default {
@@ -9,7 +9,7 @@ export default {
 } as ComponentMeta<typeof DatePicker>;
 
 const Template: ComponentStory<typeof DatePicker> = (args: DatePickerProps) => {
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
   const handleSelectDate = (clickedDate: Dayjs) => {
     setSelectedDate(clickedDate);
   };

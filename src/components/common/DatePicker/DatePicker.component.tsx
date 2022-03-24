@@ -71,7 +71,10 @@ const DayCell = ({
     ...resetProps,
     disabled: isDisabled,
     today: date.isSame(today, 'day'),
-    selected: date.isSame(selectedDate),
+    selected:
+      date.isSame(selectedDate, 'year') &&
+      date.isSame(selectedDate, 'month') &&
+      date.isSame(selectedDate, 'date'),
   };
 
   return <Styled.DatePickerTd {...props}>{date.format('D')}</Styled.DatePickerTd>;
@@ -79,11 +82,12 @@ const DayCell = ({
 
 export interface DatePickerProps {
   handleSelectDate: (clickedDate: Dayjs) => void;
-  selectedDate: Dayjs | null;
+  selectedDate: Dayjs;
 }
 
 const DatePicker = ({ handleSelectDate, selectedDate }: DatePickerProps) => {
-  const [date, setDate] = useState<Dayjs>(selectedDate || dayjs());
+  const [date, setDate] = useState<Dayjs>(selectedDate);
+
   const rows = handleGenerateDateRows(date);
 
   const handleChangeMonth = (by: 'next' | 'prev') => {

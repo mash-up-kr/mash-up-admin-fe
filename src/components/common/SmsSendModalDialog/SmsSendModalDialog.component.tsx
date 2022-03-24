@@ -1,12 +1,11 @@
-// TODO:(용재) 추후 SMS 관련 로직 성공 후 주석 제거
-import React from 'react';
-import { useRecoilCallback } from 'recoil';
+import React, { useEffect } from 'react';
+import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useForm } from 'react-hook-form';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { InputField, ModalWrapper, TitleWithContent, Textarea } from '@/components';
 import * as Styled from './SmsSendModalDialog.styled';
-// import * as api from '@/api';
-import { $modalByStorage, ModalKey } from '@/store';
+import * as api from '@/api';
+import { $me, $modalByStorage, ModalKey } from '@/store';
 import ApplicationStatusBadge, {
   ApplicationConfirmationStatus,
   ApplicationConfirmationStatusKeyType,
@@ -14,10 +13,10 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import ArrowRight from '@/assets/svg/chevron-right-16.svg';
-// import { request } from '@/utils';
-// import { useToast } from '@/hooks';
-// import { ToastType } from '../Toast/Toast.component';
-// import { PATH } from '@/constants';
+import { request } from '@/utils';
+import { useToast } from '@/hooks';
+import { ToastType } from '../Toast/Toast.component';
+import { PATH } from '@/constants';
 
 interface FormValues {
   name: string;
@@ -28,15 +27,30 @@ export interface SmsSendModalDialogProps {
   selectedList: number[];
   resultStatus?: ApplicationResultStatusKeyType;
   confirmationStatus?: ApplicationConfirmationStatusKeyType;
+  isSendFailed?: boolean;
+  messageContent?: string;
 }
 
 const SmsSendModalDialog = ({
   selectedList,
   resultStatus,
   confirmationStatus,
+  isSendFailed = false,
+  messageContent,
 }: SmsSendModalDialogProps) => {
-  // const { handleAddToast } = useToast();
-  // const navigate = useNavigate();
+  const { handleAddToast } = useToast();
+  const navigate = useNavigate();
+  const { adminMember } = useRecoilValue($me);
+  const setSmsSendDetailListModal = useSetRecoilState(
+    $modalByStorage(ModalKey.smsSendDetailListModalDialog),
+  );
+
+  const handleOpenSmsSendDetailListModalDialog = () => {
+    setSmsSendDetailListModal({
+      key: ModalKey.smsSendDetailListModalDialog,
+      isOpen: true,
+    });
+  };
 
   const handleRemoveCurrentModal = useRecoilCallback(({ set }) => () => {
     set($modalByStorage(ModalKey.smsSendModalDialog), {
@@ -45,55 +59,61 @@ const SmsSendModalDialog = ({
     });
   });
 
-  const { register } = useForm<FormValues>();
-  // const { handleSubmit, register } = useForm<FormValues>();
+  const { setValue, handleSubmit, register } = useForm<FormValues>();
 
-  // const handleSendSms = useRecoilCallback(({ set }) => ({ content, name }: FormValues) => {
-  //   set($modalByStorage(ModalKey.alertModalDialog), {
-  //     key: ModalKey.alertModalDialog,
-  //     isOpen: true,
-  //     props: {
-  //       heading: '발송하시겠습니까?',
-  //       paragraph: 'SMS 발송내역에서 확인하실 수 있습니다.',
-  //       confirmButtonLabel: '발송',
-  //       handleClickConfirmButton: () => {
-  //         request({
-  //           requestFunc: async () => {
-  //             await api.postSmsSend({ applicantIds: selectedList, content, name });
-  //           },
+  useEffect(() => {
+    if (isSendFailed && messageContent) {
+      setValue('content', messageContent);
+    }
+  }, [isSendFailed, messageContent, setValue]);
 
-  //           errorHandler: handleAddToast,
-  //           onSuccess: () => {
-  //             handleRemoveCurrentModal();
-  //             handleAddToast({
-  //               type: ToastType.success,
-  //               message: 'SMS 발송 완료',
-  //             });
-  //             navigate(PATH.SMS);
-  //           },
-  //           onCompleted: () => {
-  //             set($modalByStorage(ModalKey.alertModalDialog), {
-  //               key: ModalKey.alertModalDialog,
-  //               isOpen: false,
-  //             });
-  //           },
-  //         });
-  //       },
-  //     },
-  //   });
-  // });
+  const handleSendSms = useRecoilCallback(({ set }) => ({ content, name }: FormValues) => {
+    set($modalByStorage(ModalKey.alertModalDialog), {
+      key: ModalKey.alertModalDialog,
+      isOpen: true,
+      props: {
+        heading: '발송하시겠습니까?',
+        paragraph: 'SMS 발송내역에서 확인하실 수 있습니다.',
+        confirmButtonLabel: '발송',
+        handleClickConfirmButton: () => {
+          request({
+            requestFunc: async () => {
+              await api.postSmsSend({ applicantIds: selectedList, content, name });
+            },
+
+            errorHandler: handleAddToast,
+            onSuccess: () => {
+              handleRemoveCurrentModal();
+              handleAddToast({
+                type: ToastType.success,
+                message: 'SMS 발송 완료',
+              });
+              navigate(PATH.SMS);
+            },
+            onCompleted: () => {
+              set($modalByStorage(ModalKey.alertModalDialog), {
+                key: ModalKey.alertModalDialog,
+                isOpen: false,
+              });
+            },
+          });
+        },
+      },
+    });
+  });
 
   const props = {
-    heading: 'SMS 발송',
+    heading: isSendFailed ? '실패인원 SMS 재발송' : 'SMS 발송',
     footer: {
       cancelButton: {
         label: '취소',
       },
-      // confirmButton: {
-      //   label: '발송',
-      //   onClick: handleSubmit(handleSendSms),
-      //   type: 'submit',
-      // },
+      confirmButton: {
+        label: '발송',
+        onClick: handleSubmit(handleSendSms),
+        type: 'submit',
+        // TODO:(@dididy) sms 작업 완료 시 아래 라인 삭제
+      },
     },
     handleCloseModal: handleRemoveCurrentModal,
   };
@@ -105,18 +125,26 @@ const SmsSendModalDialog = ({
           <>
             <Styled.TitleArea>
               <TitleWithContent title="총 발송 인원">{selectedList.length}</TitleWithContent>
-              {/* // TODO:(용재) 발송 인원 상세 리스트 모달 구현시 여는 로직 추가 */}
-              <button type="button">
-                발송 인원 상세보기
-                <ArrowRight />
-              </button>
+              {!isSendFailed && (
+                <button type="button" onClick={handleOpenSmsSendDetailListModalDialog}>
+                  발송 인원 상세보기
+                  <ArrowRight />
+                </button>
+              )}
             </Styled.TitleArea>
-            <TitleWithContent title="사용자 확인 여부">
-              <ApplicationStatusBadge text={ApplicationConfirmationStatus[confirmationStatus]} />
-            </TitleWithContent>
-            <TitleWithContent title="합격 여부">
-              <ApplicationStatusBadge text={ApplicationResultStatus[resultStatus]} />
-            </TitleWithContent>
+            {!isSendFailed && (
+              <Styled.TitleArea>
+                <TitleWithContent title="발송번호">{adminMember.phoneNumber}</TitleWithContent>
+              </Styled.TitleArea>
+            )}
+            <Styled.StatusArea isSendFailed={isSendFailed}>
+              <TitleWithContent title="사용자 확인 여부">
+                <ApplicationStatusBadge text={ApplicationConfirmationStatus[confirmationStatus]} />
+              </TitleWithContent>
+              <TitleWithContent title="합격 여부">
+                <ApplicationStatusBadge text={ApplicationResultStatus[resultStatus]} />
+              </TitleWithContent>
+            </Styled.StatusArea>
             <Styled.Divider />
           </>
         )}
@@ -133,6 +161,7 @@ const SmsSendModalDialog = ({
           label="발송메세지"
           placeholder="내용을 입력해주세요"
           {...register('content', { required: true })}
+          disabled={isSendFailed}
         />
       </Styled.SmsSendModalContainer>
     </ModalWrapper>

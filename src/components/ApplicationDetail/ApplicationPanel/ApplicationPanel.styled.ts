@@ -67,6 +67,7 @@ export const SelectWrapper = styled.div<StyledSelectWrapperProps>`
     justify-content: space-between;
     height: 4.8rem;
     padding: 0.8rem 1.2rem;
+    font-weight: 400;
     background-color: ${theme.colors.white};
     border: 0.1rem solid ${theme.colors.gray30};
     border-color: ${isDatePickerOpened ? theme.colors.purple70 : theme.colors.gray30};
@@ -97,6 +98,10 @@ export const SelectTimeField = styled.div`
   ul {
     height: 26.8rem;
     overflow-y: auto;
+  }
+
+  & div {
+    opacity: 1;
   }
 `;
 
