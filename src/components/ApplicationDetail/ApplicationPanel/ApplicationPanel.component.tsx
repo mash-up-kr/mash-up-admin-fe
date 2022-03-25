@@ -210,7 +210,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
             confirmationStatus === ApplicationConfirmationStatusInDto.FINAL_CONFIRM_REJECTED
           }
         >
-          {formatDate(dayjs(interviewDate).format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
+          {formatDate(interviewDate, 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
       )}
       <Styled.ButtonContainer>
