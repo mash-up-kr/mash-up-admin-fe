@@ -14,7 +14,7 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
   ApplicationResultStatusType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { formatDate } from '@/utils/date';
+import { toUtcWithoutChangingTime, formatDate } from '@/utils/date';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import { useOnClickOutSide, useToast } from '@/hooks';
 import { rangeArray, request } from '@/utils';
@@ -210,7 +210,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
             confirmationStatus === ApplicationConfirmationStatusInDto.FINAL_CONFIRM_REJECTED
           }
         >
-          {formatDate(dayjs.utc(interviewDate).format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
+          {formatDate(interviewDate, 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
       )}
       <Styled.ButtonContainer>
@@ -244,7 +244,7 @@ const ApplicationPanel = ({
     defaultValues: {
       applicationResultStatus: resultStatus,
       interviewStartedAt: interviewDate
-        ? dayjs.utc(interviewDate).format()
+        ? dayjs(interviewDate).format()
         : dayjs().add(1, 'd').hour(8).minute(0).format(),
       isEdit: false,
     },
@@ -257,8 +257,10 @@ const ApplicationPanel = ({
       async ({ applicationResultStatus, interviewStartedAt }: FormValues) => {
         const requestDto: ApplicationUpdateResultByIdRequest = {
           applicationResultStatus,
-          interviewStartedAt: dayjs.utc(interviewStartedAt).format(),
-          interviewEndedAt: dayjs.utc(interviewStartedAt).add(1, 's').format(),
+          interviewStartedAt: toUtcWithoutChangingTime(interviewStartedAt),
+          interviewEndedAt: toUtcWithoutChangingTime(
+            dayjs(interviewStartedAt).add(1, 's').format(),
+          ),
           applicationId,
         };
 
