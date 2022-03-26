@@ -5,6 +5,36 @@ import ModalViewer from './ModalViewer.component';
 import { Button, Toast } from '@/components';
 import { $modalByStorage, $toast, ModalKey } from '@/store';
 
+const mockApplication = {
+  applicant: {
+    applicantId: 0,
+    createdAt: '2022-02-19T10:06:37.439Z',
+    email: 'string',
+    name: 'string',
+    phoneNumber: 'string',
+    status: 'ACTIVE',
+    updatedAt: '2022-02-19T10:06:37.439Z',
+  },
+  applicationId: 0,
+  confirmationStatus: 'FINAL_CONFIRM_ACCEPTED',
+  createdAt: '2022-02-19T10:06:37.439Z',
+  result: {
+    interviewEndedAt: '2022-02-19T10:06:37.439Z',
+    interviewStartedAt: '2022-02-19T10:06:37.439Z',
+    status: 'INTERVIEW_FAILED',
+  },
+  team: {
+    createdAt: '2022-02-19T10:06:37.439Z',
+    createdBy: 'string',
+    name: 'string',
+    teamId: 0,
+    updatedAt: '2022-02-19T10:06:37.439Z',
+    updatedBy: 'string',
+  },
+  updatedAt: '2022-02-19T10:06:37.439Z',
+  submittedAt: '2022-02-19T10:06:37.439Z',
+};
+
 export default {
   title: 'Modal Viewer',
 } as ComponentMeta<typeof ModalViewer>;
@@ -96,8 +126,7 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
           handleControlChangeResultModal({
             key: ModalKey.changeResultModalDialog,
             props: {
-              selectedList: [0, 1, 2, 3, 4],
-              selectedResults: ['SCREENING_PASSED', 'SCREENING_FAILED'],
+              selectedApplications: [mockApplication],
             },
             isOpen: true,
           })
@@ -110,7 +139,7 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
           handleControlSmsSendModal({
             key: ModalKey.smsSendModalDialog,
             props: {
-              selectedList: [0],
+              selectedApplications: [mockApplication],
             },
             isOpen: true,
           })
@@ -123,9 +152,7 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
           handleControlSmsSendModal({
             key: ModalKey.smsSendModalDialog,
             props: {
-              selectedList: [0, 1, 2, 3, 4],
-              selectedConfirmStatuses: ['FINAL_CONFIRM_ACCEPTED'],
-              selectedResults: ['SCREENING_PASSED'],
+              selectedApplications: [mockApplication],
             },
             isOpen: true,
           })

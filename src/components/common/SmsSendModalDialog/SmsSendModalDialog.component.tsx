@@ -28,20 +28,22 @@ export interface SmsSendModalDialogProps {
   selectedApplications: ApplicationResponse[];
   isSendFailed?: boolean;
   messageContent?: string;
+  showSummary?: boolean;
 }
 
 const SmsSendModalDialog = ({
   selectedApplications,
   isSendFailed = false,
   messageContent,
+  showSummary = false,
 }: SmsSendModalDialogProps) => {
-  const selectedIds = selectedApplications.map((application) => application.applicationId);
-  const selectedResults: ApplicationResultStatusKeyType[] = uniqArray(
+  const selectedIds = selectedApplications.map((application) => application.applicant.applicantId);
+  const selectedResults = uniqArray(
     selectedApplications.map((application) => application.result.status),
-  );
-  const selectedConfirmStatuses: ApplicationConfirmationStatusKeyType[] = uniqArray(
+  ) as ApplicationResultStatusKeyType[];
+  const selectedConfirmStatuses = uniqArray(
     selectedApplications.map((application) => application.confirmationStatus),
-  );
+  ) as ApplicationConfirmationStatusKeyType[];
 
   const { handleAddToast } = useToast();
   const navigate = useNavigate();
@@ -120,7 +122,6 @@ const SmsSendModalDialog = ({
         label: '발송',
         onClick: handleSubmit(handleSendSms),
         type: 'submit',
-        // TODO:(@dididy) sms 작업 완료 시 아래 라인 삭제
       },
     },
     handleCloseModal: handleRemoveCurrentModal,
@@ -129,7 +130,7 @@ const SmsSendModalDialog = ({
   return (
     <ModalWrapper {...props}>
       <Styled.SmsSendModalContainer>
-        {selectedConfirmStatuses && selectedResults && (
+        {showSummary && (
           <>
             <Styled.TitleArea>
               <TitleWithContent title="총 발송 인원">{selectedIds.length}</TitleWithContent>
