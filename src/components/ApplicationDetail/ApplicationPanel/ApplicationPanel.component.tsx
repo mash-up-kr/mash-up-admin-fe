@@ -14,7 +14,7 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
   ApplicationResultStatusType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { convertToUtc, formatDate } from '@/utils/date';
+import { toUtcWithoutChangingTime, formatDate } from '@/utils/date';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import { useOnClickOutSide, useToast } from '@/hooks';
 import { rangeArray, request } from '@/utils';
@@ -257,8 +257,10 @@ const ApplicationPanel = ({
       async ({ applicationResultStatus, interviewStartedAt }: FormValues) => {
         const requestDto: ApplicationUpdateResultByIdRequest = {
           applicationResultStatus,
-          interviewStartedAt: convertToUtc(interviewStartedAt),
-          interviewEndedAt: convertToUtc(dayjs(interviewStartedAt).add(1, 's').format()),
+          interviewStartedAt: toUtcWithoutChangingTime(interviewStartedAt),
+          interviewEndedAt: toUtcWithoutChangingTime(
+            dayjs(interviewStartedAt).add(1, 's').format(),
+          ),
           applicationId,
         };
 
