@@ -8,7 +8,12 @@ import React, {
   FormEvent,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useRecoilStateLoadable, useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  useRecoilRefresher_UNSTABLE,
+  useRecoilStateLoadable,
+  useRecoilValue,
+  useSetRecoilState,
+} from 'recoil';
 import * as api from '@/api';
 import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
 import { formatDate, uniqArray } from '@/utils';
@@ -146,6 +151,7 @@ const ApplicationList = () => {
 
   const [totalCount, setTotalCount] = useState(0);
   const [{ state, contents: tableRows }] = useRecoilStateLoadable($applications(applicationParams));
+  const refreshApplications = useRecoilRefresher_UNSTABLE($applications(applicationParams));
   const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
 
   const isLoading = state === 'loading';
@@ -253,6 +259,10 @@ const ApplicationList = () => {
                     selectedResults: uniqArray(
                       selectedRows.map((row) => row.result.status),
                     ) as ApplicationResultStatusKeyType[],
+                    refreshList: () => {
+                      refreshApplications();
+                      setSelectedRows([]);
+                    },
                   },
                   isOpen: true,
                 })
@@ -281,10 +291,11 @@ const ApplicationList = () => {
         pagination={
           <Pagination
             pageOptions={pageOptions}
-            selectableSize
-            selectBoxPosition={loadedTableRows.length > 3 ? 'top' : 'bottom'}
+            selectableSize={{
+              selectBoxPosition: loadedTableRows.length > 3 ? 'top' : 'bottom',
+              handleChangeSize,
+            }}
             handleChangePage={handleChangePage}
-            handleChangeSize={handleChangeSize}
           />
         }
       />
