@@ -241,6 +241,7 @@ const ApplicationList = () => {
                   key: ModalKey.smsSendModalDialog,
                   props: {
                     selectedApplications: selectedRows,
+                    showSummary: true,
                   },
                   isOpen: true,
                 })

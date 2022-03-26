@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useRecoilCallback } from 'recoil';
 import { ModalWrapper, Pagination, Table } from '@/components';
 import { $modalByStorage, ModalKey } from '@/store';
 import { SORT_TYPE } from '@/constants';
 import { usePagination } from '@/hooks';
+import { SortType, TableColumn } from '@/components/common/Table/Table.component';
+import { ApplicationResponse } from '@/types';
 import * as Styled from './SmsSendDetailListModalDialog.styled';
+import { getOwnValueByKey } from '@/utils';
+import { sortString } from '../../../utils/string';
 
 const columns: TableColumn<ApplicationResponse>[] = [
   {
@@ -32,6 +36,25 @@ export interface SmsSendDetailListModalDialogProps {
 const SmsSendDetailListModalDialog = ({
   selectedApplications,
 }: SmsSendDetailListModalDialogProps) => {
+  const { pageOptions, handleChangePage } = usePagination({
+    totalCount: selectedApplications.length,
+    pagingSize: 10,
+    pageButtonsSize: 7,
+    usingSearchParams: false,
+  });
+
+  const [tableRows, setTableRows] = useState(selectedApplications);
+  const pagedRows = useMemo(() => {
+    const startIndex = 10 * (pageOptions.currentPage - 1);
+    const endIndex = startIndex + 10;
+    return tableRows.slice(startIndex, endIndex);
+  }, [tableRows, pageOptions]);
+
+  const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
+    { accessor: 'applicant.name', type: SORT_TYPE.DEFAULT },
+    { accessor: 'team.name', type: SORT_TYPE.DEFAULT },
+  ]);
+
   const handleRemoveCurrentModal = useRecoilCallback(({ set }) => () => {
     set($modalByStorage(ModalKey.smsSendDetailListModalDialog), {
       key: ModalKey.smsSendDetailListModalDialog,
@@ -50,27 +73,13 @@ const SmsSendDetailListModalDialog = ({
     isContentScroll: false,
   };
 
-  const { pageOptions, handleChangePage } = usePagination({
-    totalCount: 80, // selectedApplications.length,
-    pagingSize: 10,
-    pageButtonsSize: 7,
-    usingSearchParams: false,
-  });
-
-  const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
-    { accessor: 'applicant.name', type: SORT_TYPE.DEFAULT },
-    { accessor: 'team.name', type: SORT_TYPE.DEFAULT },
-  ]);
-
   return (
     <ModalWrapper {...modalProps}>
       <Styled.TableWrapper>
-        <Table
+        <Table<ApplicationResponse>
           prefix="application-sms"
-          width={60}
-          maxHeight={57}
           columns={columns}
-          rows={selectedApplications}
+          rows={pagedRows}
           supportBar={{
             totalCount: selectedApplications.length,
             totalSummaryText: '총 발송인원',
@@ -79,6 +88,23 @@ const SmsSendDetailListModalDialog = ({
             sortTypes,
             disableMultiSort: true,
             handleSortColumn: (_sortTypes) => {
+              const pivotColumn = _sortTypes.find(
+                (sortType) => sortType.type !== SORT_TYPE.DEFAULT,
+              );
+              if (!pivotColumn) {
+                setTableRows(selectedApplications);
+              } else {
+                setTableRows(
+                  [...tableRows].sort((one, another) =>
+                    sortString(
+                      pivotColumn.type,
+                      getOwnValueByKey(one, pivotColumn.accessor),
+                      getOwnValueByKey(another, pivotColumn.accessor),
+                    ),
+                  ),
+                );
+              }
+
               setSortTypes(_sortTypes);
             },
           }}
