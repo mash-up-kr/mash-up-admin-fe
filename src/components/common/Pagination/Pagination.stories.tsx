@@ -25,7 +25,7 @@ OnePageCase.args = {
     selectBoxPosition: 'bottom',
     handleChangeSize: () => {},
   },
-  handleChangePage: () => () => {},
+  handleChangePage: () => {},
 };
 
 export const FivePagesCase = Template.bind({});
@@ -41,7 +41,7 @@ FivePagesCase.args = {
     selectBoxPosition: 'bottom',
     handleChangeSize: () => {},
   },
-  handleChangePage: () => () => {},
+  handleChangePage: () => {},
 };
 
 export const TenPagesCase = Template.bind({});
@@ -57,7 +57,7 @@ TenPagesCase.args = {
     selectBoxPosition: 'bottom',
     handleChangeSize: () => {},
   },
-  handleChangePage: () => () => {},
+  handleChangePage: () => {},
 };
 
 export const TwentyFivePagesCase = Template.bind({});
@@ -73,7 +73,7 @@ TwentyFivePagesCase.args = {
     selectBoxPosition: 'bottom',
     handleChangeSize: () => {},
   },
-  handleChangePage: () => () => {},
+  handleChangePage: () => {},
 };
 
 export const UsingPagination = () => {
