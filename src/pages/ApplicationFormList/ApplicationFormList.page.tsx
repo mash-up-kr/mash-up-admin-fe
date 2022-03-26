@@ -204,10 +204,11 @@ const ApplicationFormList = () => {
         pagination={
           <Pagination
             pageOptions={pageOptions}
-            selectableSize
-            selectBoxPosition={loadedTableRows.length > 3 ? 'top' : 'bottom'}
+            selectableSize={{
+              selectBoxPosition: loadedTableRows.length > 3 ? 'top' : 'bottom',
+              handleChangeSize,
+            }}
             handleChangePage={handleChangePage}
-            handleChangeSize={handleChangeSize}
           />
         }
       />
