@@ -17,14 +17,12 @@ import Loading from '../Loading/Loading.component';
 import Checkbox from '../Checkbox/Checkbox.component';
 import { SORT_TYPE } from '@/constants';
 
-const NAV_BAR_AND_SEARCH_BAR_HEIGHT = 187;
-const TABLE_DEFAULT_HEIGHT = (window.innerHeight - NAV_BAR_AND_SEARCH_BAR_HEIGHT) / 10;
 export interface TableColumn<T extends object> {
   title: string;
   accessor?: NestedKeyOf<T>;
   idAccessor?: NestedKeyOf<T>;
   widthRatio: string;
-  renderCustomCell?: (cellVaule: unknown, id?: string) => ReactNode;
+  renderCustomCell?: (cellValue: unknown, id?: string) => ReactNode;
 }
 
 export interface SortType<T extends object> {
@@ -40,10 +38,9 @@ interface SortOptions<T extends object> {
 
 export interface TableProps<T extends object> {
   prefix: string;
-  maxHeight?: number;
   columns: TableColumn<T>[];
   rows: T[];
-  isLoading: boolean;
+  isLoading?: boolean;
   selectableRow?: {
     selectedCount: number;
     selectedRows: T[];
@@ -214,20 +211,15 @@ const TableColumnCell = <T extends object>({
 
 const Table = <T extends object>({
   prefix,
-  maxHeight = TABLE_DEFAULT_HEIGHT,
   columns,
   rows,
-  isLoading,
+  isLoading = false,
   selectableRow,
   sortOptions,
   supportBar: { totalCount, totalSummaryText, selectedSummaryText, buttons: supportButtons },
   pagination,
 }: TableProps<T>) => {
   const { selectedCount, selectedRows, setSelectedRows, handleSelectAll } = selectableRow || {};
-  const DEFAULT_ROW_HEIGHT = 5.2;
-  const INNER_TABLE_EXTERNAL_BODY_HEIGHT = 15.6;
-  const bodyHeight = maxHeight! - INNER_TABLE_EXTERNAL_BODY_HEIGHT;
-  const itemSizeInnerBody = Math.floor(bodyHeight / DEFAULT_ROW_HEIGHT);
   const isEmptyData = rows.length === 0;
 
   const checkedValues = useMemo(
@@ -268,7 +260,7 @@ const Table = <T extends object>({
   };
 
   return (
-    <Styled.TableContainer height={rows.length >= itemSizeInnerBody ? `${maxHeight}rem` : 'auto'}>
+    <Styled.TableContainer>
       <TableSupportBar
         totalSummaryText={totalSummaryText}
         selectedSummaryText={selectedSummaryText}
@@ -288,7 +280,7 @@ const Table = <T extends object>({
             ))}
           </colgroup>
           <Styled.TableHeader>
-            <Styled.TableRow height={DEFAULT_ROW_HEIGHT}>
+            <Styled.TableRow>
               {!!selectableRow && (
                 <RowCheckBox isChecked={allInAPageChecked} handleToggle={handleSelectAllRow} />
               )}
@@ -303,22 +295,20 @@ const Table = <T extends object>({
           </Styled.TableHeader>
         </Styled.Table>
         <Styled.TableBodyWrapper isLoading={isLoading}>
-          <Styled.Table>
-            {isEmptyData ? (
-              <Styled.TableBody isEmpty>
-                <Styled.TableRow height={DEFAULT_ROW_HEIGHT * 5}>
-                  <Styled.TableCell>
-                    <Styled.Center>
-                      <Styled.NoData>
-                        <QuestionFile />
-                        <div>데이터가 없습니다.</div>
-                      </Styled.NoData>
-                    </Styled.Center>
-                  </Styled.TableCell>
-                </Styled.TableRow>
-              </Styled.TableBody>
-            ) : (
-              <>
+          {isEmptyData ? (
+            <Styled.NoData>
+              <QuestionFile />
+              <div>데이터가 없습니다.</div>
+            </Styled.NoData>
+          ) : (
+            <>
+              {isLoading && (
+                <Loading
+                  dimmedColor={colors.whiteLoadingDimmed}
+                  spinnerColor={colors.whiteLoadingDimmed}
+                />
+              )}
+              <Styled.Table>
                 <colgroup>
                   {!!selectableRow && <col width="4%" />}
                   {columns.map((column, columnIndex) => (
@@ -326,14 +316,8 @@ const Table = <T extends object>({
                   ))}
                 </colgroup>
                 <Styled.TableBody>
-                  {isLoading && (
-                    <Loading
-                      dimmedColor={colors.whiteLoadingDimmed}
-                      spinnerColor={colors.whiteLoadingDimmed}
-                    />
-                  )}
                   {rows.map((row, rowIndex) => (
-                    <Styled.TableRow key={`${prefix}-row-${rowIndex}`} height={DEFAULT_ROW_HEIGHT}>
+                    <Styled.TableRow key={`${prefix}-row-${rowIndex}`}>
                       {!!selectableRow && (
                         <RowCheckBox
                           isChecked={checkedValues[rowIndex]}
@@ -354,9 +338,9 @@ const Table = <T extends object>({
                     </Styled.TableRow>
                   ))}
                 </Styled.TableBody>
-              </>
-            )}
-          </Styled.Table>
+              </Styled.Table>
+            </>
+          )}
         </Styled.TableBodyWrapper>
       </Styled.TableWrapper>
       {!isEmptyData && pagination}
