@@ -67,7 +67,7 @@ interface TableSupportBarProps {
   allInAPageChecked?: boolean;
   handleSelectAll?: (checkedValue: boolean) => void;
   supportButtons?: ReactNode[];
-  topStickyHeight: number;
+  topStickyHeight?: number;
 }
 
 const TableSupportBar = ({
@@ -277,7 +277,7 @@ const Table = <T extends object>({
         topStickyHeight={topStickyHeight}
       />
       <Styled.TableWrapper>
-        <Styled.Table topStickyHeight={topStickyHeight + 6}>
+        <Styled.Table topStickyHeight={topStickyHeight && topStickyHeight + 6}>
           <colgroup>
             {!!selectableRow && <col width="4%" />}
             {columns.map((column, columnIndex) => (

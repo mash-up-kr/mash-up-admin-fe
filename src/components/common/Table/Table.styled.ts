@@ -51,7 +51,7 @@ export const TableBodyWrapper = styled.div<{ isLoading: boolean }>`
   `}
 `;
 
-export const Table = styled.table<{ topStickyHeight: number }>`
+export const Table = styled.table<{ topStickyHeight?: number }>`
   ${({ theme, topStickyHeight }) => css`
     width: 100%;
     text-align: center;
@@ -147,7 +147,7 @@ export const CaretUpWrapper = styled.span<{ type: ValueOf<typeof SORT_TYPE> }>`
   `}
 `;
 
-export const TableSupportBar = styled.div<{ topStickyHeight: number }>`
+export const TableSupportBar = styled.div<{ topStickyHeight?: number }>`
   ${({ theme, topStickyHeight }) => css`
     display: flex;
     align-items: center;
