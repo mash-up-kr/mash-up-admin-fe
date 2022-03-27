@@ -214,17 +214,20 @@ const ApplicationList = () => {
   return (
     <Styled.PageWrapper>
       <Styled.Heading>지원서 내역</Styled.Heading>
-      <div ref={teamTabRef}>
-        <TeamNavigationTabs />
-      </div>
-      <SearchOptionBar
-        filterValues={filterValues}
-        setFilterValues={setFilterValues}
-        searchWord={searchWord}
-        handleSubmit={handleSearch}
-      />
+      <Styled.StickyContainer>
+        <div ref={teamTabRef}>
+          <TeamNavigationTabs />
+        </div>
+        <SearchOptionBar
+          filterValues={filterValues}
+          setFilterValues={setFilterValues}
+          searchWord={searchWord}
+          handleSubmit={handleSearch}
+        />
+      </Styled.StickyContainer>
       <Table
         prefix="application"
+        topStickyHeight={14.1}
         columns={columns}
         rows={loadedTableRows}
         isLoading={isLoading}

@@ -174,12 +174,15 @@ const ApplicationFormList = () => {
   return (
     <Styled.PageWrapper>
       <Styled.Heading>지원서 설문지 내역</Styled.Heading>
-      <div ref={teamTabRef}>
-        <TeamNavigationTabs />
-      </div>
-      <SearchOptionBar searchWord={searchWord} handleSubmit={handleSubmit} />
+      <Styled.StickyContainer>
+        <div ref={teamTabRef}>
+          <TeamNavigationTabs />
+        </div>
+        <SearchOptionBar searchWord={searchWord} handleSubmit={handleSubmit} />
+      </Styled.StickyContainer>
       <Table<ApplicationFormResponse>
         prefix="application-form"
+        topStickyHeight={14.1}
         columns={columns}
         rows={loadedTableRows}
         isLoading={isLoading}

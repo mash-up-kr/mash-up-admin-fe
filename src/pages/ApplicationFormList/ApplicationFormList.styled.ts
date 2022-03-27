@@ -16,6 +16,16 @@ export const Heading = styled.h2`
   `};
 `;
 
+export const StickyContainer = styled.div`
+  ${({ theme }) => css`
+    position: sticky;
+    top: 0;
+    z-index: ${theme.zIndex.sticky};
+    padding-bottom: 1.2rem;
+    background-color: ${theme.colors.white};
+  `}
+`;
+
 export const FormTitleWrapper = styled.div`
   ${({ theme }) => css`
     position: relative;

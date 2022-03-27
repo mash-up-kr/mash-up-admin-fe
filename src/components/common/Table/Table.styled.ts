@@ -51,11 +51,21 @@ export const TableBodyWrapper = styled.div<{ isLoading: boolean }>`
   `}
 `;
 
-export const Table = styled.table`
-  width: 100%;
-  text-align: center;
-  table-layout: fixed;
-  border-collapse: collapse;
+export const Table = styled.table<{ topStickyHeight: number }>`
+  ${({ theme, topStickyHeight }) => css`
+    width: 100%;
+    text-align: center;
+    table-layout: fixed;
+    background-color: ${theme.colors.white};
+    border-collapse: collapse;
+
+    ${topStickyHeight &&
+    css`
+      position: sticky;
+      top: ${topStickyHeight}rem;
+      z-index: ${theme.zIndex.sticky};
+    `}
+  `}
 `;
 
 export const TableHeader = styled.thead`
@@ -137,12 +147,22 @@ export const CaretUpWrapper = styled.span<{ type: ValueOf<typeof SORT_TYPE> }>`
   `}
 `;
 
-export const TableSupportBar = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 3.6rem;
-  margin: 1.2rem 0;
+export const TableSupportBar = styled.div<{ topStickyHeight: number }>`
+  ${({ theme, topStickyHeight }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 6rem;
+    padding: 1.2rem 0;
+    background-color: ${theme.colors.white};
+
+    ${topStickyHeight &&
+    css`
+      position: sticky;
+      top: ${topStickyHeight}rem;
+      z-index: ${theme.zIndex.sticky};
+    `}
+  `}
 `;
 
 export const TableSummary = styled.div`
