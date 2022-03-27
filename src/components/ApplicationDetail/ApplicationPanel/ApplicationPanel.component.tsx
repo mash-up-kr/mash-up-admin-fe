@@ -14,7 +14,11 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
   ApplicationResultStatusType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { toUtcWithoutChangingTime, formatDate } from '@/utils/date';
+import {
+  toUtcWithoutChangingTime,
+  formatDate,
+  getRecruitingProgressStatusFromRecruitingPeriod,
+} from '@/utils/date';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import { useOnClickOutSide, useToast } from '@/hooks';
 import { rangeArray, request } from '@/utils';
@@ -269,6 +273,20 @@ const ApplicationPanel = ({
         if (applicationResultStatus !== ApplicationResultStatusInDto.SCREENING_PASSED) {
           delete requestDto.interviewStartedAt;
           delete requestDto.interviewEndedAt;
+        }
+
+        const recruitingProgressStatus = getRecruitingProgressStatusFromRecruitingPeriod(
+          new Date(),
+        );
+
+        if (
+          recruitingProgressStatus === 'PREVIOUS' ||
+          recruitingProgressStatus === 'AFTER-FIRST-SEMINAR'
+        ) {
+          return handleAddToast({
+            type: ToastType.error,
+            message: '변경 기간이 아닙니다.',
+          });
         }
 
         request({
