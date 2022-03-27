@@ -27,6 +27,10 @@ export const badge = {
     color: ${colors.white};
     background-color: ${colors.red70};
   `,
+  [ApplicationResultStatus.INTERVIEW_TO_BE_DETERMINED]: css`
+    color: ${colors.purple70};
+    background-color: ${colors.purple20};
+  `,
   [ApplicationResultStatus.INTERVIEW_PASSED]: css`
     color: ${colors.white};
     background-color: ${colors.green70};

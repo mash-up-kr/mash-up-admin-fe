@@ -13,32 +13,32 @@ const Template: ComponentStory<typeof Select> = (args: SelectProps) => {
 
 const selectOptionItems: SelectOption[] = [
   {
-    label: '미정',
-    value: '미정',
+    label: '미검토',
+    value: '미검토',
   },
   {
-    label: '서류보류중',
-    value: '서류보류중',
+    label: '서류 보류',
+    value: '서류 보류',
   },
   {
-    label: '서류불합격',
-    value: '서류불합격',
+    label: '서류 불합격',
+    value: '서류 불합격',
   },
   {
-    label: '서류합격',
-    value: '서류합격',
+    label: '서류 합격',
+    value: '서류 합격',
   },
   {
-    label: '최종보류중',
-    value: '최종보류중',
+    label: '최종 불합격',
+    value: '최종 불합격',
   },
   {
-    label: '최종불합격',
-    value: '최종불합격',
+    label: '최종 보류',
+    value: '최종 보류',
   },
   {
-    label: '최종합격',
-    value: '최종합격',
+    label: '최종 합격',
+    value: '최종 합격',
   },
 ];
 
