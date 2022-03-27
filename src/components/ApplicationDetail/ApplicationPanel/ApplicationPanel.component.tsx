@@ -66,7 +66,9 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
     [resultStatus],
   );
 
-  const [isShowInterviewSchedule, setIsShowInterviewSchedule] = useState(isScreeningPassed);
+  const [isShowInterviewSchedule, setIsShowInterviewSchedule] = useState(
+    resultStatus === ApplicationResultStatusInDto.SCREENING_PASSED,
+  );
   const [isDatePickerOpened, setIsDatePickerOpened] = useState(false);
   const outerRef = useRef<HTMLDivElement>(null);
   const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
