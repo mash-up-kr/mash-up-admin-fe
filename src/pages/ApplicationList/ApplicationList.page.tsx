@@ -8,7 +8,12 @@ import React, {
   FormEvent,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useRecoilStateLoadable, useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  useRecoilRefresher_UNSTABLE,
+  useRecoilStateLoadable,
+  useRecoilValue,
+  useSetRecoilState,
+} from 'recoil';
 import * as api from '@/api';
 import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
 import { formatDate, uniqArray } from '@/utils';
@@ -93,7 +98,8 @@ const columns: TableColumn<ApplicationResponse>[] = [
 ];
 
 const ApplicationList = () => {
-  const handleControlModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
+  const handleSMSModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+  const handleResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
 
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
@@ -145,6 +151,7 @@ const ApplicationList = () => {
 
   const [totalCount, setTotalCount] = useState(0);
   const [{ state, contents: tableRows }] = useRecoilStateLoadable($applications(applicationParams));
+  const refreshApplications = useRecoilRefresher_UNSTABLE($applications(applicationParams));
   const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
 
   const isLoading = state === 'loading';
@@ -152,9 +159,9 @@ const ApplicationList = () => {
     tableRows.data || [],
   );
 
-  const { pageOptions, handleChangePage, handleChangeSize } = usePagination(
-    tableRows.page?.totalCount,
-  );
+  const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
+    totalCount: tableRows.page?.totalCount,
+  });
 
   const { makeDirty, isDirty } = useDirty(1);
 
@@ -226,20 +233,37 @@ const ApplicationList = () => {
           totalSummaryText: '총 지원인원',
           selectedSummaryText: '명 선택',
           buttons: [
-            <Styled.DisabledButton $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
-              SMS 발송
-            </Styled.DisabledButton>,
             <Button
               $size={ButtonSize.xs}
               shape={ButtonShape.defaultLine}
               onClick={() =>
-                handleControlModal({
+                handleSMSModal({
+                  key: ModalKey.smsSendModalDialog,
+                  props: {
+                    selectedApplications: selectedRows,
+                    showSummary: true,
+                  },
+                  isOpen: true,
+                })
+              }
+            >
+              SMS 발송
+            </Button>,
+            <Button
+              $size={ButtonSize.xs}
+              shape={ButtonShape.defaultLine}
+              onClick={() =>
+                handleResultModal({
                   key: ModalKey.changeResultModalDialog,
                   props: {
                     selectedList: selectedRows.map((row) => row.applicationId),
                     selectedResults: uniqArray(
                       selectedRows.map((row) => row.result.status),
                     ) as ApplicationResultStatusKeyType[],
+                    refreshList: () => {
+                      refreshApplications();
+                      setSelectedRows([]);
+                    },
                   },
                   isOpen: true,
                 })
@@ -268,10 +292,11 @@ const ApplicationList = () => {
         pagination={
           <Pagination
             pageOptions={pageOptions}
-            selectableSize
-            selectBoxPosition={loadedTableRows.length > 3 ? 'top' : 'bottom'}
+            selectableSize={{
+              selectBoxPosition: loadedTableRows.length > 3 ? 'top' : 'bottom',
+              handleChangeSize,
+            }}
             handleChangePage={handleChangePage}
-            handleChangeSize={handleChangeSize}
           />
         }
       />

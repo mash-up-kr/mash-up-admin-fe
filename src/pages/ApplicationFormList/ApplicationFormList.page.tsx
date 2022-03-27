@@ -137,9 +137,9 @@ const ApplicationFormList = () => {
     tableRows.data || [],
   );
 
-  const { pageOptions, handleChangePage, handleChangeSize } = usePagination(
-    tableRows.page?.totalCount,
-  );
+  const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
+    totalCount: tableRows.page?.totalCount,
+  });
 
   const { makeDirty, isDirty } = useDirty(1);
 
@@ -204,10 +204,11 @@ const ApplicationFormList = () => {
         pagination={
           <Pagination
             pageOptions={pageOptions}
-            selectableSize
-            selectBoxPosition={loadedTableRows.length > 3 ? 'top' : 'bottom'}
+            selectableSize={{
+              selectBoxPosition: loadedTableRows.length > 3 ? 'top' : 'bottom',
+              handleChangeSize,
+            }}
             handleChangePage={handleChangePage}
-            handleChangeSize={handleChangeSize}
           />
         }
       />

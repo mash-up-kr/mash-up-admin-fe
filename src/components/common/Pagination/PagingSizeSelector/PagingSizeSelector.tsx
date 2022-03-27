@@ -17,6 +17,7 @@ interface Props {
 }
 
 const PagingSizeSelector = ({ pagingSize, position, handleChangeSize }: Props) => {
+  const currentValue = OPTIONS.find((option) => option.value === pagingSize.toString());
   const handleChange = (option: SelectOption) => {
     handleChangeSize(option.value);
   };
@@ -26,7 +27,7 @@ const PagingSizeSelector = ({ pagingSize, position, handleChangeSize }: Props) =
       aria-label="Paging size selector"
       size="sm"
       position={position}
-      defaultValue={OPTIONS.find((option) => option.value === pagingSize.toString())}
+      currentValue={currentValue}
       options={OPTIONS}
       onChangeOption={handleChange}
     />

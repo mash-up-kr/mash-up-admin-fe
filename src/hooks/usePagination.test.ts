@@ -22,7 +22,7 @@ describe('usePagination', () => {
     const totalCount = 0;
 
     // When
-    const { result } = renderHook(() => usePagination(totalCount));
+    const { result } = renderHook(() => usePagination({ totalCount }));
     const { pageOptions } = result.current;
 
     // Then
@@ -40,7 +40,7 @@ describe('usePagination', () => {
     const totalCount = 10;
 
     // When
-    const { result } = renderHook(() => usePagination(totalCount));
+    const { result } = renderHook(() => usePagination({ totalCount }));
     const { pageOptions } = result.current;
 
     // Then
@@ -58,7 +58,7 @@ describe('usePagination', () => {
     const totalCount = 550;
 
     // When
-    const { result } = renderHook(() => usePagination(totalCount));
+    const { result } = renderHook(() => usePagination({ totalCount }));
     const { pageOptions } = result.current;
 
     // Then
@@ -79,7 +79,7 @@ describe('usePagination', () => {
     mockSearchParams.get.mockReturnValueOnce(page).mockReturnValueOnce(size);
 
     // When
-    const { result } = renderHook(() => usePagination(totalCount));
+    const { result } = renderHook(() => usePagination({ totalCount }));
     const { pageOptions } = result.current;
 
     // Then
@@ -97,7 +97,7 @@ describe('usePagination', () => {
     const totalCount = 550;
 
     // When, Then
-    const { result } = renderHook(() => usePagination(totalCount));
+    const { result } = renderHook(() => usePagination({ totalCount }));
     const { pageOptions, handleChangePage } = result.current;
 
     expect(pageOptions).toEqual({

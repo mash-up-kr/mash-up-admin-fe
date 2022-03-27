@@ -6,7 +6,7 @@ import UserProfile, {
 import { TitleWithContent } from '..';
 import * as Styled from './MessageListPanel.styled';
 import { Button } from '@/components';
-import { MemberPositionType } from '@/types';
+import { MemberPositionType, ApplicationResponse } from '@/types';
 import { $modalByStorage, ModalKey } from '@/store';
 import { formatDate } from '@/utils/date';
 import { SmsStatus, SmsStatusType } from '@/types/dto/sms';
@@ -54,10 +54,10 @@ const MessageInfo = ({
 
 export interface MessageListPanelProps {
   smsRequests: MessageInfoProps[];
-  id: number;
+  application: ApplicationResponse;
 }
 
-const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
+const MessageListPanel = ({ smsRequests, application }: MessageListPanelProps) => {
   const handleControlModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
 
   return (
@@ -71,7 +71,7 @@ const MessageListPanel = ({ smsRequests, id }: MessageListPanelProps) => {
             handleControlModal({
               key: ModalKey.smsSendModalDialog,
               props: {
-                selectedList: [Number(id)],
+                selectedApplications: [application],
               },
               isOpen: true,
             })

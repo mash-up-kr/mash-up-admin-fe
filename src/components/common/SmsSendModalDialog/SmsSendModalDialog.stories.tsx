@@ -2,6 +2,36 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import SmsSendModalDialog, { SmsSendModalDialogProps } from './SmsSendModalDialog.component';
 
+const mockApplication = {
+  applicant: {
+    applicantId: 0,
+    createdAt: '2022-02-19T10:06:37.439Z',
+    email: 'string',
+    name: 'string',
+    phoneNumber: 'string',
+    status: 'ACTIVE',
+    updatedAt: '2022-02-19T10:06:37.439Z',
+  },
+  applicationId: 0,
+  confirmationStatus: 'FINAL_CONFIRM_ACCEPTED',
+  createdAt: '2022-02-19T10:06:37.439Z',
+  result: {
+    interviewEndedAt: '2022-02-19T10:06:37.439Z',
+    interviewStartedAt: '2022-02-19T10:06:37.439Z',
+    status: 'INTERVIEW_FAILED',
+  },
+  team: {
+    createdAt: '2022-02-19T10:06:37.439Z',
+    createdBy: 'string',
+    name: 'string',
+    teamId: 0,
+    updatedAt: '2022-02-19T10:06:37.439Z',
+    updatedBy: 'string',
+  },
+  updatedAt: '2022-02-19T10:06:37.439Z',
+  submittedAt: '2022-02-19T10:06:37.439Z',
+};
+
 export default {
   title: 'common/Sms Send Modal Dialog',
   component: SmsSendModalDialog,
@@ -14,23 +44,20 @@ const Template: ComponentStory<typeof SmsSendModalDialog> = (args: SmsSendModalD
 export const smsSendModalDialogNormal = Template.bind({});
 
 smsSendModalDialogNormal.args = {
-  selectedList: [0],
+  selectedApplications: [mockApplication],
 };
 
 export const smsSendModalDialogWithResult = Template.bind({});
 
 smsSendModalDialogWithResult.args = {
-  selectedList: [0, 4],
-  confirmationStatus: 'FINAL_CONFIRM_ACCEPTED',
-  resultStatus: 'SCREENING_PASSED',
+  selectedApplications: [mockApplication],
+  showSummary: true,
 };
 
 export const smsSendModalDialogSendFailure = Template.bind({});
 
 smsSendModalDialogSendFailure.args = {
-  selectedList: [0, 1, 2, 3, 4],
-  confirmationStatus: 'FINAL_CONFIRM_ACCEPTED',
-  resultStatus: 'SCREENING_PASSED',
+  selectedApplications: [mockApplication],
   isSendFailed: true,
   messageContent: 'ABCD',
 };

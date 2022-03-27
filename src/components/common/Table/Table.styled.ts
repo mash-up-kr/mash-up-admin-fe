@@ -3,10 +3,8 @@ import styled from '@emotion/styled';
 import { SORT_TYPE } from '@/constants';
 import { ValueOf } from '@/types';
 
-export const TableContainer = styled.div<{ height: string }>`
-  ${({ height }) => css`
-    height: ${height};
-  `}
+export const TableContainer = styled.div`
+  height: 100%;
 `;
 
 export const TableWrapper = styled.div`
@@ -79,9 +77,9 @@ export const TableBody = styled.tbody<{ isEmpty?: boolean }>`
   `};
 `;
 
-export const TableRow = styled.tr<{ height: number }>`
-  ${({ theme, height }) => css`
-    height: ${height}rem;
+export const TableRow = styled.tr`
+  ${({ theme }) => css`
+    height: 5.2rem;
     border-bottom: ${theme.colors.gray20} solid 0.1rem;
   `}
 `;
@@ -128,22 +126,11 @@ export const CheckboxWrapper = styled(Center)`
   }
 `;
 
-// TODO: (@minsour) 애니메이션 스펙 확정 후 지우거나 적용할 예정
-// export const rotate = keyframes`
-//   100% {
-//     transform: rotate(180deg); // translate(-0.1rem, -0.27rem);
-//     transform: rotate(180deg) translate(-0.1rem, -0.27rem);
-//   }
-// `;
-
 export const CaretUpWrapper = styled.span<{ type: ValueOf<typeof SORT_TYPE> }>`
   ${({ type }) => css`
     ${type === SORT_TYPE.DESC &&
     css`
       & svg {
-        /* TODO: (@minsour) 애니메이션 스펙 확정 후 지우거나 적용할 예정;
-        transform: translate(-0.1rem, -0.27rem);
-        animation: rotate 0.5s ease forwards; */
         transform: rotate(180deg) translate(-0.1rem, -0.25rem);
       }
     `}
@@ -229,7 +216,9 @@ export const NoData = styled.div`
     gap: 2.6rem;
     align-items: center;
     justify-content: center;
+    height: 26rem;
     color: ${theme.colors.gray70};
+    border-bottom: ${theme.colors.gray20} solid 0.1rem;
   `}
 `;
 
