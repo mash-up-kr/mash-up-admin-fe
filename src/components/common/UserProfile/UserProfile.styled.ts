@@ -15,6 +15,10 @@ interface UserProfileRoleLabelProps {
 }
 
 const getUserProfileTheme = ($role: ValueOf<typeof Role>, team: ValueOf<typeof Team>) => {
+  if ($role === Role.helper) {
+    return userProfile.helper;
+  }
+
   if ($role === Role.member) {
     return userProfile.branding.MEMBER;
   }
