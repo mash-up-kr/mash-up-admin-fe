@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { BackButton } from '@/components';
@@ -10,16 +10,24 @@ import {
   MessageListPanel,
   TitleWithContent,
 } from '@/components/ApplicationDetail';
-import { $applicationById } from '@/store';
+import { $applicationById, $profile } from '@/store';
 import { ApplicationByIdResponseData, Question } from '@/types';
 import { PATH } from '@/constants';
+import { Role } from '@/components/common/UserProfile/UserProfile.component';
 
 const ApplicationDetailView = () => {
+  const [team, role] = useRecoilValue($profile);
   const navigate = useNavigate();
   const { id } = useParams();
   const data = useRecoilValue<ApplicationByIdResponseData>(
     $applicationById({ applicationId: id as string }),
   );
+
+  useEffect(() => {
+    if (role === Role.helper && team.toLowerCase() !== data.team.name.toLowerCase()) {
+      navigate(PATH.APPLICATION);
+    }
+  }, [data.team.name, navigate, role, team]);
 
   return (
     <Styled.ApplicationDetailViewPage>
