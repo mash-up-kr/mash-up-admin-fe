@@ -1,3 +1,7 @@
+import {
+  ApplicationConfirmationStatusKeyType,
+  ApplicationResultStatusKeyType,
+} from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import { ValueOf, Team, Question } from '@/types';
 import { SmsContent } from './sms';
 
@@ -47,11 +51,11 @@ export interface ApplicationResponse {
     createdAt: string;
     updatedAt: string;
   };
-  confirmationStatus: string;
+  confirmationStatus: ApplicationConfirmationStatusKeyType;
   result: {
     interviewEndedAt: string;
     interviewStartedAt: string;
-    status: string;
+    status: ApplicationResultStatusKeyType;
   };
   team: Team;
   createdAt: string;
