@@ -7,8 +7,8 @@ export const getOwnValueByKey = <T extends object>(object: T, path?: NestedKeyOf
   }
   const keys = path.split('.');
 
-  return keys.reduce((result: any, key) => {
-    return result[key];
+  return keys.reduce((pivot: any, key) => {
+    return pivot ? pivot[key] : undefined;
   }, object);
 };
 

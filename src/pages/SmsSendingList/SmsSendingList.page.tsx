@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Pagination, Table, UserProfile, SearchOptionBar, BottomCTA } from '@/components';
 import { useDirty, usePagination } from '@/hooks';
 import { $modalByStorage, $smsSendingList, ModalKey } from '@/store';
-import { SmsSendingListResponse } from '@/types';
+import { SmsSendingListResponse, SmsSendingListRequest, SmsResponse } from '@/types';
 import { SORT_TYPE } from '@/constants';
 import { formatDate } from '@/utils';
 import * as api from '@/api';
@@ -15,7 +15,7 @@ import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.
 import * as Styled from './SmsSendingList.styled';
 
 const ApplicationFormList = () => {
-  const handleSMSModal = useRecoilCallback(({ set }) => (sms) => {
+  const handleSMSModal = useRecoilCallback(({ set }) => (sms: SmsResponse) => {
     set($modalByStorage(ModalKey.smsSendDetailInfoModalDialog), {
       key: ModalKey.smsSendDetailInfoModalDialog,
       props: { sms },

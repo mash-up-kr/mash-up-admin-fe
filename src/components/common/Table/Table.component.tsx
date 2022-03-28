@@ -50,8 +50,8 @@ export interface TableProps<T extends object> {
   };
   sortOptions?: SortOptions<T>;
   supportBar: {
-    totalCount: number;
-    totalSummaryText: string;
+    totalCount?: number;
+    totalSummaryText?: string;
     selectedSummaryText?: string;
     buttons?: ReactNode[];
   };
@@ -59,9 +59,9 @@ export interface TableProps<T extends object> {
 }
 
 interface TableSupportBarProps {
-  totalSummaryText: string;
+  totalSummaryText?: string;
   selectedSummaryText?: string;
-  totalCount: number;
+  totalCount?: number;
   selectedCount?: number;
   rowCount?: number;
   allInAPageChecked?: boolean;
@@ -84,42 +84,44 @@ const TableSupportBar = ({
   const allChecked = totalCount === selectedCount;
   return (
     <Styled.TableSupportBar topStickyHeight={topStickyHeight}>
-      <Styled.TableSummary>
-        <div>{totalSummaryText}</div>
-        <div>{totalCount}</div>
-        {!!selectedCount && (
-          <>
-            <div>
-              <div />
-            </div>
-            <div>{selectedCount}</div>
-            <div>{selectedSummaryText}</div>
-          </>
-        )}
-        {allInAPageChecked && (
-          <Styled.TotalSelectBox>
-            {allChecked ? (
-              <>
-                <div>
-                  모든 페이지에 있는 <span>{totalCount}개</span>가 모두 선택되었습니다.
-                </div>
-                <button type="button" onClick={() => handleSelectAll!(true)}>
-                  선택최소
-                </button>
-              </>
-            ) : (
-              <>
-                <div>
-                  이 페이지에 있는 <span>{rowCount}개</span>가 모두 선택되었습니다.
-                </div>
-                <button type="button" onClick={() => handleSelectAll!(false)}>
-                  전체인원 {totalCount}개 모두 선택
-                </button>
-              </>
-            )}
-          </Styled.TotalSelectBox>
-        )}
-      </Styled.TableSummary>
+      {totalSummaryText && (
+        <Styled.TableSummary>
+          <div>{totalSummaryText}</div>
+          <div>{totalCount}</div>
+          {!!selectedCount && (
+            <>
+              <div>
+                <div />
+              </div>
+              <div>{selectedCount}</div>
+              <div>{selectedSummaryText}</div>
+            </>
+          )}
+          {allInAPageChecked && (
+            <Styled.TotalSelectBox>
+              {allChecked ? (
+                <>
+                  <div>
+                    모든 페이지에 있는 <span>{totalCount}개</span>가 모두 선택되었습니다.
+                  </div>
+                  <button type="button" onClick={() => handleSelectAll!(true)}>
+                    선택최소
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div>
+                    이 페이지에 있는 <span>{rowCount}개</span>가 모두 선택되었습니다.
+                  </div>
+                  <button type="button" onClick={() => handleSelectAll!(false)}>
+                    전체인원 {totalCount}개 모두 선택
+                  </button>
+                </>
+              )}
+            </Styled.TotalSelectBox>
+          )}
+        </Styled.TableSummary>
+      )}
       <Styled.TableSupportButtonContainer>
         {supportButtons?.map((button, index) => (
           <Fragment key={`supportButton-${index}`}>{button}</Fragment>

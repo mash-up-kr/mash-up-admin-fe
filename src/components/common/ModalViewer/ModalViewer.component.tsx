@@ -18,8 +18,6 @@ import { SmsSendDetailInfoModalDialogProps } from '@/components/modal/SmsSendDet
 const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
   const modal = useRecoilValue($modalByStorage(modalKey));
 
-  console.log(modalKey);
-  console.log(modal);
   if (modalKey === ModalKey.alertModalDialog && modal.isOpen && modal.props) {
     return <AlertModalDialog key={modalKey} {...(modal.props as AlertModalDialogProps)} />;
   }
