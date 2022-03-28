@@ -29,6 +29,7 @@ export interface TableColumn<T extends object> {
   widthRatio: string;
   renderCustomCell?: (
     cellValue: unknown,
+    id: string,
     handleClickLink?: MouseEventHandler<HTMLAnchorElement>,
   ) => ReactNode;
 }
@@ -385,7 +386,7 @@ const Table = <T extends object>({
                         return (
                           <Styled.TableCell key={`cell-${columnIndex}`}>
                             {renderCustomCell
-                              ? renderCustomCell(cellValue, handleShowToast)
+                              ? renderCustomCell(cellValue, id, handleShowToast)
                               : cellValue}
                           </Styled.TableCell>
                         );

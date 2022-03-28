@@ -5,7 +5,6 @@ import { useSearchParams } from 'react-router-dom';
 import { Pagination, Table, UserProfile, SearchOptionBar, BottomCTA } from '@/components';
 import { useDirty, usePagination } from '@/hooks';
 import { $modalByStorage, $smsSendingList, ModalKey } from '@/store';
-import { SmsSendingListResponse, SmsSendingListRequest, SmsResponse } from '@/types';
 import { SORT_TYPE } from '@/constants';
 import { formatDate } from '@/utils';
 import * as api from '@/api';
@@ -13,6 +12,7 @@ import { TableColumn, SortType } from '@/components/common/Table/Table.component
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 
 import * as Styled from './SmsSendingList.styled';
+import { SmsResponse, SmsSendingListRequest, SmsSendingListResponse } from '@/types/dto/sms';
 
 const ApplicationFormList = () => {
   const handleSMSModal = useRecoilCallback(({ set }) => (sms: SmsResponse) => {

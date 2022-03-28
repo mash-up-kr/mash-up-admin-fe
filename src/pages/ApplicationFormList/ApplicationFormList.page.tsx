@@ -178,7 +178,7 @@ const ApplicationFormList = () => {
         <TeamNavigationTabs />
         <SearchOptionBar searchWord={searchWord} handleSubmit={handleSubmit} />
       </Styled.StickyContainer>
-      <Table<ApplicationFormResponse>
+      <Table
         prefix="application-form"
         topStickyHeight={14.1}
         columns={columns}
