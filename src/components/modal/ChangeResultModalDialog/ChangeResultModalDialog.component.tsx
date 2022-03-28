@@ -1,7 +1,11 @@
 import React, { useMemo, useRef } from 'react';
 import { useRecoilCallback } from 'recoil';
 import { useForm } from 'react-hook-form';
-import { request } from '@/utils';
+import {
+  getRecruitingProgressStatusFromRecruitingPeriod,
+  RecruitingProgressStatus,
+  request,
+} from '@/utils';
 import { ModalWrapper, SelectField, TitleWithContent } from '@/components';
 import * as Styled from './ChangeResultModalDialog.styled';
 import * as api from '@/api';
@@ -47,6 +51,20 @@ const ChangeResultModalDialog = ({
   const handleSendSms = useRecoilCallback(
     ({ set }) =>
       async ({ applicationResultStatus }: FormValues) => {
+        const recruitingProgressStatus = getRecruitingProgressStatusFromRecruitingPeriod(
+          new Date(),
+        );
+
+        if (
+          recruitingProgressStatus === RecruitingProgressStatus.PREVIOUS ||
+          recruitingProgressStatus === RecruitingProgressStatus.AFTER_FIRST_SEMINAR
+        ) {
+          return handleAddToast({
+            type: ToastType.error,
+            message: '변경 기간이 아닙니다.',
+          });
+        }
+
         await set($modalByStorage(ModalKey.alertModalDialog), {
           key: ModalKey.alertModalDialog,
           isOpen: true,
