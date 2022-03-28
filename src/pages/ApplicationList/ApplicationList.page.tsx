@@ -8,13 +8,15 @@ import React, {
   FormEvent,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { writeFileXLSX } from 'xlsx';
 import { useRecoilStateLoadable, useRecoilValue, useSetRecoilState } from 'recoil';
+import dayjs from 'dayjs';
 import * as api from '@/api';
 import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
 import { formatDate, uniqArray } from '@/utils';
 import { PATH, SORT_TYPE } from '@/constants';
-import { $applications, $teamIdByName, ModalKey, $modalByStorage } from '@/store';
-import { useDirty, usePagination } from '@/hooks';
+import { $applications, $teamIdByName, ModalKey, $modalByStorage, $profile } from '@/store';
+import { useConvertToXlsx, useDirty, usePagination } from '@/hooks';
 import { ApplicationRequest, ApplicationResponse } from '@/types';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
@@ -98,7 +100,13 @@ const ApplicationList = () => {
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
+  const myTeamName = useRecoilValue($profile)[0];
   const teamTabRef = useRef<HTMLDivElement>(null);
+  const isMyTeam = useMemo(
+    () =>
+      !teamName || teamName.toLowerCase() === myTeamName.toLowerCase() || myTeamName === 'BRANDING',
+    [myTeamName, teamName],
+  );
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
@@ -145,12 +153,41 @@ const ApplicationList = () => {
 
   const [totalCount, setTotalCount] = useState(0);
   const [{ state, contents: tableRows }] = useRecoilStateLoadable($applications(applicationParams));
+  const [{ contents: entireTableRows }] = useRecoilStateLoadable(
+    $applications({
+      page: 0,
+      teamId: parseInt(teamId, 10) || undefined,
+      size: (tableRows?.page?.totalCount || 0) + APPLICATION_EXTRA_SIZE,
+    }),
+  );
   const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
+  const selectedResults = useMemo(
+    () =>
+      uniqArray(selectedRows.map((row) => row.result.status)) as ApplicationResultStatusKeyType[],
+    [selectedRows],
+  );
 
   const isLoading = state === 'loading';
   const [loadedTableRows, setLoadedTableRows] = useState<ApplicationResponse[]>(
     tableRows.data || [],
   );
+
+  const { workBook } = useConvertToXlsx<ApplicationResponse>({
+    workSheet: entireTableRows?.data?.map((each: ApplicationResponse) => ({
+      이름: each.applicant.name,
+      전화번호: each.applicant.phoneNumber,
+      지원플랫폼: each.team.name,
+      지원일시: each.submittedAt
+        ? formatDate(each.submittedAt, 'YYYY년 M월 D일(ddd) a hh시 mm분')
+        : '',
+      면접일시: each.result.interviewStartedAt
+        ? formatDate(each.result.interviewStartedAt, 'YYYY년 M월 D일(ddd) a hh시 mm분')
+        : '',
+      사용자확인여부: ApplicationConfirmationStatus[each.confirmationStatus],
+      합격여부: ApplicationResultStatus[each.result.status],
+    })),
+    teamName: teamName || '전체',
+  });
 
   const { pageOptions, handleChangePage, handleChangeSize } = usePagination(
     tableRows.page?.totalCount,
@@ -226,10 +263,14 @@ const ApplicationList = () => {
           totalSummaryText: '총 지원인원',
           selectedSummaryText: '명 선택',
           buttons: [
-            <Styled.DisabledButton $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
+            <Styled.DisabledButton
+              $size={ButtonSize.xs}
+              shape={ButtonShape.defaultLine}
+              disabled={selectedResults.length === 0 && isMyTeam}
+            >
               SMS 발송
             </Styled.DisabledButton>,
-            <Button
+            <Styled.DisabledButton
               $size={ButtonSize.xs}
               shape={ButtonShape.defaultLine}
               onClick={() =>
@@ -237,19 +278,30 @@ const ApplicationList = () => {
                   key: ModalKey.changeResultModalDialog,
                   props: {
                     selectedList: selectedRows.map((row) => row.applicationId),
-                    selectedResults: uniqArray(
-                      selectedRows.map((row) => row.result.status),
-                    ) as ApplicationResultStatusKeyType[],
+                    selectedResults,
                   },
                   isOpen: true,
                 })
               }
+              disabled={selectedResults.length === 0 && isMyTeam}
             >
               합격 여부 변경
-            </Button>,
-            <Styled.DisabledButton $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
-              Export to Google Sheets
             </Styled.DisabledButton>,
+            <Button
+              $size={ButtonSize.xs}
+              shape={ButtonShape.defaultLine}
+              onClick={() =>
+                writeFileXLSX(
+                  workBook,
+                  `${formatDate(dayjs().format(), 'YYYY년 M월 D일(ddd)')}-${
+                    teamName || '전체'
+                  }.xlsx`,
+                )
+              }
+              disabled={!loadedTableRows}
+            >
+              Export to Excel
+            </Button>,
           ],
         }}
         selectableRow={{

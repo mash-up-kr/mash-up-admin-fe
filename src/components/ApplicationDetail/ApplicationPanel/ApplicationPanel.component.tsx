@@ -14,7 +14,12 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
   ApplicationResultStatusType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { toUtcWithoutChangingTime, formatDate } from '@/utils/date';
+import {
+  toUtcWithoutChangingTime,
+  formatDate,
+  getRecruitingProgressStatusFromRecruitingPeriod,
+  RecruitingProgressStatus,
+} from '@/utils/date';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import { useOnClickOutSide, useToast } from '@/hooks';
 import { rangeArray, request } from '@/utils';
@@ -66,7 +71,9 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
     [resultStatus],
   );
 
-  const [isShowInterviewSchedule, setIsShowInterviewSchedule] = useState(isScreeningPassed);
+  const [isShowInterviewSchedule, setIsShowInterviewSchedule] = useState(
+    resultStatus === ApplicationResultStatusInDto.SCREENING_PASSED,
+  );
   const [isDatePickerOpened, setIsDatePickerOpened] = useState(false);
   const outerRef = useRef<HTMLDivElement>(null);
   const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
@@ -267,6 +274,20 @@ const ApplicationPanel = ({
         if (applicationResultStatus !== ApplicationResultStatusInDto.SCREENING_PASSED) {
           delete requestDto.interviewStartedAt;
           delete requestDto.interviewEndedAt;
+        }
+
+        const recruitingProgressStatus = getRecruitingProgressStatusFromRecruitingPeriod(
+          new Date(),
+        );
+
+        if (
+          recruitingProgressStatus === RecruitingProgressStatus.PREVIOUS ||
+          recruitingProgressStatus === RecruitingProgressStatus.AFTER_FIRST_SEMINAR
+        ) {
+          return handleAddToast({
+            type: ToastType.error,
+            message: '변경 기간이 아닙니다.',
+          });
         }
 
         request({
