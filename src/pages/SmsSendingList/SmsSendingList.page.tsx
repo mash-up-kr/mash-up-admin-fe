@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useLayoutEffect, useMemo, useState } from 'react';
-import { useRecoilStateLoadable, useSetRecoilState } from 'recoil';
+import { useRecoilCallback, useRecoilStateLoadable } from 'recoil';
 import { useSearchParams } from 'react-router-dom';
 
 import { Pagination, Table, UserProfile, SearchOptionBar, BottomCTA } from '@/components';
@@ -13,10 +13,15 @@ import { TableColumn, SortType } from '@/components/common/Table/Table.component
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 
 import * as Styled from './SmsSendingList.styled';
-import { SmsSendingListRequest } from '../../types/dto/sms';
 
 const ApplicationFormList = () => {
-  const handleSMSModal = useSetRecoilState($modalByStorage(ModalKey.smsSendDetailInfoModalDialog));
+  const handleSMSModal = useRecoilCallback(({ set }) => (sms) => {
+    set($modalByStorage(ModalKey.smsSendDetailInfoModalDialog), {
+      key: ModalKey.smsSendDetailInfoModalDialog,
+      props: { sms },
+      isOpen: true,
+    });
+  });
 
   const columns: TableColumn<SmsSendingListResponse>[] = useMemo(
     () => [
@@ -30,11 +35,7 @@ const ApplicationFormList = () => {
             onClick={async () => {
               const { data: sms } = await api.getSmsById({ notificationId: id as string });
 
-              handleSMSModal({
-                key: ModalKey.smsSendDetailInfoModalDialog,
-                props: { sms },
-                isOpen: true,
-              });
+              handleSMSModal(sms);
             }}
           >
             {cellValue as string}
@@ -149,7 +150,7 @@ const ApplicationFormList = () => {
       <Styled.StickyContainer>
         <SearchOptionBar searchWord={searchWord} handleSubmit={handleSubmit} />
       </Styled.StickyContainer>
-      <Table<SmsSendingListResponse>
+      <Table
         prefix="sms"
         topStickyHeight={9.2}
         columns={columns}
