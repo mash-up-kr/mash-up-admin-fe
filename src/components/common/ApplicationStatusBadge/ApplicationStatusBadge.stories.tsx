@@ -21,8 +21,8 @@ NOT_RATED.args = {
   text: ApplicationResultStatus.NOT_RATED,
 };
 
-export const SCREENING_TBD = Template.bind({});
-SCREENING_TBD.args = {
+export const SCREENING_TO_BE_DETERMINED = Template.bind({});
+SCREENING_TO_BE_DETERMINED.args = {
   text: ApplicationResultStatus.SCREENING_TO_BE_DETERMINED,
 };
 
@@ -39,6 +39,11 @@ SCREENING_PASSED.args = {
 export const INTERVIEW_FAILED = Template.bind({});
 INTERVIEW_FAILED.args = {
   text: ApplicationResultStatus.INTERVIEW_FAILED,
+};
+
+export const INTERVIEW_FAILEDINTERVIEW_TO_BE_DETERMINED = Template.bind({});
+INTERVIEW_FAILEDINTERVIEW_TO_BE_DETERMINED.args = {
+  text: ApplicationResultStatus.INTERVIEW_TO_BE_DETERMINED,
 };
 
 export const INTERVIEW_PASSED = Template.bind({});

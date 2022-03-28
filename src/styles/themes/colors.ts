@@ -28,6 +28,7 @@ export const colors = {
   green10: '#EFFFFB',
   green40: '#A5DED4',
   green70: '#0FB093',
+  yellow70: '#F9B127',
   whiteLoadingDimmed: '#ffffff99',
   grayLoadingDimmed: '#ffffff99',
 } as const;

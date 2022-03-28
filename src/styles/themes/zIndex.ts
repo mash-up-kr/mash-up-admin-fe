@@ -1,10 +1,11 @@
 export const zIndex = {
   default: 0,
-  modal: 5,
-  select: 5,
-  dialog: 10,
-  loading: 15,
-  toast: 20,
+  sticky: 5,
+  modal: 10,
+  select: 10,
+  dialog: 15,
+  loading: 20,
+  toast: 25,
 };
 
 export type ZIndexType = typeof zIndex;

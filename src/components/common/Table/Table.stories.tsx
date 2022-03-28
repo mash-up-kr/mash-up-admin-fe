@@ -377,7 +377,6 @@ NoData.args = {
   prefix: 'application-form',
   columns: columns as TableColumn<object>[],
   rows: [],
-  maxHeight: 60,
   isLoading: false,
   supportBar: {
     totalCount: 0,
@@ -390,7 +389,6 @@ Default.args = {
   prefix: 'application-form',
   columns: columns as TableColumn<object>[],
   rows,
-  maxHeight: 60,
   isLoading: false,
   supportBar: {
     totalCount: rows.length,
@@ -403,7 +401,6 @@ Loading.args = {
   prefix: 'application-form',
   columns: columns as TableColumn<object>[],
   rows,
-  maxHeight: 60,
   isLoading: true,
   supportBar: {
     totalCount: rows.length,
@@ -416,7 +413,6 @@ CustomCell.args = {
   prefix: 'application-form',
   columns: columnsWithCustomCell as TableColumn<object>[],
   rows,
-  maxHeight: 60,
   isLoading: false,
   supportBar: {
     totalCount: rows.length,
@@ -429,7 +425,6 @@ Sortable.args = {
   prefix: 'application-form',
   columns: columnsWithCustomCell as TableColumn<object>[],
   rows,
-  maxHeight: 60,
   isLoading: false,
   supportBar: {
     totalCount: rows.length,
@@ -452,7 +447,6 @@ Selectable.args = {
   prefix: 'application-form',
   columns: columnsWithCustomCell as TableColumn<object>[],
   rows,
-  maxHeight: 60,
   isLoading: false,
   supportBar: {
     totalCount: rows.length,

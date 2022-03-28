@@ -1,3 +1,5 @@
+import { KeyOf, ValueOf } from '@/types';
+
 export const PATH = {
   LOGIN: '/login',
   APPLICATION: '/application',
@@ -8,7 +10,11 @@ export const PATH = {
   APPLICATION_FORM_CREATE: '/application-form/create',
   APPLICATION_FORM_UPDATE: '/application-form/update/:id',
   NOT_FOUND: '/404',
+  FORBIDDEN: '/403',
 } as const;
+
+export type PathKeyType = KeyOf<typeof PATH>;
+export type PathValueType = ValueOf<typeof PATH>;
 
 export const getApplicationFormDetailPage = (applicationFormId: string | number) =>
   `/application-form/${applicationFormId}`;

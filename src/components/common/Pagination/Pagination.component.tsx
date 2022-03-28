@@ -17,19 +17,14 @@ export interface PageOptions {
 
 export interface PaginationProps {
   pageOptions: PageOptions;
-  selectableSize: boolean;
-  selectBoxPosition: ValueOf<typeof SelectPosition>;
+  selectableSize?: {
+    selectBoxPosition: ValueOf<typeof SelectPosition>;
+    handleChangeSize: (pagingSize: string) => void;
+  };
   handleChangePage: (page: number) => void;
-  handleChangeSize: (pagingSize: string) => void;
 }
 
-const Pagination = ({
-  pageOptions,
-  selectableSize,
-  selectBoxPosition,
-  handleChangePage,
-  handleChangeSize,
-}: PaginationProps) => {
+const Pagination = ({ pageOptions, selectableSize, handleChangePage }: PaginationProps) => {
   const { currentPage, startPage, endPage, totalPages, pagingSize } = pageOptions;
   return (
     <Styled.Navigation aria-label="Pagination">
@@ -47,8 +42,8 @@ const Pagination = ({
         {selectableSize && (
           <PagingSizeSelector
             pagingSize={pagingSize}
-            position={selectBoxPosition}
-            handleChangeSize={handleChangeSize}
+            position={selectableSize.selectBoxPosition}
+            handleChangeSize={selectableSize.handleChangeSize}
           />
         )}
       </Styled.Box>

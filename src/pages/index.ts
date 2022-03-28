@@ -5,3 +5,4 @@ export { default as ApplicationFormDetail } from './ApplicationFormDetail/Applic
 export { default as UpdateApplicationForm } from './UpdateApplicationForm/UpdateApplicationForm.page';
 export { default as ApplicationFormList } from './ApplicationFormList/ApplicationFormList.page';
 export { default as ApplicationList } from './ApplicationList/ApplicationList.page';
+export { default as ErrorPage } from './ErrorPage/ErrorPage.page';

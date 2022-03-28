@@ -8,7 +8,7 @@ export default {
 } as ComponentMeta<typeof SmsSendDetailListModalDialog>;
 
 const Template: ComponentStory<typeof SmsSendDetailListModalDialog> = () => (
-  <SmsSendDetailListModalDialog />
+  <SmsSendDetailListModalDialog selectedApplications={[]} />
 );
 
 export const smsSendDetailListModalDialog = Template.bind({});

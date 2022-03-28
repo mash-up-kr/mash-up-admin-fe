@@ -36,6 +36,9 @@ export const userProfile = {
       background-color: ${colors.gray70};
     `,
   },
+  helper: css`
+    background-color: ${colors.yellow70};
+  `,
 } as const;
 
 export type UserProfileTheme = typeof userProfile;
