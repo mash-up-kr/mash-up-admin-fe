@@ -26,13 +26,38 @@ export interface SmsContent {
   };
 }
 
-export interface SmsResponse {
+export interface SmsSendingListResponse {
   failureCount: number;
   name: string;
   notificationId: number;
   sender: string;
   senderPhoneNumber: string;
   sentAt: string;
+  status: SmsStatusType;
+  successCount: number;
+  totalCount: number;
+}
+
+export interface SmsSendingListRequest {
+  page?: number;
+  searchWord?: string;
+  size?: number;
+  sort?: string;
+}
+
+export interface SmsByIdRequest {
+  notificationId: string;
+}
+
+export interface SmsResponse {
+  content: string;
+  failureCount: number;
+  name: string;
+  notificationId: number;
+  sender: string;
+  senderPhoneNumber: string;
+  sentAt: string;
+  smsRequests: SmsContent[];
   status: SmsStatusType;
   successCount: number;
   totalCount: number;
