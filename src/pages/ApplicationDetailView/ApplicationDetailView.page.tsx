@@ -10,13 +10,12 @@ import {
   MessageListPanel,
   TitleWithContent,
 } from '@/components/ApplicationDetail';
-import { $applicationById, $profile } from '@/store';
+import { $applicationById } from '@/store';
 import { ApplicationByIdResponseData, Question } from '@/types';
 import { PATH } from '@/constants';
-import { Role } from '@/components/common/UserProfile/UserProfile.component';
+import * as api from '@/api';
 
 const ApplicationDetailView = () => {
-  const [team, role] = useRecoilValue($profile);
   const navigate = useNavigate();
   const { id } = useParams();
   const data = useRecoilValue<ApplicationByIdResponseData>(
@@ -24,10 +23,18 @@ const ApplicationDetailView = () => {
   );
 
   useEffect(() => {
-    if (role === Role.helper && team.toLowerCase() !== data.team.name.toLowerCase()) {
-      navigate(PATH.APPLICATION);
-    }
-  }, [data.team.name, navigate, role, team]);
+    (async () => {
+      try {
+        if (!id) {
+          throw Error();
+        }
+        await api.getApplicationById({ applicationId: id });
+      } catch (e) {
+        // TODO::(@dididy) 403 페이지 디자인 완성 되면 변경
+        navigate(PATH.APPLICATION);
+      }
+    })();
+  }, [id, navigate]);
 
   return (
     <Styled.ApplicationDetailViewPage>
