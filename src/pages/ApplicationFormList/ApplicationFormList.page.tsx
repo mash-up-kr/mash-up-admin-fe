@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useLayoutEffect, useMemo, useState, useRef } from 'react';
+import React, { FormEvent, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
 import { useSearchParams } from 'react-router-dom';
 
@@ -96,7 +96,6 @@ const ApplicationFormList = () => {
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
-  const teamTabRef = useRef<HTMLDivElement>(null);
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
@@ -166,8 +165,8 @@ const ApplicationFormList = () => {
   }, [teamName]);
 
   useLayoutEffect(() => {
-    if (teamTabRef.current && isDirty && !isLoading) {
-      teamTabRef.current.scrollIntoView();
+    if (isDirty && !isLoading) {
+      window.scrollTo(0, 179);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedTableRows]);
@@ -176,9 +175,7 @@ const ApplicationFormList = () => {
     <Styled.PageWrapper>
       <Styled.Heading>지원서 설문지 내역</Styled.Heading>
       <Styled.StickyContainer>
-        <div ref={teamTabRef}>
-          <TeamNavigationTabs />
-        </div>
+        <TeamNavigationTabs />
         <SearchOptionBar searchWord={searchWord} handleSubmit={handleSubmit} />
       </Styled.StickyContainer>
       <Table<ApplicationFormResponse>

@@ -4,7 +4,6 @@ import React, {
   useEffect,
   useLayoutEffect,
   useCallback,
-  useRef,
   FormEvent,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -111,7 +110,6 @@ const ApplicationList = () => {
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
-  const teamTabRef = useRef<HTMLDivElement>(null);
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
@@ -212,8 +210,8 @@ const ApplicationList = () => {
   }, [teamName]);
 
   useLayoutEffect(() => {
-    if (teamTabRef.current && isDirty && !isLoading) {
-      teamTabRef.current.scrollIntoView();
+    if (isDirty && !isLoading) {
+      window.scrollTo(0, 179);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedTableRows]);
@@ -222,9 +220,7 @@ const ApplicationList = () => {
     <Styled.PageWrapper>
       <Styled.Heading>지원서 내역</Styled.Heading>
       <Styled.StickyContainer>
-        <div ref={teamTabRef}>
-          <TeamNavigationTabs />
-        </div>
+        <TeamNavigationTabs />
         <SearchOptionBar
           filterValues={filterValues}
           setFilterValues={setFilterValues}
