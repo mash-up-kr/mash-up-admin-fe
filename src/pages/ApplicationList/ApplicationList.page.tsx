@@ -15,7 +15,7 @@ import * as api from '@/api';
 import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
 import { formatDate, uniqArray } from '@/utils';
 import { PATH, SORT_TYPE } from '@/constants';
-import { $applications, $teamIdByName, ModalKey, $modalByStorage } from '@/store';
+import { $applications, $teamIdByName, ModalKey, $modalByStorage, $profile } from '@/store';
 import { useConvertToXlsx, useDirty, usePagination } from '@/hooks';
 import { ApplicationRequest, ApplicationResponse } from '@/types';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
@@ -100,7 +100,13 @@ const ApplicationList = () => {
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
+  const myTeamName = useRecoilValue($profile)[0];
   const teamTabRef = useRef<HTMLDivElement>(null);
+  const isMyTeam = useMemo(
+    () =>
+      !teamName || teamName.toLowerCase() === myTeamName.toLowerCase() || myTeamName === 'BRANDING',
+    [myTeamName, teamName],
+  );
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
@@ -148,6 +154,11 @@ const ApplicationList = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [{ state, contents: tableRows }] = useRecoilStateLoadable($applications(applicationParams));
   const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
+  const selectedResults = useMemo(
+    () =>
+      uniqArray(selectedRows.map((row) => row.result.status)) as ApplicationResultStatusKeyType[],
+    [selectedRows],
+  );
 
   const isLoading = state === 'loading';
   const [loadedTableRows, setLoadedTableRows] = useState<ApplicationResponse[]>(
@@ -245,10 +256,14 @@ const ApplicationList = () => {
           totalSummaryText: '총 지원인원',
           selectedSummaryText: '명 선택',
           buttons: [
-            <Styled.DisabledButton $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
+            <Styled.DisabledButton
+              $size={ButtonSize.xs}
+              shape={ButtonShape.defaultLine}
+              disabled={selectedResults.length === 0 && isMyTeam}
+            >
               SMS 발송
             </Styled.DisabledButton>,
-            <Button
+            <Styled.DisabledButton
               $size={ButtonSize.xs}
               shape={ButtonShape.defaultLine}
               onClick={() =>
@@ -256,16 +271,15 @@ const ApplicationList = () => {
                   key: ModalKey.changeResultModalDialog,
                   props: {
                     selectedList: selectedRows.map((row) => row.applicationId),
-                    selectedResults: uniqArray(
-                      selectedRows.map((row) => row.result.status),
-                    ) as ApplicationResultStatusKeyType[],
+                    selectedResults,
                   },
                   isOpen: true,
                 })
               }
+              disabled={selectedResults.length === 0 && isMyTeam}
             >
               합격 여부 변경
-            </Button>,
+            </Styled.DisabledButton>,
             <Button
               $size={ButtonSize.xs}
               shape={ButtonShape.defaultLine}
