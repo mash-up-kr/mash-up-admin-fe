@@ -1,6 +1,6 @@
 import http from '@/api/core';
 import { BaseResponse } from '@/types';
-import { SmsByIdRequest, SmsRequest, SmsResponse } from '@/types/dto/sms';
+import { SmsByIdRequest, SmsRequest, SmsResponse, SmsSendingListRequest } from '@/types/dto/sms';
 
 export const getSmsById = ({
   notificationId,
@@ -9,7 +9,9 @@ export const getSmsById = ({
     url: `/notifications/${notificationId}`,
   });
 
-export const getSmsSendingList = (params: SmsRequest): Promise<BaseResponse<SmsResponse[]>> =>
+export const getSmsSendingList = (
+  params: SmsSendingListRequest,
+): Promise<BaseResponse<SmsResponse[]>> =>
   http.get({
     url: '/notifications',
     params,

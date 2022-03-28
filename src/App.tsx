@@ -13,11 +13,12 @@ import { ACCESS_TOKEN, PATH } from './constants';
 import {
   LoginPage,
   ApplicationList,
+  ApplicationDetailView,
+  SmsSendingList,
   ApplicationFormList,
   CreateApplicationForm,
   UpdateApplicationForm,
   ApplicationFormDetail,
-  ApplicationDetailView,
 } from './pages';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
@@ -73,6 +74,22 @@ const App = () => {
               }
             />
             <Route
+              path={PATH.APPLICATION_DETAIL}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <ApplicationDetailView />
+                </RequiredAuth>
+              }
+            />
+            <Route
+              path={PATH.SMS}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <SmsSendingList />
+                </RequiredAuth>
+              }
+            />
+            <Route
               path={PATH.APPLICATION_FORM}
               element={
                 <RequiredAuth isAuth={isAuthorized}>
@@ -101,14 +118,6 @@ const App = () => {
               element={
                 <RequiredAuth isAuth={isAuthorized}>
                   <CreateApplicationForm />
-                </RequiredAuth>
-              }
-            />
-            <Route
-              path={PATH.APPLICATION_DETAIL}
-              element={
-                <RequiredAuth isAuth={isAuthorized}>
-                  <ApplicationDetailView />
                 </RequiredAuth>
               }
             />

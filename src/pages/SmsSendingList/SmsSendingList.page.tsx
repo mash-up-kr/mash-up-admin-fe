@@ -1,0 +1,199 @@
+import React, { FormEvent, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useRecoilStateLoadable, useSetRecoilState } from 'recoil';
+import { useSearchParams } from 'react-router-dom';
+
+import { Pagination, Table, UserProfile, SearchOptionBar, BottomCTA } from '@/components';
+import { useDirty, usePagination } from '@/hooks';
+import { $modalByStorage, $smsSendingList, ModalKey } from '@/store';
+import { SmsSendingListResponse } from '@/types';
+import { SORT_TYPE } from '@/constants';
+import { formatDate } from '@/utils';
+import * as api from '@/api';
+import { TableColumn, SortType } from '@/components/common/Table/Table.component';
+import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
+
+import * as Styled from './SmsSendingList.styled';
+import { SmsSendingListRequest } from '../../types/dto/sms';
+
+const ApplicationFormList = () => {
+  const handleSMSModal = useSetRecoilState($modalByStorage(ModalKey.smsSendDetailInfoModalDialog));
+
+  const columns: TableColumn<SmsSendingListResponse>[] = useMemo(
+    () => [
+      {
+        title: '발송메모',
+        accessor: 'name',
+        idAccessor: 'notificationId',
+        widthRatio: '35%',
+        renderCustomCell: (cellValue, notificationId) => (
+          <Styled.TitleButton
+            onClick={async () => {
+              const { data: sms } = await api.getSmsById({ notificationId });
+
+              handleSMSModal({
+                key: ModalKey.smsSendDetailInfoModalDialog,
+                props: { sms },
+                isOpen: true,
+              });
+            }}
+          >
+            {cellValue as string}
+          </Styled.TitleButton>
+        ),
+      },
+      {
+        title: '발송번호',
+        accessor: 'senderPhoneNumber',
+        widthRatio: '15%',
+      },
+      {
+        title: '발송자',
+        accessor: 'sender',
+        widthRatio: '15%',
+        renderCustomCell: (cellValue) => {
+          const [team, role] = (cellValue as string).split('_') as [TeamType, RoleType];
+          return (
+            <Styled.CustomUserProfile>
+              <UserProfile team={team} role={role} showBackground={false} />
+            </Styled.CustomUserProfile>
+          );
+        },
+      },
+      {
+        title: '발송일시',
+        accessor: 'sentAt',
+        widthRatio: '20%',
+        renderCustomCell: (cellValue) =>
+          formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+      },
+      // {
+      //   title: '발송여부 (성공/실패/전체)',
+      //   accessor: 'updatedAt',
+      //   widthRatio: '15%',
+      //   // renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+      // },
+    ],
+    [],
+  );
+
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get('page') || '1';
+  const size = searchParams.get('size') || '20';
+
+  const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
+
+  const [sortTypes, setSortTypes] = useState<SortType<SmsSendingListResponse>[]>([
+    { accessor: 'senderPhoneNumber', type: SORT_TYPE.DEFAULT },
+    { accessor: 'sentAt', type: SORT_TYPE.DEFAULT },
+  ]);
+  const sortParam = useMemo(() => {
+    const matched = sortTypes.find((sortType) => sortType.type !== SORT_TYPE.DEFAULT);
+    if (!matched) return '';
+
+    const { accessor, type } = matched;
+    return `${accessor},${type}`;
+  }, [sortTypes]);
+
+  const smsSendingListParams = useMemo<SmsSendingListRequest>(
+    () => ({
+      page: parseInt(page, 10) - 1,
+      size: parseInt(size, 10),
+      searchWord: searchWord.value,
+      sort: sortParam,
+    }),
+    [page, size, searchWord, sortParam],
+  );
+
+  const [totalCount, setTotalCount] = useState(0);
+  const [{ state, contents: tableRows }] = useRecoilStateLoadable(
+    $smsSendingList(smsSendingListParams),
+  );
+
+  const isLoading = state === 'loading';
+  const [loadedTableRows, setLoadedTableRows] = useState<SmsSendingListResponse[]>(
+    tableRows.data || [],
+  );
+
+  const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
+    totalCount: tableRows.page?.totalCount,
+  });
+
+  const { makeDirty, isDirty } = useDirty(1);
+
+  const handleSubmit = (
+    e: { target: { searchWord: { value: string } } } & FormEvent<HTMLFormElement>,
+  ) => {
+    e.preventDefault();
+    setSearchWord({ value: e.target.searchWord.value });
+  };
+
+  useEffect(() => {
+    if (!isLoading) {
+      setLoadedTableRows(tableRows.data);
+      setTotalCount(tableRows.page.totalCount);
+      makeDirty();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading, tableRows]);
+
+  useLayoutEffect(() => {
+    if (isDirty && !isLoading) {
+      window.scrollTo(0, 167);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadedTableRows]);
+
+  return (
+    <Styled.PageWrapper>
+      <Styled.Heading>SMS 발송 내역</Styled.Heading>
+      <Styled.StickyContainer>
+        <SearchOptionBar searchWord={searchWord} handleSubmit={handleSubmit} />
+      </Styled.StickyContainer>
+      <Table<SmsSendingListResponse>
+        prefix="sms"
+        topStickyHeight={9.2}
+        columns={columns}
+        rows={loadedTableRows}
+        isLoading={isLoading}
+        supportBar={{
+          totalCount,
+          totalSummaryText: '총 발송내역',
+        }}
+        sortOptions={{
+          sortTypes,
+          disableMultiSort: true,
+          handleSortColumn: (_sortTypes) => {
+            setSortTypes(_sortTypes);
+          },
+        }}
+        pagination={
+          <Pagination
+            pageOptions={pageOptions}
+            selectableSize={{
+              selectBoxPosition: loadedTableRows.length > 3 ? 'top' : 'bottom',
+              handleChangeSize,
+            }}
+            handleChangePage={handleChangePage}
+          />
+        }
+      />
+      <BottomCTA
+        boundaries={{
+          visibility: { topHeight: 179, bottomHeight: 20 },
+          noAnimation: { bottomHeight: 20 },
+        }}
+      >
+        <Pagination
+          pageOptions={pageOptions}
+          selectableSize={{
+            selectBoxPosition: 'top',
+            handleChangeSize,
+          }}
+          handleChangePage={handleChangePage}
+        />
+      </BottomCTA>
+    </Styled.PageWrapper>
+  );
+};
+
+export default ApplicationFormList;
