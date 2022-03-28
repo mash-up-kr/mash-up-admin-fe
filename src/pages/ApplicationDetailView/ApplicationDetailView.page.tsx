@@ -30,8 +30,7 @@ const ApplicationDetailView = () => {
         }
         await api.getApplicationById({ applicationId: id });
       } catch (e) {
-        // TODO::(@dididy) 403 페이지 디자인 완성 되면 변경
-        navigate(PATH.APPLICATION);
+        navigate(PATH.FORBIDDEN);
       }
     })();
   }, [id, navigate]);
