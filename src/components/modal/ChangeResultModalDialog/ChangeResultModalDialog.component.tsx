@@ -1,7 +1,11 @@
 import React, { useMemo, useRef } from 'react';
 import { useRecoilCallback } from 'recoil';
 import { useForm } from 'react-hook-form';
-import { getRecruitingProgressStatusFromRecruitingPeriod, request } from '@/utils';
+import {
+  getRecruitingProgressStatusFromRecruitingPeriod,
+  RecruitingProgressStatus,
+  request,
+} from '@/utils';
 import { ModalWrapper, SelectField, TitleWithContent } from '@/components';
 import * as Styled from './ChangeResultModalDialog.styled';
 import * as api from '@/api';
@@ -52,8 +56,8 @@ const ChangeResultModalDialog = ({
         );
 
         if (
-          recruitingProgressStatus === 'PREVIOUS' ||
-          recruitingProgressStatus === 'AFTER-FIRST-SEMINAR'
+          recruitingProgressStatus === RecruitingProgressStatus.PREVIOUS ||
+          recruitingProgressStatus === RecruitingProgressStatus.AFTER_FIRST_SEMINAR
         ) {
           return handleAddToast({
             type: ToastType.error,

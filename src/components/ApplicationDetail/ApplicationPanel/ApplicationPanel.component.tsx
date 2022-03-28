@@ -18,6 +18,7 @@ import {
   toUtcWithoutChangingTime,
   formatDate,
   getRecruitingProgressStatusFromRecruitingPeriod,
+  RecruitingProgressStatus,
 } from '@/utils/date';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import { useOnClickOutSide, useToast } from '@/hooks';
@@ -280,8 +281,8 @@ const ApplicationPanel = ({
         );
 
         if (
-          recruitingProgressStatus === 'PREVIOUS' ||
-          recruitingProgressStatus === 'AFTER-FIRST-SEMINAR'
+          recruitingProgressStatus === RecruitingProgressStatus.PREVIOUS ||
+          recruitingProgressStatus === RecruitingProgressStatus.AFTER_FIRST_SEMINAR
         ) {
           return handleAddToast({
             type: ToastType.error,
