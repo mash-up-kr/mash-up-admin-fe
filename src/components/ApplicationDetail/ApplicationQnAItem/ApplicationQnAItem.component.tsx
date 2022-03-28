@@ -27,7 +27,9 @@ const ApplicationQnAItem = ({
                 {decoratedText}
               </a>
             )}
-          >{`${unescape(answer.content)} http://dididy.io`}</Linkify>
+          >
+            {unescape(answer.content)}
+          </Linkify>
         </Styled.Answer>
       )}
       {maxContentLength && (
