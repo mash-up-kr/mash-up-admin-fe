@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import * as Styled from './LoginPage.styled';
 import Logo from '@/assets/svg/logo-admin-272.svg';
 import MinsourLogo from '@/assets/svg/minsour-logo-200.svg';
+import MinsourSad from '@/assets/svg/minsour-sad-200.svg';
 import { Button, Input } from '@/components';
 import { InputSize } from '@/components/common/Input/Input.component';
 import { ButtonShape } from '@/components/common/Button/Button.component';
@@ -64,7 +65,7 @@ const LoginPage = () => {
           />
         </div>
         <Button type="submit" shape={ButtonShape.primary} label="로그인" />
-        <MinsourLogo />
+        {error ? <MinsourSad /> : <MinsourLogo />}
       </Styled.LoginContainer>
     </Styled.LoginPageWrapper>
   );

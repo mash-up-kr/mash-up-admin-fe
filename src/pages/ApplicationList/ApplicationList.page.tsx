@@ -23,7 +23,7 @@ import {
   TeamNavigationTabs,
 } from '@/components';
 import { formatDate, uniqArray } from '@/utils';
-import { PATH, SORT_TYPE } from '@/constants';
+import { SORT_TYPE } from '@/constants';
 import { $applications, $teamIdByName, ModalKey, $modalByStorage } from '@/store';
 import { useDirty, usePagination } from '@/hooks';
 import { ApplicationRequest, ApplicationResponse } from '@/types';
@@ -46,10 +46,10 @@ const columns: TableColumn<ApplicationResponse>[] = [
     accessor: 'applicant.name',
     idAccessor: 'applicationId',
     widthRatio: '10%',
-    renderCustomCell: (cellValue, id) => (
+    renderCustomCell: (cellValue, handleClickLink) => (
       <Styled.FormTitleWrapper title={cellValue as string}>
         <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
-        <Styled.TitleLink to={`${PATH.APPLICATION}/${id}`} />
+        <Styled.TitleLink onClick={handleClickLink} />
       </Styled.FormTitleWrapper>
     ),
   },
