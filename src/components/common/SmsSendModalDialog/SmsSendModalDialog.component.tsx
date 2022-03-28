@@ -125,6 +125,7 @@ const SmsSendModalDialog = ({
       },
     },
     handleCloseModal: handleRemoveCurrentModal,
+    closeOnClickOverlay: false,
   };
 
   return (

@@ -71,6 +71,7 @@ const SmsSendDetailListModalDialog = ({
     },
     handleCloseModal: handleRemoveCurrentModal,
     isContentScroll: false,
+    closeOnClickOverlay: false,
   };
 
   return (

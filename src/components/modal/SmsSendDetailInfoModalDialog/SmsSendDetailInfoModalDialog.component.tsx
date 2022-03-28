@@ -107,6 +107,7 @@ const SmsSendDetailInfoModalDialog = ({ sms }: SmsSendDetailInfoModalDialogProps
     },
     handleCloseModal: handleRemoveCurrentModal,
     isContentScroll: false,
+    closeOnClickOverlay: false,
   };
 
   return (

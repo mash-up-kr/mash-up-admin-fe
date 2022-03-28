@@ -8,7 +8,7 @@ import React, {
   MouseEventHandler,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { NestedKeyOf, ValueOf } from '@/types';
+import { ApplicationRequest, NestedKeyOf, ValueOf } from '@/types';
 import { getOwnValueByKey, isArray, isSameObject, request } from '@/utils';
 import { colors } from '@/styles';
 import QuestionFile from '@/assets/svg/question-file-72.svg';
@@ -65,6 +65,7 @@ export interface TableProps<T extends object> {
     buttons?: ReactNode[];
   };
   pagination?: ReactNode;
+  applicationParams?: ApplicationRequest;
 }
 
 interface TableSupportBarProps {
@@ -249,6 +250,7 @@ const Table = <T extends object>({
   sortOptions,
   supportBar: { totalCount, totalSummaryText, selectedSummaryText, buttons: supportButtons },
   pagination,
+  applicationParams,
 }: TableProps<T>) => {
   const navigate = useNavigate();
   const { handleAddToast } = useToast();
@@ -378,7 +380,7 @@ const Table = <T extends object>({
                               });
                             },
                             onSuccess: async () => {
-                              navigate(`${PATH.APPLICATION}/${id}`);
+                              navigate(`${PATH.APPLICATION}/${id}`, { state: applicationParams });
                             },
                           });
                         };
