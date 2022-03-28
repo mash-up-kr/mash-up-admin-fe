@@ -67,14 +67,21 @@ const ApplicationFormList = () => {
         renderCustomCell: (cellValue) =>
           formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
       },
-      // {
-      //   title: '발송여부 (성공/실패/전체)',
-      //   accessor: 'updatedAt',
-      //   widthRatio: '15%',
-      //   // renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
-      // },
+      {
+        title: '발송여부\n(성공/실패/전체)',
+        accessor: ['successCount', 'failureCount', 'totalCount'],
+        widthRatio: '10%',
+        renderCustomCell: (cellValue) => {
+          const [successCount, failureCount, totalCount] = cellValue as string[];
+          return (
+            <Styled.SendingStatus>
+              <span>{successCount}</span>/<span>{failureCount}</span>/<span>{totalCount}</span>
+            </Styled.SendingStatus>
+          );
+        },
+      },
     ],
-    [],
+    [handleSMSModal],
   );
 
   const [searchParams] = useSearchParams();

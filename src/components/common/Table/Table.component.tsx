@@ -7,7 +7,7 @@ import React, {
   useMemo,
 } from 'react';
 import { NestedKeyOf, ValueOf } from '@/types';
-import { getOwnValueByKey, isSameObject } from '@/utils';
+import { getOwnValueByKey, isArray, isSameObject } from '@/utils';
 import { colors } from '@/styles';
 import QuestionFile from '@/assets/svg/question-file-72.svg';
 import CaretUpdown from '@/assets/svg/caret-updown-16.svg';
@@ -19,7 +19,7 @@ import { SORT_TYPE } from '@/constants';
 
 export interface TableColumn<T extends object> {
   title: string;
-  accessor?: NestedKeyOf<T>;
+  accessor?: NestedKeyOf<T> | NestedKeyOf<T>[];
   idAccessor?: NestedKeyOf<T>;
   widthRatio: string;
   renderCustomCell?: (cellValue: unknown, id?: string) => ReactNode;
@@ -159,8 +159,19 @@ const TableColumnCell = <T extends object>({
     [sortOptions, sortColumnIndex],
   );
 
+  const titles = column.title.split(/\n/);
+
   if (!sortable) {
-    return <Styled.TableColumn>{column.title}</Styled.TableColumn>;
+    return (
+      <Styled.TableColumn>
+        {titles.map((title, index) => (
+          <>
+            {title}
+            {index !== titles.length - 1 && <br />}
+          </>
+        ))}
+      </Styled.TableColumn>
+    );
   }
 
   const handleClickColumn = () => {
@@ -199,7 +210,12 @@ const TableColumnCell = <T extends object>({
 
   return (
     <Styled.TableColumn sortable={!!sortOptions} onClick={() => handleClickColumn()}>
-      {column.title}
+      {titles.map((title, index) => (
+        <>
+          {title}
+          {index !== titles.length - 1 && <br />}
+        </>
+      ))}
       {sortOptions &&
         (sortOptions.sortTypes[sortColumnIndex!].type === SORT_TYPE.DEFAULT ? (
           <CaretUpdown />
@@ -331,8 +347,12 @@ const Table = <T extends object>({
                       )}
                       {columns.map((column, columnIndex) => {
                         const { accessor, idAccessor, renderCustomCell } = column;
-                        const cellValue = accessor ? getOwnValueByKey(row, accessor) : null;
-                        const id = idAccessor ? getOwnValueByKey(row, idAccessor) : null;
+                        const id = getOwnValueByKey(row, idAccessor);
+                        const cellValue = isArray(accessor)
+                          ? (accessor as any[]).map((accessorItem) =>
+                              getOwnValueByKey(row, accessorItem as any),
+                            )
+                          : getOwnValueByKey(row, accessor as any);
 
                         return (
                           <Styled.TableCell key={`cell-${columnIndex}`}>

@@ -55,6 +55,22 @@ export const CustomUserProfile = styled.div`
   `}
 `;
 
+export const SendingStatus = styled.div`
+  ${({ theme }) => css`
+    ${theme.fonts.regular14};
+
+    & > span:first-of-type {
+      color: ${theme.colors.blue70};
+    }
+    & > span:nth-of-type(2) {
+      color: ${theme.colors.red70};
+    }
+    & > span:last-of-type {
+      color: ${theme.colors.gray80};
+    }
+  `}
+`;
+
 export const Center = styled.div`
   display: flex;
   align-items: center;

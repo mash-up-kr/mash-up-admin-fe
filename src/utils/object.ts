@@ -1,7 +1,10 @@
 import { NestedKeyOf } from '@/types';
 import { isObject, isArray } from './type';
 
-export const getOwnValueByKey = <T extends object>(object: T, path: NestedKeyOf<T>) => {
+export const getOwnValueByKey = <T extends object>(object: T, path?: NestedKeyOf<T>) => {
+  if (!path) {
+    return undefined;
+  }
   const keys = path.split('.');
 
   return keys.reduce((result: any, key) => {
