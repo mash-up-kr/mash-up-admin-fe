@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Link, Button } from '@/components';
+import { Button } from '@/components';
 
 export const PageWrapper = styled.div`
   padding: 4rem 0;
@@ -14,6 +14,16 @@ export const Heading = styled.h2`
     font-size: 3.6rem;
     line-height: 4.5rem;
   `};
+`;
+
+export const StickyContainer = styled.div`
+  ${({ theme }) => css`
+    position: sticky;
+    top: 0;
+    z-index: ${theme.zIndex.sticky};
+    padding-bottom: 1.2rem;
+    background-color: ${theme.colors.white};
+  `}
 `;
 
 export const FormTitleWrapper = styled.div`
@@ -43,9 +53,10 @@ export const FormTitle = styled.div`
   `};
 `;
 
-export const TitleLink = styled(Link)`
+export const TitleLink = styled.a`
   position: absolute;
   inset: 0;
+  cursor: pointer;
 `;
 
 export const Center = styled.div`

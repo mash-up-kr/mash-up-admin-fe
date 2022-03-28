@@ -3,15 +3,18 @@ import styled from '@emotion/styled';
 import { PositionType } from '@/components/common/ModalWrapper/ModalWrapper.component';
 
 export const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  ${({ theme }) => css`
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: ${theme.zIndex.modal};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+  `}
 `;
 
 export const ModalCard = styled.div`

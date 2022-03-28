@@ -31,11 +31,13 @@ interface FormValues {
 export interface ChangeResultModalDialogProps {
   selectedList: number[];
   selectedResults: ApplicationResultStatusKeyType[];
+  refreshList?: () => void;
 }
 
 const ChangeResultModalDialog = ({
   selectedList,
   selectedResults,
+  refreshList,
 }: ChangeResultModalDialogProps) => {
   const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
   const { handleAddToast } = useToast();
@@ -86,6 +88,7 @@ const ChangeResultModalDialog = ({
                     type: ToastType.success,
                     message: '성공적으로 합격여부를 변경했습니다.',
                   });
+                  refreshList?.();
                 },
                 onCompleted: () => {
                   set($modalByStorage(ModalKey.alertModalDialog), {

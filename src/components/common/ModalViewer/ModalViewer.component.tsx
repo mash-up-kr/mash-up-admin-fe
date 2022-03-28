@@ -12,6 +12,7 @@ import {
 import { AlertModalDialogProps } from '../AlertModalDialog/AlertModalDialog.component';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
 import { SmsSendModalDialogProps } from '../SmsSendModalDialog/SmsSendModalDialog.component';
+import { SmsSendDetailListModalDialogProps } from '../../modal/SmsSendDetailListModalDialog/SmsSendDetailListModalDialog.component';
 
 const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
   const modal = useRecoilValue($modalByStorage(modalKey));
@@ -30,8 +31,13 @@ const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
     return <SmsSendModalDialog key={modalKey} {...(modal.props as SmsSendModalDialogProps)} />;
   }
 
-  if (modalKey === ModalKey.smsSendDetailListModalDialog && modal.isOpen) {
-    return <SmsSendDetailListModalDialog key={modalKey} />;
+  if (modalKey === ModalKey.smsSendDetailListModalDialog && modal.isOpen && modal.props) {
+    return (
+      <SmsSendDetailListModalDialog
+        key={modalKey}
+        {...(modal.props as SmsSendDetailListModalDialogProps)}
+      />
+    );
   }
 
   if (modalKey === ModalKey.smsSendDetailInfoModalDialog && modal.isOpen) {

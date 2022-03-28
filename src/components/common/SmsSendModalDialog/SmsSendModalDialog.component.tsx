@@ -13,10 +13,11 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import ArrowRight from '@/assets/svg/chevron-right-16.svg';
-import { request } from '@/utils';
+import { request, uniqArray } from '@/utils';
 import { useToast } from '@/hooks';
 import { ToastType } from '../Toast/Toast.component';
 import { PATH } from '@/constants';
+import { ApplicationResponse } from '@/types';
 
 interface FormValues {
   name: string;
@@ -24,20 +25,26 @@ interface FormValues {
 }
 
 export interface SmsSendModalDialogProps {
-  selectedList: number[];
-  resultStatus?: ApplicationResultStatusKeyType;
-  confirmationStatus?: ApplicationConfirmationStatusKeyType;
+  selectedApplications: ApplicationResponse[];
   isSendFailed?: boolean;
   messageContent?: string;
+  showSummary?: boolean;
 }
 
 const SmsSendModalDialog = ({
-  selectedList,
-  resultStatus,
-  confirmationStatus,
+  selectedApplications,
   isSendFailed = false,
   messageContent,
+  showSummary = false,
 }: SmsSendModalDialogProps) => {
+  const selectedIds = selectedApplications.map((application) => application.applicant.applicantId);
+  const selectedResults = uniqArray(
+    selectedApplications.map((application) => application.result.status),
+  ) as ApplicationResultStatusKeyType[];
+  const selectedConfirmStatuses = uniqArray(
+    selectedApplications.map((application) => application.confirmationStatus),
+  ) as ApplicationConfirmationStatusKeyType[];
+
   const { handleAddToast } = useToast();
   const navigate = useNavigate();
   const { adminMember } = useRecoilValue($me);
@@ -48,6 +55,9 @@ const SmsSendModalDialog = ({
   const handleOpenSmsSendDetailListModalDialog = () => {
     setSmsSendDetailListModal({
       key: ModalKey.smsSendDetailListModalDialog,
+      props: {
+        selectedApplications,
+      },
       isOpen: true,
     });
   };
@@ -78,7 +88,7 @@ const SmsSendModalDialog = ({
         handleClickConfirmButton: () => {
           request({
             requestFunc: async () => {
-              await api.postSmsSend({ applicantIds: selectedList, content, name });
+              await api.postSmsSend({ applicantIds: selectedIds, content, name });
             },
 
             errorHandler: handleAddToast,
@@ -112,7 +122,6 @@ const SmsSendModalDialog = ({
         label: '발송',
         onClick: handleSubmit(handleSendSms),
         type: 'submit',
-        // TODO:(@dididy) sms 작업 완료 시 아래 라인 삭제
       },
     },
     handleCloseModal: handleRemoveCurrentModal,
@@ -121,10 +130,10 @@ const SmsSendModalDialog = ({
   return (
     <ModalWrapper {...props}>
       <Styled.SmsSendModalContainer>
-        {confirmationStatus && resultStatus && (
+        {showSummary && (
           <>
             <Styled.TitleArea>
-              <TitleWithContent title="총 발송 인원">{selectedList.length}</TitleWithContent>
+              <TitleWithContent title="총 발송 인원">{selectedIds.length}</TitleWithContent>
               {!isSendFailed && (
                 <button type="button" onClick={handleOpenSmsSendDetailListModalDialog}>
                   발송 인원 상세보기
@@ -139,10 +148,14 @@ const SmsSendModalDialog = ({
             )}
             <Styled.StatusArea isSendFailed={isSendFailed}>
               <TitleWithContent title="사용자 확인 여부">
-                <ApplicationStatusBadge text={ApplicationConfirmationStatus[confirmationStatus]} />
+                {selectedConfirmStatuses?.map((each) => (
+                  <ApplicationStatusBadge key={each} text={ApplicationConfirmationStatus[each]} />
+                ))}
               </TitleWithContent>
               <TitleWithContent title="합격 여부">
-                <ApplicationStatusBadge text={ApplicationResultStatus[resultStatus]} />
+                {selectedResults?.map((each) => (
+                  <ApplicationStatusBadge key={each} text={ApplicationResultStatus[each]} />
+                ))}
               </TitleWithContent>
             </Styled.StatusArea>
             <Styled.Divider />

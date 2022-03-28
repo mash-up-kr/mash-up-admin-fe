@@ -21,9 +21,11 @@ OnePageCase.args = {
     startPage: 1,
     totalPages: 1,
   },
-  selectableSize: true,
-  handleChangePage: () => () => {},
-  handleChangeSize: () => {},
+  selectableSize: {
+    selectBoxPosition: 'bottom',
+    handleChangeSize: () => {},
+  },
+  handleChangePage: () => {},
 };
 
 export const FivePagesCase = Template.bind({});
@@ -35,9 +37,11 @@ FivePagesCase.args = {
     startPage: 1,
     totalPages: 5,
   },
-  selectableSize: true,
-  handleChangePage: () => () => {},
-  handleChangeSize: () => {},
+  selectableSize: {
+    selectBoxPosition: 'bottom',
+    handleChangeSize: () => {},
+  },
+  handleChangePage: () => {},
 };
 
 export const TenPagesCase = Template.bind({});
@@ -49,9 +53,11 @@ TenPagesCase.args = {
     startPage: 1,
     totalPages: 10,
   },
-  selectableSize: true,
-  handleChangePage: () => () => {},
-  handleChangeSize: () => {},
+  selectableSize: {
+    selectBoxPosition: 'bottom',
+    handleChangeSize: () => {},
+  },
+  handleChangePage: () => {},
 };
 
 export const TwentyFivePagesCase = Template.bind({});
@@ -63,21 +69,26 @@ TwentyFivePagesCase.args = {
     startPage: 11,
     totalPages: 25,
   },
-  selectableSize: true,
-  handleChangePage: () => () => {},
-  handleChangeSize: () => {},
+  selectableSize: {
+    selectBoxPosition: 'bottom',
+    handleChangeSize: () => {},
+  },
+  handleChangePage: () => {},
 };
 
 export const UsingPagination = () => {
-  const { pageOptions, handleChangePage, handleChangeSize } = usePagination(550);
+  const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
+    totalCount: 550,
+  });
 
   return (
     <Pagination
       pageOptions={pageOptions}
-      selectableSize
+      selectableSize={{
+        selectBoxPosition: SelectPosition.bottom,
+        handleChangeSize,
+      }}
       handleChangePage={handleChangePage}
-      handleChangeSize={handleChangeSize}
-      selectBoxPosition={SelectPosition.bottom}
     />
   );
 };

@@ -6,3 +6,5 @@ export { default as useToast } from './useToast';
 export { default as useUnmount } from './useUnmount';
 export { default as useDirty } from './useDirty';
 export { default as useConvertToXlsx } from './useConvertToXlsx';
+export { default as useBottomCTA } from './useBottomCTA';
+export { default as useWindowScroll } from './useWindowScroll';

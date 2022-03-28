@@ -2,6 +2,8 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from '@emotion/react';
+import { BrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 import Table, { TableColumn } from './Table.component';
 import { theme } from '@/styles';
 
@@ -19,15 +21,19 @@ export const renderTable = <T extends object>({
   isLoading = false,
 }: Params<T>) => {
   render(
-    <ThemeProvider theme={theme}>
-      <Table<T>
-        prefix={prefix}
-        columns={_columns}
-        rows={_data}
-        isLoading={isLoading}
-        supportBar={{ totalCount: _data.length, totalSummaryText: '총 지원설문지' }}
-      />
-    </ThemeProvider>,
+    <RecoilRoot>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <Table<T>
+            prefix={prefix}
+            columns={_columns}
+            rows={_data}
+            isLoading={isLoading}
+            supportBar={{ totalCount: _data.length, totalSummaryText: '총 지원설문지' }}
+          />
+        </ThemeProvider>
+      </BrowserRouter>
+    </RecoilRoot>,
   );
 
   const TableHeader = () => screen.getAllByRole('row')[0];

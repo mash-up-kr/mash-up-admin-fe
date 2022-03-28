@@ -4,17 +4,28 @@ import React, {
   useEffect,
   useLayoutEffect,
   useCallback,
-  useRef,
   FormEvent,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { writeFileXLSX } from 'xlsx';
-import { useRecoilStateLoadable, useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  useRecoilStateLoadable,
+  useRecoilValue,
+  useSetRecoilState,
+  useRecoilRefresher_UNSTABLE,
+} from 'recoil';
 import dayjs from 'dayjs';
 import * as api from '@/api';
-import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
+import {
+  BottomCTA,
+  Button,
+  Pagination,
+  SearchOptionBar,
+  Table,
+  TeamNavigationTabs,
+} from '@/components';
 import { formatDate, uniqArray } from '@/utils';
-import { PATH, SORT_TYPE } from '@/constants';
+import { SORT_TYPE } from '@/constants';
 import { $applications, $teamIdByName, ModalKey, $modalByStorage, $profile } from '@/store';
 import { useConvertToXlsx, useDirty, usePagination } from '@/hooks';
 import { ApplicationRequest, ApplicationResponse } from '@/types';
@@ -37,10 +48,10 @@ const columns: TableColumn<ApplicationResponse>[] = [
     accessor: 'applicant.name',
     idAccessor: 'applicationId',
     widthRatio: '10%',
-    renderCustomCell: (cellValue, id) => (
+    renderCustomCell: (cellValue, handleClickLink) => (
       <Styled.FormTitleWrapper title={cellValue as string}>
         <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
-        <Styled.TitleLink to={`${PATH.APPLICATION}/${id}`} />
+        <Styled.TitleLink onClick={handleClickLink} />
       </Styled.FormTitleWrapper>
     ),
   },
@@ -95,13 +106,13 @@ const columns: TableColumn<ApplicationResponse>[] = [
 ];
 
 const ApplicationList = () => {
-  const handleControlModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
+  const handleSMSModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+  const handleResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
 
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
   const myTeamName = useRecoilValue($profile)[0];
-  const teamTabRef = useRef<HTMLDivElement>(null);
   const isMyTeam = useMemo(
     () =>
       !teamName || teamName.toLowerCase() === myTeamName.toLowerCase() || myTeamName === 'BRANDING',
@@ -160,6 +171,7 @@ const ApplicationList = () => {
       size: (tableRows?.page?.totalCount || 0) + APPLICATION_EXTRA_SIZE,
     }),
   );
+  const refreshApplications = useRecoilRefresher_UNSTABLE($applications(applicationParams));
   const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
   const selectedResults = useMemo(
     () =>
@@ -189,9 +201,9 @@ const ApplicationList = () => {
     teamName: teamName || '전체',
   });
 
-  const { pageOptions, handleChangePage, handleChangeSize } = usePagination(
-    tableRows.page?.totalCount,
-  );
+  const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
+    totalCount: tableRows.page?.totalCount,
+  });
 
   const { makeDirty, isDirty } = useDirty(1);
 
@@ -235,8 +247,8 @@ const ApplicationList = () => {
   }, [teamName]);
 
   useLayoutEffect(() => {
-    if (teamTabRef.current && isDirty && !isLoading) {
-      teamTabRef.current.scrollIntoView();
+    if (isDirty && !isLoading) {
+      window.scrollTo(0, 179);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedTableRows]);
@@ -244,17 +256,18 @@ const ApplicationList = () => {
   return (
     <Styled.PageWrapper>
       <Styled.Heading>지원서 내역</Styled.Heading>
-      <div ref={teamTabRef}>
+      <Styled.StickyContainer>
         <TeamNavigationTabs />
-      </div>
-      <SearchOptionBar
-        filterValues={filterValues}
-        setFilterValues={setFilterValues}
-        searchWord={searchWord}
-        handleSubmit={handleSearch}
-      />
+        <SearchOptionBar
+          filterValues={filterValues}
+          setFilterValues={setFilterValues}
+          searchWord={searchWord}
+          handleSubmit={handleSearch}
+        />
+      </Styled.StickyContainer>
       <Table
         prefix="application"
+        topStickyHeight={14.1}
         columns={columns}
         rows={loadedTableRows}
         isLoading={isLoading}
@@ -266,6 +279,16 @@ const ApplicationList = () => {
             <Styled.DisabledButton
               $size={ButtonSize.xs}
               shape={ButtonShape.defaultLine}
+              onClick={() =>
+                handleSMSModal({
+                  key: ModalKey.smsSendModalDialog,
+                  props: {
+                    selectedApplications: selectedRows,
+                    showSummary: true,
+                  },
+                  isOpen: true,
+                })
+              }
               disabled={selectedResults.length === 0 && isMyTeam}
             >
               SMS 발송
@@ -274,11 +297,15 @@ const ApplicationList = () => {
               $size={ButtonSize.xs}
               shape={ButtonShape.defaultLine}
               onClick={() =>
-                handleControlModal({
+                handleResultModal({
                   key: ModalKey.changeResultModalDialog,
                   props: {
                     selectedList: selectedRows.map((row) => row.applicationId),
                     selectedResults,
+                    refreshList: () => {
+                      refreshApplications();
+                      setSelectedRows([]);
+                    },
                   },
                   isOpen: true,
                 })
@@ -320,13 +347,29 @@ const ApplicationList = () => {
         pagination={
           <Pagination
             pageOptions={pageOptions}
-            selectableSize
-            selectBoxPosition={loadedTableRows.length > 3 ? 'top' : 'bottom'}
+            selectableSize={{
+              selectBoxPosition: loadedTableRows.length > 3 ? 'top' : 'bottom',
+              handleChangeSize,
+            }}
             handleChangePage={handleChangePage}
-            handleChangeSize={handleChangeSize}
           />
         }
       />
+      <BottomCTA
+        boundaries={{
+          visibility: { topHeight: 179, bottomHeight: 20 },
+          noAnimation: { bottomHeight: 20 },
+        }}
+      >
+        <Pagination
+          pageOptions={pageOptions}
+          selectableSize={{
+            selectBoxPosition: loadedTableRows.length > 3 ? 'top' : 'bottom',
+            handleChangeSize,
+          }}
+          handleChangePage={handleChangePage}
+        />
+      </BottomCTA>
     </Styled.PageWrapper>
   );
 };

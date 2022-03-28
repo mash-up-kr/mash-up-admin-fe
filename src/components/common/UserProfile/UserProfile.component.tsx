@@ -19,6 +19,7 @@ export const Role = {
   leader: 'LEADER',
   subLeader: 'SUBLEADER',
   member: 'MEMBER',
+  helper: 'HELPER',
 } as const;
 
 export const splitMemberPosition = (position: MemberPositionType) => {
