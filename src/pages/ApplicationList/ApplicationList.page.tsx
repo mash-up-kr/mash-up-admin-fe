@@ -48,7 +48,7 @@ const columns: TableColumn<ApplicationResponse>[] = [
     accessor: 'applicant.name',
     idAccessor: 'applicationId',
     widthRatio: '10%',
-    renderCustomCell: (cellValue, handleClickLink) => (
+    renderCustomCell: (cellValue, _, handleClickLink) => (
       <Styled.FormTitleWrapper title={cellValue as string}>
         <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
         <Styled.TitleLink onClick={handleClickLink} />

@@ -12,10 +12,10 @@ import { formatDate } from '@/utils/date';
 import { SmsStatus, SmsStatusType } from '@/types/dto/sms';
 
 export interface MessageInfoProps {
-  notificationName: string;
-  senderPhoneNumber: string;
-  sender: MemberPositionType;
-  notificationContent: string;
+  notificationName?: string;
+  senderPhoneNumber?: string;
+  sender?: MemberPositionType;
+  notificationContent?: string;
   smsRequestId: number;
   status: SmsStatusType;
   team: {
@@ -41,8 +41,8 @@ const MessageInfo = ({
       <TitleWithContent title="발송번호">{senderPhoneNumber}</TitleWithContent>
       <TitleWithContent title="발송자">
         <UserProfile
-          team={splitMemberPosition(sender)[0]}
-          role={splitMemberPosition(sender)[1]}
+          team={splitMemberPosition(sender!)[0]}
+          role={splitMemberPosition(sender!)[1]}
           showBackground={false}
           removePadding
         />

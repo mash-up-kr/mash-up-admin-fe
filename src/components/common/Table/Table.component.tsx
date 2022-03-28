@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NestedKeyOf, ValueOf } from '@/types';
-import { getOwnValueByKey, isSameObject, request } from '@/utils';
+import { getOwnValueByKey, isArray, isSameObject, request } from '@/utils';
 import { colors } from '@/styles';
 import QuestionFile from '@/assets/svg/question-file-72.svg';
 import CaretUpdown from '@/assets/svg/caret-updown-16.svg';
@@ -24,11 +24,12 @@ import * as api from '@/api';
 
 export interface TableColumn<T extends object> {
   title: string;
-  accessor?: NestedKeyOf<T>;
+  accessor?: NestedKeyOf<T> | NestedKeyOf<T>[];
   idAccessor?: NestedKeyOf<T>;
   widthRatio: string;
   renderCustomCell?: (
     cellValue: unknown,
+    id: string,
     handleClickLink?: MouseEventHandler<HTMLAnchorElement>,
   ) => ReactNode;
 }
@@ -58,8 +59,8 @@ export interface TableProps<T extends object> {
   };
   sortOptions?: SortOptions<T>;
   supportBar: {
-    totalCount: number;
-    totalSummaryText: string;
+    totalCount?: number;
+    totalSummaryText?: string;
     selectedSummaryText?: string;
     buttons?: ReactNode[];
   };
@@ -67,9 +68,9 @@ export interface TableProps<T extends object> {
 }
 
 interface TableSupportBarProps {
-  totalSummaryText: string;
+  totalSummaryText?: string;
   selectedSummaryText?: string;
-  totalCount: number;
+  totalCount?: number;
   selectedCount?: number;
   rowCount?: number;
   allInAPageChecked?: boolean;
@@ -92,42 +93,44 @@ const TableSupportBar = ({
   const allChecked = totalCount === selectedCount;
   return (
     <Styled.TableSupportBar topStickyHeight={topStickyHeight}>
-      <Styled.TableSummary>
-        <div>{totalSummaryText}</div>
-        <div>{totalCount}</div>
-        {!!selectedCount && (
-          <>
-            <div>
-              <div />
-            </div>
-            <div>{selectedCount}</div>
-            <div>{selectedSummaryText}</div>
-          </>
-        )}
-        {allInAPageChecked && (
-          <Styled.TotalSelectBox>
-            {allChecked ? (
-              <>
-                <div>
-                  모든 페이지에 있는 <span>{totalCount}개</span>가 모두 선택되었습니다.
-                </div>
-                <button type="button" onClick={() => handleSelectAll!(true)}>
-                  선택최소
-                </button>
-              </>
-            ) : (
-              <>
-                <div>
-                  이 페이지에 있는 <span>{rowCount}개</span>가 모두 선택되었습니다.
-                </div>
-                <button type="button" onClick={() => handleSelectAll!(false)}>
-                  전체인원 {totalCount}개 모두 선택
-                </button>
-              </>
-            )}
-          </Styled.TotalSelectBox>
-        )}
-      </Styled.TableSummary>
+      {totalSummaryText && (
+        <Styled.TableSummary>
+          <div>{totalSummaryText}</div>
+          <div>{totalCount}</div>
+          {!!selectedCount && (
+            <>
+              <div>
+                <div />
+              </div>
+              <div>{selectedCount}</div>
+              <div>{selectedSummaryText}</div>
+            </>
+          )}
+          {allInAPageChecked && (
+            <Styled.TotalSelectBox>
+              {allChecked ? (
+                <>
+                  <div>
+                    모든 페이지에 있는 <span>{totalCount}개</span>가 모두 선택되었습니다.
+                  </div>
+                  <button type="button" onClick={() => handleSelectAll!(true)}>
+                    선택최소
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div>
+                    이 페이지에 있는 <span>{rowCount}개</span>가 모두 선택되었습니다.
+                  </div>
+                  <button type="button" onClick={() => handleSelectAll!(false)}>
+                    전체인원 {totalCount}개 모두 선택
+                  </button>
+                </>
+              )}
+            </Styled.TotalSelectBox>
+          )}
+        </Styled.TableSummary>
+      )}
       <Styled.TableSupportButtonContainer>
         {supportButtons?.map((button, index) => (
           <Fragment key={`supportButton-${index}`}>{button}</Fragment>
@@ -167,8 +170,19 @@ const TableColumnCell = <T extends object>({
     [sortOptions, sortColumnIndex],
   );
 
+  const titles = column.title.split(/\n/);
+
   if (!sortable) {
-    return <Styled.TableColumn>{column.title}</Styled.TableColumn>;
+    return (
+      <Styled.TableColumn>
+        {titles.map((title, index) => (
+          <>
+            {title}
+            {index !== titles.length - 1 && <br />}
+          </>
+        ))}
+      </Styled.TableColumn>
+    );
   }
 
   const handleClickColumn = () => {
@@ -207,7 +221,12 @@ const TableColumnCell = <T extends object>({
 
   return (
     <Styled.TableColumn sortable={!!sortOptions} onClick={() => handleClickColumn()}>
-      {column.title}
+      {titles.map((title, index) => (
+        <>
+          {title}
+          {index !== titles.length - 1 && <br />}
+        </>
+      ))}
       {sortOptions &&
         (sortOptions.sortTypes[sortColumnIndex!].type === SORT_TYPE.DEFAULT ? (
           <CaretUpdown />
@@ -341,8 +360,12 @@ const Table = <T extends object>({
                       )}
                       {columns.map((column, columnIndex) => {
                         const { accessor, idAccessor, renderCustomCell } = column;
-                        const cellValue = accessor ? getOwnValueByKey(row, accessor) : null;
-                        const id = idAccessor ? getOwnValueByKey(row, idAccessor) : null;
+                        const id = getOwnValueByKey(row, idAccessor);
+                        const cellValue = isArray(accessor)
+                          ? (accessor as any[]).map((accessorItem) =>
+                              getOwnValueByKey(row, accessorItem as any),
+                            )
+                          : getOwnValueByKey(row, accessor as any);
                         const handleShowToast = () => {
                           request({
                             requestFunc: async () => {
@@ -363,7 +386,7 @@ const Table = <T extends object>({
                         return (
                           <Styled.TableCell key={`cell-${columnIndex}`}>
                             {renderCustomCell
-                              ? renderCustomCell(cellValue, handleShowToast)
+                              ? renderCustomCell(cellValue, id, handleShowToast)
                               : cellValue}
                           </Styled.TableCell>
                         );
