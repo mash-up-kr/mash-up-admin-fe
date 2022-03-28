@@ -25,10 +25,10 @@ const ApplicationFormList = () => {
         accessor: 'name',
         idAccessor: 'notificationId',
         widthRatio: '35%',
-        renderCustomCell: (cellValue, notificationId) => (
+        renderCustomCell: (cellValue, id) => (
           <Styled.TitleButton
             onClick={async () => {
-              const { data: sms } = await api.getSmsById({ notificationId });
+              const { data: sms } = await api.getSmsById({ notificationId: id as string });
 
               handleSMSModal({
                 key: ModalKey.smsSendDetailInfoModalDialog,

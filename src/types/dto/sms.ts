@@ -10,10 +10,12 @@ export const SmsStatus = {
 export type SmsStatusType = KeyOf<typeof SmsStatus>;
 
 export interface SmsContent {
-  notificationContent: string;
-  notificationName: string;
-  sender: MemberPositionType;
-  senderPhoneNumber: string;
+  notificationContent?: string;
+  notificationName?: string;
+  sender?: MemberPositionType;
+  senderPhoneNumber?: string;
+  recipientName?: string;
+  recipientPhoneNumber?: string;
   smsRequestId: number;
   status: SmsStatusType;
   team: {

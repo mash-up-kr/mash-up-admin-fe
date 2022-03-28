@@ -2,8 +2,14 @@ import React from 'react';
 import { useRecoilCallback } from 'recoil';
 import { ModalWrapper } from '@/components';
 import { $modalByStorage, ModalKey } from '@/store';
+import { SmsResponse } from '@/types';
 
-const SmsSendDetailInfoModalDialog = () => {
+export interface SmsSendDetailInfoModalDialogProps {
+  sms: SmsResponse;
+}
+
+const SmsSendDetailInfoModalDialog = ({ sms }: SmsSendDetailInfoModalDialogProps) => {
+  console.log(sms);
   const handleRemoveCurrentModal = useRecoilCallback(({ set }) => () => {
     set($modalByStorage(ModalKey.smsSendDetailInfoModalDialog), {
       key: ModalKey.smsSendDetailInfoModalDialog,
