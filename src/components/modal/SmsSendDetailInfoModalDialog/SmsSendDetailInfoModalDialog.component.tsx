@@ -1,6 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import { useRecoilCallback } from 'recoil';
-import { ModalWrapper, Pagination, Table, TitleWithContent, UserProfile } from '@/components';
+import {
+  ModalWrapper,
+  Pagination,
+  Table,
+  TitleWithContent,
+  UserProfile,
+  Button,
+} from '@/components';
 import { $modalByStorage, ModalKey } from '@/store';
 import { SmsResponse, SmsContent, KeyOf } from '@/types';
 import { formatDate, getOwnValueByKey, sortString } from '@/utils';
@@ -9,6 +16,7 @@ import { SORT_TYPE } from '@/constants';
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import * as Styled from './SmsSendDetailInfoModalDialog.styled';
+import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 
 const SMS_STATUS = {
   CREATED: '생성',
@@ -78,6 +86,18 @@ const SmsSendDetailInfoModalDialog = ({ sms }: SmsSendDetailInfoModalDialogProps
     });
   });
 
+  const handleSMSModal = useRecoilCallback(({ set }) => (_sms: SmsResponse) => {
+    set($modalByStorage(ModalKey.smsSendModalDialog), {
+      key: ModalKey.smsSendModalDialog,
+      props: {
+        selectedApplications: [],
+        messageContent: _sms.content,
+        isSendFailed: true,
+      },
+      isOpen: true,
+    });
+  });
+
   const props = {
     heading: 'SMS 발송 상세내역',
     footer: {
@@ -117,7 +137,16 @@ const SmsSendDetailInfoModalDialog = ({ sms }: SmsSendDetailInfoModalDialogProps
             columns={columns}
             rows={pagedRows}
             supportBar={{
-              buttons: [],
+              totalSummaryText: ' ',
+              buttons: [
+                <Button
+                  $size={ButtonSize.xs}
+                  shape={ButtonShape.primary}
+                  onClick={() => handleSMSModal(sms)}
+                >
+                  실패인원 재발송
+                </Button>,
+              ],
             }}
             sortOptions={{
               sortTypes,
