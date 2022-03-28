@@ -129,7 +129,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
     );
 
     if (isScreeningPassed) {
-      return resultOption.slice(1, 6);
+      return resultOption.slice(1, resultOption.length);
     }
 
     return resultOption.slice(0, 4);
