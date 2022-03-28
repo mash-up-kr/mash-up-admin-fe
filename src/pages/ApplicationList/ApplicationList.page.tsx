@@ -153,6 +153,13 @@ const ApplicationList = () => {
 
   const [totalCount, setTotalCount] = useState(0);
   const [{ state, contents: tableRows }] = useRecoilStateLoadable($applications(applicationParams));
+  const [{ contents: entireTableRows }] = useRecoilStateLoadable(
+    $applications({
+      page: 0,
+      teamId: parseInt(teamId, 10) || undefined,
+      size: (tableRows?.page?.totalCount || 0) + APPLICATION_EXTRA_SIZE,
+    }),
+  );
   const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
   const selectedResults = useMemo(
     () =>
@@ -166,7 +173,7 @@ const ApplicationList = () => {
   );
 
   const { workBook } = useConvertToXlsx<ApplicationResponse>({
-    workSheet: tableRows?.data?.map((each: ApplicationResponse) => ({
+    workSheet: entireTableRows?.data?.map((each: ApplicationResponse) => ({
       이름: each.applicant.name,
       전화번호: each.applicant.phoneNumber,
       지원플랫폼: each.team.name,
@@ -293,7 +300,7 @@ const ApplicationList = () => {
               }
               disabled={!loadedTableRows}
             >
-              Export to XLSX
+              Export to Excel
             </Button>,
           ],
         }}
