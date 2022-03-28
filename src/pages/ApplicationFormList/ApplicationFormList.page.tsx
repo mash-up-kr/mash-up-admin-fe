@@ -12,6 +12,7 @@ import {
   Link,
   UserProfile,
   SearchOptionBar,
+  BottomCTA,
 } from '@/components';
 import { useDirty, usePagination, useToggleState } from '@/hooks';
 import { $applicationForms, $teamIdByName } from '@/store';
@@ -215,6 +216,21 @@ const ApplicationFormList = () => {
           />
         }
       />
+      <BottomCTA
+        boundaries={{
+          visibility: { topHeight: 179, bottomHeight: 20 },
+          noAnimation: { bottomHeight: 20 },
+        }}
+      >
+        <Pagination
+          pageOptions={pageOptions}
+          selectableSize={{
+            selectBoxPosition: loadedTableRows.length > 3 ? 'top' : 'bottom',
+            handleChangeSize,
+          }}
+          handleChangePage={handleChangePage}
+        />
+      </BottomCTA>
     </Styled.PageWrapper>
   );
 };

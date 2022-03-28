@@ -15,7 +15,14 @@ import {
   useSetRecoilState,
 } from 'recoil';
 import * as api from '@/api';
-import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
+import {
+  BottomCTA,
+  Button,
+  Pagination,
+  SearchOptionBar,
+  Table,
+  TeamNavigationTabs,
+} from '@/components';
 import { formatDate, uniqArray } from '@/utils';
 import { PATH, SORT_TYPE } from '@/constants';
 import { $applications, $teamIdByName, ModalKey, $modalByStorage } from '@/store';
@@ -303,6 +310,21 @@ const ApplicationList = () => {
           />
         }
       />
+      <BottomCTA
+        boundaries={{
+          visibility: { topHeight: 179, bottomHeight: 20 },
+          noAnimation: { bottomHeight: 20 },
+        }}
+      >
+        <Pagination
+          pageOptions={pageOptions}
+          selectableSize={{
+            selectBoxPosition: loadedTableRows.length > 3 ? 'top' : 'bottom',
+            handleChangeSize,
+          }}
+          handleChangePage={handleChangePage}
+        />
+      </BottomCTA>
     </Styled.PageWrapper>
   );
 };
