@@ -52,7 +52,11 @@ export const $modalByStorage = selectorFamily<Modal, ModalKeyType>({
         return curVal.isOpen ? `${acc}#${curVal.key}` : acc;
       }, '');
 
-      window.location.hash = hash;
+      if (hash) {
+        window.location.hash = hash;
+      } else {
+        window.history.replaceState('', document.title, window.location.pathname);
+      }
 
       return get($modal(key));
     },
