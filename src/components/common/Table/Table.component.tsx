@@ -38,6 +38,7 @@ interface SortOptions<T extends object> {
 
 export interface TableProps<T extends object> {
   prefix: string;
+  topStickyHeight?: number;
   columns: TableColumn<T>[];
   rows: T[];
   isLoading?: boolean;
@@ -66,6 +67,7 @@ interface TableSupportBarProps {
   allInAPageChecked?: boolean;
   handleSelectAll?: (checkedValue: boolean) => void;
   supportButtons?: ReactNode[];
+  topStickyHeight?: number;
 }
 
 const TableSupportBar = ({
@@ -77,10 +79,11 @@ const TableSupportBar = ({
   allInAPageChecked,
   handleSelectAll,
   supportButtons,
+  topStickyHeight,
 }: TableSupportBarProps) => {
   const allChecked = totalCount === selectedCount;
   return (
-    <Styled.TableSupportBar>
+    <Styled.TableSupportBar topStickyHeight={topStickyHeight}>
       <Styled.TableSummary>
         <div>{totalSummaryText}</div>
         <div>{totalCount}</div>
@@ -211,6 +214,7 @@ const TableColumnCell = <T extends object>({
 
 const Table = <T extends object>({
   prefix,
+  topStickyHeight,
   columns,
   rows,
   isLoading = false,
@@ -270,9 +274,10 @@ const Table = <T extends object>({
         allInAPageChecked={allInAPageChecked}
         handleSelectAll={handleSelectAll}
         supportButtons={supportButtons}
+        topStickyHeight={topStickyHeight}
       />
       <Styled.TableWrapper>
-        <Styled.Table>
+        <Styled.Table topStickyHeight={topStickyHeight && topStickyHeight + 6}>
           <colgroup>
             {!!selectableRow && <col width="4%" />}
             {columns.map((column, columnIndex) => (

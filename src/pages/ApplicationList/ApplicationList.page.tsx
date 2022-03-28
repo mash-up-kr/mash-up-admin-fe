@@ -4,7 +4,6 @@ import React, {
   useEffect,
   useLayoutEffect,
   useCallback,
-  useRef,
   FormEvent,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -15,7 +14,14 @@ import {
   useSetRecoilState,
 } from 'recoil';
 import * as api from '@/api';
-import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
+import {
+  BottomCTA,
+  Button,
+  Pagination,
+  SearchOptionBar,
+  Table,
+  TeamNavigationTabs,
+} from '@/components';
 import { formatDate, uniqArray } from '@/utils';
 import { PATH, SORT_TYPE } from '@/constants';
 import { $applications, $teamIdByName, ModalKey, $modalByStorage } from '@/store';
@@ -104,7 +110,6 @@ const ApplicationList = () => {
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
-  const teamTabRef = useRef<HTMLDivElement>(null);
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
@@ -205,8 +210,8 @@ const ApplicationList = () => {
   }, [teamName]);
 
   useLayoutEffect(() => {
-    if (teamTabRef.current && isDirty && !isLoading) {
-      teamTabRef.current.scrollIntoView();
+    if (isDirty && !isLoading) {
+      window.scrollTo(0, 179);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedTableRows]);
@@ -214,17 +219,18 @@ const ApplicationList = () => {
   return (
     <Styled.PageWrapper>
       <Styled.Heading>지원서 내역</Styled.Heading>
-      <div ref={teamTabRef}>
+      <Styled.StickyContainer>
         <TeamNavigationTabs />
-      </div>
-      <SearchOptionBar
-        filterValues={filterValues}
-        setFilterValues={setFilterValues}
-        searchWord={searchWord}
-        handleSubmit={handleSearch}
-      />
+        <SearchOptionBar
+          filterValues={filterValues}
+          setFilterValues={setFilterValues}
+          searchWord={searchWord}
+          handleSubmit={handleSearch}
+        />
+      </Styled.StickyContainer>
       <Table
         prefix="application"
+        topStickyHeight={14.1}
         columns={columns}
         rows={loadedTableRows}
         isLoading={isLoading}
@@ -300,6 +306,21 @@ const ApplicationList = () => {
           />
         }
       />
+      <BottomCTA
+        boundaries={{
+          visibility: { topHeight: 179, bottomHeight: 20 },
+          noAnimation: { bottomHeight: 20 },
+        }}
+      >
+        <Pagination
+          pageOptions={pageOptions}
+          selectableSize={{
+            selectBoxPosition: loadedTableRows.length > 3 ? 'top' : 'bottom',
+            handleChangeSize,
+          }}
+          handleChangePage={handleChangePage}
+        />
+      </BottomCTA>
     </Styled.PageWrapper>
   );
 };

@@ -5,3 +5,5 @@ export { default as useMount } from './useMount';
 export { default as useToast } from './useToast';
 export { default as useUnmount } from './useUnmount';
 export { default as useDirty } from './useDirty';
+export { default as useBottomCTA } from './useBottomCTA';
+export { default as useWindowScroll } from './useWindowScroll';
