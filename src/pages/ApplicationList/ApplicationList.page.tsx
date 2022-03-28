@@ -354,6 +354,7 @@ const ApplicationList = () => {
             handleChangePage={handleChangePage}
           />
         }
+        applicationParams={applicationParams}
       />
       <BottomCTA
         boundaries={{

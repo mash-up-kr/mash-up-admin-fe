@@ -3,6 +3,7 @@ import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import dayjs, { Dayjs } from 'dayjs';
 import { useRecoilCallback } from 'recoil';
 import utc from 'dayjs/plugin/utc';
+import { useLocation } from 'react-router-dom';
 import { Button, DatePicker, Select, SelectField } from '@/components';
 import * as Styled from './ApplicationPanel.styled';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
@@ -26,10 +27,11 @@ import { rangeArray, request } from '@/utils';
 import * as api from '@/api';
 import {
   ApplicationConfirmationStatusInDto,
+  ApplicationRequest,
   ApplicationResultStatusInDto,
   ApplicationUpdateResultByIdRequest,
 } from '@/types';
-import { $applicationById } from '@/store';
+import { $applicationById, $applications } from '@/store';
 import { ToastType } from '@/styles';
 
 dayjs.extend(utc);
@@ -246,6 +248,7 @@ const ApplicationPanel = ({
   applicationId,
   ...restProps
 }: ApplicationPanelProps) => {
+  const { state } = useLocation();
   const { handleAddToast } = useToast();
   const methods = useForm<FormValues>({
     defaultValues: {
@@ -297,6 +300,7 @@ const ApplicationPanel = ({
           errorHandler: handleAddToast,
           onSuccess: async () => {
             await refresh($applicationById({ applicationId }));
+            await refresh($applications(state as ApplicationRequest));
             methods.setValue('isEdit', false);
             handleAddToast({
               type: ToastType.success,
