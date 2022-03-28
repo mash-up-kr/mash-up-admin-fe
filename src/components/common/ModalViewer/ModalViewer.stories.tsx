@@ -4,6 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import ModalViewer from './ModalViewer.component';
 import { Button, Toast } from '@/components';
 import { $modalByStorage, $toast, ModalKey } from '@/store';
+import { ApplicationConfirmationStatusInDto, ApplicationResultStatusInDto } from '@/types';
 
 const mockApplication = {
   applicant: {
@@ -16,12 +17,12 @@ const mockApplication = {
     updatedAt: '2022-02-19T10:06:37.439Z',
   },
   applicationId: 0,
-  confirmationStatus: 'FINAL_CONFIRM_ACCEPTED',
+  confirmationStatus: ApplicationConfirmationStatusInDto.FINAL_CONFIRM_ACCEPTED,
   createdAt: '2022-02-19T10:06:37.439Z',
   result: {
     interviewEndedAt: '2022-02-19T10:06:37.439Z',
     interviewStartedAt: '2022-02-19T10:06:37.439Z',
-    status: 'INTERVIEW_FAILED',
+    status: ApplicationResultStatusInDto.INTERVIEW_FAILED,
   },
   team: {
     createdAt: '2022-02-19T10:06:37.439Z',

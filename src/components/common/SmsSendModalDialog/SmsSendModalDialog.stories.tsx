@@ -1,6 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import SmsSendModalDialog, { SmsSendModalDialogProps } from './SmsSendModalDialog.component';
+import { ApplicationConfirmationStatusInDto, ApplicationResultStatusInDto } from '@/types';
 
 const mockApplication = {
   applicant: {
@@ -13,12 +14,12 @@ const mockApplication = {
     updatedAt: '2022-02-19T10:06:37.439Z',
   },
   applicationId: 0,
-  confirmationStatus: 'FINAL_CONFIRM_ACCEPTED',
+  confirmationStatus: ApplicationConfirmationStatusInDto.FINAL_CONFIRM_ACCEPTED,
   createdAt: '2022-02-19T10:06:37.439Z',
   result: {
     interviewEndedAt: '2022-02-19T10:06:37.439Z',
     interviewStartedAt: '2022-02-19T10:06:37.439Z',
-    status: 'INTERVIEW_FAILED',
+    status: ApplicationResultStatusInDto.INTERVIEW_FAILED,
   },
   team: {
     createdAt: '2022-02-19T10:06:37.439Z',
