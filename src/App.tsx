@@ -19,6 +19,7 @@ import {
   CreateApplicationForm,
   UpdateApplicationForm,
   ApplicationFormDetail,
+  ErrorPage,
 } from './pages';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
@@ -122,8 +123,6 @@ const App = () => {
               }
             />
             <Route path="/" element={<Navigate to={TOKEN ? PATH.APPLICATION : PATH.LOGIN} />} />
-            {/* // TODO:(용재) 추후 404로 변경 */}
-            <Route path="*" element={<Navigate to={TOKEN ? PATH.APPLICATION : PATH.LOGIN} />} />
           </Route>
           <Route
             path={PATH.LOGIN}
@@ -133,6 +132,8 @@ const App = () => {
               </RequiredAuth>
             }
           />
+          <Route path="*" element={<ErrorPage path={PATH.NOT_FOUND} />} />
+          <Route path={PATH.FORBIDDEN} element={<ErrorPage path={PATH.FORBIDDEN} />} />
         </Routes>
         {toast && <Toast />}
       </Suspense>

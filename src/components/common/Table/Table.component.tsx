@@ -5,9 +5,11 @@ import React, {
   SetStateAction,
   Fragment,
   useMemo,
+  MouseEventHandler,
 } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { NestedKeyOf, ValueOf } from '@/types';
-import { getOwnValueByKey, isArray, isSameObject } from '@/utils';
+import { getOwnValueByKey, isArray, isSameObject, request } from '@/utils';
 import { colors } from '@/styles';
 import QuestionFile from '@/assets/svg/question-file-72.svg';
 import CaretUpdown from '@/assets/svg/caret-updown-16.svg';
@@ -15,14 +17,20 @@ import CaretUp from '@/assets/svg/caret-up-16.svg';
 import * as Styled from './Table.styled';
 import Loading from '../Loading/Loading.component';
 import Checkbox from '../Checkbox/Checkbox.component';
-import { SORT_TYPE } from '@/constants';
+import { PATH, SORT_TYPE } from '@/constants';
+import { ToastType } from '../Toast/Toast.component';
+import { useToast } from '@/hooks';
+import * as api from '@/api';
 
 export interface TableColumn<T extends object> {
   title: string;
   accessor?: NestedKeyOf<T> | NestedKeyOf<T>[];
   idAccessor?: NestedKeyOf<T>;
   widthRatio: string;
-  renderCustomCell?: (cellValue: unknown, id?: string) => ReactNode;
+  renderCustomCell?: (
+    cellValue: unknown,
+    handleClickLink?: MouseEventHandler<HTMLAnchorElement>,
+  ) => ReactNode;
 }
 
 export interface SortType<T extends object> {
@@ -241,6 +249,8 @@ const Table = <T extends object>({
   supportBar: { totalCount, totalSummaryText, selectedSummaryText, buttons: supportButtons },
   pagination,
 }: TableProps<T>) => {
+  const navigate = useNavigate();
+  const { handleAddToast } = useToast();
   const { selectedCount, selectedRows, setSelectedRows, handleSelectAll } = selectableRow || {};
   const isEmptyData = rows.length === 0;
 
@@ -355,10 +365,28 @@ const Table = <T extends object>({
                               getOwnValueByKey(row, accessorItem as any),
                             )
                           : getOwnValueByKey(row, accessor as any);
+                        const handleShowToast = () => {
+                          request({
+                            requestFunc: async () => {
+                              await api.getApplicationById({ applicationId: id });
+                            },
+                            errorHandler: () => {
+                              handleAddToast({
+                                type: ToastType.error,
+                                message: '접근 불가능한 지원서입니다.',
+                              });
+                            },
+                            onSuccess: async () => {
+                              navigate(`${PATH.APPLICATION}/${id}`);
+                            },
+                          });
+                        };
 
                         return (
                           <Styled.TableCell key={`cell-${columnIndex}`}>
-                            {renderCustomCell ? renderCustomCell(cellValue, id) : cellValue}
+                            {renderCustomCell
+                              ? renderCustomCell(cellValue, handleShowToast)
+                              : cellValue}
                           </Styled.TableCell>
                         );
                       })}

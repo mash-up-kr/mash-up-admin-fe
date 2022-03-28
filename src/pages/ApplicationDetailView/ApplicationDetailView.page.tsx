@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { BackButton } from '@/components';
@@ -13,6 +13,7 @@ import {
 import { $applicationById } from '@/store';
 import { ApplicationByIdResponseData, Question } from '@/types';
 import { PATH } from '@/constants';
+import * as api from '@/api';
 
 const ApplicationDetailView = () => {
   const navigate = useNavigate();
@@ -20,6 +21,19 @@ const ApplicationDetailView = () => {
   const data = useRecoilValue<ApplicationByIdResponseData>(
     $applicationById({ applicationId: id as string }),
   );
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (!id) {
+          throw Error();
+        }
+        await api.getApplicationById({ applicationId: id });
+      } catch (e) {
+        navigate(PATH.FORBIDDEN);
+      }
+    })();
+  }, [id, navigate]);
 
   return (
     <Styled.ApplicationDetailViewPage>
