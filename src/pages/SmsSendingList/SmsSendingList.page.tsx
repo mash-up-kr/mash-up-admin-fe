@@ -155,7 +155,11 @@ const ApplicationFormList = () => {
     <Styled.PageWrapper>
       <Styled.Heading>SMS 발송 내역</Styled.Heading>
       <Styled.StickyContainer>
-        <SearchOptionBar searchWord={searchWord} handleSubmit={handleSubmit} />
+        <SearchOptionBar
+          placeholder="발송번호, 발송자, 발송메모 검색"
+          searchWord={searchWord}
+          handleSubmit={handleSubmit}
+        />
       </Styled.StickyContainer>
       <Table
         prefix="sms"
