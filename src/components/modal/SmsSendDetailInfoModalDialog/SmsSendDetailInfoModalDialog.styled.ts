@@ -12,6 +12,7 @@ export const DetailWrapper = styled.div`
   gap: 1.6rem;
   width: 38rem;
   max-width: 48.6rem;
+  max-height: 65vh;
   padding: 2.4rem 1rem 2.4rem 2.4rem;
 `;
 
@@ -61,4 +62,9 @@ export const StatusWrapper = styled.div<{ status: string }>`
       color: ${theme.colors.red70};
     `}
   `}
+`;
+
+export const ContentWrapper = styled.div`
+  overflow-y: auto;
+  word-break: break-all;
 `;
