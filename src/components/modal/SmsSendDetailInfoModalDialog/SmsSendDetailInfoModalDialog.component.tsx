@@ -130,7 +130,9 @@ const SmsSendDetailInfoModalDialog = ({ sms }: SmsSendDetailInfoModalDialogProps
               <span>{sms.totalCount}</span>
             </Styled.SendingStatus>
           </TitleWithContent>
-          <TitleWithContent title="발송상세내용">{sms.content}</TitleWithContent>
+          <Styled.ContentWrapper>
+            <TitleWithContent title="발송상세내용">{sms.content}</TitleWithContent>
+          </Styled.ContentWrapper>
         </Styled.DetailWrapper>
         <Styled.TableWrapper>
           <Table<SmsContent>
