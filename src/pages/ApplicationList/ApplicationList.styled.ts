@@ -68,10 +68,9 @@ export const Center = styled.div`
 /* TODO: (@minsour) 버튼에 함수 바인딩할때 제거  */
 export const DisabledButton = styled(Button)`
   ${({ theme }) => css`
-    cursor: not-allowed;
-
     &:disabled {
       background-color: ${theme.colors.gray10};
+      cursor: not-allowed;
     }
   `}
 `;
