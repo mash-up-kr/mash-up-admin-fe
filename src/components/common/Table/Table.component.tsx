@@ -115,7 +115,7 @@ const TableSupportBar = ({
                     모든 페이지에 있는 <span>{totalCount}개</span>가 모두 선택되었습니다.
                   </div>
                   <button type="button" onClick={() => handleSelectAll!(true)}>
-                    선택최소
+                    선택취소
                   </button>
                 </>
               ) : (
