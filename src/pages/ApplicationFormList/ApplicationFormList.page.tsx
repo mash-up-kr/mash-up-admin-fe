@@ -176,9 +176,13 @@ const ApplicationFormList = () => {
       <Styled.Heading>지원서 설문지 내역</Styled.Heading>
       <Styled.StickyContainer>
         <TeamNavigationTabs />
-        <SearchOptionBar searchWord={searchWord} handleSubmit={handleSubmit} />
+        <SearchOptionBar
+          placeholder="지원서 설문지 문서명 검색"
+          searchWord={searchWord}
+          handleSubmit={handleSubmit}
+        />
       </Styled.StickyContainer>
-      <Table<ApplicationFormResponse>
+      <Table
         prefix="application-form"
         topStickyHeight={14.1}
         columns={columns}

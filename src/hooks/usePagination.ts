@@ -108,7 +108,7 @@ const usePagination = ({
       pageButtonsSize,
     });
 
-    if (newPageOptions.currentPage > newPageOptions.endPage) {
+    if (usingSearchParams && newPageOptions.currentPage > newPageOptions.endPage) {
       setSearchParams({
         page: newPageOptions.endPage.toString(),
         size: newPageOptions.pagingSize.toString(),

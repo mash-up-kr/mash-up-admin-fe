@@ -38,6 +38,7 @@ export const Content = styled.span<StyledContentProps>`
     color: ${theme.colors.gray80};
     font-weight: 500;
     line-height: 2.4rem;
+    word-wrap: break-word;
 
     ${isLineThrough
       ? css`

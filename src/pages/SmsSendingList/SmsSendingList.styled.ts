@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Button } from '@/components';
 
 export const PageWrapper = styled.div`
   padding: 4rem 0;
@@ -8,7 +7,7 @@ export const PageWrapper = styled.div`
 
 export const Heading = styled.h2`
   ${({ theme }) => css`
-    margin-bottom: 2.4rem;
+    margin-bottom: 1.2rem;
     color: ${theme.colors.gray80};
     font-weight: 700;
     font-size: 3.6rem;
@@ -20,15 +19,24 @@ export const StickyContainer = styled.div`
   ${({ theme }) => css`
     position: sticky;
     top: 0;
-    z-index: ${theme.zIndex.select};
-    padding-bottom: 1.2rem;
+    z-index: ${theme.zIndex.sticky};
+    padding: 1.2rem 0;
     background-color: ${theme.colors.white};
   `}
 `;
 
-export const FormTitleWrapper = styled.div`
+export const TitleButton = styled.button`
   ${({ theme }) => css`
     position: relative;
+    width: 100%;
+    height: 5.2rem;
+    padding: 0 1.6rem;
+    overflow: hidden;
+    color: ${theme.colors.purple80};
+    white-space: nowrap;
+    text-align: left;
+    text-overflow: ellipsis;
+    background-color: transparent;
 
     &:hover {
       color: ${theme.colors.purple90};
@@ -39,38 +47,33 @@ export const FormTitleWrapper = styled.div`
   `};
 `;
 
-export const FormTitle = styled.div`
+export const CustomUserProfile = styled.div`
   ${({ theme }) => css`
-    width: 100%;
-    height: 100%;
-    padding: 0 1rem;
-    overflow: hidden;
-    color: ${theme.colors.purple80};
-    line-height: 5.2rem;
-    white-space: nowrap;
-    text-align: center;
-    text-overflow: ellipsis;
-  `};
+    & div:first-of-type {
+      ${theme.fonts.regular14};
+    }
+  `}
 `;
 
-export const TitleLink = styled.a`
-  position: absolute;
-  inset: 0;
-  cursor: pointer;
+export const SendingStatus = styled.div`
+  ${({ theme }) => css`
+    ${theme.fonts.regular14};
+
+    & > span:first-of-type {
+      color: ${theme.colors.blue70};
+    }
+    & > span:nth-of-type(2) {
+      color: ${theme.colors.red70};
+    }
+    & > span:last-of-type {
+      color: ${theme.colors.gray80};
+    }
+  `}
 `;
 
 export const Center = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-/* TODO: (@minsour) 버튼에 함수 바인딩할때 제거  */
-export const DisabledButton = styled(Button)`
-  ${({ theme }) => css`
-    &:disabled {
-      background-color: ${theme.colors.gray10};
-      cursor: not-allowed;
-    }
-  `}
+  height: 100%;
 `;

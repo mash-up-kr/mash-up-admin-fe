@@ -1,3 +1,7 @@
+import {
+  ApplicationConfirmationStatusKeyType,
+  ApplicationResultStatusKeyType,
+} from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import { ValueOf, Team, Question } from '@/types';
 import { SmsContent } from './sms';
 
@@ -17,8 +21,8 @@ export const ApplicationResultStatusInDto = {
   SCREENING_TO_BE_DETERMINED: 'SCREENING_TO_BE_DETERMINED',
   SCREENING_FAILED: 'SCREENING_FAILED',
   SCREENING_PASSED: 'SCREENING_PASSED',
-  INTERVIEW_FAILED: 'INTERVIEW_FAILED',
   INTERVIEW_TO_BE_DETERMINED: 'INTERVIEW_TO_BE_DETERMINED',
+  INTERVIEW_FAILED: 'INTERVIEW_FAILED',
   INTERVIEW_PASSED: 'INTERVIEW_PASSED',
 } as const;
 
@@ -48,11 +52,11 @@ export interface ApplicationResponse {
     createdAt: string;
     updatedAt: string;
   };
-  confirmationStatus: string;
+  confirmationStatus: ApplicationConfirmationStatusKeyType;
   result: {
     interviewEndedAt: string;
     interviewStartedAt: string;
-    status: string;
+    status: ApplicationResultStatusKeyType;
   };
   team: Team;
   createdAt: string;

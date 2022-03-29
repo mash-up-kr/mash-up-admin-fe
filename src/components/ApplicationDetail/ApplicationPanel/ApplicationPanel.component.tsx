@@ -3,6 +3,7 @@ import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import dayjs, { Dayjs } from 'dayjs';
 import { useRecoilCallback } from 'recoil';
 import utc from 'dayjs/plugin/utc';
+import { useLocation } from 'react-router-dom';
 import { Button, DatePicker, Select, SelectField } from '@/components';
 import * as Styled from './ApplicationPanel.styled';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
@@ -14,17 +15,23 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
   ApplicationResultStatusType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { formatDate } from '@/utils/date';
+import {
+  toUtcWithoutChangingTime,
+  formatDate,
+  getRecruitingProgressStatusFromRecruitingPeriod,
+  RecruitingProgressStatus,
+} from '@/utils/date';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import { useOnClickOutSide, useToast } from '@/hooks';
 import { rangeArray, request } from '@/utils';
 import * as api from '@/api';
 import {
   ApplicationConfirmationStatusInDto,
+  ApplicationRequest,
   ApplicationResultStatusInDto,
   ApplicationUpdateResultByIdRequest,
 } from '@/types';
-import { $applicationById } from '@/store';
+import { $applicationById, $applications } from '@/store';
 import { ToastType } from '@/styles';
 
 dayjs.extend(utc);
@@ -66,7 +73,9 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
     [resultStatus],
   );
 
-  const [isShowInterviewSchedule, setIsShowInterviewSchedule] = useState(isScreeningPassed);
+  const [isShowInterviewSchedule, setIsShowInterviewSchedule] = useState(
+    resultStatus === ApplicationResultStatusInDto.SCREENING_PASSED,
+  );
   const [isDatePickerOpened, setIsDatePickerOpened] = useState(false);
   const outerRef = useRef<HTMLDivElement>(null);
   const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
@@ -122,7 +131,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
     );
 
     if (isScreeningPassed) {
-      return resultOption.slice(1, 6);
+      return resultOption.slice(1, resultOption.length);
     }
 
     return resultOption.slice(0, 4);
@@ -210,7 +219,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
             confirmationStatus === ApplicationConfirmationStatusInDto.FINAL_CONFIRM_REJECTED
           }
         >
-          {formatDate(dayjs.utc(interviewDate).format(), 'YYYY년 M월 D일(ddd) a hh시 mm분')}
+          {formatDate(interviewDate, 'YYYY년 M월 D일(ddd) a hh시 mm분')}
         </TitleWithContent>
       )}
       <Styled.ButtonContainer>
@@ -239,12 +248,13 @@ const ApplicationPanel = ({
   applicationId,
   ...restProps
 }: ApplicationPanelProps) => {
+  const { state } = useLocation();
   const { handleAddToast } = useToast();
   const methods = useForm<FormValues>({
     defaultValues: {
       applicationResultStatus: resultStatus,
       interviewStartedAt: interviewDate
-        ? dayjs.utc(interviewDate).format()
+        ? dayjs(interviewDate).format()
         : dayjs().add(1, 'd').hour(8).minute(0).format(),
       isEdit: false,
     },
@@ -257,14 +267,30 @@ const ApplicationPanel = ({
       async ({ applicationResultStatus, interviewStartedAt }: FormValues) => {
         const requestDto: ApplicationUpdateResultByIdRequest = {
           applicationResultStatus,
-          interviewStartedAt: dayjs.utc(interviewStartedAt).format(),
-          interviewEndedAt: dayjs.utc(interviewStartedAt).add(1, 's').format(),
+          interviewStartedAt: toUtcWithoutChangingTime(interviewStartedAt),
+          interviewEndedAt: toUtcWithoutChangingTime(
+            dayjs(interviewStartedAt).add(1, 's').format(),
+          ),
           applicationId,
         };
 
         if (applicationResultStatus !== ApplicationResultStatusInDto.SCREENING_PASSED) {
           delete requestDto.interviewStartedAt;
           delete requestDto.interviewEndedAt;
+        }
+
+        const recruitingProgressStatus = getRecruitingProgressStatusFromRecruitingPeriod(
+          new Date(),
+        );
+
+        if (
+          recruitingProgressStatus === RecruitingProgressStatus.PREVIOUS ||
+          recruitingProgressStatus === RecruitingProgressStatus.AFTER_FIRST_SEMINAR
+        ) {
+          return handleAddToast({
+            type: ToastType.error,
+            message: '변경 기간이 아닙니다.',
+          });
         }
 
         request({
@@ -274,6 +300,7 @@ const ApplicationPanel = ({
           errorHandler: handleAddToast,
           onSuccess: async () => {
             await refresh($applicationById({ applicationId }));
+            await refresh($applications(state as ApplicationRequest));
             methods.setValue('isEdit', false);
             handleAddToast({
               type: ToastType.success,
