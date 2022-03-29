@@ -18,8 +18,8 @@ export const ApplicationResultStatus = {
   SCREENING_TO_BE_DETERMINED: '서류 보류',
   SCREENING_FAILED: '서류 불합격',
   SCREENING_PASSED: '서류 합격',
-  INTERVIEW_FAILED: '최종 불합격',
   INTERVIEW_TO_BE_DETERMINED: '최종 보류',
+  INTERVIEW_FAILED: '최종 불합격',
   INTERVIEW_PASSED: '최종 합격',
 } as const;
 
