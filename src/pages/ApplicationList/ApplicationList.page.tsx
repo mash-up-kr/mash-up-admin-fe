@@ -222,6 +222,7 @@ const ApplicationList = () => {
         const applications = await api.getApplications({
           page: 0,
           size: tableRows.page.totalCount + APPLICATION_EXTRA_SIZE,
+          teamId: parseInt(teamId, 10) || undefined,
         });
         setSelectedRows(applications.data);
         if (applications.page) {
@@ -229,7 +230,7 @@ const ApplicationList = () => {
         }
       }
     },
-    [tableRows.page?.totalCount],
+    [tableRows.page?.totalCount, teamId],
   );
 
   useEffect(() => {
