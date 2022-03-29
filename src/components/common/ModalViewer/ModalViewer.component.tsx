@@ -2,10 +2,18 @@ import React, { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useLocation } from 'react-router-dom';
 import { $modalByStorage, ModalKey, ModalKeyType } from '@/store';
-import { AlertModalDialog, ChangeResultModalDialog, SmsSendModalDialog } from '@/components';
+import {
+  AlertModalDialog,
+  ChangeResultModalDialog,
+  SmsSendDetailInfoModalDialog,
+  SmsSendDetailListModalDialog,
+  SmsSendModalDialog,
+} from '@/components';
 import { AlertModalDialogProps } from '../AlertModalDialog/AlertModalDialog.component';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
 import { SmsSendModalDialogProps } from '../SmsSendModalDialog/SmsSendModalDialog.component';
+import { SmsSendDetailListModalDialogProps } from '../../modal/SmsSendDetailListModalDialog/SmsSendDetailListModalDialog.component';
+import { SmsSendDetailInfoModalDialogProps } from '@/components/modal/SmsSendDetailInfoModalDialog/SmsSendDetailInfoModalDialog.component';
 
 const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
   const modal = useRecoilValue($modalByStorage(modalKey));
@@ -24,6 +32,24 @@ const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
     return <SmsSendModalDialog key={modalKey} {...(modal.props as SmsSendModalDialogProps)} />;
   }
 
+  if (modalKey === ModalKey.smsSendDetailListModalDialog && modal.isOpen && modal.props) {
+    return (
+      <SmsSendDetailListModalDialog
+        key={modalKey}
+        {...(modal.props as SmsSendDetailListModalDialogProps)}
+      />
+    );
+  }
+
+  if (modalKey === ModalKey.smsSendDetailInfoModalDialog && modal.isOpen && modal.props) {
+    return (
+      <SmsSendDetailInfoModalDialog
+        key={modalKey}
+        {...(modal.props as SmsSendDetailInfoModalDialogProps)}
+      />
+    );
+  }
+
   return null;
 };
 
@@ -31,6 +57,13 @@ const ModalViewer = () => {
   const setAlertModal = useSetRecoilState($modalByStorage(ModalKey.alertModalDialog));
   const setChangeResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
   const setSmsSendModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+  const setSmsSendDetailListModal = useSetRecoilState(
+    $modalByStorage(ModalKey.smsSendDetailListModalDialog),
+  );
+  const setSmsSendDetailInfoModal = useSetRecoilState(
+    $modalByStorage(ModalKey.smsSendDetailInfoModalDialog),
+  );
+
   const { pathname } = useLocation();
 
   // TODO:(용재) 추후 더 나은 방법 찾아보기..
@@ -40,7 +73,22 @@ const ModalViewer = () => {
     if (!/\/application\/\d/g.test(pathname)) {
       setSmsSendModal({ key: ModalKey.smsSendModalDialog, isOpen: false });
     }
-  }, [setAlertModal, setChangeResultModal, setSmsSendModal, pathname]);
+    setSmsSendDetailListModal({
+      key: ModalKey.smsSendDetailListModalDialog,
+      isOpen: false,
+    });
+    setSmsSendDetailInfoModal({
+      key: ModalKey.smsSendDetailInfoModalDialog,
+      isOpen: false,
+    });
+  }, [
+    setAlertModal,
+    setChangeResultModal,
+    setSmsSendModal,
+    pathname,
+    setSmsSendDetailListModal,
+    setSmsSendDetailInfoModal,
+  ]);
 
   return (
     <>

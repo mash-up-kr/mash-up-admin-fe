@@ -5,9 +5,11 @@ import React, {
   SetStateAction,
   Fragment,
   useMemo,
+  MouseEventHandler,
 } from 'react';
-import { NestedKeyOf, ValueOf } from '@/types';
-import { getOwnValueByKey, isSameObject } from '@/utils';
+import { useNavigate } from 'react-router-dom';
+import { ApplicationRequest, NestedKeyOf, ValueOf } from '@/types';
+import { getOwnValueByKey, isArray, isSameObject, request } from '@/utils';
 import { colors } from '@/styles';
 import QuestionFile from '@/assets/svg/question-file-72.svg';
 import CaretUpdown from '@/assets/svg/caret-updown-16.svg';
@@ -15,16 +17,21 @@ import CaretUp from '@/assets/svg/caret-up-16.svg';
 import * as Styled from './Table.styled';
 import Loading from '../Loading/Loading.component';
 import Checkbox from '../Checkbox/Checkbox.component';
-import { SORT_TYPE } from '@/constants';
+import { PATH, SORT_TYPE } from '@/constants';
+import { ToastType } from '../Toast/Toast.component';
+import { useToast } from '@/hooks';
+import * as api from '@/api';
 
-const NAV_BAR_AND_SEARCH_BAR_HEIGHT = 187;
-const TABLE_DEFAULT_HEIGHT = (window.innerHeight - NAV_BAR_AND_SEARCH_BAR_HEIGHT) / 10;
 export interface TableColumn<T extends object> {
   title: string;
-  accessor?: NestedKeyOf<T>;
+  accessor?: NestedKeyOf<T> | NestedKeyOf<T>[];
   idAccessor?: NestedKeyOf<T>;
   widthRatio: string;
-  renderCustomCell?: (cellVaule: unknown, id?: string) => ReactNode;
+  renderCustomCell?: (
+    cellValue: unknown,
+    id: string,
+    handleClickLink?: MouseEventHandler<HTMLAnchorElement>,
+  ) => ReactNode;
 }
 
 export interface SortType<T extends object> {
@@ -40,10 +47,10 @@ interface SortOptions<T extends object> {
 
 export interface TableProps<T extends object> {
   prefix: string;
-  maxHeight?: number;
+  topStickyHeight?: number;
   columns: TableColumn<T>[];
   rows: T[];
-  isLoading: boolean;
+  isLoading?: boolean;
   selectableRow?: {
     selectedCount: number;
     selectedRows: T[];
@@ -52,23 +59,25 @@ export interface TableProps<T extends object> {
   };
   sortOptions?: SortOptions<T>;
   supportBar: {
-    totalCount: number;
-    totalSummaryText: string;
+    totalCount?: number;
+    totalSummaryText?: string;
     selectedSummaryText?: string;
     buttons?: ReactNode[];
   };
   pagination?: ReactNode;
+  applicationParams?: ApplicationRequest;
 }
 
 interface TableSupportBarProps {
-  totalSummaryText: string;
+  totalSummaryText?: string;
   selectedSummaryText?: string;
-  totalCount: number;
+  totalCount?: number;
   selectedCount?: number;
   rowCount?: number;
   allInAPageChecked?: boolean;
   handleSelectAll?: (checkedValue: boolean) => void;
   supportButtons?: ReactNode[];
+  topStickyHeight?: number;
 }
 
 const TableSupportBar = ({
@@ -80,46 +89,49 @@ const TableSupportBar = ({
   allInAPageChecked,
   handleSelectAll,
   supportButtons,
+  topStickyHeight,
 }: TableSupportBarProps) => {
   const allChecked = totalCount === selectedCount;
   return (
-    <Styled.TableSupportBar>
-      <Styled.TableSummary>
-        <div>{totalSummaryText}</div>
-        <div>{totalCount}</div>
-        {!!selectedCount && (
-          <>
-            <div>
-              <div />
-            </div>
-            <div>{selectedCount}</div>
-            <div>{selectedSummaryText}</div>
-          </>
-        )}
-        {allInAPageChecked && (
-          <Styled.TotalSelectBox>
-            {allChecked ? (
-              <>
-                <div>
-                  모든 페이지에 있는 <span>{totalCount}개</span>가 모두 선택되었습니다.
-                </div>
-                <button type="button" onClick={() => handleSelectAll!(true)}>
-                  선택최소
-                </button>
-              </>
-            ) : (
-              <>
-                <div>
-                  이 페이지에 있는 <span>{rowCount}개</span>가 모두 선택되었습니다.
-                </div>
-                <button type="button" onClick={() => handleSelectAll!(false)}>
-                  전체인원 {totalCount}개 모두 선택
-                </button>
-              </>
-            )}
-          </Styled.TotalSelectBox>
-        )}
-      </Styled.TableSummary>
+    <Styled.TableSupportBar topStickyHeight={topStickyHeight}>
+      {totalSummaryText && (
+        <Styled.TableSummary>
+          <div>{totalSummaryText}</div>
+          <div>{totalCount}</div>
+          {!!selectedCount && (
+            <>
+              <div>
+                <div />
+              </div>
+              <div>{selectedCount}</div>
+              <div>{selectedSummaryText}</div>
+            </>
+          )}
+          {allInAPageChecked && (
+            <Styled.TotalSelectBox>
+              {allChecked ? (
+                <>
+                  <div>
+                    모든 페이지에 있는 <span>{totalCount}개</span>가 모두 선택되었습니다.
+                  </div>
+                  <button type="button" onClick={() => handleSelectAll!(true)}>
+                    선택취소
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div>
+                    이 페이지에 있는 <span>{rowCount}개</span>가 모두 선택되었습니다.
+                  </div>
+                  <button type="button" onClick={() => handleSelectAll!(false)}>
+                    전체인원 {totalCount}개 모두 선택
+                  </button>
+                </>
+              )}
+            </Styled.TotalSelectBox>
+          )}
+        </Styled.TableSummary>
+      )}
       <Styled.TableSupportButtonContainer>
         {supportButtons?.map((button, index) => (
           <Fragment key={`supportButton-${index}`}>{button}</Fragment>
@@ -159,8 +171,19 @@ const TableColumnCell = <T extends object>({
     [sortOptions, sortColumnIndex],
   );
 
+  const titles = column.title.split(/\n/);
+
   if (!sortable) {
-    return <Styled.TableColumn>{column.title}</Styled.TableColumn>;
+    return (
+      <Styled.TableColumn>
+        {titles.map((title, index) => (
+          <>
+            {title}
+            {index !== titles.length - 1 && <br />}
+          </>
+        ))}
+      </Styled.TableColumn>
+    );
   }
 
   const handleClickColumn = () => {
@@ -199,7 +222,12 @@ const TableColumnCell = <T extends object>({
 
   return (
     <Styled.TableColumn sortable={!!sortOptions} onClick={() => handleClickColumn()}>
-      {column.title}
+      {titles.map((title, index) => (
+        <>
+          {title}
+          {index !== titles.length - 1 && <br />}
+        </>
+      ))}
       {sortOptions &&
         (sortOptions.sortTypes[sortColumnIndex!].type === SORT_TYPE.DEFAULT ? (
           <CaretUpdown />
@@ -214,20 +242,19 @@ const TableColumnCell = <T extends object>({
 
 const Table = <T extends object>({
   prefix,
-  maxHeight = TABLE_DEFAULT_HEIGHT,
+  topStickyHeight,
   columns,
   rows,
-  isLoading,
+  isLoading = false,
   selectableRow,
   sortOptions,
   supportBar: { totalCount, totalSummaryText, selectedSummaryText, buttons: supportButtons },
   pagination,
+  applicationParams,
 }: TableProps<T>) => {
+  const navigate = useNavigate();
+  const { handleAddToast } = useToast();
   const { selectedCount, selectedRows, setSelectedRows, handleSelectAll } = selectableRow || {};
-  const DEFAULT_ROW_HEIGHT = 5.2;
-  const INNER_TABLE_EXTERNAL_BODY_HEIGHT = 15.6;
-  const bodyHeight = maxHeight! - INNER_TABLE_EXTERNAL_BODY_HEIGHT;
-  const itemSizeInnerBody = Math.floor(bodyHeight / DEFAULT_ROW_HEIGHT);
   const isEmptyData = rows.length === 0;
 
   const checkedValues = useMemo(
@@ -268,7 +295,7 @@ const Table = <T extends object>({
   };
 
   return (
-    <Styled.TableContainer height={rows.length >= itemSizeInnerBody ? `${maxHeight}rem` : 'auto'}>
+    <Styled.TableContainer>
       <TableSupportBar
         totalSummaryText={totalSummaryText}
         selectedSummaryText={selectedSummaryText}
@@ -278,9 +305,10 @@ const Table = <T extends object>({
         allInAPageChecked={allInAPageChecked}
         handleSelectAll={handleSelectAll}
         supportButtons={supportButtons}
+        topStickyHeight={topStickyHeight}
       />
       <Styled.TableWrapper>
-        <Styled.Table>
+        <Styled.Table topStickyHeight={topStickyHeight && topStickyHeight + 6}>
           <colgroup>
             {!!selectableRow && <col width="4%" />}
             {columns.map((column, columnIndex) => (
@@ -288,7 +316,7 @@ const Table = <T extends object>({
             ))}
           </colgroup>
           <Styled.TableHeader>
-            <Styled.TableRow height={DEFAULT_ROW_HEIGHT}>
+            <Styled.TableRow>
               {!!selectableRow && (
                 <RowCheckBox isChecked={allInAPageChecked} handleToggle={handleSelectAllRow} />
               )}
@@ -303,22 +331,20 @@ const Table = <T extends object>({
           </Styled.TableHeader>
         </Styled.Table>
         <Styled.TableBodyWrapper isLoading={isLoading}>
-          <Styled.Table>
-            {isEmptyData ? (
-              <Styled.TableBody isEmpty>
-                <Styled.TableRow height={DEFAULT_ROW_HEIGHT * 5}>
-                  <Styled.TableCell>
-                    <Styled.Center>
-                      <Styled.NoData>
-                        <QuestionFile />
-                        <div>데이터가 없습니다.</div>
-                      </Styled.NoData>
-                    </Styled.Center>
-                  </Styled.TableCell>
-                </Styled.TableRow>
-              </Styled.TableBody>
-            ) : (
-              <>
+          {isEmptyData ? (
+            <Styled.NoData>
+              <QuestionFile />
+              <div>데이터가 없습니다.</div>
+            </Styled.NoData>
+          ) : (
+            <>
+              {isLoading && (
+                <Loading
+                  dimmedColor={colors.whiteLoadingDimmed}
+                  spinnerColor={colors.whiteLoadingDimmed}
+                />
+              )}
+              <Styled.Table>
                 <colgroup>
                   {!!selectableRow && <col width="4%" />}
                   {columns.map((column, columnIndex) => (
@@ -326,14 +352,8 @@ const Table = <T extends object>({
                   ))}
                 </colgroup>
                 <Styled.TableBody>
-                  {isLoading && (
-                    <Loading
-                      dimmedColor={colors.whiteLoadingDimmed}
-                      spinnerColor={colors.whiteLoadingDimmed}
-                    />
-                  )}
                   {rows.map((row, rowIndex) => (
-                    <Styled.TableRow key={`${prefix}-row-${rowIndex}`} height={DEFAULT_ROW_HEIGHT}>
+                    <Styled.TableRow key={`${prefix}-row-${rowIndex}`}>
                       {!!selectableRow && (
                         <RowCheckBox
                           isChecked={checkedValues[rowIndex]}
@@ -342,21 +362,43 @@ const Table = <T extends object>({
                       )}
                       {columns.map((column, columnIndex) => {
                         const { accessor, idAccessor, renderCustomCell } = column;
-                        const cellValue = accessor ? getOwnValueByKey(row, accessor) : null;
-                        const id = idAccessor ? getOwnValueByKey(row, idAccessor) : null;
+                        const id = getOwnValueByKey(row, idAccessor);
+                        const cellValue = isArray(accessor)
+                          ? (accessor as any[]).map((accessorItem) =>
+                              getOwnValueByKey(row, accessorItem as any),
+                            )
+                          : getOwnValueByKey(row, accessor as any);
+                        const handleShowToast = () => {
+                          request({
+                            requestFunc: async () => {
+                              await api.getApplicationById({ applicationId: id });
+                            },
+                            errorHandler: () => {
+                              handleAddToast({
+                                type: ToastType.error,
+                                message: '접근 불가능한 지원서입니다.',
+                              });
+                            },
+                            onSuccess: async () => {
+                              navigate(`${PATH.APPLICATION}/${id}`, { state: applicationParams });
+                            },
+                          });
+                        };
 
                         return (
                           <Styled.TableCell key={`cell-${columnIndex}`}>
-                            {renderCustomCell ? renderCustomCell(cellValue, id) : cellValue}
+                            {renderCustomCell
+                              ? renderCustomCell(cellValue, id, handleShowToast)
+                              : cellValue}
                           </Styled.TableCell>
                         );
                       })}
                     </Styled.TableRow>
                   ))}
                 </Styled.TableBody>
-              </>
-            )}
-          </Styled.Table>
+              </Styled.Table>
+            </>
+          )}
         </Styled.TableBodyWrapper>
       </Styled.TableWrapper>
       {!isEmptyData && pagination}

@@ -4,17 +4,30 @@ import React, {
   useEffect,
   useLayoutEffect,
   useCallback,
-  useRef,
   FormEvent,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
+import { writeFileXLSX } from 'xlsx';
+import {
+  useRecoilStateLoadable,
+  useRecoilValue,
+  useSetRecoilState,
+  useRecoilRefresher_UNSTABLE,
+} from 'recoil';
+import dayjs from 'dayjs';
 import * as api from '@/api';
-import { Button, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
-import { formatDate } from '@/utils';
-import { PATH, SORT_TYPE } from '@/constants';
-import { $applications, $teamIdByName } from '@/store';
-import { useDirty, usePagination } from '@/hooks';
+import {
+  BottomCTA,
+  Button,
+  Pagination,
+  SearchOptionBar,
+  Table,
+  TeamNavigationTabs,
+} from '@/components';
+import { formatDate, uniqArray } from '@/utils';
+import { SORT_TYPE } from '@/constants';
+import { $applications, $teamIdByName, ModalKey, $modalByStorage, $profile } from '@/store';
+import { useConvertToXlsx, useDirty, usePagination } from '@/hooks';
 import { ApplicationRequest, ApplicationResponse } from '@/types';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
@@ -35,10 +48,10 @@ const columns: TableColumn<ApplicationResponse>[] = [
     accessor: 'applicant.name',
     idAccessor: 'applicationId',
     widthRatio: '10%',
-    renderCustomCell: (cellValue, id) => (
+    renderCustomCell: (cellValue, _, handleClickLink) => (
       <Styled.FormTitleWrapper title={cellValue as string}>
         <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
-        <Styled.TitleLink to={`${PATH.APPLICATION}/${id}`} />
+        <Styled.TitleLink onClick={handleClickLink} />
       </Styled.FormTitleWrapper>
     ),
   },
@@ -54,7 +67,7 @@ const columns: TableColumn<ApplicationResponse>[] = [
   },
   {
     title: '지원일시',
-    accessor: 'updatedAt',
+    accessor: 'submittedAt',
     widthRatio: '21%',
     renderCustomCell: (cellValue) =>
       cellValue ? formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분') : '-',
@@ -93,10 +106,18 @@ const columns: TableColumn<ApplicationResponse>[] = [
 ];
 
 const ApplicationList = () => {
+  const handleSMSModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+  const handleResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
+
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
-  const teamTabRef = useRef<HTMLDivElement>(null);
+  const myTeamName = useRecoilValue($profile)[0];
+  const isMyTeam = useMemo(
+    () =>
+      !teamName || teamName.toLowerCase() === myTeamName.toLowerCase() || myTeamName === 'BRANDING',
+    [myTeamName, teamName],
+  );
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
@@ -109,7 +130,7 @@ const ApplicationList = () => {
 
   const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
     { accessor: 'applicant.name', type: SORT_TYPE.DEFAULT },
-    { accessor: 'updatedAt', type: SORT_TYPE.DEFAULT },
+    { accessor: 'submittedAt', type: SORT_TYPE.DEFAULT },
     { accessor: 'result.interviewStartedAt', type: SORT_TYPE.DEFAULT },
   ]);
   const sortParam = useMemo(() => {
@@ -143,16 +164,46 @@ const ApplicationList = () => {
 
   const [totalCount, setTotalCount] = useState(0);
   const [{ state, contents: tableRows }] = useRecoilStateLoadable($applications(applicationParams));
+  const [{ contents: entireTableRows }] = useRecoilStateLoadable(
+    $applications({
+      page: 0,
+      teamId: parseInt(teamId, 10) || undefined,
+      size: (tableRows?.page?.totalCount || 0) + APPLICATION_EXTRA_SIZE,
+    }),
+  );
+  const refreshApplications = useRecoilRefresher_UNSTABLE($applications(applicationParams));
   const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
+  const selectedResults = useMemo(
+    () =>
+      uniqArray(selectedRows.map((row) => row.result.status)) as ApplicationResultStatusKeyType[],
+    [selectedRows],
+  );
 
   const isLoading = state === 'loading';
   const [loadedTableRows, setLoadedTableRows] = useState<ApplicationResponse[]>(
     tableRows.data || [],
   );
 
-  const { pageOptions, handleChangePage, handleChangeSize } = usePagination(
-    tableRows.page?.totalCount,
-  );
+  const { workBook } = useConvertToXlsx<ApplicationResponse>({
+    workSheet: entireTableRows?.data?.map((each: ApplicationResponse) => ({
+      이름: each.applicant.name,
+      전화번호: each.applicant.phoneNumber,
+      지원플랫폼: each.team.name,
+      지원일시: each.submittedAt
+        ? formatDate(each.submittedAt, 'YYYY년 M월 D일(ddd) a hh시 mm분')
+        : '',
+      면접일시: each.result.interviewStartedAt
+        ? formatDate(each.result.interviewStartedAt, 'YYYY년 M월 D일(ddd) a hh시 mm분')
+        : '',
+      사용자확인여부: ApplicationConfirmationStatus[each.confirmationStatus],
+      합격여부: ApplicationResultStatus[each.result.status],
+    })),
+    teamName: teamName || '전체',
+  });
+
+  const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
+    totalCount: tableRows.page?.totalCount,
+  });
 
   const { makeDirty, isDirty } = useDirty(1);
 
@@ -171,6 +222,7 @@ const ApplicationList = () => {
         const applications = await api.getApplications({
           page: 0,
           size: tableRows.page.totalCount + APPLICATION_EXTRA_SIZE,
+          teamId: parseInt(teamId, 10) || undefined,
         });
         setSelectedRows(applications.data);
         if (applications.page) {
@@ -178,7 +230,7 @@ const ApplicationList = () => {
         }
       }
     },
-    [tableRows.page?.totalCount],
+    [tableRows.page?.totalCount, teamId],
   );
 
   useEffect(() => {
@@ -196,8 +248,8 @@ const ApplicationList = () => {
   }, [teamName]);
 
   useLayoutEffect(() => {
-    if (teamTabRef.current && isDirty && !isLoading) {
-      teamTabRef.current.scrollIntoView();
+    if (isDirty && !isLoading) {
+      window.scrollTo(0, 179);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedTableRows]);
@@ -205,17 +257,19 @@ const ApplicationList = () => {
   return (
     <Styled.PageWrapper>
       <Styled.Heading>지원서 내역</Styled.Heading>
-      <div ref={teamTabRef}>
+      <Styled.StickyContainer>
         <TeamNavigationTabs />
-      </div>
-      <SearchOptionBar
-        filterValues={filterValues}
-        setFilterValues={setFilterValues}
-        searchWord={searchWord}
-        handleSubmit={handleSearch}
-      />
+        <SearchOptionBar
+          placeholder="이름, 전화번호 검색"
+          filterValues={filterValues}
+          setFilterValues={setFilterValues}
+          searchWord={searchWord}
+          handleSubmit={handleSearch}
+        />
+      </Styled.StickyContainer>
       <Table
         prefix="application"
+        topStickyHeight={14.1}
         columns={columns}
         rows={loadedTableRows}
         isLoading={isLoading}
@@ -224,14 +278,58 @@ const ApplicationList = () => {
           totalSummaryText: '총 지원인원',
           selectedSummaryText: '명 선택',
           buttons: [
-            <Button $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
+            <Styled.DisabledButton
+              $size={ButtonSize.xs}
+              shape={ButtonShape.defaultLine}
+              onClick={() =>
+                handleSMSModal({
+                  key: ModalKey.smsSendModalDialog,
+                  props: {
+                    selectedApplications: selectedRows,
+                    showSummary: true,
+                  },
+                  isOpen: true,
+                })
+              }
+              disabled={selectedResults.length === 0 && isMyTeam}
+            >
               SMS 발송
-            </Button>,
-            <Button $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
+            </Styled.DisabledButton>,
+            <Styled.DisabledButton
+              $size={ButtonSize.xs}
+              shape={ButtonShape.defaultLine}
+              onClick={() =>
+                handleResultModal({
+                  key: ModalKey.changeResultModalDialog,
+                  props: {
+                    selectedList: selectedRows.map((row) => row.applicationId),
+                    selectedResults,
+                    refreshList: () => {
+                      refreshApplications();
+                      setSelectedRows([]);
+                    },
+                  },
+                  isOpen: true,
+                })
+              }
+              disabled={selectedResults.length === 0 && isMyTeam}
+            >
               합격 여부 변경
-            </Button>,
-            <Button $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
-              Export to Google Sheets
+            </Styled.DisabledButton>,
+            <Button
+              $size={ButtonSize.xs}
+              shape={ButtonShape.defaultLine}
+              onClick={() =>
+                writeFileXLSX(
+                  workBook,
+                  `${formatDate(dayjs().format(), 'YYYY년 M월 D일(ddd)')}-${
+                    teamName || '전체'
+                  }.xlsx`,
+                )
+              }
+              disabled={!loadedTableRows}
+            >
+              Export to Excel
             </Button>,
           ],
         }}
@@ -251,13 +349,30 @@ const ApplicationList = () => {
         pagination={
           <Pagination
             pageOptions={pageOptions}
-            selectableSize
-            selectBoxPosition={loadedTableRows.length > 3 ? 'top' : 'bottom'}
+            selectableSize={{
+              selectBoxPosition: loadedTableRows.length > 3 ? 'top' : 'bottom',
+              handleChangeSize,
+            }}
             handleChangePage={handleChangePage}
-            handleChangeSize={handleChangeSize}
           />
         }
+        applicationParams={applicationParams}
       />
+      <BottomCTA
+        boundaries={{
+          visibility: { topHeight: 179, bottomHeight: 20 },
+          noAnimation: { bottomHeight: 20 },
+        }}
+      >
+        <Pagination
+          pageOptions={pageOptions}
+          selectableSize={{
+            selectBoxPosition: loadedTableRows.length > 3 ? 'top' : 'bottom',
+            handleChangeSize,
+          }}
+          handleChangePage={handleChangePage}
+        />
+      </BottomCTA>
     </Styled.PageWrapper>
   );
 };

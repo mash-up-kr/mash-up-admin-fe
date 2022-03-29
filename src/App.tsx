@@ -13,11 +13,13 @@ import { ACCESS_TOKEN, PATH } from './constants';
 import {
   LoginPage,
   ApplicationList,
+  ApplicationDetailView,
+  SmsSendingList,
   ApplicationFormList,
   CreateApplicationForm,
   UpdateApplicationForm,
   ApplicationFormDetail,
-  ApplicationDetailView,
+  ErrorPage,
 } from './pages';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
@@ -73,6 +75,22 @@ const App = () => {
               }
             />
             <Route
+              path={PATH.APPLICATION_DETAIL}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <ApplicationDetailView />
+                </RequiredAuth>
+              }
+            />
+            <Route
+              path={PATH.SMS}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <SmsSendingList />
+                </RequiredAuth>
+              }
+            />
+            <Route
               path={PATH.APPLICATION_FORM}
               element={
                 <RequiredAuth isAuth={isAuthorized}>
@@ -104,17 +122,7 @@ const App = () => {
                 </RequiredAuth>
               }
             />
-            <Route
-              path={PATH.APPLICATION_DETAIL}
-              element={
-                <RequiredAuth isAuth={isAuthorized}>
-                  <ApplicationDetailView />
-                </RequiredAuth>
-              }
-            />
             <Route path="/" element={<Navigate to={TOKEN ? PATH.APPLICATION : PATH.LOGIN} />} />
-            {/* // TODO:(용재) 추후 404로 변경 */}
-            <Route path="*" element={<Navigate to={TOKEN ? PATH.APPLICATION : PATH.LOGIN} />} />
           </Route>
           <Route
             path={PATH.LOGIN}
@@ -124,6 +132,8 @@ const App = () => {
               </RequiredAuth>
             }
           />
+          <Route path="*" element={<ErrorPage path={PATH.NOT_FOUND} />} />
+          <Route path={PATH.FORBIDDEN} element={<ErrorPage path={PATH.FORBIDDEN} />} />
         </Routes>
         {toast && <Toast />}
       </Suspense>

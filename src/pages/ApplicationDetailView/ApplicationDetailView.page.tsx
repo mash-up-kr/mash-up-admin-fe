@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import unescape from 'lodash-es/unescape';
 import { BackButton } from '@/components';
 import * as Styled from './ApplicationDetailView.styled';
 import { formatDate } from '@/utils/date';
@@ -13,6 +14,7 @@ import {
 import { $applicationById } from '@/store';
 import { ApplicationByIdResponseData, Question } from '@/types';
 import { PATH } from '@/constants';
+import * as api from '@/api';
 
 const ApplicationDetailView = () => {
   const navigate = useNavigate();
@@ -20,6 +22,19 @@ const ApplicationDetailView = () => {
   const data = useRecoilValue<ApplicationByIdResponseData>(
     $applicationById({ applicationId: id as string }),
   );
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (!id) {
+          throw Error();
+        }
+        await api.getApplicationById({ applicationId: id });
+      } catch (e) {
+        navigate(PATH.FORBIDDEN);
+      }
+    })();
+  }, [id, navigate]);
 
   return (
     <Styled.ApplicationDetailViewPage>
@@ -33,14 +48,18 @@ const ApplicationDetailView = () => {
             <h3>인적정보</h3>
             <section>
               <div>
-                <TitleWithContent title="이름">{data.applicant.name}</TitleWithContent>
+                <TitleWithContent title="이름">{unescape(data.applicant.name)}</TitleWithContent>
                 <TitleWithContent title="이메일">{data.applicant.email}</TitleWithContent>
-                <TitleWithContent title="거주지역">{data.applicant.residence}</TitleWithContent>
+                <TitleWithContent title="거주지역">
+                  {unescape(data.applicant.residence)}
+                </TitleWithContent>
               </div>
               <div>
                 <TitleWithContent title="전화번호">{data.applicant.phoneNumber}</TitleWithContent>
                 <TitleWithContent title="생년월일">{data.applicant.birthdate}</TitleWithContent>
-                <TitleWithContent title="소속">{data.applicant.department}</TitleWithContent>
+                <TitleWithContent title="소속">
+                  {unescape(data.applicant.department)}
+                </TitleWithContent>
               </div>
             </section>
             <Styled.Divider />
@@ -50,7 +69,7 @@ const ApplicationDetailView = () => {
               </div>
               <div>
                 <TitleWithContent title="지원일시">
-                  {formatDate(data.applicant.updatedAt, 'YYYY년 M월 D일(ddd)')}
+                  {formatDate(data.submittedAt, 'YYYY년 M월 D일(ddd)')}
                 </TitleWithContent>
               </div>
             </section>
@@ -71,7 +90,7 @@ const ApplicationDetailView = () => {
             interviewDate={data.result.interviewStartedAt}
             applicationId={id as string}
           />
-          <MessageListPanel smsRequests={data.smsRequests} id={id as string} />
+          <MessageListPanel smsRequests={data.smsRequests} application={data} />
         </Styled.Aside>
       </div>
     </Styled.ApplicationDetailViewPage>

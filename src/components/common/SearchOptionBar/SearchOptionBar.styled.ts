@@ -9,7 +9,6 @@ export const BarContainer = styled.form`
     justify-content: space-between;
     width: 100%;
     height: 6.8rem;
-    margin-bottom: 1.2rem;
     padding: 0 1.8rem;
     background-color: ${theme.colors.gray5};
     border: 0.1rem solid ${theme.colors.gray30};

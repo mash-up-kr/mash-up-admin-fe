@@ -16,15 +16,6 @@ export const applicationPanelTBD = Template.bind({});
 applicationPanelTBD.args = {
   confirmationStatus: 'TO_BE_DETERMINED',
   resultStatus: 'NOT_RATED',
-  interviewDate: '2022-02-22T08:10:11+09:00',
-};
-
-export const applicationPanelREJECTED = Template.bind({});
-
-applicationPanelREJECTED.args = {
-  confirmationStatus: 'INTERVIEW_CONFIRM_REJECTED',
-  resultStatus: 'NOT_RATED',
-  interviewDate: '2022-02-22T08:10:11+09:00',
 };
 
 export const 서류_불합격 = Template.bind({});
@@ -32,7 +23,6 @@ export const 서류_불합격 = Template.bind({});
 서류_불합격.args = {
   confirmationStatus: 'NOT_APPLICABLE',
   resultStatus: 'SCREENING_FAILED',
-  interviewDate: '2022-02-22T08:10:11+09:00',
 };
 
 export const 서류_합격_면접_확인_대기 = Template.bind({});
@@ -40,7 +30,7 @@ export const 서류_합격_면접_확인_대기 = Template.bind({});
 서류_합격_면접_확인_대기.args = {
   confirmationStatus: 'INTERVIEW_CONFIRM_WAITING',
   resultStatus: 'SCREENING_PASSED',
-  interviewDate: '2022-02-22T08:10:11+09:00',
+  interviewDate: '2030-02-22T08:10:00+09:00',
 };
 
 export const 서류_합격_면접_수락 = Template.bind({});
@@ -48,7 +38,7 @@ export const 서류_합격_면접_수락 = Template.bind({});
 서류_합격_면접_수락.args = {
   confirmationStatus: 'INTERVIEW_CONFIRM_ACCEPTED',
   resultStatus: 'SCREENING_PASSED',
-  interviewDate: '2022-02-22T08:10:11+09:00',
+  interviewDate: '2030-02-22T08:10:00+09:00',
 };
 
 export const 서류_합격_면접_거절 = Template.bind({});
@@ -56,5 +46,5 @@ export const 서류_합격_면접_거절 = Template.bind({});
 서류_합격_면접_거절.args = {
   confirmationStatus: 'INTERVIEW_CONFIRM_REJECTED',
   resultStatus: 'SCREENING_PASSED',
-  interviewDate: '2022-02-22T08:10:11+09:00',
+  interviewDate: '2030-02-22T08:10:00+09:00',
 };

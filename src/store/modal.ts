@@ -5,17 +5,23 @@ import { AlertModalDialogProps } from '@/components/common/AlertModalDialog/Aler
 import { ValueOf } from '@/types';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
 import { SmsSendModalDialogProps } from '@/components/common/SmsSendModalDialog/SmsSendModalDialog.component';
+import { SmsSendDetailInfoModalDialogProps } from '@/components/modal/SmsSendDetailInfoModalDialog/SmsSendDetailInfoModalDialog.component';
+import { SmsSendDetailListModalDialogProps } from '@/components/modal/SmsSendDetailListModalDialog/SmsSendDetailListModalDialog.component';
 
 export const ModalKey = {
   alertModalDialog: 'alertModalDialog',
   smsSendModalDialog: 'smsSendModalDialog',
   changeResultModalDialog: 'changeResultModalDialog',
+  smsSendDetailInfoModalDialog: 'smsSendDetailInfoModalDialog',
+  smsSendDetailListModalDialog: 'smsSendDetailListModalDialog',
 } as const;
 
 export type ModalKeyType = ValueOf<typeof ModalKey>;
 export type ModalProps =
   | AlertModalDialogProps
   | SmsSendModalDialogProps
+  | SmsSendDetailListModalDialogProps
+  | SmsSendDetailInfoModalDialogProps
   | ChangeResultModalDialogProps;
 
 export interface Modal {
@@ -50,7 +56,15 @@ export const $modalByStorage = selectorFamily<Modal, ModalKeyType>({
         return curVal.isOpen ? `${acc}#${curVal.key}` : acc;
       }, '');
 
-      window.location.hash = hash;
+      if (hash) {
+        window.location.hash = hash;
+      } else {
+        window.history.replaceState(
+          '',
+          document.title,
+          window.location.pathname + window.location.search,
+        );
+      }
 
       return get($modal(key));
     },

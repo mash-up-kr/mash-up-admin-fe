@@ -12,6 +12,13 @@ interface GetPageOptionsParams {
   pageButtonsSize: number;
 }
 
+interface UsePaginationParams {
+  totalCount: number;
+  usingSearchParams?: boolean;
+  pagingSize?: number;
+  pageButtonsSize?: number;
+}
+
 const getPageOptions = ({
   totalCount,
   pagingSize,
@@ -31,7 +38,12 @@ const getPageOptions = ({
   };
 };
 
-const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTONS_SIZE) => {
+const usePagination = ({
+  totalCount,
+  usingSearchParams = true,
+  pagingSize = DEFAULT_PAGING_SIZE,
+  pageButtonsSize = DEFAULT_PAGE_BUTTONS_SIZE,
+}: UsePaginationParams) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageOptions, setPageOptions] = useState<PageOptions>({
     currentPage: 0,
@@ -52,43 +64,51 @@ const usePagination = (totalCount: number, pageButtonsSize = DEFAULT_PAGE_BUTTON
     });
     const { currentPage } = newPageOptions;
 
-    searchParams.set('page', currentPage.toString());
-    setSearchParams(searchParams);
+    if (usingSearchParams) {
+      searchParams.set('page', currentPage.toString());
+      setSearchParams(searchParams);
+    } else {
+      setPageOptions(newPageOptions);
+    }
   };
 
-  const handleChangeSize = (pagingSize: string) => {
-    let newPageOptions = getPageOptions({
-      totalCount,
-      pageIndex: pageOptions.currentPage - 1,
-      pagingSize: parseInt(pagingSize, 10),
-      pageButtonsSize,
-    });
+  const handleChangeSize = (_pagingSize: string) => {
+    if (usingSearchParams) {
+      searchParams.set('size', _pagingSize);
+      setSearchParams(searchParams);
+    } else {
+      let newPageOptions = getPageOptions({
+        totalCount,
+        pageIndex: pageOptions.currentPage - 1,
+        pagingSize: parseInt(_pagingSize, 10),
+        pageButtonsSize,
+      });
+      const { currentPage, endPage } = newPageOptions;
 
-    const { currentPage, endPage } = newPageOptions;
-    if (currentPage > endPage) {
-      newPageOptions = {
-        ...newPageOptions,
-        currentPage: newPageOptions.endPage,
-      };
+      if (currentPage > endPage) {
+        newPageOptions = {
+          ...newPageOptions,
+          currentPage: newPageOptions.endPage,
+        };
+      }
+
+      setPageOptions(newPageOptions);
     }
-
-    searchParams.set('size', pagingSize);
-    setSearchParams(searchParams);
   };
 
   useEffect(() => {
     if (!totalCount) return;
 
     const currentPage = searchParams.get('page');
-    const currentSize = searchParams.get('size');
+    const currentSize = usingSearchParams ? searchParams.get('size') : '';
     const newPageOptions = getPageOptions({
       totalCount,
       pageIndex: currentPage ? parseInt(currentPage, 10) - 1 : FIRST_PAGE - 1,
-      pagingSize: currentSize ? parseInt(currentSize, 10) : DEFAULT_PAGING_SIZE,
+      pagingSize: currentSize ? parseInt(currentSize, 10) : pagingSize,
       pageButtonsSize,
     });
 
-    if (newPageOptions.currentPage > newPageOptions.endPage) {
+    if (usingSearchParams && newPageOptions.currentPage > newPageOptions.endPage) {
       setSearchParams({
         page: newPageOptions.endPage.toString(),
         size: newPageOptions.pagingSize.toString(),

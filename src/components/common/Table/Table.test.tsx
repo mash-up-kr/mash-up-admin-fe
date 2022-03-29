@@ -71,6 +71,7 @@ describe('<Table />', () => {
           updatedBy: 'string',
         },
         updatedAt: '2022-02-19T10:06:37.439Z',
+        submittedAt: '2022-02-19T10:06:37.439Z',
       },
       {
         applicant: {
@@ -99,6 +100,7 @@ describe('<Table />', () => {
           updatedBy: 'string',
         },
         updatedAt: '2022-02-19T10:06:37.439Z',
+        submittedAt: '2022-02-19T10:06:37.439Z',
       },
       {
         applicant: {
@@ -127,6 +129,7 @@ describe('<Table />', () => {
           updatedBy: 'string',
         },
         updatedAt: '2022-02-19T10:06:37.439Z',
+        submittedAt: '2022-02-19T10:06:37.439Z',
       },
       {
         applicant: {
@@ -155,6 +158,7 @@ describe('<Table />', () => {
           updatedBy: 'string',
         },
         updatedAt: '2022-02-19T10:06:37.439Z',
+        submittedAt: '2022-02-19T10:06:37.439Z',
       },
     ];
 

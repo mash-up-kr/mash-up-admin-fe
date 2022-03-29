@@ -8,22 +8,29 @@ export const MemberPosition = {
   brandingMember: 'BRANDING_MEMBER',
   springLeader: 'SPRING_LEADER',
   springSubLeader: 'SPRING_SUBLEADER',
+  springHelper: 'SPRING_HELPER',
   nodeLeader: 'NODE_LEADER',
   nodeSubLeader: 'NODE_SUBLEADER',
+  nodeHelper: 'NODE_HELPER',
   iosLeader: 'iOS_LEADER',
   iosSubLeader: 'iOS_SUBLEADER',
+  iosHelper: 'iOS_HELPER',
   androidLeader: 'ANDROID_LEADER',
   androidSubLeader: 'ANDROID_SUBLEADER',
+  androidHelper: 'ANDROID_HELPER',
   webLeader: 'WEB_LEADER',
   webSubLeader: 'WEB_SUBLEADER',
+  webHelper: 'WEB_HELPER',
   designLeader: 'DESIGN_LEADER',
   designSubLeader: 'DESIGN_SUBLEADER',
+  designHelper: 'DESIGN_HELPER',
 } as const;
 
 export type MemberPositionType = ValueOf<typeof MemberPosition>;
 
 interface Member {
   adminMemberId: number;
+  phoneNumber: string;
   position?: MemberPositionType;
   username: string;
 }

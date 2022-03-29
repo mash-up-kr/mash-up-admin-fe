@@ -25,3 +25,4 @@ export { default as PopOver } from './PopOver/PopOver.component';
 export { default as Loading } from './Loading/Loading.component';
 export { default as Portal } from './Portal/Portal.component';
 export { default as SmsSendModalDialog } from './SmsSendModalDialog/SmsSendModalDialog.component';
+export { default as BottomCTA } from './BottomCTA/BottomCTA.component';

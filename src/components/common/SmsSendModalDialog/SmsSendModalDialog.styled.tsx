@@ -20,6 +20,10 @@ export const SmsSendModalContainer = styled.div`
         &::placeholder {
           ${theme.fonts.regular13}
         }
+
+        &:disabled {
+          color: ${theme.colors.gray60};
+        }
       }
     `}
   }
@@ -39,6 +43,34 @@ export const TitleArea = styled.div`
       color: ${theme.colors.gray60};
       background-color: transparent;
     }
+  `}
+`;
+
+interface StyledStatusAreaProps {
+  isSendFailed: boolean;
+}
+
+export const StatusArea = styled.div<StyledStatusAreaProps>`
+  ${({ isSendFailed }) => css`
+    ${isSendFailed
+      ? css`
+          display: flex;
+          justify-content: flex-start;
+
+          & > div {
+            width: 50%;
+          }
+        `
+      : css`
+          display: flex;
+          flex-direction: column;
+          gap: 1.6rem;
+
+          & > div > span {
+            display: flex;
+            gap: 0.6rem;
+          }
+        `}
   `}
 `;
 
