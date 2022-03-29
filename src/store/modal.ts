@@ -59,7 +59,11 @@ export const $modalByStorage = selectorFamily<Modal, ModalKeyType>({
       if (hash) {
         window.location.hash = hash;
       } else {
-        window.history.replaceState('', document.title, window.location.pathname);
+        window.history.replaceState(
+          '',
+          document.title,
+          window.location.pathname + window.location.search,
+        );
       }
 
       return get($modal(key));
