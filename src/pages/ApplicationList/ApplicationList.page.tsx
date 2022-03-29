@@ -260,6 +260,7 @@ const ApplicationList = () => {
       <Styled.StickyContainer>
         <TeamNavigationTabs />
         <SearchOptionBar
+          placeholder="이름, 전화번호 검색"
           filterValues={filterValues}
           setFilterValues={setFilterValues}
           searchWord={searchWord}
