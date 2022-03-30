@@ -4141,15 +4141,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-linkify@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@types/react-linkify@npm:1.0.1"
-  dependencies:
-    "@types/react": "*"
-  checksum: e39435c6f261a3b95b71f18cb3728fbbbb3180e5e911e642f344a1ec15005d1d564b5c67d3f475ca3695dc0a2a3b9971cfbf1074a2050549c6c5d250816b4fee
-  languageName: node
-  linkType: hard
-
 "@types/react-syntax-highlighter@npm:11.0.5":
   version: 11.0.5
   resolution: "@types/react-syntax-highlighter@npm:11.0.5"
@@ -12385,15 +12376,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"linkify-it@npm:^2.0.3":
-  version: 2.2.0
-  resolution: "linkify-it@npm:2.2.0"
-  dependencies:
-    uc.micro: ^1.0.1
-  checksum: d198871d0b3f3cfdb745dae564bfd6743474f20cd0ef1057e6ca29451834749e7f3da52b59b4de44e98f31a1e5c71bdad160490d4ae54de251cbcde57e4d7837
-  languageName: node
-  linkType: hard
-
 "lint-staged@npm:^12.3.1":
   version: 12.3.1
   resolution: "lint-staged@npm:12.3.1"
@@ -12831,7 +12813,6 @@ __metadata:
     "@types/node": ^17.0.10
     "@types/react": ^17.0.38
     "@types/react-dom": ^17.0.11
-    "@types/react-linkify": ^1.0.1
     "@types/testing-library__dom": ^7.5.0
     "@types/testing-library__jest-dom": ^5.14.2
     "@types/testing-library__react": ^10.2.0
@@ -12871,7 +12852,6 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-hook-form: ^7.27.0
-    react-linkify: ^1.0.0-alpha
     react-router-dom: ^6.2.1
     recoil: ^0.6.1
     recoil-persist: ^4.0.0
@@ -15321,16 +15301,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-linkify@npm:^1.0.0-alpha":
-  version: 1.0.0-alpha
-  resolution: "react-linkify@npm:1.0.0-alpha"
-  dependencies:
-    linkify-it: ^2.0.3
-    tlds: ^1.199.0
-  checksum: abff36e1fdd9db822278292379e070d471d96ddda2d199565edd9ecff3d17faa31a3c83bd2be8fa4c0f9589dd97553ba77c553047b94cfd94e0f528b9e91fafa
-  languageName: node
-  linkType: hard
-
 "react-popper-tooltip@npm:^3.1.1":
   version: 3.1.1
   resolution: "react-popper-tooltip@npm:3.1.1"
@@ -17747,15 +17717,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tlds@npm:^1.199.0":
-  version: 1.230.0
-  resolution: "tlds@npm:1.230.0"
-  bin:
-    tlds: bin.js
-  checksum: a1aa4e7a8887c197bf7ad4e739bee1672502aa9cb5e6e2c68ba319495988824044a1549332d284420deb14680a745179e955db13ff2ba69eef1d3850a32967ca
-  languageName: node
-  linkType: hard
-
 "tmpl@npm:1.0.5":
   version: 1.0.5
   resolution: "tmpl@npm:1.0.5"
@@ -18113,13 +18074,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 858c61fa63f7274ca4aaaffeced854d550bf416cff6e558c4884041b3311fb662f476f167cf5c9f8680c607239797e26a2ee0bcc6467fbc05bfcb218e1c6c671
-  languageName: node
-  linkType: hard
-
-"uc.micro@npm:^1.0.1":
-  version: 1.0.6
-  resolution: "uc.micro@npm:1.0.6"
-  checksum: 6898bb556319a38e9cf175e3628689347bd26fec15fc6b29fa38e0045af63075ff3fea4cf1fdba9db46c9f0cbf07f2348cd8844889dd31ebd288c29fe0d27e7a
   languageName: node
   linkType: hard
 

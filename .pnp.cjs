@@ -55,7 +55,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:17.0.13"],\
             ["@types/react", "npm:17.0.38"],\
             ["@types/react-dom", "npm:17.0.11"],\
-            ["@types/react-linkify", "npm:1.0.1"],\
             ["@types/testing-library__dom", "npm:7.5.0"],\
             ["@types/testing-library__jest-dom", "npm:5.14.2"],\
             ["@types/testing-library__react", "npm:10.2.0"],\
@@ -95,7 +94,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react", "npm:17.0.2"],\
             ["react-dom", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:17.0.2"],\
             ["react-hook-form", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.27.0"],\
-            ["react-linkify", "npm:1.0.0-alpha"],\
             ["react-router-dom", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:6.2.1"],\
             ["recoil", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:0.6.1"],\
             ["recoil-persist", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:4.0.0"],\
@@ -6942,16 +6940,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-react-dom-npm-17.0.11-fc2e584a96-4d5730dffb.zip/node_modules/@types/react-dom/",\
           "packageDependencies": [\
             ["@types/react-dom", "npm:17.0.11"],\
-            ["@types/react", "npm:17.0.38"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@types/react-linkify", [\
-        ["npm:1.0.1", {\
-          "packageLocation": "./.yarn/cache/@types-react-linkify-npm-1.0.1-1b77eebe5c-e39435c6f2.zip/node_modules/@types/react-linkify/",\
-          "packageDependencies": [\
-            ["@types/react-linkify", "npm:1.0.1"],\
             ["@types/react", "npm:17.0.38"]\
           ],\
           "linkType": "HARD"\
@@ -16863,16 +16851,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["linkify-it", [\
-        ["npm:2.2.0", {\
-          "packageLocation": "./.yarn/cache/linkify-it-npm-2.2.0-3eb4775d11-d198871d0b.zip/node_modules/linkify-it/",\
-          "packageDependencies": [\
-            ["linkify-it", "npm:2.2.0"],\
-            ["uc.micro", "npm:1.0.6"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["lint-staged", [\
         ["npm:12.3.1", {\
           "packageLocation": "./.yarn/cache/lint-staged-npm-12.3.1-e2cd0c0b88-53e4a0e602.zip/node_modules/lint-staged/",\
@@ -17367,7 +17345,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:17.0.13"],\
             ["@types/react", "npm:17.0.38"],\
             ["@types/react-dom", "npm:17.0.11"],\
-            ["@types/react-linkify", "npm:1.0.1"],\
             ["@types/testing-library__dom", "npm:7.5.0"],\
             ["@types/testing-library__jest-dom", "npm:5.14.2"],\
             ["@types/testing-library__react", "npm:10.2.0"],\
@@ -17407,7 +17384,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react", "npm:17.0.2"],\
             ["react-dom", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:17.0.2"],\
             ["react-hook-form", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.27.0"],\
-            ["react-linkify", "npm:1.0.0-alpha"],\
             ["react-router-dom", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:6.2.1"],\
             ["recoil", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:0.6.1"],\
             ["recoil-persist", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:4.0.0"],\
@@ -20393,17 +20369,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["react-linkify", [\
-        ["npm:1.0.0-alpha", {\
-          "packageLocation": "./.yarn/cache/react-linkify-npm-1.0.0-alpha-3cbf0408d2-abff36e1fd.zip/node_modules/react-linkify/",\
-          "packageDependencies": [\
-            ["react-linkify", "npm:1.0.0-alpha"],\
-            ["linkify-it", "npm:2.2.0"],\
-            ["tlds", "npm:1.230.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["react-popper", [\
         ["npm:2.2.5", {\
           "packageLocation": "./.yarn/cache/react-popper-npm-2.2.5-6e86e4bf1e-915fcf08e1.zip/node_modules/react-popper/",\
@@ -23167,15 +23132,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["tlds", [\
-        ["npm:1.230.0", {\
-          "packageLocation": "./.yarn/cache/tlds-npm-1.230.0-aaa9e0df1c-a1aa4e7a88.zip/node_modules/tlds/",\
-          "packageDependencies": [\
-            ["tlds", "npm:1.230.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["tmpl", [\
         ["npm:1.0.5", {\
           "packageLocation": "./.yarn/cache/tmpl-npm-1.0.5-d399ba37e2-cd922d9b85.zip/node_modules/tmpl/",\
@@ -23623,15 +23579,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/typescript-patch-1413b5712d-858c61fa63.zip/node_modules/typescript/",\
           "packageDependencies": [\
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=bda367"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["uc.micro", [\
-        ["npm:1.0.6", {\
-          "packageLocation": "./.yarn/cache/uc.micro-npm-1.0.6-36f3dc2fc4-6898bb5563.zip/node_modules/uc.micro/",\
-          "packageDependencies": [\
-            ["uc.micro", "npm:1.0.6"]\
           ],\
           "linkType": "HARD"\
         }]\
