@@ -16,6 +16,7 @@ export interface ApplicationFilterValuesType {
 }
 
 interface SearchOptionBarProps {
+  placeholder?: string;
   searchWord: { value: string };
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
   filterValues?: ApplicationFilterValuesType;
@@ -25,6 +26,7 @@ interface SearchOptionBarProps {
 const DEFAULT = { label: '전체', value: '' };
 
 const SearchOptionBar = ({
+  placeholder,
   searchWord,
   handleSubmit,
   filterValues,
@@ -114,7 +116,7 @@ const SearchOptionBar = ({
       )}
       <div />
       <Styled.SearchInputContainer>
-        <Input ref={ref} name="searchWord" $size="xs" placeholder="지원서 설문지 문서명 검색" />
+        <Input ref={ref} name="searchWord" $size="xs" placeholder={placeholder} />
         <Styled.SearchButton type="submit" $size={ButtonSize.xs} shape={ButtonShape.default}>
           검색
         </Styled.SearchButton>
