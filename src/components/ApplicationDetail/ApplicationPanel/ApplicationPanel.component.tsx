@@ -67,9 +67,12 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
 
   const isScreeningPassed = useMemo(
     () =>
-      ['SCREENING_PASSED', 'INTERVIEW_FAILED', 'INTERVIEW_PASSED'].some(
-        (each) => each === resultStatus,
-      ),
+      [
+        'SCREENING_PASSED',
+        'INTERVIEW_TO_BE_DETERMINED',
+        'INTERVIEW_FAILED',
+        'INTERVIEW_PASSED',
+      ].some((each) => each === resultStatus),
     [resultStatus],
   );
 
