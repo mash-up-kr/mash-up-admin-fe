@@ -1,6 +1,6 @@
 import React, { FormEvent, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 import Preview from '@/assets/svg/preview-20.svg';
 
@@ -41,57 +41,6 @@ const ApplicationFormPreview = ({ questions }: { questions: Question[] }) => {
   );
 };
 
-const columns: TableColumn<ApplicationFormResponse>[] = [
-  {
-    title: '플랫폼',
-    accessor: 'team.name',
-    widthRatio: '9%',
-  },
-  {
-    title: '지원서 설문지 문서명',
-    accessor: 'name',
-    idAccessor: 'applicationFormId',
-    widthRatio: '28%',
-    renderCustomCell: (cellValue, id) => (
-      <Styled.FormTitleWrapper title={cellValue as string}>
-        <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
-        <Styled.TitleLink to={`${PATH.APPLICATION_FORM}/${id}`} />
-      </Styled.FormTitleWrapper>
-    ),
-  },
-  {
-    title: '작성자',
-    accessor: 'createdBy',
-    widthRatio: '14%',
-    renderCustomCell: (cellValue) => {
-      const [team, role] = (cellValue as string).split('_') as [TeamType, RoleType];
-      return (
-        <Styled.CustomUserProfile>
-          <UserProfile team={team} role={role} showBackground={false} />
-        </Styled.CustomUserProfile>
-      );
-    },
-  },
-  {
-    title: '작성일시',
-    accessor: 'createdAt',
-    widthRatio: '21%',
-    renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
-  },
-  {
-    title: '수정일시',
-    accessor: 'updatedAt',
-    widthRatio: '21%',
-    renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
-  },
-  {
-    title: '미리보기',
-    accessor: 'questions',
-    renderCustomCell: (cellValue) => <ApplicationFormPreview questions={cellValue as Question[]} />,
-    widthRatio: '7%',
-  },
-];
-
 const ApplicationFormList = () => {
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
@@ -101,6 +50,8 @@ const ApplicationFormList = () => {
   const size = searchParams.get('size') || '20';
 
   const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
+
+  const { pathname, search } = useLocation();
 
   const [sortTypes, setSortTypes] = useState<SortType<ApplicationFormResponse>[]>([
     { accessor: 'team.name', type: SORT_TYPE.DEFAULT },
@@ -149,6 +100,62 @@ const ApplicationFormList = () => {
     e.preventDefault();
     setSearchWord({ value: e.target.searchWord.value });
   };
+
+  const columns: TableColumn<ApplicationFormResponse>[] = [
+    {
+      title: '플랫폼',
+      accessor: 'team.name',
+      widthRatio: '9%',
+    },
+    {
+      title: '지원서 설문지 문서명',
+      accessor: 'name',
+      idAccessor: 'applicationFormId',
+      widthRatio: '28%',
+      renderCustomCell: (cellValue, id) => (
+        <Styled.FormTitleWrapper title={cellValue as string}>
+          <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
+          <Styled.TitleLink
+            to={`${PATH.APPLICATION_FORM}/${id}`}
+            state={{ from: `${pathname}${search}` }}
+          />
+        </Styled.FormTitleWrapper>
+      ),
+    },
+    {
+      title: '작성자',
+      accessor: 'createdBy',
+      widthRatio: '14%',
+      renderCustomCell: (cellValue) => {
+        const [team, role] = (cellValue as string).split('_') as [TeamType, RoleType];
+        return (
+          <Styled.CustomUserProfile>
+            <UserProfile team={team} role={role} showBackground={false} />
+          </Styled.CustomUserProfile>
+        );
+      },
+    },
+    {
+      title: '작성일시',
+      accessor: 'createdAt',
+      widthRatio: '21%',
+      renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+    },
+    {
+      title: '수정일시',
+      accessor: 'updatedAt',
+      widthRatio: '21%',
+      renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+    },
+    {
+      title: '미리보기',
+      accessor: 'questions',
+      renderCustomCell: (cellValue) => (
+        <ApplicationFormPreview questions={cellValue as Question[]} />
+      ),
+      widthRatio: '7%',
+    },
+  ];
 
   useEffect(() => {
     if (!isLoading) {
