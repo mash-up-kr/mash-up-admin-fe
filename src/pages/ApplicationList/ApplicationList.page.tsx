@@ -119,7 +119,10 @@ const ApplicationList = () => {
   const myTeamName = useRecoilValue($profile)[0];
   const isMyTeam = useMemo(
     () =>
-      !teamName || teamName.toLowerCase() === myTeamName.toLowerCase() || myTeamName === 'BRANDING',
+      !teamName ||
+      teamName.toLowerCase() === myTeamName.toLowerCase() ||
+      myTeamName === 'BRANDING' ||
+      myTeamName === 'MASHUP',
     [myTeamName, teamName],
   );
 
