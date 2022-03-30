@@ -1,8 +1,8 @@
 import React from 'react';
 import unescape from 'lodash-es/unescape';
-import Linkify from 'react-linkify';
 import * as Styled from './ApplicationQnAItem.styled';
 import { Question, Answer } from '@/types';
+import { convertTextToLink } from '@/utils';
 
 export interface ApplicationQnAItemProps extends Question {
   answer: Answer;
@@ -19,18 +19,7 @@ const ApplicationQnAItem = ({
       <Styled.Title>{unescape(content)}</Styled.Title>
       {description && <Styled.Description>{unescape(description)}</Styled.Description>}
       {answer.content && (
-        <Styled.Answer>
-          <Linkify
-            // eslint-disable-next-line react/no-unstable-nested-components
-            componentDecorator={(decoratedHref: string, decoratedText: string, key: number) => (
-              <a href={decoratedHref} key={key} target="_blank" rel="noreferrer">
-                {decoratedText}
-              </a>
-            )}
-          >
-            {unescape(answer.content)}
-          </Linkify>
-        </Styled.Answer>
+        <Styled.Answer dangerouslySetInnerHTML={convertTextToLink(unescape(answer.content))} />
       )}
       {maxContentLength && (
         <Styled.TextLength>
