@@ -149,6 +149,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
           .clone()
           .hour(8 + hour)
           .minute(min * 10)
+          .second(0)
           .format();
         return [...acc, { value: d, label: formatDate(d, 'a hh시 mm분') }];
       }, []),
@@ -258,7 +259,7 @@ const ApplicationPanel = ({
       applicationResultStatus: resultStatus,
       interviewStartedAt: interviewDate
         ? dayjs(interviewDate).format()
-        : dayjs().add(1, 'd').hour(8).minute(0).format(),
+        : dayjs().add(1, 'd').hour(8).minute(0).second(0).format(),
       isEdit: false,
     },
   });
@@ -272,7 +273,7 @@ const ApplicationPanel = ({
           applicationResultStatus,
           interviewStartedAt: toUtcWithoutChangingTime(interviewStartedAt),
           interviewEndedAt: toUtcWithoutChangingTime(
-            dayjs(interviewStartedAt).add(1, 's').format(),
+            dayjs(interviewStartedAt).add(49, 'm').add(59, 's').format(),
           ),
           applicationId,
         };
