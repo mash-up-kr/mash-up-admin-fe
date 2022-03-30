@@ -121,11 +121,12 @@ const ChangeResultModalDialog = ({
 
   const applicationResultOptions = useMemo(
     () =>
-      Object.values(ApplicationResultStatus)
-        .filter((each) => each !== '서류 합격')
-        .reduce<SelectOption[]>((acc: SelectOption[], cur: ApplicationResultStatusType, index) => {
+      Object.values(ApplicationResultStatus).reduce<SelectOption[]>(
+        (acc: SelectOption[], cur: ApplicationResultStatusType, index) => {
           return [...acc, { value: Object.keys(ApplicationResultStatus)[index], label: cur }];
-        }, []),
+        },
+        [],
+      ),
     [],
   );
 
