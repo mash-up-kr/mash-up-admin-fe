@@ -9,7 +9,7 @@ import {
 import { ModalWrapper, SelectField, TitleWithContent } from '@/components';
 import * as Styled from './ChangeResultModalDialog.styled';
 import * as api from '@/api';
-import { $modalByStorage, ModalKey } from '@/store';
+import { $applicationById, $modalByStorage, ModalKey } from '@/store';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import ApplicationStatusBadge, {
   ApplicationResultStatus,
@@ -51,7 +51,7 @@ const ChangeResultModalDialog = ({
   });
 
   const handleSendSms = useRecoilCallback(
-    ({ set }) =>
+    ({ set, refresh }) =>
       async ({ applicationResultStatus }: FormValues) => {
         const recruitingProgressStatus = getRecruitingProgressStatusFromRecruitingPeriod(
           new Date(),
@@ -91,6 +91,9 @@ const ChangeResultModalDialog = ({
                   refreshList?.();
                 },
                 onCompleted: () => {
+                  selectedList.map((each) =>
+                    refresh($applicationById({ applicationId: each.toString() })),
+                  );
                   set($modalByStorage(ModalKey.alertModalDialog), {
                     key: ModalKey.alertModalDialog,
                     isOpen: false,
