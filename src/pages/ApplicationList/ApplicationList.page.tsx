@@ -25,7 +25,7 @@ import {
   TeamNavigationTabs,
 } from '@/components';
 import { formatDate, uniqArray } from '@/utils';
-import { SORT_TYPE } from '@/constants';
+import { PATH, SORT_TYPE } from '@/constants';
 import { $applications, $teamIdByName, ModalKey, $modalByStorage, $profile } from '@/store';
 import { useConvertToXlsx, useDirty, usePagination } from '@/hooks';
 import { ApplicationRequest, ApplicationResponse } from '@/types';
@@ -48,10 +48,14 @@ const columns: TableColumn<ApplicationResponse>[] = [
     accessor: 'applicant.name',
     idAccessor: 'applicationId',
     widthRatio: '10%',
-    renderCustomCell: (cellValue, _, handleClickLink) => (
+    renderCustomCell: (cellValue, id, handleClickLink, applicationParams) => (
       <Styled.FormTitleWrapper title={cellValue as string}>
         <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
-        <Styled.TitleLink onClick={handleClickLink} />
+        {handleClickLink ? (
+          <Styled.TitleButton type="button" onClick={handleClickLink} />
+        ) : (
+          <Styled.TitleLink to={`${PATH.APPLICATION}/${id}`} state={applicationParams} />
+        )}
       </Styled.FormTitleWrapper>
     ),
   },
@@ -355,6 +359,7 @@ const ApplicationList = () => {
           />
         }
         applicationParams={applicationParams}
+        isMyTeam={isMyTeam}
       />
       <BottomCTA
         boundaries={{

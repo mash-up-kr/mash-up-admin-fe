@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Button } from '@/components';
+import { Button, Link } from '@/components';
 
 export const PageWrapper = styled.div`
   padding: 4rem 0;
@@ -53,10 +53,17 @@ export const FormTitle = styled.div`
   `};
 `;
 
-export const TitleLink = styled.a`
+export const TitleLink = styled(Link)`
   position: absolute;
   inset: 0;
   cursor: pointer;
+`;
+
+export const TitleButton = styled.button`
+  position: absolute;
+  background-color: transparent;
+  cursor: pointer;
+  inset: 0;
 `;
 
 export const Center = styled.div`
