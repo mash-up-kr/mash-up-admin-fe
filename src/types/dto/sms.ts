@@ -18,6 +18,8 @@ export interface SmsContent {
   recipientPhoneNumber?: string;
   smsRequestId: number;
   status: SmsStatusType;
+  sentAt?: string;
+  createdAt: string;
   team: {
     createdAt: string;
     createdBy: string;

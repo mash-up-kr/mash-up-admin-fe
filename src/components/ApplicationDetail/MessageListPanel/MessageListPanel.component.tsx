@@ -18,9 +18,7 @@ export interface MessageInfoProps {
   notificationContent?: string;
   smsRequestId: number;
   status: SmsStatusType;
-  team: {
-    createdAt: string;
-  };
+  createdAt: string;
 }
 
 const MessageInfo = ({
@@ -29,14 +27,14 @@ const MessageInfo = ({
   sender,
   notificationContent,
   status,
-  team,
+  createdAt,
 }: MessageInfoProps) => {
   return (
     <Styled.MessageInfoContainer>
       <Styled.Label status={status}>{SmsStatus[status]}</Styled.Label>
       <Styled.TitleContainer>
         <div>{notificationName}</div>
-        <div>{formatDate(team.createdAt, 'YYYY년 M월 D일(ddd) a hh시 mm분')}</div>
+        <div>{formatDate(createdAt, 'YYYY년 M월 D일(ddd) a hh시 mm분')}</div>
       </Styled.TitleContainer>
       <TitleWithContent title="발송번호">{senderPhoneNumber}</TitleWithContent>
       <TitleWithContent title="발송자">

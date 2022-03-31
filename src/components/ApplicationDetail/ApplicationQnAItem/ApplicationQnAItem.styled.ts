@@ -29,7 +29,7 @@ export const Answer = styled.div`
     margin-top: 1.2rem;
     color: ${theme.colors.gray70};
 
-    & > a {
+    & a {
       text-decoration: underline;
     }
   `}
