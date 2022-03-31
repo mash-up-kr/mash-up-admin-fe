@@ -8,3 +8,4 @@ export { default as useDirty } from './useDirty';
 export { default as useConvertToXlsx } from './useConvertToXlsx';
 export { default as useBottomCTA } from './useBottomCTA';
 export { default as useWindowScroll } from './useWindowScroll';
+export { default as useConvertTextToLink } from './useConvertTextToLink';
