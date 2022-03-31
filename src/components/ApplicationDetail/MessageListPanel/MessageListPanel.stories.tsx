@@ -22,9 +22,7 @@ messageListPanel.args = {
       notificationContent: 'TEST TEST',
       smsRequestId: 0,
       status: 'FAILURE',
-      team: {
-        createdAt: '2022-02-19T05:43:38.517Z',
-      },
+      createdAt: '2022-02-19T05:43:38.517Z',
     },
     {
       notificationName: 'TEST',
@@ -33,9 +31,7 @@ messageListPanel.args = {
       notificationContent: 'TEST TEST',
       smsRequestId: 0,
       status: 'SUCCESS',
-      team: {
-        createdAt: '2022-02-19T05:43:38.517Z',
-      },
+      createdAt: '2022-02-19T05:43:38.517Z',
     },
   ],
 };

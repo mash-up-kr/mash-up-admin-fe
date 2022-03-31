@@ -23,6 +23,7 @@ const Template: ComponentStory<typeof SmsSendDetailInfoModalDialog> = () => (
           recipientPhoneNumber: '01000000000',
           smsRequestId: 1,
           status: 'SUCCESS',
+          createdAt: '2022-02-19T05:43:38.517Z',
           team: {
             createdAt: '2022-03-28T02:34:25.083Z',
             createdBy: 'string',
