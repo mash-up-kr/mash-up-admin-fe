@@ -100,7 +100,7 @@ export const ApplicationFormPreviewModal = ({
       <Styled.PrivacyCheckBox
         label={
           <Styled.PrivacyCheckBoxLabel>
-            <a href={PRIVACY_POLICY_URL} target="_blank" rel="noreferrer">
+            <a href={PRIVACY_POLICY_URL} target="_blank" rel="noopener noreferrer">
               개인정보 수집 및 이용
             </a>
             에 동의합니다.

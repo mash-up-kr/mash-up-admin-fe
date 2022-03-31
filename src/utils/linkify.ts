@@ -4,7 +4,7 @@ const URL_REGEX =
 export const convertTextToLink = (content: string) => {
   const convertContent = content.replace(
     URL_REGEX,
-    (url) => `<a href="${url}" target="_blank">${url}</a>`,
+    (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`,
   );
 
   const htmlArr = convertContent.split('\n').map((text) => `<p>${text}</p>`);
