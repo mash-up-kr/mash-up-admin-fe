@@ -88,7 +88,7 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
       const currentDate = dayjs(date);
       setValue(
         `interviewStartedAt`,
-        dayjs(clickedDate).hour(currentDate.hour()).second(currentDate.second()).format(),
+        dayjs(clickedDate).hour(currentDate.hour()).minute(currentDate.minute()).second(0).format(),
       );
       setIsDatePickerOpened(false);
     },
