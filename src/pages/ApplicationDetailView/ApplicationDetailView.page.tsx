@@ -29,12 +29,14 @@ const ApplicationDetailView = () => {
         if (!id) {
           throw Error();
         }
-        await api.getApplicationById({ applicationId: id });
+        if (!data) {
+          await api.getApplicationById({ applicationId: id });
+        }
       } catch (e) {
         navigate(PATH.FORBIDDEN);
       }
     })();
-  }, [id, navigate]);
+  }, [data, id, navigate]);
 
   return (
     <Styled.ApplicationDetailViewPage>
