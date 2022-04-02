@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useRecoilCallback, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
@@ -35,6 +35,7 @@ const current = new Date().toISOString();
 const DEFAULT_QUESTIONS: Question[] = new Array(4).fill(DEFAULT_QUESTION);
 
 const CreateApplicationForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const methods = useForm<FormValues>({
     defaultValues: {
       questions: DEFAULT_QUESTIONS,
@@ -77,7 +78,10 @@ const CreateApplicationForm = () => {
         confirmButtonLabel: '저장',
         handleClickConfirmButton: () => {
           request({
-            requestFunc: () => api.createApplicationForm(data),
+            requestFunc: () => {
+              setIsLoading(true);
+              return api.createApplicationForm(data);
+            },
             errorHandler: handleAddToast,
             onSuccess: (response) => {
               set($modalByStorage(ModalKey.alertModalDialog), {
@@ -95,6 +99,7 @@ const CreateApplicationForm = () => {
               navigate(getApplicationFormDetailPage(applicationFormId));
             },
             onCompleted: () => {
+              setIsLoading(false);
               set($modalByStorage(ModalKey.alertModalDialog), {
                 key: ModalKey.alertModalDialog,
                 isOpen: false,
@@ -138,7 +143,7 @@ const CreateApplicationForm = () => {
               />
             }
             createdBy={position}
-            leftActionButton={{ text: '취소', onClick: () => navigate(-1) }}
+            leftActionButton={{ text: '취소', onClick: () => navigate(-1), isLoading }}
             rightActionButton={{ text: '저장', type: 'submit' }}
           />
         </form>
