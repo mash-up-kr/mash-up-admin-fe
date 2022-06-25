@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilCallback, useRecoilState, useResetRecoilState } from 'recoil';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm, useFormState } from 'react-hook-form';
@@ -19,6 +19,7 @@ interface FormValues {
 }
 
 const UpdateApplicationForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams<ParamId>();
 
   const [{ questions, name, createdAt, team, createdBy, updatedAt, updatedBy }] = useRecoilState(
@@ -66,7 +67,10 @@ const UpdateApplicationForm = () => {
         confirmButtonLabel: '저장',
         handleClickConfirmButton: () => {
           request({
-            requestFunc: () => api.updateApplicationForm(id, data),
+            requestFunc: () => {
+              setIsLoading(true);
+              return api.updateApplicationForm(id, data);
+            },
             errorHandler: handleAddToast,
             onSuccess: () => {
               handleAddToast({
@@ -77,6 +81,7 @@ const UpdateApplicationForm = () => {
               navigate(getApplicationFormDetailPage(id));
             },
             onCompleted: () => {
+              setIsLoading(false);
               set($modalByStorage(ModalKey.alertModalDialog), {
                 key: ModalKey.alertModalDialog,
                 isOpen: false,
@@ -107,7 +112,7 @@ const UpdateApplicationForm = () => {
             updatedAt={updatedAt}
             updatedBy={updatedBy}
             leftActionButton={{ text: '취소', type: 'button', onClick: () => navigate(-1) }}
-            rightActionButton={{ text: '저장', type: 'submit', disabled: !isDirty }}
+            rightActionButton={{ text: '저장', type: 'submit', disabled: !isDirty, isLoading }}
           />
         </form>
       </Styled.UpdateApplicationFormPage>

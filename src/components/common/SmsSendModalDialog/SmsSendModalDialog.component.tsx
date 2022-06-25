@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -37,6 +37,7 @@ const SmsSendModalDialog = ({
   messageContent,
   showSummary = false,
 }: SmsSendModalDialogProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const selectedIds = selectedApplications.map((application) => application.applicant.applicantId);
   const selectedResults = uniqArray(
     selectedApplications.map((application) => application.result.status),
@@ -88,6 +89,7 @@ const SmsSendModalDialog = ({
         handleClickConfirmButton: () => {
           request({
             requestFunc: async () => {
+              setIsLoading(true);
               await api.postSmsSend({ applicantIds: selectedIds, content, name });
             },
 
@@ -101,6 +103,7 @@ const SmsSendModalDialog = ({
               navigate(PATH.SMS);
             },
             onCompleted: () => {
+              setIsLoading(false);
               set($modalByStorage(ModalKey.alertModalDialog), {
                 key: ModalKey.alertModalDialog,
                 isOpen: false,
@@ -122,6 +125,7 @@ const SmsSendModalDialog = ({
         label: '발송',
         onClick: handleSubmit(handleSendSms),
         type: 'submit',
+        isLoading,
       },
     },
     handleCloseModal: handleRemoveCurrentModal,

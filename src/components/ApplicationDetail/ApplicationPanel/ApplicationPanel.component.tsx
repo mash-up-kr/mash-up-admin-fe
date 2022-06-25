@@ -46,9 +46,15 @@ interface ControlAreaProps {
   confirmationStatus: ApplicationConfirmationStatusKeyType;
   resultStatus: ApplicationResultStatusKeyType;
   interviewDate?: string;
+  isLoading?: boolean;
 }
 
-const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: ControlAreaProps) => {
+const ControlArea = ({
+  confirmationStatus,
+  resultStatus,
+  interviewDate,
+  isLoading = false,
+}: ControlAreaProps) => {
   const { setValue, getValues, watch, register } = useFormContext<FormValues>();
   const date = getValues('interviewStartedAt');
   const isEdit = watch('isEdit');
@@ -205,7 +211,13 @@ const ControlArea = ({ confirmationStatus, resultStatus, interviewDate }: Contro
             label="취소"
             onClick={handleToggleIsEdit}
           />
-          <Button type="submit" $size={ButtonSize.sm} shape={ButtonShape.primary} label="저장" />
+          <Button
+            type="submit"
+            $size={ButtonSize.sm}
+            shape={ButtonShape.primary}
+            label="저장"
+            isLoading={isLoading}
+          />
         </Styled.ButtonContainer>
       </>
     );
@@ -263,6 +275,7 @@ const ApplicationPanel = ({
       isEdit: false,
     },
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const { handleSubmit } = methods;
 
@@ -299,6 +312,7 @@ const ApplicationPanel = ({
 
         request({
           requestFunc: async () => {
+            setIsLoading(true);
             await api.postUpdateResult(requestDto);
           },
           errorHandler: handleAddToast,
@@ -311,6 +325,7 @@ const ApplicationPanel = ({
               message: '성공적으로 합격 여부가 변경되었습니다.',
             });
           },
+          onCompleted: () => setIsLoading(false),
         });
       },
     [],
@@ -329,6 +344,7 @@ const ApplicationPanel = ({
             confirmationStatus={confirmationStatus}
             resultStatus={resultStatus}
             interviewDate={interviewDate}
+            isLoading={isLoading}
             {...restProps}
           />
         </Styled.ApplicationStatusForm>
