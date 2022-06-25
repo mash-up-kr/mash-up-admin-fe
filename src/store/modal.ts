@@ -48,24 +48,6 @@ export const $modalByStorage = selectorFamily<Modal, ModalKeyType>({
   get:
     (key) =>
     ({ get }) => {
-      const hash = Object.values(ModalKey).reduce<string>((acc, cur) => {
-        if (cur === ModalKey.alertModalDialog) {
-          return acc;
-        }
-        const curVal = get($modal(cur));
-        return curVal.isOpen ? `${acc}#${curVal.key}` : acc;
-      }, '');
-
-      if (hash) {
-        window.location.hash = hash;
-      } else {
-        window.history.replaceState(
-          '',
-          document.title,
-          window.location.pathname + window.location.search,
-        );
-      }
-
       return get($modal(key));
     },
   set:
