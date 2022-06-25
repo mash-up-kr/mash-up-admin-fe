@@ -100,7 +100,7 @@ const ApplicationList = () => {
       sort: sortParam,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, size, teamId, searchWord, sortParam],
+    [page, size, teamId, searchWord, sortParam, filterValues],
   );
 
   const [totalCount, setTotalCount] = useState(0);

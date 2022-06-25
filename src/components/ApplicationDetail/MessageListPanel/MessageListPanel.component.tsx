@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
+import unescape from 'lodash-es/unescape';
 import UserProfile, {
   splitMemberPosition,
 } from '@/components/common/UserProfile/UserProfile.component';
@@ -10,6 +11,7 @@ import { MemberPositionType, ApplicationResponse } from '@/types';
 import { $modalByStorage, ModalKey } from '@/store';
 import { formatDate } from '@/utils/date';
 import { SmsStatus, SmsStatusType } from '@/types/dto/sms';
+import { useConvertTextToLink } from '@/hooks';
 
 export interface MessageInfoProps {
   notificationName?: string;
@@ -29,6 +31,7 @@ const MessageInfo = ({
   status,
   createdAt,
 }: MessageInfoProps) => {
+  const convertedContent = useConvertTextToLink(unescape(notificationContent));
   return (
     <Styled.MessageInfoContainer>
       <Styled.Label status={status}>{SmsStatus[status]}</Styled.Label>
@@ -45,7 +48,7 @@ const MessageInfo = ({
           removePadding
         />
       </TitleWithContent>
-      <TitleWithContent title="발송내용">{notificationContent}</TitleWithContent>
+      <TitleWithContent title="발송내용">{convertedContent}</TitleWithContent>
     </Styled.MessageInfoContainer>
   );
 };
