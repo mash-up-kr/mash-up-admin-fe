@@ -140,6 +140,7 @@ const ApplicationList = () => {
       합격여부: ApplicationResultStatus[each.result.status],
     })),
     teamName: teamName || '전체',
+    isLoading,
   });
 
   const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
