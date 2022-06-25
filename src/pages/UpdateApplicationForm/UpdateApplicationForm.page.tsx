@@ -123,7 +123,7 @@ const UpdateApplicationForm = () => {
           </form>
         </Styled.UpdateApplicationFormPage>
       </FormProvider>
-      <Blocker />
+      <Blocker isBlocking={isDirty} />
     </>
   );
 };
