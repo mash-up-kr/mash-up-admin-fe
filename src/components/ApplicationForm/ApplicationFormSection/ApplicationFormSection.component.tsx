@@ -1,19 +1,19 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { BackButton } from '@/components';
 import * as Styled from './ApplicationFormSection.styled';
 import { PATH } from '@/constants';
+import { useHistory } from '@/hooks';
 
 interface ApplicationFormSectionProps {
   headline: string;
 }
 
 const ApplicationFormSection = ({ headline }: ApplicationFormSectionProps) => {
-  const navigate = useNavigate();
+  const { handleGoBack } = useHistory();
 
   return (
     <section>
-      <BackButton label="목록 돌아가기" onClick={() => navigate(PATH.APPLICATION_FORM)} />
+      <BackButton label="목록 돌아가기" onClick={() => handleGoBack(PATH.APPLICATION_FORM)} />
       <Styled.Headline>{headline}</Styled.Headline>
     </section>
   );
