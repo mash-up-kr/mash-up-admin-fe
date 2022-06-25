@@ -10,3 +10,4 @@ export { default as useBottomCTA } from './useBottomCTA';
 export { default as useWindowScroll } from './useWindowScroll';
 export { default as useConvertTextToLink } from './useConvertTextToLink';
 export { default as useHistory } from './useHistory';
+export { default as usePrompt } from './usePrompt';
