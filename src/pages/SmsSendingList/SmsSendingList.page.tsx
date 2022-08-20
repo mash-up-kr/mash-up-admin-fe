@@ -158,6 +158,7 @@ const ApplicationFormList = () => {
         <SearchOptionBar
           placeholder="발송번호, 발송자, 발송메모 검색"
           searchWord={searchWord}
+          showFilterValues={false}
           handleSubmit={handleSubmit}
         />
       </Styled.StickyContainer>

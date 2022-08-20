@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction, useLayoutEffect, useMemo, useRef } from 'react';
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Input, Select } from '@/components';
 import { ButtonSize, ButtonShape } from '@/components/common/Button/Button.component';
 import * as Styled from './SearchOptionBar.styled';
@@ -18,9 +19,8 @@ export interface ApplicationFilterValuesType {
 interface SearchOptionBarProps {
   placeholder?: string;
   searchWord: { value: string };
+  showFilterValues?: boolean;
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
-  filterValues?: ApplicationFilterValuesType;
-  setFilterValues?: Dispatch<SetStateAction<ApplicationFilterValuesType>>;
 }
 
 const DEFAULT = { label: '전체', value: '' };
@@ -28,17 +28,31 @@ const DEFAULT = { label: '전체', value: '' };
 const SearchOptionBar = ({
   placeholder,
   searchWord,
+  showFilterValues = true,
   handleSubmit,
-  filterValues,
-  setFilterValues,
 }: SearchOptionBarProps) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const ref = useRef<HTMLInputElement>(null);
+
+  const [filterValues, setFilterValues] = useState<ApplicationFilterValuesType>({
+    confirmStatus: { label: '', value: '' },
+    resultStatus: { label: '', value: '' },
+  });
 
   const handleApplicationConfirmStatus = (option: SelectOption) => {
     setFilterValues?.((prev) => ({
       ...prev,
       confirmStatus: option,
     }));
+
+    if (option.value === DEFAULT.value) {
+      searchParams.delete('confirmStatus');
+      setSearchParams(searchParams);
+      return;
+    }
+
+    searchParams.set('confirmStatus', option.value);
+    setSearchParams(searchParams);
   };
 
   const handleApplicationResultStatus = (option: SelectOption) => {
@@ -46,6 +60,15 @@ const SearchOptionBar = ({
       ...prev,
       resultStatus: option,
     }));
+
+    if (option.value === DEFAULT.value) {
+      searchParams.delete('confirmStatus');
+      setSearchParams(searchParams);
+      return;
+    }
+
+    searchParams.set('resultStatus', option.value);
+    setSearchParams(searchParams);
   };
 
   useLayoutEffect(() => {
@@ -90,7 +113,7 @@ const SearchOptionBar = ({
 
   return (
     <Styled.BarContainer onSubmit={handleSubmit}>
-      {filterValues && (
+      {showFilterValues && (
         <Styled.SelectContainer>
           <div>
             <div>합격여부</div>
