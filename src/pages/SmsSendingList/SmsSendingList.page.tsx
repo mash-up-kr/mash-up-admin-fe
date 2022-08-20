@@ -13,6 +13,7 @@ import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.
 
 import * as Styled from './SmsSendingList.styled';
 import { SmsResponse, SmsSendingListRequest, SmsSendingListResponse } from '@/types/dto/sms';
+import { scrollTo } from '@/utils/scroll';
 
 const ApplicationFormList = () => {
   const handleSMSModal = useRecoilCallback(({ set }) => (sms: SmsResponse) => {
@@ -146,7 +147,7 @@ const ApplicationFormList = () => {
 
   useLayoutEffect(() => {
     if (isDirty && !isLoading) {
-      window.scrollTo(0, 167);
+      scrollTo(0, 167, { useAnimation: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedTableRows]);

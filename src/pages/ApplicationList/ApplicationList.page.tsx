@@ -39,6 +39,7 @@ import ApplicationStatusBadge, {
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import { ApplicationFilterValuesType } from '@/components/common/SearchOptionBar/SearchOptionBar.component';
 import * as Styled from './ApplicationList.styled';
+import { scrollTo } from '@/utils/scroll';
 
 const APPLICATION_EXTRA_SIZE = 100;
 
@@ -254,7 +255,7 @@ const ApplicationList = () => {
 
   useLayoutEffect(() => {
     if (isDirty && !isLoading) {
-      window.scrollTo(0, 179);
+      scrollTo(0, 179, { useAnimation: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedTableRows]);
