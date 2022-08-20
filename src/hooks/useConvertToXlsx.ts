@@ -8,7 +8,8 @@ interface UseExportXlsxProps<T> {
 }
 
 const useConvertToXlsx = <T>({ workSheet, teamName, isLoading }: UseExportXlsxProps<T>) => {
-  const workBookRef = useRef<WorkBook>(utils.book_new());
+  const workBookRef = useRef<WorkBook>();
+
   useEffect(() => {
     if (workSheet) {
       workBookRef.current = utils.book_new();
@@ -17,7 +18,7 @@ const useConvertToXlsx = <T>({ workSheet, teamName, isLoading }: UseExportXlsxPr
     }
   }, [teamName, workSheet, isLoading]);
 
-  return { workBook: workBookRef.current };
+  return { getWorkBook: () => workBookRef.current };
 };
 
 export default useConvertToXlsx;
