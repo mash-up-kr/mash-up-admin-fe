@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Button, Link } from '@/components';
+import { Link } from '@/components';
 
 export const PageWrapper = styled.div`
   padding: 4rem 0;
@@ -70,14 +70,4 @@ export const Center = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-/* TODO: (@minsour) 버튼에 함수 바인딩할때 제거  */
-export const DisabledButton = styled(Button)`
-  ${({ theme }) => css`
-    &:disabled {
-      background-color: ${theme.colors.gray10};
-      cursor: not-allowed;
-    }
-  `}
 `;
