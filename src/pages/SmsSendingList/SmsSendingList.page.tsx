@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useRecoilCallback, useRecoilStateLoadable } from 'recoil';
 import { useSearchParams } from 'react-router-dom';
 
@@ -87,8 +87,7 @@ const ApplicationFormList = () => {
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
-
-  const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
+  const searchWord = searchParams.get('searchWord') || '';
 
   const [sortTypes, setSortTypes] = useState<SortType<SmsSendingListResponse>[]>([
     { accessor: 'senderPhoneNumber', type: SORT_TYPE.DEFAULT },
@@ -106,7 +105,7 @@ const ApplicationFormList = () => {
     () => ({
       page: parseInt(page, 10) - 1,
       size: parseInt(size, 10),
-      searchWord: searchWord.value,
+      searchWord,
       sort: sortParam,
     }),
     [page, size, searchWord, sortParam],
@@ -128,13 +127,6 @@ const ApplicationFormList = () => {
 
   const { makeDirty, isDirty } = useDirty(1);
 
-  const handleSubmit = (
-    e: { target: { searchWord: { value: string } } } & FormEvent<HTMLFormElement>,
-  ) => {
-    e.preventDefault();
-    setSearchWord({ value: e.target.searchWord.value });
-  };
-
   useEffect(() => {
     if (!isLoading) {
       setLoadedTableRows(tableRows.data);
@@ -155,12 +147,7 @@ const ApplicationFormList = () => {
     <Styled.PageWrapper>
       <Styled.Heading>SMS 발송 내역</Styled.Heading>
       <Styled.StickyContainer>
-        <SearchOptionBar
-          placeholder="발송번호, 발송자, 발송메모 검색"
-          searchWord={searchWord}
-          showFilterValues={false}
-          handleSubmit={handleSubmit}
-        />
+        <SearchOptionBar placeholder="발송번호, 발송자, 발송메모 검색" showFilterValues={false} />
       </Styled.StickyContainer>
       <Table
         prefix="sms"

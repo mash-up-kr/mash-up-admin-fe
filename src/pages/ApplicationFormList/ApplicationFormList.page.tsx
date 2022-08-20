@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
@@ -42,14 +42,13 @@ const ApplicationFormPreview = ({ questions }: { questions: Question[] }) => {
 };
 
 const ApplicationFormList = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
-
-  const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
+  const searchWord = searchParams.get('searchWord') || '';
 
   const { pathname, search } = useLocation();
 
@@ -72,7 +71,7 @@ const ApplicationFormList = () => {
       page: parseInt(page, 10) - 1,
       size: parseInt(size, 10),
       teamId: parseInt(teamId, 10) || undefined,
-      searchWord: searchWord.value,
+      searchWord,
       sort: sortParam,
     }),
     [page, size, teamId, searchWord, sortParam],
@@ -93,13 +92,6 @@ const ApplicationFormList = () => {
   });
 
   const { makeDirty, isDirty } = useDirty(1);
-
-  const handleSubmit = (
-    e: { target: { searchWord: { value: string } } } & FormEvent<HTMLFormElement>,
-  ) => {
-    e.preventDefault();
-    setSearchWord({ value: e.target.searchWord.value });
-  };
 
   const columns: TableColumn<ApplicationFormResponse>[] = [
     {
@@ -167,7 +159,8 @@ const ApplicationFormList = () => {
   }, [isLoading, tableRows]);
 
   useEffect(() => {
-    setSearchWord({ value: '' });
+    searchParams.delete('searchWord');
+    setSearchParams(searchParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamName]);
 
@@ -183,12 +176,7 @@ const ApplicationFormList = () => {
       <Styled.Heading>지원서 설문지 내역</Styled.Heading>
       <Styled.StickyContainer>
         <TeamNavigationTabs />
-        <SearchOptionBar
-          placeholder="지원서 설문지 문서명 검색"
-          searchWord={searchWord}
-          showFilterValues={false}
-          handleSubmit={handleSubmit}
-        />
+        <SearchOptionBar placeholder="지원서 설문지 문서명 검색" showFilterValues={false} />
       </Styled.StickyContainer>
       <Table
         prefix="application-form"

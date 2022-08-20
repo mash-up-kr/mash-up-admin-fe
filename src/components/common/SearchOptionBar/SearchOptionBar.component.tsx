@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { FormEvent, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Input, Select } from '@/components';
 import { ButtonSize, ButtonShape } from '@/components/common/Button/Button.component';
@@ -18,33 +18,27 @@ export interface ApplicationFilterValuesType {
 
 interface SearchOptionBarProps {
   placeholder?: string;
-  searchWord: { value: string };
   showFilterValues?: boolean;
-  handleSubmit: React.FormEventHandler<HTMLFormElement>;
 }
 
 const DEFAULT = { label: '전체', value: '' };
 
-const SearchOptionBar = ({
-  placeholder,
-  searchWord,
-  showFilterValues = true,
-  handleSubmit,
-}: SearchOptionBarProps) => {
+const SearchOptionBar = ({ placeholder, showFilterValues = true }: SearchOptionBarProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const ref = useRef<HTMLInputElement>(null);
+
+  const confirmStatus = searchParams.get('confirmStatus') || '';
+  const resultStatus = searchParams.get('resultStatus') || '';
+  const searchWord = searchParams.get('searchWord') || '';
 
   const [filterValues, setFilterValues] = useState<ApplicationFilterValuesType>({
     confirmStatus: { label: '', value: '' },
     resultStatus: { label: '', value: '' },
   });
 
-  const handleApplicationConfirmStatus = (option: SelectOption) => {
-    setFilterValues?.((prev) => ({
-      ...prev,
-      confirmStatus: option,
-    }));
+  const [searchKeyword, setSearchKeyword] = useState<{ value: string }>({ value: '' });
 
+  const handleApplicationConfirmStatus = (option: SelectOption) => {
     if (option.value === DEFAULT.value) {
       searchParams.delete('confirmStatus');
       setSearchParams(searchParams);
@@ -56,13 +50,8 @@ const SearchOptionBar = ({
   };
 
   const handleApplicationResultStatus = (option: SelectOption) => {
-    setFilterValues?.((prev) => ({
-      ...prev,
-      resultStatus: option,
-    }));
-
     if (option.value === DEFAULT.value) {
-      searchParams.delete('confirmStatus');
+      searchParams.delete('resultStatus');
       setSearchParams(searchParams);
       return;
     }
@@ -71,11 +60,29 @@ const SearchOptionBar = ({
     setSearchParams(searchParams);
   };
 
+  const handleSearch = (
+    e: { target: { searchWord: { value: string } } } & FormEvent<HTMLFormElement>,
+  ) => {
+    const { value } = e.target.searchWord;
+
+    e.preventDefault();
+
+    if (!value) {
+      searchParams.delete('searchWord');
+      setSearchParams(searchParams);
+
+      return;
+    }
+
+    searchParams.set('searchWord', value);
+    setSearchParams(searchParams);
+  };
+
   useLayoutEffect(() => {
     if (ref.current) {
-      ref.current.value = searchWord.value;
+      ref.current.value = searchKeyword.value;
     }
-  }, [searchWord]);
+  }, [searchKeyword]);
 
   const applicationConfirmStatusOptions = useMemo(
     () => [
@@ -111,8 +118,30 @@ const SearchOptionBar = ({
     [],
   );
 
+  useEffect(() => {
+    const confirmStatusLabel =
+      applicationConfirmStatusOptions.find((option) => option.value === confirmStatus)?.label ?? '';
+
+    const resultStatusLabel =
+      applicationResultStatusOptions.find((option) => option.value === resultStatus)?.label ?? '';
+
+    setFilterValues({
+      confirmStatus: { label: confirmStatusLabel, value: confirmStatus },
+      resultStatus: { label: resultStatusLabel, value: resultStatus },
+    });
+  }, [
+    applicationConfirmStatusOptions,
+    applicationResultStatusOptions,
+    confirmStatus,
+    resultStatus,
+  ]);
+
+  useEffect(() => {
+    setSearchKeyword({ value: searchWord });
+  }, [searchWord]);
+
   return (
-    <Styled.BarContainer onSubmit={handleSubmit}>
+    <Styled.BarContainer onSubmit={handleSearch}>
       {showFilterValues && (
         <Styled.SelectContainer>
           <div>
