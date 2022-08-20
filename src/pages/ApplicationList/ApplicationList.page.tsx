@@ -6,7 +6,7 @@ import React, {
   useCallback,
   FormEvent,
 } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { writeFileXLSX } from 'xlsx';
 import {
   useRecoilStateLoadable,
@@ -42,77 +42,11 @@ import { ApplicationFilterValuesType } from '@/components/common/SearchOptionBar
 
 const APPLICATION_EXTRA_SIZE = 100;
 
-const columns: TableColumn<ApplicationResponse>[] = [
-  {
-    title: '이름',
-    accessor: 'applicant.name',
-    idAccessor: 'applicationId',
-    widthRatio: '10%',
-    renderCustomCell: (cellValue, id, handleClickLink, applicationParams) => (
-      <Styled.FormTitleWrapper title={cellValue as string}>
-        <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
-        {handleClickLink ? (
-          <Styled.TitleButton type="button" onClick={handleClickLink} />
-        ) : (
-          <Styled.TitleLink to={`${PATH.APPLICATION}/${id}`} state={applicationParams} />
-        )}
-      </Styled.FormTitleWrapper>
-    ),
-  },
-  {
-    title: '전화번호',
-    accessor: 'applicant.phoneNumber',
-    widthRatio: '14%',
-  },
-  {
-    title: '지원플랫폼',
-    accessor: 'team.name',
-    widthRatio: '8%',
-  },
-  {
-    title: '지원일시',
-    accessor: 'submittedAt',
-    widthRatio: '21%',
-    renderCustomCell: (cellValue) =>
-      cellValue ? formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분') : '-',
-  },
-  {
-    title: '면접일시',
-    accessor: 'result.interviewStartedAt',
-    widthRatio: '21%',
-    renderCustomCell: (cellValue) =>
-      cellValue ? formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분') : '-',
-  },
-  {
-    title: '사용자확인여부',
-    accessor: 'confirmationStatus',
-    widthRatio: '13%',
-    renderCustomCell: (cellValue) => (
-      <Styled.Center>
-        <ApplicationStatusBadge
-          text={ApplicationConfirmationStatus[cellValue as ApplicationConfirmationStatusKeyType]}
-        />
-      </Styled.Center>
-    ),
-  },
-  {
-    title: '합격여부',
-    accessor: 'result.status',
-    widthRatio: '13%',
-    renderCustomCell: (cellValue) => (
-      <Styled.Center>
-        <ApplicationStatusBadge
-          text={ApplicationResultStatus[cellValue as ApplicationResultStatusKeyType]}
-        />
-      </Styled.Center>
-    ),
-  },
-];
-
 const ApplicationList = () => {
   const handleSMSModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
   const handleResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
 
+  const { pathname, search } = useLocation();
   const [searchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
@@ -166,7 +100,7 @@ const ApplicationList = () => {
       sort: sortParam,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, size, teamId, searchWord, sortParam],
+    [page, size, teamId, searchWord, sortParam, filterValues],
   );
 
   const [totalCount, setTotalCount] = useState(0);
@@ -206,6 +140,7 @@ const ApplicationList = () => {
       합격여부: ApplicationResultStatus[each.result.status],
     })),
     teamName: teamName || '전체',
+    isLoading,
   });
 
   const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
@@ -239,6 +174,76 @@ const ApplicationList = () => {
     },
     [tableRows.page?.totalCount, teamId],
   );
+
+  const columns: TableColumn<ApplicationResponse>[] = [
+    {
+      title: '이름',
+      accessor: 'applicant.name',
+      idAccessor: 'applicationId',
+      widthRatio: '10%',
+      renderCustomCell: (cellValue, id, handleClickLink, applicationParamStates) => (
+        <Styled.FormTitleWrapper title={cellValue as string}>
+          <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
+          {handleClickLink ? (
+            <Styled.TitleButton type="button" onClick={handleClickLink} />
+          ) : (
+            <Styled.TitleLink
+              to={`${PATH.APPLICATION}/${id}`}
+              state={{ ...applicationParamStates, from: `${pathname}${search}` }}
+            />
+          )}
+        </Styled.FormTitleWrapper>
+      ),
+    },
+    {
+      title: '전화번호',
+      accessor: 'applicant.phoneNumber',
+      widthRatio: '14%',
+    },
+    {
+      title: '지원플랫폼',
+      accessor: 'team.name',
+      widthRatio: '8%',
+    },
+    {
+      title: '지원일시',
+      accessor: 'submittedAt',
+      widthRatio: '21%',
+      renderCustomCell: (cellValue) =>
+        cellValue ? formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분') : '-',
+    },
+    {
+      title: '면접일시',
+      accessor: 'result.interviewStartedAt',
+      widthRatio: '21%',
+      renderCustomCell: (cellValue) =>
+        cellValue ? formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분') : '-',
+    },
+    {
+      title: '사용자확인여부',
+      accessor: 'confirmationStatus',
+      widthRatio: '13%',
+      renderCustomCell: (cellValue) => (
+        <Styled.Center>
+          <ApplicationStatusBadge
+            text={ApplicationConfirmationStatus[cellValue as ApplicationConfirmationStatusKeyType]}
+          />
+        </Styled.Center>
+      ),
+    },
+    {
+      title: '합격여부',
+      accessor: 'result.status',
+      widthRatio: '13%',
+      renderCustomCell: (cellValue) => (
+        <Styled.Center>
+          <ApplicationStatusBadge
+            text={ApplicationResultStatus[cellValue as ApplicationResultStatusKeyType]}
+          />
+        </Styled.Center>
+      ),
+    },
+  ];
 
   useEffect(() => {
     if (!isLoading) {

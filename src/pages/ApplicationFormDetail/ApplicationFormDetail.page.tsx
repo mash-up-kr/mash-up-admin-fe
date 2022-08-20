@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilCallback, useRecoilState, useResetRecoilState } from 'recoil';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -21,6 +21,7 @@ interface FormValues {
 }
 
 const ApplicationFormDetail = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams<ParamId>();
 
   const navigate = useNavigate();
@@ -48,7 +49,10 @@ const ApplicationFormDetail = () => {
         confirmButtonLabel: '삭제',
         handleClickConfirmButton: () => {
           request({
-            requestFunc: () => api.deleteApplicationForm(id),
+            requestFunc: () => {
+              setIsLoading(true);
+              return api.deleteApplicationForm(id);
+            },
             errorHandler: handleAddToast,
             onSuccess: () => {
               handleAddToast({
@@ -59,6 +63,7 @@ const ApplicationFormDetail = () => {
               navigate(PATH.APPLICATION_FORM);
             },
             onCompleted: () => {
+              setIsLoading(false);
               set($modalByStorage(ModalKey.alertModalDialog), {
                 key: ModalKey.alertModalDialog,
                 isOpen: false,
@@ -120,6 +125,7 @@ const ApplicationFormDetail = () => {
             leftActionButton={{
               text: '삭제',
               onClick: handleRemoveQuestion,
+              isLoading,
             }}
             rightActionButton={{
               text: '수정',

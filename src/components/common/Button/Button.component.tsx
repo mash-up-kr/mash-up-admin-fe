@@ -26,6 +26,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   shape?: ButtonShapeType;
   Icon?: (props: SVGProps<SVGElement>) => ReactElement;
   label?: string;
+  isLoading?: boolean;
 }
 
 export interface ParentRef {
@@ -33,7 +34,16 @@ export interface ParentRef {
 }
 
 const Button = (
-  { children, className, $size = 'sm', shape = 'default', Icon, label, ...resetProps }: ButtonProps,
+  {
+    children,
+    className,
+    $size = 'sm',
+    shape = 'default',
+    Icon,
+    label,
+    isLoading = false,
+    ...resetProps
+  }: ButtonProps,
   parentRef: React.Ref<ParentRef>,
 ) => {
   const childRef = useRef<HTMLButtonElement>(null);
@@ -55,11 +65,13 @@ const Button = (
       className={className}
       $size={$size}
       shape={shape}
+      disabled={isLoading}
       {...resetProps}
     >
       {Icon && <Icon />}
       {shape !== ButtonShape.icon && label}
       {children}
+      {isLoading && <Styled.Spinner />}
     </Styled.ButtonWrapper>
   );
 };

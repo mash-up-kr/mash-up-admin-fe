@@ -30,17 +30,21 @@ const Navigation = ({ size, inActiveColor, items, showBottomBorder = true }: Nav
 
   return (
     <Styled.NavigationContainer showBottomBorder={showBottomBorder}>
-      {items.map((item) => (
-        <Styled.NavigationItem
-          key={item.to}
-          size={size}
-          to={item.to}
-          inActiveColor={inActiveColor}
-          active={pathname === item.to}
-        >
-          {item.label}
-        </Styled.NavigationItem>
-      ))}
+      {items.map((item) => {
+        const isActive = pathname.split('/').some((pathNameItem) => `/${pathNameItem}` === item.to);
+
+        return (
+          <Styled.NavigationItem
+            key={item.to}
+            size={size}
+            to={item.to}
+            inActiveColor={inActiveColor}
+            active={isActive}
+          >
+            {item.label}
+          </Styled.NavigationItem>
+        );
+      })}
     </Styled.NavigationContainer>
   );
 };

@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilCallback, useRecoilState, useResetRecoilState } from 'recoil';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm, useFormState } from 'react-hook-form';
 import * as Styled from './UpdateApplicationForm.styled';
 import { $applicationFormDetail, $modalByStorage, ModalKey } from '@/store';
 import { ParamId, Question } from '@/types';
-import { ApplicationFormAside, ApplicationFormSection } from '@/components';
+import { ApplicationFormAside, ApplicationFormSection, Blocker } from '@/components';
 import ApplicationFormTemplate from '@/components/ApplicationForm/ApplicationFormTemplate/ApplicationFormTemplate.component';
 import * as api from '@/api';
 import { request } from '@/utils';
-import { useToast, useUnmount } from '@/hooks';
+import { useHistory, useToast, useUnmount } from '@/hooks';
 import { ToastType } from '@/components/common/Toast/Toast.component';
-import { getApplicationFormDetailPage } from '@/constants';
+import { getApplicationFormDetailPage, PATH } from '@/constants';
 
 interface FormValues {
   name: string;
@@ -19,6 +19,7 @@ interface FormValues {
 }
 
 const UpdateApplicationForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams<ParamId>();
 
   const [{ questions, name, createdAt, team, createdBy, updatedAt, updatedBy }] = useRecoilState(
@@ -26,6 +27,7 @@ const UpdateApplicationForm = () => {
   );
 
   const resetApplicationFormDetail = useResetRecoilState($applicationFormDetail({ id: id ?? '' }));
+  const { handleGoBack } = useHistory();
 
   const methods = useForm<FormValues>({
     defaultValues: {
@@ -66,7 +68,10 @@ const UpdateApplicationForm = () => {
         confirmButtonLabel: '저장',
         handleClickConfirmButton: () => {
           request({
-            requestFunc: () => api.updateApplicationForm(id, data),
+            requestFunc: () => {
+              setIsLoading(true);
+              return api.updateApplicationForm(id, data);
+            },
             errorHandler: handleAddToast,
             onSuccess: () => {
               handleAddToast({
@@ -77,6 +82,7 @@ const UpdateApplicationForm = () => {
               navigate(getApplicationFormDetailPage(id));
             },
             onCompleted: () => {
+              setIsLoading(false);
               set($modalByStorage(ModalKey.alertModalDialog), {
                 key: ModalKey.alertModalDialog,
                 isOpen: false,
@@ -93,25 +99,32 @@ const UpdateApplicationForm = () => {
   });
 
   return (
-    <FormProvider {...methods}>
-      <Styled.UpdateApplicationFormPage>
-        <ApplicationFormSection headline="지원서 설문지 상세" />
-        <form onSubmit={handleSubmit(handleSubmitForm)}>
-          <article>
-            <ApplicationFormTemplate />
-          </article>
-          <ApplicationFormAside
-            createdAt={createdAt}
-            platform={team.name}
-            createdBy={createdBy}
-            updatedAt={updatedAt}
-            updatedBy={updatedBy}
-            leftActionButton={{ text: '취소', type: 'button', onClick: () => navigate(-1) }}
-            rightActionButton={{ text: '저장', type: 'submit', disabled: !isDirty }}
-          />
-        </form>
-      </Styled.UpdateApplicationFormPage>
-    </FormProvider>
+    <>
+      <FormProvider {...methods}>
+        <Styled.UpdateApplicationFormPage>
+          <ApplicationFormSection headline="지원서 설문지 상세" />
+          <form onSubmit={handleSubmit(handleSubmitForm)}>
+            <article>
+              <ApplicationFormTemplate />
+            </article>
+            <ApplicationFormAside
+              createdAt={createdAt}
+              platform={team.name}
+              createdBy={createdBy}
+              updatedAt={updatedAt}
+              updatedBy={updatedBy}
+              leftActionButton={{
+                text: '취소',
+                type: 'button',
+                onClick: () => handleGoBack(PATH.APPLICATION_FORM),
+              }}
+              rightActionButton={{ text: '저장', type: 'submit', disabled: !isDirty, isLoading }}
+            />
+          </form>
+        </Styled.UpdateApplicationFormPage>
+      </FormProvider>
+      <Blocker isBlocking={isDirty} />
+    </>
   );
 };
 

@@ -15,6 +15,7 @@ import { $applicationById } from '@/store';
 import { ApplicationByIdResponseData, Question } from '@/types';
 import { PATH } from '@/constants';
 import * as api from '@/api';
+import { useHistory } from '@/hooks';
 
 const ApplicationDetailView = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const ApplicationDetailView = () => {
   const data = useRecoilValue<ApplicationByIdResponseData>(
     $applicationById({ applicationId: id as string }),
   );
+  const { handleGoBack } = useHistory();
 
   useEffect(() => {
     (async () => {
@@ -41,7 +43,7 @@ const ApplicationDetailView = () => {
   return (
     <Styled.ApplicationDetailViewPage>
       <section>
-        <BackButton label="목록 돌아가기" onClick={() => navigate(PATH.APPLICATION)} />
+        <BackButton label="목록 돌아가기" onClick={() => handleGoBack(PATH.APPLICATION)} />
         <Styled.Headline>지원설문지 상세</Styled.Headline>
       </section>
       <div>

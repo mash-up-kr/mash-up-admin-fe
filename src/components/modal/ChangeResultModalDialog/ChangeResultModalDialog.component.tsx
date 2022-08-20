@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useRecoilCallback } from 'recoil';
 import { useForm } from 'react-hook-form';
 import {
@@ -39,6 +39,7 @@ const ChangeResultModalDialog = ({
   selectedResults,
   refreshList,
 }: ChangeResultModalDialogProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
   const { handleAddToast } = useToast();
   const { setValue, handleSubmit } = useForm<FormValues>();
@@ -76,11 +77,13 @@ const ChangeResultModalDialog = ({
             confirmButtonLabel: '저장',
             handleClickConfirmButton: () => {
               request({
-                requestFunc: () =>
-                  api.postUpdateMultipleResult({
+                requestFunc: () => {
+                  setIsLoading(true);
+                  return api.postUpdateMultipleResult({
                     applicationIds: selectedList,
                     applicationResultStatus,
-                  }),
+                  });
+                },
                 errorHandler: handleAddToast,
                 onSuccess: () => {
                   handleRemoveCurrentModal();
@@ -91,6 +94,7 @@ const ChangeResultModalDialog = ({
                   refreshList?.();
                 },
                 onCompleted: () => {
+                  setIsLoading(false);
                   selectedList.map((each) =>
                     refresh($applicationById({ applicationId: each.toString() })),
                   );
@@ -116,6 +120,7 @@ const ChangeResultModalDialog = ({
         label: '변경',
         onClick: handleSubmit(handleSendSms),
         type: 'submit',
+        isLoading,
       },
     },
     handleCloseModal: handleRemoveCurrentModal,
