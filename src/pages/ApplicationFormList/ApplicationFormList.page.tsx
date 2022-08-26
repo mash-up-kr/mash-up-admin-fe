@@ -25,7 +25,6 @@ import { ApplicationFormPreviewModal } from '@/components/ApplicationForm/Applic
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 
 import * as Styled from './ApplicationFormList.styled';
-import { scrollTo } from '@/utils/scroll';
 
 const ApplicationFormPreview = ({ questions }: { questions: Question[] }) => {
   const [modalOpened, toggleModalOpened] = useToggleState(false);
@@ -174,7 +173,7 @@ const ApplicationFormList = () => {
 
   useLayoutEffect(() => {
     if (isDirty && !isLoading) {
-      scrollTo(0, 179, { useAnimation: true });
+      window.scrollTo({ top: 179, left: 0, behavior: 'smooth' });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedTableRows]);
