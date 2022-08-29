@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 type HistoryLocationFromState = { from: string } | undefined;
 
-const useHistory = (clearQueryString = true) => {
+const useHistory = (shouldClearQueryString = true) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { search } = location ?? {};
@@ -11,7 +11,7 @@ const useHistory = (clearQueryString = true) => {
   const handleNavigate = (to: string) => {
     const currentPath = location.pathname;
     const currentPathWithQueryString = `${currentPath}${search}`;
-    const fromPath = clearQueryString ? currentPath : currentPathWithQueryString;
+    const fromPath = shouldClearQueryString ? currentPath : currentPathWithQueryString;
 
     navigate(to, {
       state: {
