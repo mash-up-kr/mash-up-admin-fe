@@ -10,7 +10,7 @@ const useHistory = (clearQueryString = true) => {
 
   const handleNavigate = (to: string) => {
     const currentPath = location.pathname;
-    const currentPathWithQueryString = `${location.pathname}${search}`;
+    const currentPathWithQueryString = `${currentPath}${search}`;
     const fromPath = clearQueryString ? currentPath : currentPathWithQueryString;
 
     navigate(to, {
