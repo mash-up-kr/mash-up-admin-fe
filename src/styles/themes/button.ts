@@ -65,7 +65,8 @@ export const button = {
 
       &:disabled {
         color: ${colors.gray50};
-        background-color: ${colors.gray40};
+        background-color: ${colors.gray10};
+        border-color: ${colors.gray30};
       }
 
       & > svg > path {

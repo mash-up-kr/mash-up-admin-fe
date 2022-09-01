@@ -31,7 +31,6 @@ import { useConvertToXlsx, useDirty, usePagination } from '@/hooks';
 import { ApplicationRequest, ApplicationResponse } from '@/types';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
-import * as Styled from './ApplicationList.styled';
 import ApplicationStatusBadge, {
   ApplicationConfirmationStatus,
   ApplicationConfirmationStatusKeyType,
@@ -39,6 +38,7 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import { ApplicationFilterValuesType } from '@/components/common/SearchOptionBar/SearchOptionBar.component';
+import * as Styled from './ApplicationList.styled';
 
 const APPLICATION_EXTRA_SIZE = 100;
 
@@ -105,13 +105,6 @@ const ApplicationList = () => {
 
   const [totalCount, setTotalCount] = useState(0);
   const [{ state, contents: tableRows }] = useRecoilStateLoadable($applications(applicationParams));
-  const [{ contents: entireTableRows }] = useRecoilStateLoadable(
-    $applications({
-      page: 0,
-      teamId: parseInt(teamId, 10) || undefined,
-      size: (tableRows?.page?.totalCount || 0) + APPLICATION_EXTRA_SIZE,
-    }),
-  );
   const refreshApplications = useRecoilRefresher_UNSTABLE($applications(applicationParams));
   const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
   const selectedResults = useMemo(
@@ -125,8 +118,8 @@ const ApplicationList = () => {
     tableRows.data || [],
   );
 
-  const { workBook } = useConvertToXlsx<ApplicationResponse>({
-    workSheet: entireTableRows?.data?.map((each: ApplicationResponse) => ({
+  const { getWorkBook } = useConvertToXlsx({
+    workSheet: selectedRows.map((each: ApplicationResponse) => ({
       이름: each.applicant.name,
       전화번호: each.applicant.phoneNumber,
       지원플랫폼: each.team.name,
@@ -261,7 +254,7 @@ const ApplicationList = () => {
 
   useLayoutEffect(() => {
     if (isDirty && !isLoading) {
-      window.scrollTo(0, 179);
+      window.scrollTo({ top: 179, left: 0, behavior: 'smooth' });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedTableRows]);
@@ -290,7 +283,7 @@ const ApplicationList = () => {
           totalSummaryText: '총 지원인원',
           selectedSummaryText: '명 선택',
           buttons: [
-            <Styled.DisabledButton
+            <Button
               $size={ButtonSize.xs}
               shape={ButtonShape.defaultLine}
               onClick={() =>
@@ -306,8 +299,8 @@ const ApplicationList = () => {
               disabled={selectedResults.length === 0 && isMyTeam}
             >
               SMS 발송
-            </Styled.DisabledButton>,
-            <Styled.DisabledButton
+            </Button>,
+            <Button
               $size={ButtonSize.xs}
               shape={ButtonShape.defaultLine}
               onClick={() =>
@@ -327,19 +320,24 @@ const ApplicationList = () => {
               disabled={selectedResults.length === 0 && isMyTeam}
             >
               합격 여부 변경
-            </Styled.DisabledButton>,
+            </Button>,
             <Button
               $size={ButtonSize.xs}
               shape={ButtonShape.defaultLine}
-              onClick={() =>
+              onClick={() => {
+                const workBook = getWorkBook();
+
+                if (!workBook) {
+                  return;
+                }
                 writeFileXLSX(
                   workBook,
                   `${formatDate(dayjs().format(), 'YYYY년 M월 D일(ddd)')}-${
                     teamName || '전체'
                   }.xlsx`,
-                )
-              }
-              disabled={!loadedTableRows}
+                );
+              }}
+              disabled={selectedRows.length === 0}
             >
               Export to Excel
             </Button>,

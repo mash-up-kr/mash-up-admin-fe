@@ -173,7 +173,7 @@ const ApplicationFormList = () => {
 
   useLayoutEffect(() => {
     if (isDirty && !isLoading) {
-      window.scrollTo(0, 179);
+      window.scrollTo({ top: 179, left: 0, behavior: 'smooth' });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedTableRows]);
