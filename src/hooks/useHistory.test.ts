@@ -53,7 +53,7 @@ describe('useHistory', () => {
     expect(mockNavigate).toBeCalledWith(-1);
   });
 
-  it('clearQueryString값이 false라면 from값에 쿼리스트링도 함께 저장된다.', () => {
+  it('shouldClearQueryString값이 false라면 from값에 쿼리스트링도 함께 저장된다.', () => {
     // Given
     const from = '/from';
     const queryString = '?queryString=queryString';
