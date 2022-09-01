@@ -1,11 +1,4 @@
-import React, {
-  useMemo,
-  useState,
-  useEffect,
-  useLayoutEffect,
-  useCallback,
-  FormEvent,
-} from 'react';
+import React, { useMemo, useState, useEffect, useLayoutEffect, useCallback } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { writeFileXLSX } from 'xlsx';
 import {
@@ -37,7 +30,6 @@ import ApplicationStatusBadge, {
   ApplicationResultStatus,
   ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { ApplicationFilterValuesType } from '@/components/common/SearchOptionBar/SearchOptionBar.component';
 import * as Styled from './ApplicationList.styled';
 
 const APPLICATION_EXTRA_SIZE = 100;
@@ -47,7 +39,7 @@ const ApplicationList = () => {
   const handleResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
 
   const { pathname, search } = useLocation();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
   const myTeamName = useRecoilValue($profile)[0];
@@ -62,12 +54,9 @@ const ApplicationList = () => {
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
-
-  const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
-  const [filterValues, setFilterValues] = useState<ApplicationFilterValuesType>({
-    confirmStatus: { label: '', value: '' },
-    resultStatus: { label: '', value: '' },
-  });
+  const confirmStatus = searchParams.get('confirmStatus') || '';
+  const resultStatus = searchParams.get('resultStatus') || '';
+  const searchWord = searchParams.get('searchWord') || '';
 
   const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
     { accessor: 'applicant.name', type: SORT_TYPE.DEFAULT },
@@ -94,13 +83,13 @@ const ApplicationList = () => {
       page: parseInt(page, 10) - 1,
       size: parseInt(size, 10),
       teamId: parseInt(teamId, 10) || undefined,
-      searchWord: searchWord.value,
-      confirmStatus: filterValues?.confirmStatus?.value,
-      resultStatus: filterValues?.resultStatus?.value,
+      searchWord,
+      confirmStatus,
+      resultStatus,
       sort: sortParam,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, size, teamId, searchWord, sortParam, filterValues],
+    [page, size, teamId, searchWord, sortParam, confirmStatus, resultStatus],
   );
 
   const [totalCount, setTotalCount] = useState(0);
@@ -141,13 +130,6 @@ const ApplicationList = () => {
   });
 
   const { makeDirty, isDirty } = useDirty(1);
-
-  const handleSearch = (
-    e: { target: { searchWord: { value: string } } } & FormEvent<HTMLFormElement>,
-  ) => {
-    e.preventDefault();
-    setSearchWord({ value: e.target.searchWord.value });
-  };
 
   const handleSelectAll = useCallback(
     async (checkedValue) => {
@@ -248,7 +230,9 @@ const ApplicationList = () => {
   }, [isLoading, tableRows]);
 
   useEffect(() => {
-    setSearchWord({ value: '' });
+    searchParams.delete('searchKeyword');
+    setSearchParams(searchParams);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamName]);
 
@@ -264,13 +248,7 @@ const ApplicationList = () => {
       <Styled.Heading>지원서 내역</Styled.Heading>
       <Styled.StickyContainer>
         <TeamNavigationTabs />
-        <SearchOptionBar
-          placeholder="이름, 전화번호 검색"
-          filterValues={filterValues}
-          setFilterValues={setFilterValues}
-          searchWord={searchWord}
-          handleSubmit={handleSearch}
-        />
+        <SearchOptionBar placeholder="이름, 전화번호 검색" />
       </Styled.StickyContainer>
       <Table
         prefix="application"
