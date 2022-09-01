@@ -1,11 +1,4 @@
-import React, {
-  useMemo,
-  useState,
-  useEffect,
-  useLayoutEffect,
-  useCallback,
-  FormEvent,
-} from 'react';
+import React, { useMemo, useState, useEffect, useLayoutEffect, useCallback } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { writeFileXLSX } from 'xlsx';
 import {
@@ -31,14 +24,13 @@ import { useConvertToXlsx, useDirty, usePagination } from '@/hooks';
 import { ApplicationRequest, ApplicationResponse } from '@/types';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
-import * as Styled from './ApplicationList.styled';
 import ApplicationStatusBadge, {
   ApplicationConfirmationStatus,
   ApplicationConfirmationStatusKeyType,
   ApplicationResultStatus,
   ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { ApplicationFilterValuesType } from '@/components/common/SearchOptionBar/SearchOptionBar.component';
+import * as Styled from './ApplicationList.styled';
 
 const APPLICATION_EXTRA_SIZE = 100;
 
@@ -47,7 +39,7 @@ const ApplicationList = () => {
   const handleResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
 
   const { pathname, search } = useLocation();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
   const myTeamName = useRecoilValue($profile)[0];
@@ -62,12 +54,9 @@ const ApplicationList = () => {
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
-
-  const [searchWord, setSearchWord] = useState<{ value: string }>({ value: '' });
-  const [filterValues, setFilterValues] = useState<ApplicationFilterValuesType>({
-    confirmStatus: { label: '', value: '' },
-    resultStatus: { label: '', value: '' },
-  });
+  const confirmStatus = searchParams.get('confirmStatus') || '';
+  const resultStatus = searchParams.get('resultStatus') || '';
+  const searchWord = searchParams.get('searchWord') || '';
 
   const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
     { accessor: 'applicant.name', type: SORT_TYPE.DEFAULT },
@@ -94,24 +83,17 @@ const ApplicationList = () => {
       page: parseInt(page, 10) - 1,
       size: parseInt(size, 10),
       teamId: parseInt(teamId, 10) || undefined,
-      searchWord: searchWord.value,
-      confirmStatus: filterValues?.confirmStatus?.value,
-      resultStatus: filterValues?.resultStatus?.value,
+      searchWord,
+      confirmStatus,
+      resultStatus,
       sort: sortParam,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, size, teamId, searchWord, sortParam, filterValues],
+    [page, size, teamId, searchWord, sortParam, confirmStatus, resultStatus],
   );
 
   const [totalCount, setTotalCount] = useState(0);
   const [{ state, contents: tableRows }] = useRecoilStateLoadable($applications(applicationParams));
-  const [{ contents: entireTableRows }] = useRecoilStateLoadable(
-    $applications({
-      page: 0,
-      teamId: parseInt(teamId, 10) || undefined,
-      size: (tableRows?.page?.totalCount || 0) + APPLICATION_EXTRA_SIZE,
-    }),
-  );
   const refreshApplications = useRecoilRefresher_UNSTABLE($applications(applicationParams));
   const [selectedRows, setSelectedRows] = useState<ApplicationResponse[]>([]);
   const selectedResults = useMemo(
@@ -125,8 +107,8 @@ const ApplicationList = () => {
     tableRows.data || [],
   );
 
-  const { workBook } = useConvertToXlsx<ApplicationResponse>({
-    workSheet: entireTableRows?.data?.map((each: ApplicationResponse) => ({
+  const { getWorkBook } = useConvertToXlsx({
+    workSheet: selectedRows.map((each: ApplicationResponse) => ({
       이름: each.applicant.name,
       전화번호: each.applicant.phoneNumber,
       지원플랫폼: each.team.name,
@@ -148,13 +130,6 @@ const ApplicationList = () => {
   });
 
   const { makeDirty, isDirty } = useDirty(1);
-
-  const handleSearch = (
-    e: { target: { searchWord: { value: string } } } & FormEvent<HTMLFormElement>,
-  ) => {
-    e.preventDefault();
-    setSearchWord({ value: e.target.searchWord.value });
-  };
 
   const handleSelectAll = useCallback(
     async (checkedValue) => {
@@ -255,13 +230,15 @@ const ApplicationList = () => {
   }, [isLoading, tableRows]);
 
   useEffect(() => {
-    setSearchWord({ value: '' });
+    searchParams.delete('searchKeyword');
+    setSearchParams(searchParams);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamName]);
 
   useLayoutEffect(() => {
     if (isDirty && !isLoading) {
-      window.scrollTo(0, 179);
+      window.scrollTo({ top: 179, left: 0, behavior: 'smooth' });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedTableRows]);
@@ -271,13 +248,7 @@ const ApplicationList = () => {
       <Styled.Heading>지원서 내역</Styled.Heading>
       <Styled.StickyContainer>
         <TeamNavigationTabs />
-        <SearchOptionBar
-          placeholder="이름, 전화번호 검색"
-          filterValues={filterValues}
-          setFilterValues={setFilterValues}
-          searchWord={searchWord}
-          handleSubmit={handleSearch}
-        />
+        <SearchOptionBar placeholder="이름, 전화번호 검색" />
       </Styled.StickyContainer>
       <Table
         prefix="application"
@@ -290,7 +261,7 @@ const ApplicationList = () => {
           totalSummaryText: '총 지원인원',
           selectedSummaryText: '명 선택',
           buttons: [
-            <Styled.DisabledButton
+            <Button
               $size={ButtonSize.xs}
               shape={ButtonShape.defaultLine}
               onClick={() =>
@@ -306,8 +277,8 @@ const ApplicationList = () => {
               disabled={selectedResults.length === 0 && isMyTeam}
             >
               SMS 발송
-            </Styled.DisabledButton>,
-            <Styled.DisabledButton
+            </Button>,
+            <Button
               $size={ButtonSize.xs}
               shape={ButtonShape.defaultLine}
               onClick={() =>
@@ -327,19 +298,24 @@ const ApplicationList = () => {
               disabled={selectedResults.length === 0 && isMyTeam}
             >
               합격 여부 변경
-            </Styled.DisabledButton>,
+            </Button>,
             <Button
               $size={ButtonSize.xs}
               shape={ButtonShape.defaultLine}
-              onClick={() =>
+              onClick={() => {
+                const workBook = getWorkBook();
+
+                if (!workBook) {
+                  return;
+                }
                 writeFileXLSX(
                   workBook,
                   `${formatDate(dayjs().format(), 'YYYY년 M월 D일(ddd)')}-${
                     teamName || '전체'
                   }.xlsx`,
-                )
-              }
-              disabled={!loadedTableRows}
+                );
+              }}
+              disabled={selectedRows.length === 0}
             >
               Export to Excel
             </Button>,
