@@ -30,6 +30,10 @@ const navigationItems: NavigationItem[] = [
     label: '지원서 설문지 내역',
     to: PATH.APPLICATION_FORM,
   },
+  {
+    label: '출결점수',
+    to: PATH.ATTENDANCE,
+  },
 ];
 
 const Header = () => {

@@ -7,3 +7,4 @@ export { default as ApplicationFormList } from './ApplicationFormList/Applicatio
 export { default as ApplicationList } from './ApplicationList/ApplicationList.page';
 export { default as SmsSendingList } from './SmsSendingList/SmsSendingList.page';
 export { default as ErrorPage } from './ErrorPage/ErrorPage.page';
+export { default as AttendanceList } from './AttendanceList/AttendanceList.page';
