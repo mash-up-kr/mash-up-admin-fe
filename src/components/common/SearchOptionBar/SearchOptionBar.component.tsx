@@ -65,6 +65,10 @@ const SearchOptionBar = ({ placeholder, filters }: SearchOptionBarProps) => {
   const defaultValue = (filter: SearchOptionBarFilter) => {
     const searchParam = searchParams.get(filter.key);
 
+    if (!searchParam) {
+      return filter.options?.[0];
+    }
+
     return filter.options.find((option) => option.value === searchParam);
   };
 
