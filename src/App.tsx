@@ -19,6 +19,7 @@ import {
   CreateApplicationForm,
   UpdateApplicationForm,
   ApplicationFormDetail,
+  AttendanceList,
   ErrorPage,
 } from './pages';
 
@@ -119,6 +120,14 @@ const App = () => {
               element={
                 <RequiredAuth isAuth={isAuthorized}>
                   <CreateApplicationForm />
+                </RequiredAuth>
+              }
+            />
+            <Route
+              path={PATH.ATTENDANCE}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <AttendanceList />
                 </RequiredAuth>
               }
             />
