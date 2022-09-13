@@ -1,0 +1,15 @@
+export const ScoreType = {
+  ATTENDANCE: '전체 세미나 출석',
+  LATE: '전체 세미나 지각',
+  ABSENT: '전체 세미나 결석',
+  PRESENTATION: '전체 세미나 발표',
+  PROJECT_SUCCESS: '프로젝트 배포 성공',
+  PROJECT_FAIL: '프로젝트 배포 실패',
+  CONTENTS_WRITE: '티스토리 글 작성',
+  LEADER: '회장',
+  SUB_LEADER: '부회장',
+  STAFF: '스태프',
+  PROJECT_LEADER: '프로젝트 팀장',
+  PROJECT_SUB_LEADER: '프로젝트 부팀장',
+  PREPARE: '준비 위원회',
+} as const;
