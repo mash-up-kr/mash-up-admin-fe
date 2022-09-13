@@ -22,6 +22,7 @@ import {
   AttendanceList,
   ErrorPage,
 } from './pages';
+import AttendanceDetail from './pages/AttendanceDetail/AttendanceDetail.page';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
   children: ReactNode;
@@ -128,6 +129,14 @@ const App = () => {
               element={
                 <RequiredAuth isAuth={isAuthorized}>
                   <AttendanceList />
+                </RequiredAuth>
+              }
+            />
+            <Route
+              path={PATH.ATTENDANCE_DETAIL}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <AttendanceDetail />
                 </RequiredAuth>
               }
             />
