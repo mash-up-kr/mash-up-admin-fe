@@ -79,7 +79,7 @@ const ActivityScoreDetail = () => {
   return (
     <Styled.ActivityScoreDetailPage>
       <BackButton label="목록 돌아가기" onClick={() => handleGoBack(PATH.ACTIVITY_SCORE)} />
-      <Styled.Headline>출결점수</Styled.Headline>
+      <Styled.Headline>활동점수</Styled.Headline>
       <Styled.Row>
         <PersonalInfoCard />
         <ScoreCard />

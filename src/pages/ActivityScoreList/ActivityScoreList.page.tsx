@@ -80,7 +80,7 @@ const ActivityScoreList = () => {
 
   return (
     <Styled.PageWrapper>
-      <Styled.Heading>출결점수</Styled.Heading>
+      <Styled.Heading>활동점수</Styled.Heading>
       <Styled.StickyContainer>
         <TeamNavigationTabs />
         <SearchOptionBar placeholder="이름 검색" filters={filters} />
