@@ -14,8 +14,7 @@ import { TableColumn } from '@/components/common/Table/Table.component';
 import { ValueOf } from '@/types';
 import { ButtonShape } from '@/components/common/Button/Button.component';
 
-import Plus from '@/assets/svg/plus-20.svg';
-import Minus from '@/assets/svg/minus-20.svg';
+import Plus from '@/assets/svg/plus-16.svg';
 
 interface ScoreHistory {
   type: ValueOf<typeof ScoreType>;
@@ -87,8 +86,7 @@ const ActivityScoreDetail = () => {
       <Styled.Content>
         <Styled.ContentHeader>
           <h3>활동점수 히스토리</h3>
-          <Button shape={ButtonShape.defaultLine} label="점수 적용" Icon={Plus} />
-          <Button shape={ButtonShape.defaultLine} label="점수 취소" Icon={Minus} />
+          <Button shape={ButtonShape.defaultLine} label="점수 추가" Icon={Plus} />
         </Styled.ContentHeader>
         <Table prefix="score-history" columns={columns} rows={rows} supportBar={{}} />
       </Styled.Content>
