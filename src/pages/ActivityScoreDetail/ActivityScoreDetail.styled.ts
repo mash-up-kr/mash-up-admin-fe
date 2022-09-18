@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const AttendanceDetailPage = styled.div`
+export const ActivityScoreDetailPage = styled.div`
   padding: 2rem 0;
 `;
 

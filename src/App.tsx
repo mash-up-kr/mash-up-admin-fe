@@ -19,10 +19,10 @@ import {
   CreateApplicationForm,
   UpdateApplicationForm,
   ApplicationFormDetail,
-  AttendanceList,
+  ActivityScoreList,
+  ActivityScoreDetail,
   ErrorPage,
 } from './pages';
-import AttendanceDetail from './pages/AttendanceDetail/AttendanceDetail.page';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
   children: ReactNode;
@@ -125,18 +125,18 @@ const App = () => {
               }
             />
             <Route
-              path={PATH.ATTENDANCE}
+              path={PATH.ACTIVITY_SCORE}
               element={
                 <RequiredAuth isAuth={isAuthorized}>
-                  <AttendanceList />
+                  <ActivityScoreList />
                 </RequiredAuth>
               }
             />
             <Route
-              path={PATH.ATTENDANCE_DETAIL}
+              path={PATH.ACTIVITY_SCORE_DETAIL}
               element={
                 <RequiredAuth isAuth={isAuthorized}>
-                  <AttendanceDetail />
+                  <ActivityScoreDetail />
                 </RequiredAuth>
               }
             />
