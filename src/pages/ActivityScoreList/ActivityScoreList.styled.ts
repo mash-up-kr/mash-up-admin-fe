@@ -25,7 +25,7 @@ export const StickyContainer = styled.div`
   `}
 `;
 
-export const AttendanceListItemName = styled.span`
+export const ActivityScoreListItemName = styled.span`
   ${({ theme }) => css`
     color: ${theme.colors.purple80};
   `}

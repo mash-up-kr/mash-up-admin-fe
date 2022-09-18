@@ -1,9 +1,15 @@
 import React from 'react';
 import { BackButton, Button, Table } from '@/components';
-import * as Styled from './AttendanceDetail.styled';
+import * as Styled from './ActivityScoreDetail.styled';
 import { useHistory } from '@/hooks';
 import { PATH } from '@/constants';
-import { Icon, PersonalInfoCard, ScoreCard, ScoreTitle, ScoreType } from '@/components/Attendance';
+import {
+  Icon,
+  PersonalInfoCard,
+  ScoreCard,
+  ScoreTitle,
+  ScoreType,
+} from '@/components/ActivityScore';
 import { TableColumn } from '@/components/common/Table/Table.component';
 import { ValueOf } from '@/types';
 import { ButtonShape } from '@/components/common/Button/Button.component';
@@ -67,12 +73,12 @@ const rows: ScoreHistory[] = Object.values(ScoreType).map((type) => ({
   totalScore: 3,
 }));
 
-const AttendanceDetail = () => {
+const ActivityScoreDetail = () => {
   const { handleGoBack } = useHistory();
 
   return (
-    <Styled.AttendanceDetailPage>
-      <BackButton label="목록 돌아가기" onClick={() => handleGoBack(PATH.ATTENDANCE)} />
+    <Styled.ActivityScoreDetailPage>
+      <BackButton label="목록 돌아가기" onClick={() => handleGoBack(PATH.ACTIVITY_SCORE)} />
       <Styled.Headline>출결점수</Styled.Headline>
       <Styled.Row>
         <PersonalInfoCard />
@@ -86,8 +92,8 @@ const AttendanceDetail = () => {
         </Styled.ContentHeader>
         <Table prefix="score-history" columns={columns} rows={rows} supportBar={{}} />
       </Styled.Content>
-    </Styled.AttendanceDetailPage>
+    </Styled.ActivityScoreDetailPage>
   );
 };
 
-export default AttendanceDetail;
+export default ActivityScoreDetail;
