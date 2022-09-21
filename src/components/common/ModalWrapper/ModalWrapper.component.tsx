@@ -32,7 +32,7 @@ export interface ModalProps extends Children {
   className?: string;
   heading?: string;
   footer: {
-    cancelButton: {
+    cancelButton?: {
       shape?: ButtonShapeType;
       label?: string;
       onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -142,17 +142,20 @@ const ModalWrapper = ({
               </Styled.ModalHeader>
             )}
             <Styled.ModalContent isContentScroll={isContentScroll}>{children}</Styled.ModalContent>
+
             <Styled.ModalFooter position={footer.position || Position.right}>
-              <Button
-                $size={ButtonSize.sm}
-                shape={ButtonShape.defaultLine}
-                {...footer.cancelButton}
-                onClick={
-                  footer.cancelButton.onClick
-                    ? footer.cancelButton.onClick
-                    : () => handleCloseModal()
-                }
-              />
+              {footer?.cancelButton && (
+                <Button
+                  $size={ButtonSize.sm}
+                  shape={ButtonShape.defaultLine}
+                  {...footer.cancelButton}
+                  onClick={
+                    footer.cancelButton.onClick
+                      ? footer.cancelButton.onClick
+                      : () => handleCloseModal()
+                  }
+                />
+              )}
               {footer?.confirmButton && (
                 <Button
                   $size={ButtonSize.sm}
