@@ -34,10 +34,16 @@ const scoreIcon = {
 
 interface IconProps {
   type: ValueOf<typeof ScoreType>;
+  size?: number;
 }
 
-const Icon = ({ type }: IconProps) => {
-  return scoreIcon[type];
+const Icon = ({ type, size = 44 }: IconProps) => {
+  const icon = React.cloneElement(scoreIcon[type], {
+    width: size,
+    height: size,
+  });
+
+  return icon;
 };
 
 export default Icon;
