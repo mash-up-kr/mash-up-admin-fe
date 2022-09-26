@@ -2,11 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ModalWrapper } from '@/components';
 import { KeyOf } from '@/types';
-
-export const RangeType = {
-  Plus: 'Plus',
-  Minus: 'Minus',
-} as const;
+import { RangeType } from '..';
 
 export const ActivityScoreModalWrapper = styled(ModalWrapper)`
   width: 50rem;

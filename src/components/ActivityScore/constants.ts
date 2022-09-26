@@ -29,3 +29,9 @@ export const ScoreTitle = {
   [ScoreType.PROJECT_SUB_LEADER]: '프로젝트 부팀장',
   [ScoreType.PREPARE]: '준비 위원회',
 };
+
+export const RangeType = {
+  Plus: 'Plus',
+  Minus: 'Minus',
+  Normal: 'Normal',
+} as const;
