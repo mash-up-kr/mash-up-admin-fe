@@ -2,7 +2,7 @@ import React, { MouseEventHandler } from 'react';
 import * as Styled from './RadioButton.styled';
 
 export interface RadioButtonProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
-  handleClickButton: MouseEventHandler<HTMLInputElement>;
+  handleClickButton?: MouseEventHandler<HTMLInputElement>;
   disabled?: boolean;
   defaultChecked?: boolean;
   label?: string;
