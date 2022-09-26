@@ -81,12 +81,13 @@ const DayCell = ({
 };
 
 export interface DatePickerProps {
+  className?: string;
   handleSelectDate: (clickedDate: Dayjs) => void;
-  selectedDate: Dayjs;
+  selectedDate: Dayjs | null;
 }
 
-const DatePicker = ({ handleSelectDate, selectedDate }: DatePickerProps) => {
-  const [date, setDate] = useState<Dayjs>(selectedDate);
+const DatePicker = ({ className, handleSelectDate, selectedDate }: DatePickerProps) => {
+  const [date, setDate] = useState<Dayjs>(selectedDate ?? dayjs());
 
   const rows = handleGenerateDateRows(date);
 
@@ -99,7 +100,7 @@ const DatePicker = ({ handleSelectDate, selectedDate }: DatePickerProps) => {
   };
 
   return (
-    <Styled.DatePickerWrapper>
+    <Styled.DatePickerWrapper className={className}>
       <Styled.DatePickerHeader>
         <ArrowLeft onClick={() => handleChangeMonth('prev')} />
         <div>{date.format('YYYY.M')}</div>
