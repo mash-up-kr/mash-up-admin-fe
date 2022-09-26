@@ -3,15 +3,27 @@ import styled from '@emotion/styled';
 
 import { InputSizeType } from './Input.component';
 
+interface InputWrapperProps {
+  fill?: boolean;
+}
+
 interface StyledInputProps {
   $size: InputSizeType;
   errorMessage?: string;
+  fill?: boolean;
 }
 
-export const InputWrapper = styled.div`
+export const InputWrapper = styled.div<InputWrapperProps>`
   display: flex;
   flex: 1;
   flex-direction: column;
+
+  ${({ fill }) => css`
+    ${fill &&
+    css`
+      width: 100%;
+    `}
+  `}
 `;
 
 export const InputLabel = styled.label`
