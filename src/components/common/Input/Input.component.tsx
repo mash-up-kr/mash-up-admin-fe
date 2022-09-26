@@ -15,14 +15,25 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   label?: string;
   description?: string;
   errorMessage?: string;
+  fill?: boolean;
 }
 
 const Input = (
-  { id, className, $size, label, errorMessage, required, description, ...resetProps }: InputProps,
+  {
+    id,
+    className,
+    $size,
+    label,
+    errorMessage,
+    required,
+    description,
+    fill,
+    ...resetProps
+  }: InputProps,
   ref: React.Ref<HTMLInputElement>,
 ) => {
   return (
-    <Styled.InputWrapper className={className}>
+    <Styled.InputWrapper className={className} fill={fill}>
       {label && (
         <Styled.InputLabel htmlFor={id}>
           <span>{label}</span>
