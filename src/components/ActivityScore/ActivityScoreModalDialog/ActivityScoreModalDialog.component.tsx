@@ -1,6 +1,8 @@
 import React from 'react';
 import * as Styled from './ActivityScoreModalDialog.styled';
-import { Icon, ScoreTitle, ScoreType } from '..';
+import { Icon } from '..';
+
+import { RangeType, ScoreType, ScoreTitle } from '../constants';
 
 interface ActivityScoreModalDialogProps {
   onClose: () => void;
@@ -42,7 +44,7 @@ const ActivityScoreModalDialog = ({ onClose }: ActivityScoreModalDialogProps) =>
             </Styled.Row>
             <Styled.Row>
               <Styled.RowLabel>점수</Styled.RowLabel>
-              <Styled.ScoreRangeType type={Styled.RangeType.Minus}>-0.5</Styled.ScoreRangeType>
+              <Styled.ScoreRangeType type={RangeType.Minus}>-0.5</Styled.ScoreRangeType>
             </Styled.Row>
             <Styled.Row>
               <Styled.RowLabel>총 활동점수</Styled.RowLabel>
