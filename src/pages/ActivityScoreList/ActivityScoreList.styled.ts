@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 
 export const PageWrapper = styled.div`
   padding: 2.8rem 0;
@@ -25,8 +26,15 @@ export const StickyContainer = styled.div`
   `}
 `;
 
-export const ActivityScoreListItemName = styled.span`
+export const TitleLink = styled(Link)`
   ${({ theme }) => css`
     color: ${theme.colors.purple80};
+
+    &:hover {
+      color: ${theme.colors.purple90};
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-position: under;
+    }
   `}
 `;
