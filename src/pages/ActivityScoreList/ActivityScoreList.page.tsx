@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { BottomCTA, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
-import * as Styled from './AttendanceList.styled';
+import * as Styled from './ActivityScoreList.styled';
 import { SearchOptionBarFilter } from '@/components/common/SearchOptionBar/SearchOptionBar.component';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { SORT_TYPE } from '@/constants';
 import { usePagination } from '@/hooks';
 
-interface AttendanceListItem {
+interface ActivityScoreListItem {
   name: string;
   userId: string;
   platform: string;
@@ -31,13 +31,13 @@ const filters: SearchOptionBarFilter[] = [
 ];
 
 // TODO(@mango906): 서버쪽과 api 논의 후 accessor 밑 renderCustomCell 변경 필요
-const columns: TableColumn<AttendanceListItem>[] = [
+const columns: TableColumn<ActivityScoreListItem>[] = [
   {
     title: '이름',
     widthRatio: '25%',
     accessor: 'name',
     renderCustomCell: (cellValue) => (
-      <Styled.AttendanceListItemName>{cellValue as string}</Styled.AttendanceListItemName>
+      <Styled.ActivityScoreListItemName>{cellValue as string}</Styled.ActivityScoreListItemName>
     ),
   },
   {
@@ -58,15 +58,15 @@ const columns: TableColumn<AttendanceListItem>[] = [
 ];
 
 // TODO(@mango906): 서버쪽과 api 논의 후 서버쪽 데이터 쓰도록 변경 필요
-const rows: AttendanceListItem[] = new Array(10).fill({
+const rows: ActivityScoreListItem[] = new Array(10).fill({
   name: '김경환',
   userId: 'besign',
   platform: 'Spring',
   score: 3,
 });
 
-const AttendanceList = () => {
-  const [sortTypes, setSortTypes] = useState<SortType<AttendanceListItem>[]>([
+const ActivityScoreList = () => {
+  const [sortTypes, setSortTypes] = useState<SortType<ActivityScoreListItem>[]>([
     { accessor: 'name', type: SORT_TYPE.DEFAULT },
     { accessor: 'score', type: SORT_TYPE.DEFAULT },
   ]);
@@ -80,13 +80,13 @@ const AttendanceList = () => {
 
   return (
     <Styled.PageWrapper>
-      <Styled.Heading>출결점수</Styled.Heading>
+      <Styled.Heading>활동점수</Styled.Heading>
       <Styled.StickyContainer>
         <TeamNavigationTabs />
         <SearchOptionBar placeholder="이름 검색" filters={filters} />
       </Styled.StickyContainer>
       <Table
-        prefix="attendance"
+        prefix="activity-score"
         topStickyHeight={14.1}
         columns={columns}
         rows={rows}
@@ -128,4 +128,4 @@ const AttendanceList = () => {
   );
 };
 
-export default AttendanceList;
+export default ActivityScoreList;

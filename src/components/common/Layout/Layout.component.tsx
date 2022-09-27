@@ -7,7 +7,10 @@ const Layout = () => {
   const { pathname } = useLocation();
 
   const isBackgroundGray = useMemo(
-    () => ['login', 'application/', 'application-form/'].some((each) => pathname.includes(each)),
+    () =>
+      ['login', 'application/', 'application-form/', '/attendance/'].some((each) =>
+        pathname.includes(each),
+      ),
     [pathname],
   );
 

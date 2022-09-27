@@ -19,7 +19,8 @@ import {
   CreateApplicationForm,
   UpdateApplicationForm,
   ApplicationFormDetail,
-  AttendanceList,
+  ActivityScoreList,
+  ActivityScoreDetail,
   ErrorPage,
 } from './pages';
 
@@ -124,10 +125,18 @@ const App = () => {
               }
             />
             <Route
-              path={PATH.ATTENDANCE}
+              path={PATH.ACTIVITY_SCORE}
               element={
                 <RequiredAuth isAuth={isAuthorized}>
-                  <AttendanceList />
+                  <ActivityScoreList />
+                </RequiredAuth>
+              }
+            />
+            <Route
+              path={PATH.ACTIVITY_SCORE_DETAIL}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <ActivityScoreDetail />
                 </RequiredAuth>
               }
             />

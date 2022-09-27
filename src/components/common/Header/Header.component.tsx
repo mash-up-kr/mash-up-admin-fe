@@ -31,8 +31,8 @@ const navigationItems: NavigationItem[] = [
     to: PATH.APPLICATION_FORM,
   },
   {
-    label: '출결점수',
-    to: PATH.ATTENDANCE,
+    label: '활동점수',
+    to: PATH.ACTIVITY_SCORE,
   },
 ];
 
