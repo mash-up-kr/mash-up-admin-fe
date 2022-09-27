@@ -9,6 +9,7 @@ export const PATH = {
   APPLICATION_FORM_DETAIL: '/application-form/:id',
   APPLICATION_FORM_CREATE: '/application-form/create',
   APPLICATION_FORM_UPDATE: '/application-form/update/:id',
+  ATTENDANCE: '/attendance',
   NOT_FOUND: '/404',
   FORBIDDEN: '/403',
 } as const;
