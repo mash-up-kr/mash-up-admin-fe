@@ -61,3 +61,21 @@ export const IconWrapper = styled.div`
     vertical-align: middle;
   }
 `;
+
+export const ActivityTitle = styled.span`
+  ${({ theme }) => css`
+    overflow: hidden;
+    color: ${theme.colors.purple80};
+    white-space: nowrap;
+    text-align: center;
+    text-overflow: ellipsis;
+    cursor: pointer;
+
+    &:hover {
+      color: ${theme.colors.purple90};
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-position: under;
+    }
+  `};
+`;
