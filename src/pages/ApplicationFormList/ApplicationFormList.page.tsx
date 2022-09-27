@@ -176,7 +176,7 @@ const ApplicationFormList = () => {
       <Styled.Heading>지원서 설문지 내역</Styled.Heading>
       <Styled.StickyContainer>
         <TeamNavigationTabs />
-        <SearchOptionBar placeholder="지원서 설문지 문서명 검색" showFilterValues={false} />
+        <SearchOptionBar placeholder="지원서 설문지 문서명 검색" />
       </Styled.StickyContainer>
       <Table
         prefix="application-form"
