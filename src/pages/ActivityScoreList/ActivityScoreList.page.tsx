@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { BottomCTA, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
 import * as Styled from './ActivityScoreList.styled';
 import { SearchOptionBarFilter } from '@/components/common/SearchOptionBar/SearchOptionBar.component';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
-import { SORT_TYPE } from '@/constants';
+import { PATH, SORT_TYPE } from '@/constants';
 import { usePagination } from '@/hooks';
 
 interface ActivityScoreListItem {
@@ -30,33 +31,6 @@ const filters: SearchOptionBarFilter[] = [
   },
 ];
 
-// TODO(@mango906): 서버쪽과 api 논의 후 accessor 밑 renderCustomCell 변경 필요
-const columns: TableColumn<ActivityScoreListItem>[] = [
-  {
-    title: '이름',
-    widthRatio: '25%',
-    accessor: 'name',
-    renderCustomCell: (cellValue) => (
-      <Styled.ActivityScoreListItemName>{cellValue as string}</Styled.ActivityScoreListItemName>
-    ),
-  },
-  {
-    title: '아이디',
-    widthRatio: '25%',
-    accessor: 'userId',
-  },
-  {
-    title: '플랫폼',
-    widthRatio: '25%',
-    accessor: 'platform',
-  },
-  {
-    title: '활동점수',
-    widthRatio: '25%',
-    accessor: 'score',
-  },
-];
-
 // TODO(@mango906): 서버쪽과 api 논의 후 서버쪽 데이터 쓰도록 변경 필요
 const rows: ActivityScoreListItem[] = new Array(10).fill({
   name: '김경환',
@@ -71,12 +45,46 @@ const ActivityScoreList = () => {
     { accessor: 'score', type: SORT_TYPE.DEFAULT },
   ]);
 
+  const { pathname, search } = useLocation();
+
   const totalCount = rows.length;
 
   const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
     totalCount,
     pagingSize: 10,
   });
+
+  // TODO(@mango906): 서버쪽과 api 논의 후 accessor 밑 renderCustomCell 변경 필요
+  const columns: TableColumn<ActivityScoreListItem>[] = [
+    {
+      title: '이름',
+      widthRatio: '25%',
+      accessor: 'name',
+      renderCustomCell: (cellValue, id) => (
+        <Styled.TitleLink
+          to={`${PATH.ACTIVITY_SCORE}/${id}`}
+          state={{ from: `${pathname}${search}` }}
+        >
+          {cellValue as string}
+        </Styled.TitleLink>
+      ),
+    },
+    {
+      title: '아이디',
+      widthRatio: '25%',
+      accessor: 'userId',
+    },
+    {
+      title: '플랫폼',
+      widthRatio: '25%',
+      accessor: 'platform',
+    },
+    {
+      title: '활동점수',
+      widthRatio: '25%',
+      accessor: 'score',
+    },
+  ];
 
   return (
     <Styled.PageWrapper>

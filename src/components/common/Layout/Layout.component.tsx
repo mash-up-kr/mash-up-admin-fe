@@ -8,7 +8,7 @@ const Layout = () => {
 
   const isBackgroundGray = useMemo(
     () =>
-      ['login', 'application/', 'application-form/', '/attendance/'].some((each) =>
+      ['login', 'application/', 'application-form/', 'activity-score/'].some((each) =>
         pathname.includes(each),
       ),
     [pathname],
