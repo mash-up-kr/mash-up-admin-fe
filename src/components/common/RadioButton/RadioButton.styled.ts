@@ -18,7 +18,7 @@ export const RadioButtonWrapper = styled.label<StyledRadioButtonLabelProps>`
     align-items: center;
     justify-content: flex-start;
     width: fit-content;
-    height: 1.2rem;
+    height: 2.2rem;
     padding: 0 0;
     cursor: pointer;
     user-select: none;
@@ -37,8 +37,8 @@ export const RadioButtonMark = styled.span`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 2.2rem;
+    height: 2.2rem;
     background-color: ${theme.colors.white};
     border: solid 0.1rem ${theme.colors.gray30};
     border-radius: 50%;
@@ -48,12 +48,12 @@ export const RadioButtonMark = styled.span`
     }
 
     label input:checked ~ & {
-      border-color: ${theme.colors.purple70};
+      background-color: ${theme.colors.purple70};
 
       & > span {
-        width: 0.5rem;
-        height: 0.5rem;
-        background-color: ${theme.colors.purple70};
+        width: 1rem;
+        height: 1rem;
+        background-color: ${theme.colors.white};
         border-radius: 50%;
       }
     }
@@ -67,6 +67,6 @@ export const RadioButtonMark = styled.span`
 export const RadioButtonText = styled.span`
   ${({ theme }) => css`
     ${theme.fonts.medium14}
-    padding-left: 2rem;
+    padding-left: 3.8rem;
   `}
 `;

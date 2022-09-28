@@ -5,6 +5,7 @@ import { useHistory, useToggleState } from '@/hooks';
 import { PATH } from '@/constants';
 import {
   ActivityScoreModalDialog,
+  ApplyActivityScoreModalDialog,
   Icon,
   PersonalInfoCard,
   ScoreCard,
@@ -37,7 +38,9 @@ const rows: ScoreHistory[] = Object.values(ScoreType).map((type) => ({
 
 const ActivityScoreDetail = () => {
   const { handleGoBack } = useHistory();
-  const [isScoreAddModalOpened, toggleScoreAddModalOpened] = useToggleState(false);
+  const [isActivityScoreModalOpened, toggleActivityScoreModalOpened] = useToggleState(false);
+  const [isApplyActivityScoreModalOpened, toggleApplyActivityScoreModalOpened] =
+    useToggleState(false);
 
   const columns: TableColumn<ScoreHistory>[] = [
     {
@@ -55,7 +58,7 @@ const ActivityScoreDetail = () => {
       widthRatio: '23%',
       accessor: 'title',
       renderCustomCell: (cellValue) => (
-        <Styled.ActivityTitle onClick={toggleScoreAddModalOpened}>
+        <Styled.ActivityTitle onClick={toggleActivityScoreModalOpened}>
           {cellValue as string}
         </Styled.ActivityTitle>
       ),
@@ -94,12 +97,22 @@ const ActivityScoreDetail = () => {
         <Styled.Content>
           <Styled.ContentHeader>
             <h3>활동점수 히스토리</h3>
-            <Button shape={ButtonShape.defaultLine} label="점수 추가" Icon={Plus} />
+            <Button
+              shape={ButtonShape.defaultLine}
+              label="점수 추가"
+              Icon={Plus}
+              onClick={toggleApplyActivityScoreModalOpened}
+            />
           </Styled.ContentHeader>
           <Table prefix="score-history" columns={columns} rows={rows} supportBar={{}} />
         </Styled.Content>
       </Styled.ActivityScoreDetailPage>
-      {isScoreAddModalOpened && <ActivityScoreModalDialog onClose={toggleScoreAddModalOpened} />}
+      {isActivityScoreModalOpened && (
+        <ActivityScoreModalDialog onClose={toggleActivityScoreModalOpened} />
+      )}
+      {isApplyActivityScoreModalOpened && (
+        <ApplyActivityScoreModalDialog onClose={toggleApplyActivityScoreModalOpened} />
+      )}
     </>
   );
 };
