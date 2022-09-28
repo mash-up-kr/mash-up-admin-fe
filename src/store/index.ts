@@ -5,3 +5,4 @@ export * from './team';
 export * from './applicationForm';
 export * from './toast';
 export * from './sms';
+export * from './generation';
