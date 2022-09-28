@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { BottomCTA, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
 import * as Styled from './ActivityScoreList.styled';
 import { SearchOptionBarFilter } from '@/components/common/SearchOptionBar/SearchOptionBar.component';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { PATH, SORT_TYPE } from '@/constants';
 import { usePagination } from '@/hooks';
+import { $generations } from '@/store';
 
 interface ActivityScoreListItem {
   name: string;
@@ -13,23 +15,6 @@ interface ActivityScoreListItem {
   platform: string;
   score: number;
 }
-
-/**
- * TODO(@mango906): 기수 key값 변형 필요
- * options (기수 정보) 서버에서 받아오도록 변경 필요
- */
-
-const filters: SearchOptionBarFilter[] = [
-  {
-    title: '기수',
-    key: 'steps',
-    options: [
-      { label: '12기', value: '12' },
-      { label: '11기', value: '11' },
-    ],
-    defaultOption: { label: '12기', value: '12' },
-  },
-];
 
 // TODO(@mango906): 서버쪽과 api 논의 후 서버쪽 데이터 쓰도록 변경 필요
 const rows: ActivityScoreListItem[] = new Array(10).fill({
@@ -40,10 +25,23 @@ const rows: ActivityScoreListItem[] = new Array(10).fill({
 });
 
 const ActivityScoreList = () => {
+  const generations = useRecoilValue($generations);
+
   const [sortTypes, setSortTypes] = useState<SortType<ActivityScoreListItem>[]>([
     { accessor: 'name', type: SORT_TYPE.DEFAULT },
     { accessor: 'score', type: SORT_TYPE.DEFAULT },
   ]);
+
+  const filters: SearchOptionBarFilter[] = [
+    {
+      title: '기수',
+      key: 'generations',
+      options: generations.map(({ generationNumber, generationId }) => ({
+        label: `${generationNumber}기`,
+        value: generationId.toString(),
+      })),
+    },
+  ];
 
   const { pathname, search } = useLocation();
 
