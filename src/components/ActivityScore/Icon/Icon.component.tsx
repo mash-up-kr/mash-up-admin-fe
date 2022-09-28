@@ -1,18 +1,18 @@
 import React from 'react';
 
-import Attendance from '@/assets/svg/attendance-44.svg';
-import LATE from '@/assets/svg/late-44.svg';
-import Absent from '@/assets/svg/absent-44.svg';
-import Presentation from '@/assets/svg/presentation-44.svg';
-import ProjectSuccess from '@/assets/svg/project-success-44.svg';
-import ProjectFail from '@/assets/svg/project-fail-44.svg';
-import ContentsWrite from '@/assets/svg/contents-write-44.svg';
-import Leader from '@/assets/svg/leader-44.svg';
-import SubLeader from '@/assets/svg/sub-leader-44.svg';
-import Staff from '@/assets/svg/staff-44.svg';
-import ProjectLeader from '@/assets/svg/project-leader-44.svg';
-import ProjectSubLeader from '@/assets/svg/project-sub-leader-44.svg';
-import Prepare from '@/assets/svg/prepare-44.svg';
+import Attendance from '@/assets/svg/attendance-40.svg';
+import LATE from '@/assets/svg/late-40.svg';
+import Absent from '@/assets/svg/absent-40.svg';
+import Presentation from '@/assets/svg/presentation-40.svg';
+import ProjectSuccess from '@/assets/svg/project-success-40.svg';
+import ProjectFail from '@/assets/svg/project-fail-40.svg';
+import ContentsWrite from '@/assets/svg/contents-write-40.svg';
+import Leader from '@/assets/svg/leader-40.svg';
+import SubLeader from '@/assets/svg/sub-leader-40.svg';
+import Staff from '@/assets/svg/staff-40.svg';
+import ProjectLeader from '@/assets/svg/project-leader-40.svg';
+import ProjectSubLeader from '@/assets/svg/project-sub-leader-40.svg';
+import Prepare from '@/assets/svg/prepare-40.svg';
 import { ValueOf } from '@/types';
 import { ScoreType } from '../constants';
 
