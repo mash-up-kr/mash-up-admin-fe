@@ -1,4 +1,10 @@
-import { MemberRequest, MemberResponse, BaseResponse } from '@/types';
+import {
+  MemberRequest,
+  MemberResponse,
+  BaseResponse,
+  MemberByIdRequest,
+  MemberByIdResponseData,
+} from '@/types';
 import http from '@/api/core';
 
 export const getMembers = ({
@@ -6,3 +12,9 @@ export const getMembers = ({
   ...params
 }: MemberRequest): Promise<BaseResponse<MemberResponse[]>> =>
   http.get({ url: `/members/${generationNumber}`, params });
+
+export const getMemberById = ({
+  generationNumber,
+  memberId,
+}: MemberByIdRequest): Promise<BaseResponse<MemberByIdResponseData>> =>
+  http.get({ url: `/members/${generationNumber}/${memberId}` });
