@@ -1,28 +1,40 @@
 import React from 'react';
 import * as Styled from './PersonalInfoCard.styled';
 
-const PersonalInfoCard = () => {
+interface PersonalInfoCardProps {
+  name: string;
+  platform: string;
+  identification: string;
+  generationNumber: number;
+}
+
+const PersonalInfoCard = ({
+  name,
+  platform,
+  identification,
+  generationNumber,
+}: PersonalInfoCardProps) => {
   return (
     <Styled.Wrapper>
       <Styled.Headline>인적 정보</Styled.Headline>
       <Styled.Row>
         <Styled.Col>
           <Styled.Label>이름</Styled.Label>
-          <Styled.Content>박민수</Styled.Content>
+          <Styled.Content>{name}</Styled.Content>
         </Styled.Col>
         <Styled.Col>
           <Styled.Label>플랫폼</Styled.Label>
-          <Styled.Content>디자인</Styled.Content>
+          <Styled.Content>{platform}</Styled.Content>
         </Styled.Col>
       </Styled.Row>
       <Styled.Row>
         <Styled.Col>
           <Styled.Label>아이디</Styled.Label>
-          <Styled.Content>MashUp</Styled.Content>
+          <Styled.Content>{identification}</Styled.Content>
         </Styled.Col>
         <Styled.Col>
           <Styled.Label>기수</Styled.Label>
-          <Styled.Content>12기</Styled.Content>
+          <Styled.Content>{generationNumber}기</Styled.Content>
         </Styled.Col>
       </Styled.Row>
     </Styled.Wrapper>

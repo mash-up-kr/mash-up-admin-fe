@@ -1,4 +1,6 @@
 import React from 'react';
+import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router-dom';
 import { BackButton, Button, Table } from '@/components';
 import * as Styled from './ActivityScoreDetail.styled';
 import { useHistory, useToggleState } from '@/hooks';
@@ -9,44 +11,28 @@ import {
   Icon,
   PersonalInfoCard,
   ScoreCard,
-  ScoreTitle,
   ScoreType,
 } from '@/components/ActivityScore';
 import { TableColumn } from '@/components/common/Table/Table.component';
-import { ValueOf } from '@/types';
+import { ScoreHistory, ValueOf } from '@/types';
 import { ButtonShape } from '@/components/common/Button/Button.component';
 
 import Plus from '@/assets/svg/plus-16.svg';
-
-interface ScoreHistory {
-  type: ValueOf<typeof ScoreType>;
-  title: string;
-  seminar: string;
-  createdAt: string;
-  score: string;
-  totalScore: number;
-}
-
-const rows: ScoreHistory[] = Object.values(ScoreType).map((type) => ({
-  type,
-  title: ScoreTitle[type],
-  seminar: '3차 전체 세미나',
-  createdAt: '2022년 3월 2일 오후 2시 30분',
-  score: '0',
-  totalScore: 3,
-}));
+import { $memberDetail } from '@/store/member';
 
 const ActivityScoreDetail = () => {
   const { handleGoBack } = useHistory();
   const [isActivityScoreModalOpened, toggleActivityScoreModalOpened] = useToggleState(false);
   const [isApplyActivityScoreModalOpened, toggleApplyActivityScoreModalOpened] =
     useToggleState(false);
+  const { generationNumber: generationNumberParam, memberId: memberIdParam } =
+    useParams<{ generationNumber: string; memberId: string }>();
 
   const columns: TableColumn<ScoreHistory>[] = [
     {
       title: '-',
       widthRatio: '7%',
-      accessor: 'type',
+      accessor: 'scoreType',
       renderCustomCell: (cellValue) => (
         <Styled.IconWrapper>
           <Icon type={cellValue as ValueOf<typeof ScoreType>} />
@@ -56,34 +42,64 @@ const ActivityScoreDetail = () => {
     {
       title: '제목',
       widthRatio: '23%',
-      accessor: 'title',
-      renderCustomCell: (cellValue) => (
-        <Styled.ActivityTitle onClick={toggleActivityScoreModalOpened}>
-          {cellValue as string}
-        </Styled.ActivityTitle>
-      ),
+      accessor: ['scoreName', 'isCanceled'],
+      renderCustomCell: (cellValue) => {
+        const [scoreName, isCanceled] = cellValue as [string, boolean];
+
+        return (
+          <>
+            <Styled.ActivityTitle isCanceled={isCanceled} onClick={toggleActivityScoreModalOpened}>
+              {scoreName}
+            </Styled.ActivityTitle>
+            {isCanceled && <Styled.CancelLabel>취소</Styled.CancelLabel>}
+          </>
+        );
+      },
     },
     {
       title: '세미나 정보',
       widthRatio: '23%',
-      accessor: 'seminar',
+      accessor: ['scheduleName', 'isCanceled'],
+      renderCustomCell: (cellValue) => {
+        const [scheduleName, isCanceled] = cellValue as [string, boolean];
+
+        return <Styled.Column isCanceled={isCanceled}>{scheduleName}</Styled.Column>;
+      },
     },
     {
       title: '등록 일시',
       widthRatio: '23%',
-      accessor: 'createdAt',
+      accessor: ['date', 'isCanceled'],
+      renderCustomCell: (cellValue) => {
+        const [date, isCanceled] = cellValue as [string, boolean];
+
+        return <Styled.Column isCanceled={isCanceled}>{date as string}</Styled.Column>;
+      },
     },
     {
       title: '점수',
       widthRatio: '12%',
-      accessor: 'score',
+      accessor: ['score', 'isCanceled'],
+      renderCustomCell: (cellValue) => {
+        const [score, isCanceled] = cellValue as [string, boolean];
+
+        return <Styled.Column isCanceled={isCanceled}>{score as string}</Styled.Column>;
+      },
     },
     {
       title: '총 활동 점수',
       widthRatio: '12%',
-      accessor: 'totalScore',
+      accessor: 'accumulatedScore',
     },
   ];
+
+  const { name, platform, identification, generationNumber, totalScore, scoreHistoryResponses } =
+    useRecoilValue(
+      $memberDetail({
+        generationNumber: generationNumberParam ?? '',
+        memberId: memberIdParam ?? '',
+      }),
+    );
 
   return (
     <>
@@ -91,8 +107,13 @@ const ActivityScoreDetail = () => {
         <BackButton label="목록 돌아가기" onClick={() => handleGoBack(PATH.ACTIVITY_SCORE)} />
         <Styled.Headline>활동점수 상세</Styled.Headline>
         <Styled.Row>
-          <PersonalInfoCard />
-          <ScoreCard />
+          <PersonalInfoCard
+            name={name}
+            platform={platform}
+            identification={identification}
+            generationNumber={generationNumber}
+          />
+          <ScoreCard totalScore={totalScore} />
         </Styled.Row>
         <Styled.Content>
           <Styled.ContentHeader>
@@ -104,7 +125,12 @@ const ActivityScoreDetail = () => {
               onClick={toggleApplyActivityScoreModalOpened}
             />
           </Styled.ContentHeader>
-          <Table prefix="score-history" columns={columns} rows={rows} supportBar={{}} />
+          <Table
+            prefix="score-history"
+            columns={columns}
+            rows={scoreHistoryResponses}
+            supportBar={{}}
+          />
         </Styled.Content>
       </Styled.ActivityScoreDetailPage>
       {isActivityScoreModalOpened && (

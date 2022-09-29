@@ -62,7 +62,17 @@ export const IconWrapper = styled.div`
   }
 `;
 
-export const ActivityTitle = styled.span`
+export const Column = styled.span<{ isCanceled: boolean }>`
+  font-weight: transparent;
+  font-size: transparent;
+  line-height: transparent;
+
+  ${({ isCanceled }) => css`
+    text-decoration: ${isCanceled ? 'line-through' : ''};
+  `}
+`;
+
+export const ActivityTitle = styled(Column)`
   ${({ theme }) => css`
     overflow: hidden;
     color: ${theme.colors.purple80};
@@ -78,4 +88,16 @@ export const ActivityTitle = styled.span`
       text-underline-position: under;
     }
   `};
+`;
+
+export const CancelLabel = styled.span`
+  ${({ theme }) => css`
+    ${theme.fonts.medium13};
+
+    margin-left: 0.4rem;
+    padding: 0.2rem 1rem;
+    color: ${theme.colors.red70};
+    background-color: ${theme.colors.red20};
+    border-radius: 10rem;
+  `}
 `;

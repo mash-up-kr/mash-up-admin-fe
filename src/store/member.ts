@@ -31,14 +31,13 @@ export const $members = selectorFamilyWithRefresher<BaseResponse<MemberResponse[
   },
 });
 
-export const $memberDetail = selectorFamilyWithRefresher<
-  BaseResponse<MemberByIdResponseData>,
-  MemberByIdRequest
->({
-  key: 'memberDetail',
-  get: (params) => async () => {
-    const data = await api.getMemberById(params);
+export const $memberDetail = selectorFamilyWithRefresher<MemberByIdResponseData, MemberByIdRequest>(
+  {
+    key: 'memberDetail',
+    get: (params) => async () => {
+      const { data } = await api.getMemberById(params);
 
-    return data;
+      return data;
+    },
   },
-});
+);
