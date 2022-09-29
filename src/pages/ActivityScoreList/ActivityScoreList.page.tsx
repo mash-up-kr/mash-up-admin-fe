@@ -19,6 +19,7 @@ const ActivityScoreList = () => {
   const size = searchParams.get('size') || '20';
   const generationNumber =
     searchParams.get('generation') || generations?.[0]?.generationNumber.toString();
+  const team = searchParams.get('team') || '';
 
   const [sortTypes, setSortTypes] = useState<SortType<MemberResponse>[]>([
     { accessor: 'name', type: SORT_TYPE.DEFAULT },
@@ -52,8 +53,9 @@ const ActivityScoreList = () => {
       size: parseInt(size, 10),
       generationNumber: parseInt(generationNumber, 10),
       sort: sortParam,
+      platform: team,
     }),
-    [generationNumber, page, size, sortParam],
+    [generationNumber, page, size, sortParam, team],
   );
 
   const [{ contents }] = useRecoilStateLoadable($members(membersParams));
