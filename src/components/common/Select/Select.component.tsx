@@ -75,10 +75,6 @@ const Select = (
     }
   }, [currentValue]);
 
-  useEffect(() => {
-    setSelectedOption(defaultValue);
-  }, [defaultValue]);
-
   useOnClickOutSide(outerRef, () => setOpened(false));
 
   return (
