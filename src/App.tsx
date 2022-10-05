@@ -6,7 +6,7 @@ import { ModalViewer, Layout, Toast } from '@/components';
 
 import { theme, globalStyles } from './styles';
 
-import { $me, $isAuthorized, $teams, $toast } from './store';
+import { $me, $isAuthorized, $teams, $toast, $generations } from './store';
 import * as api from './api';
 import { ACCESS_TOKEN, PATH } from './constants';
 
@@ -51,8 +51,11 @@ const App = () => {
       if (!isAuthorizedSnapshot && !!TOKEN) {
         const { data: me } = await api.getMyInfo();
         const { data: teams } = await api.getTeams();
+        const { data: generations } = await api.getGenerations();
+
         set($me, { accessToken: TOKEN as string, adminMember: me });
         set($teams, teams);
+        set($generations, generations);
       }
     } catch (e) {
       localStorage.removeItem(ACCESS_TOKEN);
