@@ -1,5 +1,27 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { RangeType } from '@/components/ActivityScore';
+import { ValueOf } from '@/types';
+
+const getScoreTextColor = (type: ValueOf<typeof RangeType>, theme: Theme) => {
+  let textColor = '';
+
+  if (type === RangeType.Normal) {
+    textColor = theme.colors.gray80;
+  }
+
+  if (type === RangeType.Minus) {
+    textColor = theme.colors.red70;
+  }
+
+  if (type === RangeType.Plus) {
+    textColor = theme.colors.blue70;
+  }
+
+  return css`
+    color: ${textColor};
+  `;
+};
 
 export const ActivityScoreDetailPage = styled.div`
   padding: 2rem 0;
@@ -88,6 +110,12 @@ export const ActivityTitle = styled(Column)`
       text-underline-position: under;
     }
   `};
+`;
+
+export const ScoreText = styled(Column)<{ type: ValueOf<typeof RangeType> }>`
+  ${({ theme, type }) => css`
+    ${getScoreTextColor(type, theme)}
+  `}
 `;
 
 export const CancelLabel = styled.span`
