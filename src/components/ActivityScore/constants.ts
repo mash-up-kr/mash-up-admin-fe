@@ -11,6 +11,7 @@ export const ScoreType = {
   MASHUP_STAFF: 'MASHUP_STAFF',
   MASHUP_LEADER: 'MASHUP_LEADER',
   MASHUP_SUBLEADER: 'MASHUP_SUBLEADER',
+  MASHUP_CONTENT_WRITE: 'MASHUP_CONTENT_WRITE',
 } as const;
 
 export const ScoreTitle = {
@@ -26,6 +27,7 @@ export const ScoreTitle = {
   [ScoreType.MASHUP_STAFF]: '스태프',
   [ScoreType.MASHUP_LEADER]: '회장',
   [ScoreType.MASHUP_SUBLEADER]: '부회장',
+  [ScoreType.MASHUP_CONTENT_WRITE]: '블로그 콘텐츠 작성',
 };
 
 export const RangeType = {
