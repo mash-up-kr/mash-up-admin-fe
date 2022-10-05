@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import React, { useMemo, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
 import { BottomCTA, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
 import * as Styled from './ActivityScoreList.styled';
 import { SearchOptionBarFilter } from '@/components/common/SearchOptionBar/SearchOptionBar.component';
@@ -8,56 +8,71 @@ import { SortType, TableColumn } from '@/components/common/Table/Table.component
 import { PATH, SORT_TYPE } from '@/constants';
 import { usePagination } from '@/hooks';
 import { $generations } from '@/store';
-
-interface ActivityScoreListItem {
-  name: string;
-  userId: string;
-  platform: string;
-  score: number;
-}
-
-// TODO(@mango906): 서버쪽과 api 논의 후 서버쪽 데이터 쓰도록 변경 필요
-const rows: ActivityScoreListItem[] = new Array(10).fill({
-  name: '김경환',
-  userId: 'besign',
-  platform: 'Spring',
-  score: 3,
-});
+import { MemberRequest, MemberResponse } from '@/types';
+import { $members } from '@/store/member';
 
 const ActivityScoreList = () => {
+  const [searchParams] = useSearchParams();
   const generations = useRecoilValue($generations);
 
-  const [sortTypes, setSortTypes] = useState<SortType<ActivityScoreListItem>[]>([
+  const page = searchParams.get('page') || '1';
+  const size = searchParams.get('size') || '20';
+  const generationNumber =
+    searchParams.get('generation') || generations?.[0]?.generationNumber.toString();
+  const team = searchParams.get('team') || '';
+
+  const [sortTypes, setSortTypes] = useState<SortType<MemberResponse>[]>([
     { accessor: 'name', type: SORT_TYPE.DEFAULT },
     { accessor: 'score', type: SORT_TYPE.DEFAULT },
   ]);
 
+  const sortParam = useMemo(() => {
+    const matched = sortTypes.find((sortType) => sortType.type !== SORT_TYPE.DEFAULT);
+    if (!matched) return '';
+
+    const { accessor, type } = matched;
+    return `${accessor},${type}`;
+  }, [sortTypes]);
+
   const filters: SearchOptionBarFilter[] = [
     {
       title: '기수',
-      key: 'generations',
-      options: generations.map(({ generationNumber, generationId }) => ({
-        label: `${generationNumber}기`,
-        value: generationId.toString(),
+      key: 'generation',
+      options: generations.map((generation) => ({
+        label: `${generation.generationNumber}기`,
+        value: generation.generationNumber.toString(),
       })),
     },
   ];
 
   const { pathname, search } = useLocation();
 
-  const totalCount = rows.length;
+  const membersParams = useMemo<MemberRequest>(
+    () => ({
+      page: parseInt(page, 10) - 1,
+      size: parseInt(size, 10),
+      generationNumber: parseInt(generationNumber, 10),
+      sort: sortParam,
+      platform: team,
+    }),
+    [generationNumber, page, size, sortParam, team],
+  );
+
+  const [{ contents }] = useRecoilStateLoadable($members(membersParams));
+
+  const tableRows = contents.data ?? [];
+  const { totalCount = 0 } = contents.page ?? {};
 
   const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
     totalCount,
-    pagingSize: 10,
   });
 
-  // TODO(@mango906): 서버쪽과 api 논의 후 accessor 밑 renderCustomCell 변경 필요
-  const columns: TableColumn<ActivityScoreListItem>[] = [
+  const columns: TableColumn<MemberResponse>[] = [
     {
       title: '이름',
       widthRatio: '25%',
       accessor: 'name',
+      idAccessor: 'memberId',
       renderCustomCell: (cellValue, id) => (
         <Styled.TitleLink
           to={`${PATH.ACTIVITY_SCORE}/${id}`}
@@ -70,7 +85,7 @@ const ActivityScoreList = () => {
     {
       title: '아이디',
       widthRatio: '25%',
-      accessor: 'userId',
+      accessor: 'identification',
     },
     {
       title: '플랫폼',
@@ -95,7 +110,7 @@ const ActivityScoreList = () => {
         prefix="activity-score"
         topStickyHeight={14.1}
         columns={columns}
-        rows={rows}
+        rows={tableRows}
         supportBar={{ totalSummaryText: '총 인원', totalCount }}
         sortOptions={{
           sortTypes,
