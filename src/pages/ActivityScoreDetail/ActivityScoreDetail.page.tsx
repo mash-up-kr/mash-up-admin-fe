@@ -10,6 +10,7 @@ import {
   ApplyActivityScoreModalDialog,
   Icon,
   PersonalInfoCard,
+  RangeType,
   ScoreCard,
   ScoreType,
 } from '@/components/ActivityScore';
@@ -19,6 +20,18 @@ import { ButtonShape } from '@/components/common/Button/Button.component';
 
 import Plus from '@/assets/svg/plus-16.svg';
 import { $memberDetail } from '@/store/member';
+
+const getScoreRangeType = (score: number) => {
+  if (score < 0) {
+    return RangeType.Minus;
+  }
+
+  if (score > 0) {
+    return RangeType.Plus;
+  }
+
+  return RangeType.Normal;
+};
 
 const ActivityScoreDetail = () => {
   const { handleGoBack } = useHistory();
@@ -81,9 +94,13 @@ const ActivityScoreDetail = () => {
       widthRatio: '12%',
       accessor: ['score', 'isCanceled'],
       renderCustomCell: (cellValue) => {
-        const [score, isCanceled] = cellValue as [string, boolean];
+        const [score, isCanceled] = cellValue as [number, boolean];
 
-        return <Styled.Column isCanceled={isCanceled}>{score as string}</Styled.Column>;
+        return (
+          <Styled.ScoreText type={getScoreRangeType(score)} isCanceled={isCanceled}>
+            {score}
+          </Styled.ScoreText>
+        );
       },
     },
     {
