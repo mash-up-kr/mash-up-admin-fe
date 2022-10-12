@@ -1,18 +1,25 @@
-import { FieldValues, UseFormRegister } from 'react-hook-form';
-import React, { forwardRef, useState, useRef, useMemo } from 'react';
+import { Control, Controller, UseControllerProps } from 'react-hook-form';
+import React, { useState, useRef, useMemo } from 'react';
 import { Dayjs } from 'dayjs';
+
 import { DatePicker, Input } from '@/components';
 
 import { InputProps } from '@/components/common/Input/Input.component';
 import { useOnClickOutSide, useToggleState } from '@/hooks';
 import { formatDate } from '@/utils';
 
-type DatePickerFieldProps = InputProps;
+type DatePickerFieldProps = {
+  control?: Control<any>;
+} & InputProps &
+  Omit<UseControllerProps, 'control'>;
 
-const DatePickerField = (
-  { className, onClick, ...restProps }: DatePickerFieldProps,
-  ref: React.Ref<HTMLInputElement>,
-) => {
+const DatePickerField = ({
+  name,
+  className,
+  control,
+  onClick,
+  ...restProps
+}: DatePickerFieldProps) => {
   const [isDatePickerOpened, toggleDatePickerOpened] = useToggleState(false);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const containerRef = useRef(null);
@@ -43,20 +50,26 @@ const DatePickerField = (
   });
 
   return (
-    <div ref={containerRef}>
-      <Input ref={ref} value={formattedDate} readOnly onClick={handleClick} {...restProps} />
-      {isDatePickerOpened && (
-        <DatePicker
-          className={className}
-          selectedDate={selectedDate}
-          handleSelectDate={handleSelectDate}
-        />
+    <Controller
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <div ref={containerRef}>
+          <Input {...restProps} value={formattedDate} onClick={handleClick} />
+          {isDatePickerOpened && (
+            <DatePicker
+              className={className}
+              selectedDate={selectedDate}
+              handleSelectDate={(date) => {
+                field.onChange(date);
+                handleSelectDate(date);
+              }}
+            />
+          )}
+        </div>
       )}
-    </div>
+    />
   );
 };
 
-export default forwardRef<
-  HTMLInputElement,
-  DatePickerFieldProps & ReturnType<UseFormRegister<FieldValues>>
->(DatePickerField);
+export default DatePickerField;
