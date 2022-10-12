@@ -7,8 +7,8 @@ export interface MemberRequest {
 }
 
 export interface MemberByIdRequest {
-  generationNumber: string;
-  memberId: string;
+  generationNumber: number;
+  memberId: number;
 }
 
 export interface MemberResponse {
