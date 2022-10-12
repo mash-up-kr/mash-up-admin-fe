@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import { BackButton, Button, Table } from '@/components';
 import * as Styled from './ActivityScoreDetail.styled';
@@ -7,7 +7,6 @@ import { useHistory, useToggleState } from '@/hooks';
 import { PATH } from '@/constants';
 import {
   ActivityScoreModalDialog,
-  ApplyActivityScoreModalDialog,
   Icon,
   PersonalInfoCard,
   RangeType,
@@ -20,6 +19,8 @@ import { ButtonShape } from '@/components/common/Button/Button.component';
 
 import Plus from '@/assets/svg/plus-16.svg';
 import { $memberDetail } from '@/store/member';
+import { $modalByStorage, ModalKey } from '@/store';
+import { formatDate, parseUrlParam } from '@/utils';
 
 const getScoreRangeType = (score: number) => {
   if (score < 0) {
@@ -36,10 +37,11 @@ const getScoreRangeType = (score: number) => {
 const ActivityScoreDetail = () => {
   const { handleGoBack } = useHistory();
   const [isActivityScoreModalOpened, toggleActivityScoreModalOpened] = useToggleState(false);
-  const [isApplyActivityScoreModalOpened, toggleApplyActivityScoreModalOpened] =
-    useToggleState(false);
-  const { generationNumber: generationNumberParam, memberId: memberIdParam } =
-    useParams<{ generationNumber: string; memberId: string }>();
+  const { generationNumber: generationNumberParam, memberId: memberIdParam } = useParams();
+
+  const handleApplyActivityScoreModal = useSetRecoilState(
+    $modalByStorage(ModalKey.applyActivityScoreModalDialog),
+  );
 
   const columns: TableColumn<ScoreHistory>[] = [
     {
@@ -86,7 +88,11 @@ const ActivityScoreDetail = () => {
       renderCustomCell: (cellValue) => {
         const [date, isCanceled] = cellValue as [string, boolean];
 
-        return <Styled.Column isCanceled={isCanceled}>{date as string}</Styled.Column>;
+        return (
+          <Styled.Column isCanceled={isCanceled}>
+            {formatDate(date as string, 'YYYY년 M월 D일 hh시 mm분')}
+          </Styled.Column>
+        );
       },
     },
     {
@@ -113,8 +119,8 @@ const ActivityScoreDetail = () => {
   const { name, platform, identification, generationNumber, totalScore, scoreHistoryResponses } =
     useRecoilValue(
       $memberDetail({
-        generationNumber: generationNumberParam ?? '',
-        memberId: memberIdParam ?? '',
+        generationNumber: parseUrlParam(generationNumberParam),
+        memberId: parseUrlParam(memberIdParam),
       }),
     );
 
@@ -139,7 +145,16 @@ const ActivityScoreDetail = () => {
               shape={ButtonShape.defaultLine}
               label="점수 추가"
               Icon={Plus}
-              onClick={toggleApplyActivityScoreModalOpened}
+              onClick={() => {
+                handleApplyActivityScoreModal({
+                  key: ModalKey.applyActivityScoreModalDialog,
+                  isOpen: true,
+                  props: {
+                    generationNumber: parseUrlParam(generationNumberParam),
+                    memberId: parseUrlParam(memberIdParam),
+                  },
+                });
+              }}
             />
           </Styled.ContentHeader>
           <Table
@@ -152,9 +167,6 @@ const ActivityScoreDetail = () => {
       </Styled.ActivityScoreDetailPage>
       {isActivityScoreModalOpened && (
         <ActivityScoreModalDialog onClose={toggleActivityScoreModalOpened} />
-      )}
-      {isApplyActivityScoreModalOpened && (
-        <ApplyActivityScoreModalDialog onClose={toggleApplyActivityScoreModalOpened} />
       )}
     </>
   );

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilCallback, useSetRecoilState } from 'recoil';
-import { useParams } from 'react-router-dom';
 
 import { InputField, RadioButtonField } from '@/components';
 
@@ -10,12 +9,12 @@ import { RangeType, ScoreType } from '../../ActivityScore/constants';
 import { getRangeText } from '../../ActivityScore/utils';
 import { InputSize } from '@/components/common/Input/Input.component';
 import { ValueOf } from '@/types';
-import { request, parseUrlParam } from '@/utils';
+import { request, formatDate } from '@/utils';
 import * as api from '@/api';
 import { useToast } from '@/hooks';
 import { $modalByStorage, ModalKey } from '@/store';
-
-export interface ApplyActivityScoreModalDialogProps {}
+import { $memberDetail } from '@/store/member';
+import { ToastType } from '@/styles';
 
 interface FormValues {
   date: string;
@@ -70,7 +69,7 @@ const scoreTypes = [
   {
     label: '직위',
     items: [
-      { value: ScoreType.MASHUP_LEADER, label: '회장', rangeType: RangeType.Minus, range: 100 },
+      { value: ScoreType.MASHUP_LEADER, label: '회장', rangeType: RangeType.Plus, range: 100 },
       { value: ScoreType.MASHUP_SUBLEADER, label: '부회장', rangeType: RangeType.Plus, range: 100 },
       { value: ScoreType.MASHUP_STAFF, label: '스태프', rangeType: RangeType.Plus, range: 99 },
       {
@@ -89,10 +88,17 @@ const scoreTypes = [
   },
 ];
 
-const ApplyActivityScoreModalDialog = () => {
+export interface ApplyActivityScoreModalDialogProps {
+  generationNumber: number;
+  memberId: number;
+}
+
+const ApplyActivityScoreModalDialog = ({
+  generationNumber,
+  memberId,
+}: ApplyActivityScoreModalDialogProps) => {
   const { handleAddToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const { generationNumber, memberId } = useParams();
 
   const handleApplyActivityScoreModal = useSetRecoilState(
     $modalByStorage(ModalKey.applyActivityScoreModalDialog),
@@ -104,24 +110,43 @@ const ApplyActivityScoreModalDialog = () => {
   const handleCloseModal = () =>
     handleApplyActivityScoreModal({ key: ModalKey.applyActivityScoreModalDialog, isOpen: false });
 
-  const handleAddScore = useRecoilCallback(() => ({ date, memo, scoreType }: FormValues) => {
-    request({
-      requestFunc: async () => {
-        setIsLoading(true);
-        await api.postScoreHistoryAdd({
-          date,
-          memo,
-          scoreType,
-          generationNumber: parseUrlParam(generationNumber),
-          memberId: parseUrlParam(memberId),
+  const handleAddScore = useRecoilCallback(
+    ({ refresh }) =>
+      async ({ date, memo, scoreType }: FormValues) => {
+        const formattedDate = formatDate(date, 'YYYY-MM-DD');
+
+        request({
+          requestFunc: async () => {
+            setIsLoading(true);
+
+            await api.postScoreHistoryAdd({
+              date: formattedDate,
+              memo,
+              scoreType,
+              generationNumber,
+              memberId,
+            });
+          },
+          errorHandler: handleAddToast,
+          onSuccess: async () => {
+            handleCloseModal();
+            handleAddToast({
+              type: ToastType.success,
+              message: '활동점수 히스토리가 추가되었습니다.',
+            });
+            refresh(
+              $memberDetail({
+                generationNumber,
+                memberId,
+              }),
+            );
+          },
+          onCompleted: () => {
+            setIsLoading(false);
+          },
         });
       },
-      errorHandler: handleAddToast,
-      onCompleted: () => {
-        setIsLoading(false);
-      },
-    });
-  });
+  );
 
   return (
     <Styled.ApplyActivityScoreModalWrapper
