@@ -7,6 +7,7 @@ import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultMod
 import { SmsSendModalDialogProps } from '@/components/common/SmsSendModalDialog/SmsSendModalDialog.component';
 import { SmsSendDetailInfoModalDialogProps } from '@/components/modal/SmsSendDetailInfoModalDialog/SmsSendDetailInfoModalDialog.component';
 import { SmsSendDetailListModalDialogProps } from '@/components/modal/SmsSendDetailListModalDialog/SmsSendDetailListModalDialog.component';
+import { ApplyActivityScoreModalDialogProps } from '@/components/modal/applyActivityScoreModalDialog/applyActivityScoreModalDialog.component';
 
 export const ModalKey = {
   alertModalDialog: 'alertModalDialog',
@@ -14,6 +15,7 @@ export const ModalKey = {
   changeResultModalDialog: 'changeResultModalDialog',
   smsSendDetailInfoModalDialog: 'smsSendDetailInfoModalDialog',
   smsSendDetailListModalDialog: 'smsSendDetailListModalDialog',
+  applyActivityScoreModalDialog: 'applyActivityScoreModalDialog',
 } as const;
 
 export type ModalKeyType = ValueOf<typeof ModalKey>;
@@ -22,7 +24,8 @@ export type ModalProps =
   | SmsSendModalDialogProps
   | SmsSendDetailListModalDialogProps
   | SmsSendDetailInfoModalDialogProps
-  | ChangeResultModalDialogProps;
+  | ChangeResultModalDialogProps
+  | ApplyActivityScoreModalDialogProps;
 
 export interface Modal {
   key: ModalKeyType;

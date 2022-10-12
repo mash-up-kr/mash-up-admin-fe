@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { css, Theme } from '@emotion/react';
 import { DatePickerField, ModalWrapper } from '@/components';
 
-import { RangeType } from '..';
+import { RangeType } from '../../ActivityScore';
 import { ValueOf } from '@/types';
 
 const getScoreTextStyle = (rangeType: ValueOf<typeof RangeType>, theme: Theme) => {
