@@ -1,5 +1,27 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { RangeType } from '@/components/ActivityScore';
+import { ValueOf } from '@/types';
+
+const getScoreTextColor = (type: ValueOf<typeof RangeType>, theme: Theme) => {
+  let textColor = '';
+
+  if (type === RangeType.Normal) {
+    textColor = theme.colors.gray80;
+  }
+
+  if (type === RangeType.Minus) {
+    textColor = theme.colors.red70;
+  }
+
+  if (type === RangeType.Plus) {
+    textColor = theme.colors.blue70;
+  }
+
+  return css`
+    color: ${textColor};
+  `;
+};
 
 export const ActivityScoreDetailPage = styled.div`
   padding: 2rem 0;
@@ -62,7 +84,17 @@ export const IconWrapper = styled.div`
   }
 `;
 
-export const ActivityTitle = styled.span`
+export const Column = styled.span<{ isCanceled: boolean }>`
+  font-weight: transparent;
+  font-size: transparent;
+  line-height: transparent;
+
+  ${({ isCanceled }) => css`
+    text-decoration: ${isCanceled ? 'line-through' : ''};
+  `}
+`;
+
+export const ActivityTitle = styled(Column)`
   ${({ theme }) => css`
     overflow: hidden;
     color: ${theme.colors.purple80};
@@ -78,4 +110,22 @@ export const ActivityTitle = styled.span`
       text-underline-position: under;
     }
   `};
+`;
+
+export const ScoreText = styled(Column)<{ type: ValueOf<typeof RangeType> }>`
+  ${({ theme, type }) => css`
+    ${getScoreTextColor(type, theme)}
+  `}
+`;
+
+export const CancelLabel = styled.span`
+  ${({ theme }) => css`
+    ${theme.fonts.medium13};
+
+    margin-left: 0.4rem;
+    padding: 0.2rem 1rem;
+    color: ${theme.colors.red70};
+    background-color: ${theme.colors.red20};
+    border-radius: 10rem;
+  `}
 `;

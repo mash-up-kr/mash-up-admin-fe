@@ -75,7 +75,7 @@ const ActivityScoreList = () => {
       idAccessor: 'memberId',
       renderCustomCell: (cellValue, id) => (
         <Styled.TitleLink
-          to={`${PATH.ACTIVITY_SCORE}/${id}`}
+          to={`${PATH.ACTIVITY_SCORE}/${generationNumber}/${id}`}
           state={{ from: `${pathname}${search}` }}
         >
           {cellValue as string}

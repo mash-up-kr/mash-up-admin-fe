@@ -1,4 +1,10 @@
-import { BaseResponse, MemberRequest, MemberResponse } from '@/types';
+import {
+  BaseResponse,
+  MemberByIdRequest,
+  MemberByIdResponseData,
+  MemberRequest,
+  MemberResponse,
+} from '@/types';
 import { selectorFamilyWithRefresher } from './recoil';
 import * as api from '@/api';
 
@@ -24,3 +30,14 @@ export const $members = selectorFamilyWithRefresher<BaseResponse<MemberResponse[
     return data;
   },
 });
+
+export const $memberDetail = selectorFamilyWithRefresher<MemberByIdResponseData, MemberByIdRequest>(
+  {
+    key: 'memberDetail',
+    get: (params) => async () => {
+      const { data } = await api.getMemberById(params);
+
+      return data;
+    },
+  },
+);
