@@ -103,7 +103,11 @@ const ActivityScoreDetail = () => {
                 handleActivityScoreModal({
                   key: ModalKey.activityScoreModalDialog,
                   isOpen: true,
-                  props: { scoreHistory },
+                  props: {
+                    scoreHistory,
+                    generationNumber: parseUrlParam(generationNumberParam),
+                    memberId: parseUrlParam(memberIdParam),
+                  },
                 })
               }
             >
