@@ -6,7 +6,7 @@ import { Icon } from '@/components/ActivityScore';
 import { RangeType, ScoreType } from '@/components/ActivityScore/constants';
 import { $modalByStorage, ModalKey } from '@/store';
 import { ScoreHistory, ValueOf } from '@/types';
-import { parsePlaceholderWhenEmpty, request } from '@/utils';
+import { formatDate, parsePlaceholderWhenEmpty, request } from '@/utils';
 
 import * as api from '@/api';
 import { useToast } from '@/hooks';
@@ -33,6 +33,7 @@ const ActivityScoreModalDialog = ({
     accumulatedScore,
     score,
     isCanceled,
+    date,
   } = scoreHistory;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -133,7 +134,7 @@ const ActivityScoreModalDialog = ({
             <Styled.Row>
               <Styled.RowLabel>등록일시</Styled.RowLabel>
               <Styled.RowContent isCanceled={isCanceled}>
-                2022년 3월 2일 오후 2시 30분
+                {formatDate(date, 'YYYY년 M월 D일 A h시 m분')}
               </Styled.RowContent>
             </Styled.Row>
             <Styled.Row>
