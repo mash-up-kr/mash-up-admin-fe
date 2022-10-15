@@ -59,9 +59,41 @@ const ActivityScoreDetail = () => {
     {
       title: '제목',
       widthRatio: '23%',
-      accessor: ['scoreName', 'isCanceled'],
+      accessor: [
+        'accumulatedScore',
+        'date',
+        'isCanceled',
+        'memo',
+        'scheduleName',
+        'score',
+        'scoreHistoryId',
+        'scoreName',
+        'scoreType',
+      ],
       renderCustomCell: (cellValue) => {
-        const [scoreName, isCanceled] = cellValue as [string, boolean];
+        const [
+          accumulatedScore,
+          date,
+          isCanceled,
+          memo,
+          scheduleName,
+          score,
+          scoreHistoryId,
+          scoreName,
+          scoreType,
+        ] = cellValue as [number, string, boolean, string, string, number, number, string, string];
+
+        const scoreHistory = {
+          accumulatedScore,
+          date,
+          isCanceled,
+          memo,
+          scheduleName,
+          score,
+          scoreHistoryId,
+          scoreName,
+          scoreType,
+        };
 
         return (
           <>
@@ -71,7 +103,7 @@ const ActivityScoreDetail = () => {
                 handleActivityScoreModal({
                   key: ModalKey.activityScoreModalDialog,
                   isOpen: true,
-                  props: {},
+                  props: { scoreHistory },
                 })
               }
             >
