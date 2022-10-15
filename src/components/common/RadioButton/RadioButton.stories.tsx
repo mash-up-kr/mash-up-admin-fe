@@ -13,7 +13,6 @@ const Template: ComponentStory<typeof RadioButton> = (args: RadioButtonProps) =>
 export const radioButton = Template.bind({});
 
 radioButton.args = {
-  handleClickButton: () => {},
   disabled: false,
   defaultChecked: false,
   label: 'test',
