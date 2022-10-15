@@ -42,6 +42,7 @@ export interface ModalProps extends Children {
       label?: string;
       onClick: MouseEventHandler<HTMLButtonElement>;
       isLoading?: boolean;
+      disabled?: boolean;
     };
     position?: PositionType;
   };

@@ -24,8 +24,16 @@ const ActivityScoreModalDialog = ({
   generationNumber,
   memberId,
 }: ActivityScoreModalDialogProps) => {
-  const { scoreHistoryId, scoreType, scoreName, scheduleName, memo, accumulatedScore, score } =
-    scoreHistory;
+  const {
+    scoreHistoryId,
+    scoreType,
+    scoreName,
+    scheduleName,
+    memo,
+    accumulatedScore,
+    score,
+    isCanceled,
+  } = scoreHistory;
 
   const [isLoading, setIsLoading] = useState(false);
   const { handleAddToast } = useToast();
@@ -98,31 +106,47 @@ const ActivityScoreModalDialog = ({
       heading="활동점수 상세"
       handleCloseModal={handleCloseModal}
       footer={{
-        confirmButton: { label: '점수 취소하기', onClick: handleCancelActivityScore, isLoading },
+        confirmButton: {
+          label: '점수 취소하기',
+          onClick: handleCancelActivityScore,
+          isLoading,
+          disabled: isCanceled,
+        },
         position: 'center',
       }}
     >
       <Styled.ModalInner>
         <Styled.DetailCard>
           <Icon type={scoreType as ValueOf<typeof ScoreType>} size={64} />
-          <Styled.ActivityTitle>{scoreName}</Styled.ActivityTitle>
+          <Styled.ActivityTitle>
+            {scoreName}
+            {isCanceled && <Styled.CancelLabel>취소</Styled.CancelLabel>}
+          </Styled.ActivityTitle>
           <Styled.Divider />
           <Styled.Content>
             <Styled.Row>
               <Styled.RowLabel>세미나 정보</Styled.RowLabel>
-              <Styled.RowContent>{parsePlaceholderWhenEmpty(scheduleName)}</Styled.RowContent>
+              <Styled.RowContent isCanceled={isCanceled}>
+                {parsePlaceholderWhenEmpty(scheduleName)}
+              </Styled.RowContent>
             </Styled.Row>
             <Styled.Row>
               <Styled.RowLabel>등록일시</Styled.RowLabel>
-              <Styled.RowContent>2022년 3월 2일 오후 2시 30분</Styled.RowContent>
+              <Styled.RowContent isCanceled={isCanceled}>
+                2022년 3월 2일 오후 2시 30분
+              </Styled.RowContent>
             </Styled.Row>
             <Styled.Row>
               <Styled.RowLabel>메모</Styled.RowLabel>
-              <Styled.RowContent>{parsePlaceholderWhenEmpty(memo)}</Styled.RowContent>
+              <Styled.RowContent isCanceled={isCanceled}>
+                {parsePlaceholderWhenEmpty(memo)}
+              </Styled.RowContent>
             </Styled.Row>
             <Styled.Row>
               <Styled.RowLabel>점수</Styled.RowLabel>
-              <Styled.ScoreRangeType type={RangeType.Minus}>{score}</Styled.ScoreRangeType>
+              <Styled.ScoreRangeType isCanceled={isCanceled} type={RangeType.Minus}>
+                {score}
+              </Styled.ScoreRangeType>
             </Styled.Row>
             <Styled.Row>
               <Styled.RowLabel>총 활동점수</Styled.RowLabel>
