@@ -1,14 +1,21 @@
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
 import * as Styled from './ActivityScoreModalDialog.styled';
-import { Icon } from '..';
+import { Icon } from '@/components/ActivityScore';
 
-import { RangeType, ScoreType, ScoreTitle } from '../constants';
+import { RangeType, ScoreType, ScoreTitle } from '@/components/ActivityScore/constants';
+import { $modalByStorage, ModalKey } from '@/store';
 
-interface ActivityScoreModalDialogProps {
-  onClose: () => void;
-}
+export interface ActivityScoreModalDialogProps {}
 
-const ActivityScoreModalDialog = ({ onClose }: ActivityScoreModalDialogProps) => {
+const ActivityScoreModalDialog = () => {
+  const handleActivityScoreModal = useSetRecoilState(
+    $modalByStorage(ModalKey.activityScoreModalDialog),
+  );
+
+  const handleCloseModal = () =>
+    handleActivityScoreModal({ key: ModalKey.activityScoreModalDialog, isOpen: false });
+
   const handleCancel = () => {
     // TODO(@mango906): 취소하기 로직 작성 필요
   };
@@ -16,7 +23,7 @@ const ActivityScoreModalDialog = ({ onClose }: ActivityScoreModalDialogProps) =>
   return (
     <Styled.ActivityScoreModalWrapper
       heading="활동점수 상세"
-      handleCloseModal={onClose}
+      handleCloseModal={handleCloseModal}
       footer={{
         confirmButton: { label: '점수 취소하기', onClick: handleCancel },
         position: 'center',

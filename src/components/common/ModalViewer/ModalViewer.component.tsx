@@ -9,6 +9,7 @@ import {
   SmsSendDetailListModalDialog,
   SmsSendModalDialog,
   ApplyActivityScoreModalDialog,
+  ActivityScoreModalDialog,
 } from '@/components';
 import { AlertModalDialogProps } from '../AlertModalDialog/AlertModalDialog.component';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
@@ -16,6 +17,7 @@ import { SmsSendModalDialogProps } from '../SmsSendModalDialog/SmsSendModalDialo
 import { SmsSendDetailListModalDialogProps } from '../../modal/SmsSendDetailListModalDialog/SmsSendDetailListModalDialog.component';
 import { SmsSendDetailInfoModalDialogProps } from '@/components/modal/SmsSendDetailInfoModalDialog/SmsSendDetailInfoModalDialog.component';
 import { ApplyActivityScoreModalDialogProps } from '@/components/modal/ApplyActivityScoreModalDialog/ApplyActivityScoreModalDialog.component';
+import { ActivityScoreModalDialogProps } from '@/components/modal/ActivityScoreModalDialog/ActivityScoreModalDialog.component';
 
 const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
   const modal = useRecoilValue($modalByStorage(modalKey));
@@ -57,6 +59,15 @@ const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
       <ApplyActivityScoreModalDialog
         key={modalKey}
         {...(modal.props as ApplyActivityScoreModalDialogProps)}
+      />
+    );
+  }
+
+  if (modalKey === ModalKey.activityScoreModalDialog && modal.isOpen && modal.props) {
+    return (
+      <ActivityScoreModalDialog
+        key={modalKey}
+        {...(modal.props as ActivityScoreModalDialogProps)}
       />
     );
   }
