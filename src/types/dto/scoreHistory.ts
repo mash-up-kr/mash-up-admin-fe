@@ -8,3 +8,8 @@ export interface ScoreHistoryAddRequest {
   memo: string;
   scoreType: ValueOf<typeof ScoreType>;
 }
+
+export interface ScoreHistoryCancelRequest {
+  memo: string;
+  scoreHistoryId: number;
+}
