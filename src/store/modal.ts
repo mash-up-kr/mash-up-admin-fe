@@ -7,7 +7,7 @@ import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultMod
 import { SmsSendModalDialogProps } from '@/components/common/SmsSendModalDialog/SmsSendModalDialog.component';
 import { SmsSendDetailInfoModalDialogProps } from '@/components/modal/SmsSendDetailInfoModalDialog/SmsSendDetailInfoModalDialog.component';
 import { SmsSendDetailListModalDialogProps } from '@/components/modal/SmsSendDetailListModalDialog/SmsSendDetailListModalDialog.component';
-import { ApplyActivityScoreModalDialogProps } from '@/components/modal/applyActivityScoreModalDialog/applyActivityScoreModalDialog.component';
+import { ApplyActivityScoreModalDialogProps } from '@/components/modal/ApplyActivityScoreModalDialog/ApplyActivityScoreModalDialog.component';
 
 export const ModalKey = {
   alertModalDialog: 'alertModalDialog',
