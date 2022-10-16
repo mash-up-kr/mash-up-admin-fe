@@ -6,9 +6,9 @@ import * as Styled from './ActivityScoreDetail.styled';
 import { useHistory } from '@/hooks';
 import { PATH } from '@/constants';
 import {
+  getScoreRangeType,
   Icon,
   PersonalInfoCard,
-  RangeType,
   ScoreCard,
   ScoreType,
 } from '@/components/ActivityScore';
@@ -20,18 +20,6 @@ import Plus from '@/assets/svg/plus-16.svg';
 import { $memberDetail } from '@/store/member';
 import { $modalByStorage, ModalKey } from '@/store';
 import { formatDate, parseUrlParam } from '@/utils';
-
-const getScoreRangeType = (score: number) => {
-  if (score < 0) {
-    return RangeType.Minus;
-  }
-
-  if (score > 0) {
-    return RangeType.Plus;
-  }
-
-  return RangeType.Normal;
-};
 
 const ActivityScoreDetail = () => {
   const { handleGoBack } = useHistory();
@@ -157,7 +145,7 @@ const ActivityScoreDetail = () => {
       },
     },
     {
-      title: '총 활동 점수',
+      title: '총 점수',
       widthRatio: '12%',
       accessor: 'accumulatedScore',
     },

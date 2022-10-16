@@ -1,27 +1,7 @@
-import { css, Theme } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { RangeType } from '@/components/ActivityScore';
+import { getScoreTextColor, RangeType } from '@/components/ActivityScore';
 import { ValueOf } from '@/types';
-
-const getScoreTextColor = (type: ValueOf<typeof RangeType>, theme: Theme) => {
-  let textColor = '';
-
-  if (type === RangeType.Normal) {
-    textColor = theme.colors.gray80;
-  }
-
-  if (type === RangeType.Minus) {
-    textColor = theme.colors.red70;
-  }
-
-  if (type === RangeType.Plus) {
-    textColor = theme.colors.blue70;
-  }
-
-  return css`
-    color: ${textColor};
-  `;
-};
 
 export const ActivityScoreDetailPage = styled.div`
   padding: 2rem 0;
