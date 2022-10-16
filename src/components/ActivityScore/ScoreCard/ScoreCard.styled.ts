@@ -1,5 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { ValueOf } from '@/types';
+import { RangeType } from '../constants';
+import { getScoreTextColor } from '../utils';
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
@@ -22,10 +25,9 @@ export const Headline = styled.h4`
   `};
 `;
 
-export const Score = styled.span`
-  ${({ theme }) => css`
+export const Score = styled.span<{ type: ValueOf<typeof RangeType> }>`
+  ${({ theme, type }) => css`
     ${theme.fonts.bold46};
-
-    color: ${theme.colors.green70};
+    ${getScoreTextColor(type, theme)}
   `}
 `;
