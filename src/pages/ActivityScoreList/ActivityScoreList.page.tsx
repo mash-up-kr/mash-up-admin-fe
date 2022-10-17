@@ -10,6 +10,7 @@ import { usePagination } from '@/hooks';
 import { $generations } from '@/store';
 import { MemberRequest, MemberResponse } from '@/types';
 import { $members } from '@/store/member';
+import { parseUrlParam } from '@/utils';
 
 const ActivityScoreList = () => {
   const [searchParams] = useSearchParams();
@@ -18,8 +19,10 @@ const ActivityScoreList = () => {
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
   const generationNumber =
-    searchParams.get('generation') || generations?.[0]?.generationNumber.toString();
+    parseUrlParam(searchParams.get('generation')) || generations?.[0]?.generationNumber;
+
   const team = searchParams.get('team') || '';
+  const searchWord = searchParams.get('searchWord') || '';
 
   const [sortTypes, setSortTypes] = useState<SortType<MemberResponse>[]>([
     { accessor: 'name', type: SORT_TYPE.DEFAULT },
@@ -51,11 +54,12 @@ const ActivityScoreList = () => {
     () => ({
       page: parseInt(page, 10) - 1,
       size: parseInt(size, 10),
-      generationNumber: parseInt(generationNumber, 10),
+      generationNumber,
       sort: sortParam,
       platform: team,
+      searchName: searchWord,
     }),
-    [generationNumber, page, size, sortParam, team],
+    [generationNumber, page, size, sortParam, team, searchWord],
   );
 
   const [{ contents }] = useRecoilStateLoadable($members(membersParams));
