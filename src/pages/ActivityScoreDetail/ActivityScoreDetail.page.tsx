@@ -3,13 +3,12 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import { BackButton, Button, Table } from '@/components';
 import * as Styled from './ActivityScoreDetail.styled';
-import { useHistory, useToggleState } from '@/hooks';
+import { useHistory } from '@/hooks';
 import { PATH } from '@/constants';
 import {
-  ActivityScoreModalDialog,
+  getScoreRangeType,
   Icon,
   PersonalInfoCard,
-  RangeType,
   ScoreCard,
   ScoreType,
 } from '@/components/ActivityScore';
@@ -22,25 +21,16 @@ import { $memberDetail } from '@/store/member';
 import { $modalByStorage, ModalKey } from '@/store';
 import { formatDate, parseUrlParam } from '@/utils';
 
-const getScoreRangeType = (score: number) => {
-  if (score < 0) {
-    return RangeType.Minus;
-  }
-
-  if (score > 0) {
-    return RangeType.Plus;
-  }
-
-  return RangeType.Normal;
-};
-
 const ActivityScoreDetail = () => {
   const { handleGoBack } = useHistory();
-  const [isActivityScoreModalOpened, toggleActivityScoreModalOpened] = useToggleState(false);
   const { generationNumber: generationNumberParam, memberId: memberIdParam } = useParams();
 
   const handleApplyActivityScoreModal = useSetRecoilState(
     $modalByStorage(ModalKey.applyActivityScoreModalDialog),
+  );
+
+  const handleActivityScoreModal = useSetRecoilState(
+    $modalByStorage(ModalKey.activityScoreModalDialog),
   );
 
   const columns: TableColumn<ScoreHistory>[] = [
@@ -57,13 +47,58 @@ const ActivityScoreDetail = () => {
     {
       title: '제목',
       widthRatio: '23%',
-      accessor: ['scoreName', 'isCanceled'],
+      accessor: [
+        'accumulatedScore',
+        'date',
+        'isCanceled',
+        'memo',
+        'scheduleName',
+        'score',
+        'scoreHistoryId',
+        'scoreName',
+        'scoreType',
+      ],
       renderCustomCell: (cellValue) => {
-        const [scoreName, isCanceled] = cellValue as [string, boolean];
+        const [
+          accumulatedScore,
+          date,
+          isCanceled,
+          memo,
+          scheduleName,
+          score,
+          scoreHistoryId,
+          scoreName,
+          scoreType,
+        ] = cellValue as [number, string, boolean, string, string, number, number, string, string];
+
+        const scoreHistory = {
+          accumulatedScore,
+          date,
+          isCanceled,
+          memo,
+          scheduleName,
+          score,
+          scoreHistoryId,
+          scoreName,
+          scoreType,
+        };
 
         return (
           <>
-            <Styled.ActivityTitle isCanceled={isCanceled} onClick={toggleActivityScoreModalOpened}>
+            <Styled.ActivityTitle
+              isCanceled={isCanceled}
+              onClick={() =>
+                handleActivityScoreModal({
+                  key: ModalKey.activityScoreModalDialog,
+                  isOpen: true,
+                  props: {
+                    scoreHistory,
+                    generationNumber: parseUrlParam(generationNumberParam),
+                    memberId: parseUrlParam(memberIdParam),
+                  },
+                })
+              }
+            >
               {scoreName}
             </Styled.ActivityTitle>
             {isCanceled && <Styled.CancelLabel>취소</Styled.CancelLabel>}
@@ -110,7 +145,7 @@ const ActivityScoreDetail = () => {
       },
     },
     {
-      title: '총 활동 점수',
+      title: '총 점수',
       widthRatio: '12%',
       accessor: 'accumulatedScore',
     },
@@ -125,50 +160,45 @@ const ActivityScoreDetail = () => {
     );
 
   return (
-    <>
-      <Styled.ActivityScoreDetailPage>
-        <BackButton label="목록 돌아가기" onClick={() => handleGoBack(PATH.ACTIVITY_SCORE)} />
-        <Styled.Headline>활동점수 상세</Styled.Headline>
-        <Styled.Row>
-          <PersonalInfoCard
-            name={name}
-            platform={platform}
-            identification={identification}
-            generationNumber={generationNumber}
+    <Styled.ActivityScoreDetailPage>
+      <BackButton label="목록 돌아가기" onClick={() => handleGoBack(PATH.ACTIVITY_SCORE)} />
+      <Styled.Headline>활동점수 상세</Styled.Headline>
+      <Styled.Row>
+        <PersonalInfoCard
+          name={name}
+          platform={platform}
+          identification={identification}
+          generationNumber={generationNumber}
+        />
+        <ScoreCard totalScore={totalScore} />
+      </Styled.Row>
+      <Styled.Content>
+        <Styled.ContentHeader>
+          <h3>활동점수 히스토리</h3>
+          <Button
+            shape={ButtonShape.defaultLine}
+            label="점수 추가"
+            Icon={Plus}
+            onClick={() => {
+              handleApplyActivityScoreModal({
+                key: ModalKey.applyActivityScoreModalDialog,
+                isOpen: true,
+                props: {
+                  generationNumber: parseUrlParam(generationNumberParam),
+                  memberId: parseUrlParam(memberIdParam),
+                },
+              });
+            }}
           />
-          <ScoreCard totalScore={totalScore} />
-        </Styled.Row>
-        <Styled.Content>
-          <Styled.ContentHeader>
-            <h3>활동점수 히스토리</h3>
-            <Button
-              shape={ButtonShape.defaultLine}
-              label="점수 추가"
-              Icon={Plus}
-              onClick={() => {
-                handleApplyActivityScoreModal({
-                  key: ModalKey.applyActivityScoreModalDialog,
-                  isOpen: true,
-                  props: {
-                    generationNumber: parseUrlParam(generationNumberParam),
-                    memberId: parseUrlParam(memberIdParam),
-                  },
-                });
-              }}
-            />
-          </Styled.ContentHeader>
-          <Table
-            prefix="score-history"
-            columns={columns}
-            rows={scoreHistoryResponses}
-            supportBar={{}}
-          />
-        </Styled.Content>
-      </Styled.ActivityScoreDetailPage>
-      {isActivityScoreModalOpened && (
-        <ActivityScoreModalDialog onClose={toggleActivityScoreModalOpened} />
-      )}
-    </>
+        </Styled.ContentHeader>
+        <Table
+          prefix="score-history"
+          columns={columns}
+          rows={scoreHistoryResponses}
+          supportBar={{}}
+        />
+      </Styled.Content>
+    </Styled.ActivityScoreDetailPage>
   );
 };
 

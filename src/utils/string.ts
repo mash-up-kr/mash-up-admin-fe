@@ -10,3 +10,11 @@ export const sortString = (type: ValueOf<typeof SORT_TYPE>, one: string, another
 
   return compared ? 1 : -1;
 };
+
+export const parsePlaceholderWhenEmpty = (value: string | null | undefined, parsingText = '-') => {
+  if (!value) {
+    return parsingText;
+  }
+
+  return value;
+};

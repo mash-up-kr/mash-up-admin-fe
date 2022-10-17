@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ModalWrapper } from '@/components';
 import { KeyOf } from '@/types';
-import { RangeType } from '..';
+import { RangeType } from '@/components/ActivityScore';
 
 export const ActivityScoreModalWrapper = styled(ModalWrapper)`
   width: 50rem;
@@ -28,6 +28,9 @@ export const ActivityTitle = styled.span`
   ${({ theme }) => css`
     ${theme.fonts.bold18};
 
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
     margin-top: 1.6rem;
   `}
 `;
@@ -65,17 +68,29 @@ export const RowLabel = styled.span`
   `}
 `;
 
-export const RowContent = styled.span`
-  ${({ theme }) => css`
+export const RowContent = styled.span<{ isCanceled?: boolean }>`
+  ${({ theme, isCanceled }) => css`
     ${theme.fonts.medium14};
 
     flex: 1;
     color: ${theme.colors.gray80};
+    text-decoration: ${isCanceled ? 'line-through' : ''};
   `}
 `;
 
 export const ScoreRangeType = styled(RowContent)<{ type: KeyOf<typeof RangeType> }>`
   ${({ theme, type }) => css`
     color: ${type === RangeType.Minus ? theme.colors.red70 : theme.colors.blue70};
+  `}
+`;
+
+export const CancelLabel = styled.span`
+  ${({ theme }) => css`
+    ${theme.fonts.medium13};
+
+    padding: 0.2rem 1rem;
+    color: ${theme.colors.red70};
+    background-color: ${theme.colors.red20};
+    border-radius: 10rem;
   `}
 `;
