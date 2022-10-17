@@ -1,6 +1,6 @@
-export const parseUrlParam = (param: string | undefined) => {
-  if (param === undefined) {
-    return -1;
+export const parseUrlParam = (param: string | null | undefined) => {
+  if (param === null || param === undefined) {
+    return 0;
   }
 
   return parseInt(param, 10);
