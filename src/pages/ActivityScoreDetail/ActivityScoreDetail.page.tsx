@@ -19,7 +19,7 @@ import { ButtonShape } from '@/components/common/Button/Button.component';
 import Plus from '@/assets/svg/plus-16.svg';
 import { $memberDetail } from '@/store/member';
 import { $modalByStorage, ModalKey } from '@/store';
-import { formatDate, parseUrlParam } from '@/utils';
+import { formatDate, parsePlaceholderWhenEmpty, parseUrlParam } from '@/utils';
 
 const ActivityScoreDetail = () => {
   const { handleGoBack } = useHistory();
@@ -36,7 +36,7 @@ const ActivityScoreDetail = () => {
   const columns: TableColumn<ScoreHistory>[] = [
     {
       title: '-',
-      widthRatio: '7%',
+      widthRatio: '6%',
       accessor: 'scoreType',
       renderCustomCell: (cellValue) => (
         <Styled.IconWrapper>
@@ -46,7 +46,7 @@ const ActivityScoreDetail = () => {
     },
     {
       title: '제목',
-      widthRatio: '23%',
+      widthRatio: '20%',
       accessor: [
         'accumulatedScore',
         'date',
@@ -108,17 +108,21 @@ const ActivityScoreDetail = () => {
     },
     {
       title: '세미나 정보',
-      widthRatio: '23%',
+      widthRatio: '20%',
       accessor: ['scheduleName', 'isCanceled'],
       renderCustomCell: (cellValue) => {
         const [scheduleName, isCanceled] = cellValue as [string, boolean];
 
-        return <Styled.Column isCanceled={isCanceled}>{scheduleName}</Styled.Column>;
+        return (
+          <Styled.Column isCanceled={isCanceled}>
+            {parsePlaceholderWhenEmpty(scheduleName)}
+          </Styled.Column>
+        );
       },
     },
     {
       title: '등록 일시',
-      widthRatio: '23%',
+      widthRatio: '20%',
       accessor: ['date', 'isCanceled'],
       renderCustomCell: (cellValue) => {
         const [date, isCanceled] = cellValue as [string, boolean];
@@ -131,8 +135,20 @@ const ActivityScoreDetail = () => {
       },
     },
     {
+      title: '메모',
+      widthRatio: '20%',
+      accessor: ['memo', 'isCanceled'],
+      renderCustomCell: (cellValue) => {
+        const [memo, isCanceled] = cellValue as [string, boolean];
+
+        return (
+          <Styled.Column isCanceled={isCanceled}>{parsePlaceholderWhenEmpty(memo)}</Styled.Column>
+        );
+      },
+    },
+    {
       title: '점수',
-      widthRatio: '12%',
+      widthRatio: '7%',
       accessor: ['score', 'isCanceled'],
       renderCustomCell: (cellValue) => {
         const [score, isCanceled] = cellValue as [number, boolean];
@@ -146,7 +162,7 @@ const ActivityScoreDetail = () => {
     },
     {
       title: '총 점수',
-      widthRatio: '12%',
+      widthRatio: '7%',
       accessor: 'accumulatedScore',
     },
   ];
