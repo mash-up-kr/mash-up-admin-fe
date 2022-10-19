@@ -20,7 +20,7 @@ const TeamNavigationTabs = () => {
   return (
     <Styled.Tabs>
       {TEAMS.map((team, index) => {
-        const teamParam = team === 'All' ? '' : team.toLocaleLowerCase();
+        const teamParam = team === 'All' ? '' : team.toUpperCase();
         const active =
           team === 'All' ? !searchParams.has('team') : searchParams.get('team') === teamParam;
 
