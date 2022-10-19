@@ -69,6 +69,7 @@ const ActivityScoreList = () => {
 
   const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
     totalCount,
+    pagingSize: 10,
   });
 
   const columns: TableColumn<MemberResponse>[] = [
