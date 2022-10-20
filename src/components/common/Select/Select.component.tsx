@@ -70,6 +70,12 @@ const Select = (
   };
 
   useEffect(() => {
+    if (defaultValue) {
+      setSelectedOption(defaultValue);
+    }
+  }, [defaultValue]);
+
+  useEffect(() => {
     if (currentValue) {
       setSelectedOption(currentValue);
     }
