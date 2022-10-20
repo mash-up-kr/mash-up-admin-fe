@@ -378,6 +378,7 @@ const Table = <T extends object>({
                             </Styled.TableCell>
                           );
                         }
+
                         return (
                           <Styled.TableCell key={`cell-${columnIndex}`}>
                             {renderCustomCell

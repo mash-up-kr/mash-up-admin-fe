@@ -26,9 +26,9 @@ export const StickyContainer = styled.div`
   `}
 `;
 
-export const TitleLink = styled(Link)`
+export const FormTitleWrapper = styled.div`
   ${({ theme }) => css`
-    color: ${theme.colors.purple80};
+    position: relative;
 
     &:hover {
       color: ${theme.colors.purple90};
@@ -36,5 +36,32 @@ export const TitleLink = styled(Link)`
       text-decoration: underline;
       text-underline-position: under;
     }
-  `}
+  `};
+`;
+
+export const FormTitle = styled.div`
+  ${({ theme }) => css`
+    width: 100%;
+    height: 100%;
+    padding: 0 1rem;
+    overflow: hidden;
+    color: ${theme.colors.purple80};
+    line-height: 5.2rem;
+    white-space: nowrap;
+    text-align: center;
+    text-overflow: ellipsis;
+  `};
+`;
+
+export const TitleLink = styled(Link)`
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+`;
+
+export const TitleButton = styled.button`
+  position: absolute;
+  background-color: transparent;
+  cursor: pointer;
+  inset: 0;
 `;
