@@ -6,7 +6,7 @@ import * as Styled from './ActivityScoreList.styled';
 import { SearchOptionBarFilter } from '@/components/common/SearchOptionBar/SearchOptionBar.component';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { PATH, SORT_TYPE } from '@/constants';
-import { usePagination } from '@/hooks';
+import { useMyTeam, usePagination } from '@/hooks';
 import { $generations } from '@/store';
 import { MemberRequest, MemberResponse } from '@/types';
 import { $members } from '@/store/member';
@@ -15,6 +15,7 @@ import { parseUrlParam } from '@/utils';
 const ActivityScoreList = () => {
   const [searchParams] = useSearchParams();
   const generations = useRecoilValue($generations);
+  const { isMyTeam } = useMyTeam();
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
@@ -78,13 +79,18 @@ const ActivityScoreList = () => {
       widthRatio: '25%',
       accessor: 'name',
       idAccessor: 'memberId',
-      renderCustomCell: (cellValue, id) => (
-        <Styled.TitleLink
-          to={`${PATH.ACTIVITY_SCORE}/${generationNumber}/${id}`}
-          state={{ from: `${pathname}${search}` }}
-        >
-          {cellValue as string}
-        </Styled.TitleLink>
+      renderCustomCell: (cellValue, id, handleClickLink) => (
+        <Styled.FormTitleWrapper title={cellValue as string}>
+          <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
+          {handleClickLink ? (
+            <Styled.TitleButton type="button" onClick={handleClickLink} />
+          ) : (
+            <Styled.TitleLink
+              to={`${PATH.ACTIVITY_SCORE}/${generationNumber}/${id}`}
+              state={{ from: `${pathname}${search}` }}
+            />
+          )}
+        </Styled.FormTitleWrapper>
       ),
     },
     {
@@ -134,6 +140,7 @@ const ActivityScoreList = () => {
             handleChangePage={handleChangePage}
           />
         }
+        isMyTeam={isMyTeam}
       />
       <BottomCTA
         boundaries={{
