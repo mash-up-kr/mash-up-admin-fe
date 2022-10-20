@@ -104,8 +104,10 @@ const ApplyActivityScoreModalDialog = ({
     $modalByStorage(ModalKey.applyActivityScoreModalDialog),
   );
 
-  const methods = useForm<FormValues>();
-  const { handleSubmit, register, control } = methods;
+  const methods = useForm<FormValues>({ mode: 'onChange' });
+  const { handleSubmit, register, control, formState } = methods;
+
+  const isSubmittable = formState.dirtyFields.date && formState.dirtyFields.scoreType;
 
   const handleCloseModal = () =>
     handleApplyActivityScoreModal({ key: ModalKey.applyActivityScoreModalDialog, isOpen: false });
@@ -157,6 +159,7 @@ const ApplyActivityScoreModalDialog = ({
           label: '적용',
           onClick: handleSubmit(handleAddScore),
           isLoading,
+          disabled: !isSubmittable,
         },
         cancelButton: { label: '취소', onClick: handleCloseModal },
       }}
