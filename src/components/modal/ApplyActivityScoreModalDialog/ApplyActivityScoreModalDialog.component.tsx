@@ -170,27 +170,29 @@ const ApplyActivityScoreModalDialog = ({
             활동점수 리스트
             <Styled.RequiredDot />
           </Styled.ScoreSectionLabel>
-          {scoreTypes.map((scoreType) => {
-            return (
-              <React.Fragment key={scoreType.label}>
-                <Styled.Label>{scoreType.label}</Styled.Label>
-                <Styled.RadioButtonGroup>
-                  {scoreType.items.map((scoreTypeItem) => (
-                    <Styled.RadioButtonGroupItem key={scoreTypeItem.label}>
-                      <RadioButtonField
-                        {...register('scoreType', { required: true })}
-                        label={scoreTypeItem.label}
-                        value={scoreTypeItem.value}
-                      />
-                      <Styled.ScoreText rangeType={scoreTypeItem.rangeType}>
-                        {getRangeText(scoreTypeItem.range, scoreTypeItem.rangeType)}
-                      </Styled.ScoreText>
-                    </Styled.RadioButtonGroupItem>
-                  ))}
-                </Styled.RadioButtonGroup>
-              </React.Fragment>
-            );
-          })}
+          <Styled.ScoreTypeList>
+            {scoreTypes.map((scoreType) => {
+              return (
+                <li key={scoreType.label}>
+                  <Styled.Label>{scoreType.label}</Styled.Label>
+                  <Styled.RadioButtonGroup>
+                    {scoreType.items.map((scoreTypeItem) => (
+                      <Styled.RadioButtonGroupItem key={scoreTypeItem.label}>
+                        <RadioButtonField
+                          {...register('scoreType', { required: true })}
+                          label={scoreTypeItem.label}
+                          value={scoreTypeItem.value}
+                        />
+                        <Styled.ScoreText rangeType={scoreTypeItem.rangeType}>
+                          {getRangeText(scoreTypeItem.range, scoreTypeItem.rangeType)}
+                        </Styled.ScoreText>
+                      </Styled.RadioButtonGroupItem>
+                    ))}
+                  </Styled.RadioButtonGroup>
+                </li>
+              );
+            })}
+          </Styled.ScoreTypeList>
         </Styled.ScoreSection>
         <Styled.Divider />
         <Styled.InputSection>

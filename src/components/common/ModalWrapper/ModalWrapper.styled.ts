@@ -69,6 +69,7 @@ interface StyledModalContentProps {
 
 export const ModalContent = styled.div<StyledModalContentProps>`
   ${({ isContentScroll }) => css`
+    display: flex;
     width: 100%;
     height: 100%;
 
