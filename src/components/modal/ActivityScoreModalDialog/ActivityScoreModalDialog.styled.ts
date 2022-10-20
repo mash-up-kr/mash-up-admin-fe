@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ModalWrapper } from '@/components';
 import { KeyOf } from '@/types';
-import { RangeType } from '@/components/ActivityScore';
+import { getScoreTextColor, RangeType } from '@/components/ActivityScore';
 
 export const ActivityScoreModalWrapper = styled(ModalWrapper)`
   width: 50rem;
@@ -80,7 +80,7 @@ export const RowContent = styled.span<{ isCanceled?: boolean }>`
 
 export const ScoreRangeType = styled(RowContent)<{ type: KeyOf<typeof RangeType> }>`
   ${({ theme, type }) => css`
-    color: ${type === RangeType.Minus ? theme.colors.red70 : theme.colors.blue70};
+    ${getScoreTextColor(type, theme)};
   `}
 `;
 
