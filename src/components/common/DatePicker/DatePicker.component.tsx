@@ -84,9 +84,15 @@ export interface DatePickerProps {
   className?: string;
   handleSelectDate: (clickedDate: Dayjs) => void;
   selectedDate: Dayjs | null;
+  disablePast?: boolean;
 }
 
-const DatePicker = ({ className, handleSelectDate, selectedDate }: DatePickerProps) => {
+const DatePicker = ({
+  className,
+  handleSelectDate,
+  selectedDate,
+  disablePast = false,
+}: DatePickerProps) => {
   const [date, setDate] = useState<Dayjs>(selectedDate ?? dayjs());
 
   const rows = handleGenerateDateRows(date);
@@ -123,7 +129,7 @@ const DatePicker = ({ className, handleSelectDate, selectedDate }: DatePickerPro
                   date={d}
                   current={date}
                   selectedDate={selectedDate}
-                  disablePast
+                  disablePast={disablePast}
                   onClick={() => handleSelectDate(d.clone())}
                 />
               ))}
