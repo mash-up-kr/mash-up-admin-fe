@@ -143,7 +143,9 @@ const ActivityScoreDetail = () => {
         const [memo, isCanceled] = cellValue as [string, boolean];
 
         return (
-          <Styled.Column isCanceled={isCanceled}>{parsePlaceholderWhenEmpty(memo)}</Styled.Column>
+          <Styled.MemoColumn isCanceled={isCanceled}>
+            {parsePlaceholderWhenEmpty(memo)}
+          </Styled.MemoColumn>
         );
       },
     },
@@ -155,9 +157,9 @@ const ActivityScoreDetail = () => {
         const [score, isCanceled] = cellValue as [number, boolean];
 
         return (
-          <Styled.ScoreText type={getScoreRangeType(score)} isCanceled={isCanceled}>
+          <Styled.ScoreColumn type={getScoreRangeType(score)} isCanceled={isCanceled}>
             {score}
-          </Styled.ScoreText>
+          </Styled.ScoreColumn>
         );
       },
     },
