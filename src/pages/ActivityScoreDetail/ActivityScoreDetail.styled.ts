@@ -65,10 +65,6 @@ export const IconWrapper = styled.div`
 `;
 
 export const Column = styled.span<{ isCanceled: boolean }>`
-  font-weight: transparent;
-  font-size: transparent;
-  line-height: transparent;
-
   ${({ isCanceled }) => css`
     text-decoration: ${isCanceled ? 'line-through' : ''};
   `}
@@ -92,10 +88,18 @@ export const ActivityTitle = styled(Column)`
   `};
 `;
 
-export const ScoreText = styled(Column)<{ type: ValueOf<typeof RangeType> }>`
+export const ScoreColumn = styled(Column)<{ type: ValueOf<typeof RangeType> }>`
   ${({ theme, type }) => css`
     ${getScoreTextColor(type, theme)}
   `}
+`;
+
+export const MemoColumn = styled(Column)`
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const CancelLabel = styled.span`
