@@ -47,6 +47,7 @@ const ActivityScoreDetail = () => {
     {
       title: '제목',
       widthRatio: '20%',
+      textAlign: 'start',
       accessor: [
         'accumulatedScore',
         'date',
