@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useRecoilCallback, useSetRecoilState } from 'recoil';
 import * as Styled from './ActivityScoreModalDialog.styled';
-import { Icon } from '@/components/ActivityScore';
+import { getScoreRangeType, Icon } from '@/components/ActivityScore';
 
-import { RangeType, ScoreType } from '@/components/ActivityScore/constants';
+import { ScoreType } from '@/components/ActivityScore/constants';
 import { $modalByStorage, ModalKey } from '@/store';
 import { ScoreHistory, ValueOf } from '@/types';
 import { formatDate, parsePlaceholderWhenEmpty, request } from '@/utils';
@@ -145,7 +145,7 @@ const ActivityScoreModalDialog = ({
             </Styled.Row>
             <Styled.Row>
               <Styled.RowLabel>점수</Styled.RowLabel>
-              <Styled.ScoreRangeType isCanceled={isCanceled} type={RangeType.Minus}>
+              <Styled.ScoreRangeType isCanceled={isCanceled} type={getScoreRangeType(score)}>
                 {score}
               </Styled.ScoreRangeType>
             </Styled.Row>

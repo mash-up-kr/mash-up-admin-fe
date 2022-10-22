@@ -1,8 +1,27 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ValueOf } from '@/types';
 import { RangeType } from '../constants';
-import { getScoreTextColor } from '../utils';
+
+const getScoreTextColor = (type: ValueOf<typeof RangeType>, theme: Theme) => {
+  let textColor = '';
+
+  if (type === RangeType.Normal) {
+    textColor = theme.colors.gray50;
+  }
+
+  if (type === RangeType.Minus) {
+    textColor = theme.colors.red70;
+  }
+
+  if (type === RangeType.Plus) {
+    textColor = theme.colors.blue70;
+  }
+
+  return css`
+    color: ${textColor};
+  `;
+};
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`

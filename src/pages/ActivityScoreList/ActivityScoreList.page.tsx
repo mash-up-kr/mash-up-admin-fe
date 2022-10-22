@@ -6,20 +6,24 @@ import * as Styled from './ActivityScoreList.styled';
 import { SearchOptionBarFilter } from '@/components/common/SearchOptionBar/SearchOptionBar.component';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { PATH, SORT_TYPE } from '@/constants';
-import { usePagination } from '@/hooks';
+import { useMyTeam, usePagination } from '@/hooks';
 import { $generations } from '@/store';
 import { MemberRequest, MemberResponse } from '@/types';
 import { $members } from '@/store/member';
+import { parseUrlParam } from '@/utils';
 
 const ActivityScoreList = () => {
   const [searchParams] = useSearchParams();
   const generations = useRecoilValue($generations);
+  const { isMyTeam } = useMyTeam();
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
   const generationNumber =
-    searchParams.get('generation') || generations?.[0]?.generationNumber.toString();
+    parseUrlParam(searchParams.get('generation')) || generations?.[0]?.generationNumber;
+
   const team = searchParams.get('team') || '';
+  const searchWord = searchParams.get('searchWord') || '';
 
   const [sortTypes, setSortTypes] = useState<SortType<MemberResponse>[]>([
     { accessor: 'name', type: SORT_TYPE.DEFAULT },
@@ -51,11 +55,12 @@ const ActivityScoreList = () => {
     () => ({
       page: parseInt(page, 10) - 1,
       size: parseInt(size, 10),
-      generationNumber: parseInt(generationNumber, 10),
+      generationNumber,
       sort: sortParam,
       platform: team,
+      searchName: searchWord,
     }),
-    [generationNumber, page, size, sortParam, team],
+    [generationNumber, page, size, sortParam, team, searchWord],
   );
 
   const [{ contents }] = useRecoilStateLoadable($members(membersParams));
@@ -65,6 +70,7 @@ const ActivityScoreList = () => {
 
   const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
     totalCount,
+    pagingSize: 10,
   });
 
   const columns: TableColumn<MemberResponse>[] = [
@@ -73,13 +79,18 @@ const ActivityScoreList = () => {
       widthRatio: '25%',
       accessor: 'name',
       idAccessor: 'memberId',
-      renderCustomCell: (cellValue, id) => (
-        <Styled.TitleLink
-          to={`${PATH.ACTIVITY_SCORE}/${generationNumber}/${id}`}
-          state={{ from: `${pathname}${search}` }}
-        >
-          {cellValue as string}
-        </Styled.TitleLink>
+      renderCustomCell: (cellValue, id, handleClickLink) => (
+        <Styled.FormTitleWrapper title={cellValue as string}>
+          <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
+          {handleClickLink ? (
+            <Styled.TitleButton type="button" onClick={handleClickLink} />
+          ) : (
+            <Styled.TitleLink
+              to={`${PATH.ACTIVITY_SCORE}/${generationNumber}/${id}`}
+              state={{ from: `${pathname}${search}` }}
+            />
+          )}
+        </Styled.FormTitleWrapper>
       ),
     },
     {
@@ -129,6 +140,7 @@ const ActivityScoreList = () => {
             handleChangePage={handleChangePage}
           />
         }
+        isMyTeam={isMyTeam}
       />
       <BottomCTA
         boundaries={{

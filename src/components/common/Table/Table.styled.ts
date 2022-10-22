@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { SORT_TYPE } from '@/constants';
 import { ValueOf } from '@/types';
+import { TextAlign } from './Table.component';
 
 export const TableContainer = styled.div`
   height: 100%;
@@ -94,11 +95,12 @@ export const TableRow = styled.tr`
   `}
 `;
 
-export const TableColumn = styled.th<{ sortable?: boolean }>`
-  ${({ theme, sortable }) => css`
+export const TableColumn = styled.th<{ sortable?: boolean; textAlign?: TextAlign }>`
+  ${({ theme, sortable, textAlign }) => css`
     ${theme.fonts.medium14}
 
     color: ${theme.colors.gray70};
+    text-align: ${textAlign};
     vertical-align: middle;
 
     & svg {
@@ -109,16 +111,27 @@ export const TableColumn = styled.th<{ sortable?: boolean }>`
     css`
       cursor: pointer;
     `}
+
+    ${textAlign !== 'center' &&
+    css`
+      padding: 0 1.6rem;
+    `}
   `}
 `;
 
-export const TableCell = styled.td`
-  ${({ theme }) => css`
+export const TableCell = styled.td<{ textAlign?: TextAlign }>`
+  ${({ theme, textAlign }) => css`
     ${theme.fonts.regular14}
 
     height: 0;
     color: ${theme.colors.gray80};
+    text-align: ${textAlign};
     vertical-align: middle;
+
+    ${textAlign !== 'center' &&
+    css`
+      padding: 0 1.6rem;
+    `}
   `}
 `;
 

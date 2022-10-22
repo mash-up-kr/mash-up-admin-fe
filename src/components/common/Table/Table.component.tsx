@@ -20,11 +20,14 @@ import { SORT_TYPE } from '@/constants';
 import { ToastType } from '../Toast/Toast.component';
 import { useToast } from '@/hooks';
 
+export type TextAlign = 'start' | 'center' | 'end';
+
 export interface TableColumn<T extends object> {
   title: string;
   accessor?: NestedKeyOf<T> | NestedKeyOf<T>[];
   idAccessor?: NestedKeyOf<T>;
   widthRatio: string;
+  textAlign?: TextAlign;
   renderCustomCell?: (
     cellValue: unknown,
     id: string,
@@ -175,7 +178,7 @@ const TableColumnCell = <T extends object>({
 
   if (!sortable) {
     return (
-      <Styled.TableColumn>
+      <Styled.TableColumn textAlign={column.textAlign}>
         {titles.map((title, index) => (
           <>
             {title}
@@ -221,7 +224,11 @@ const TableColumnCell = <T extends object>({
   };
 
   return (
-    <Styled.TableColumn sortable={!!sortOptions} onClick={() => handleClickColumn()}>
+    <Styled.TableColumn
+      textAlign={column.textAlign}
+      sortable={!!sortOptions}
+      onClick={() => handleClickColumn()}
+    >
       {titles.map((title, index) => (
         <>
           {title}
@@ -361,7 +368,8 @@ const Table = <T extends object>({
                         />
                       )}
                       {columns.map((column, columnIndex) => {
-                        const { accessor, idAccessor, renderCustomCell } = column;
+                        const { accessor, idAccessor, textAlign, renderCustomCell } = column;
+
                         const id = getOwnValueByKey(row, idAccessor);
                         const cellValue = isArray(accessor)
                           ? (accessor as any[]).map((accessorItem) =>
@@ -371,15 +379,16 @@ const Table = <T extends object>({
 
                         if (isMyTeam) {
                           return (
-                            <Styled.TableCell key={`cell-${columnIndex}`}>
+                            <Styled.TableCell key={`cell-${columnIndex}`} textAlign={textAlign}>
                               {renderCustomCell
                                 ? renderCustomCell(cellValue, id, undefined, applicationParams)
                                 : cellValue}
                             </Styled.TableCell>
                           );
                         }
+
                         return (
-                          <Styled.TableCell key={`cell-${columnIndex}`}>
+                          <Styled.TableCell key={`cell-${columnIndex}`} textAlign={textAlign}>
                             {renderCustomCell
                               ? renderCustomCell(cellValue, id, () => {
                                   handleAddToast({

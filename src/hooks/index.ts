@@ -11,3 +11,4 @@ export { default as useWindowScroll } from './useWindowScroll';
 export { default as useConvertTextToLink } from './useConvertTextToLink';
 export { default as useHistory } from './useHistory';
 export { default as usePrompt } from './usePrompt';
+export { default as useMyTeam } from './useMyTeam';
