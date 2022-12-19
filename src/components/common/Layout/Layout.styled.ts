@@ -17,3 +17,7 @@ export const Main = styled.main<StyledMainProps>`
     }
   `}
 `;
+
+export const SelectWrapper = styled.div`
+  margin-top: 4rem;
+`;
