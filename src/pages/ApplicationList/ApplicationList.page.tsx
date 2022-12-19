@@ -17,7 +17,7 @@ import {
   Table,
   TeamNavigationTabs,
 } from '@/components';
-import { formatDate, uniqArray } from '@/utils';
+import { formatDate, parseUrlParam, uniqArray } from '@/utils';
 import { PATH, SORT_TYPE } from '@/constants';
 import { $applications, $teamIdByName, ModalKey, $modalByStorage, $profile } from '@/store';
 import { useConvertToXlsx, useDirty, usePagination } from '@/hooks';
@@ -44,6 +44,7 @@ const ApplicationList = () => {
   const { pathname, search } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const teamName = searchParams.get('team');
+
   const teamId = useRecoilValue($teamIdByName(teamName));
   const myTeamName = useRecoilValue($profile)[0];
   const isMyTeam = useMemo(
@@ -60,6 +61,7 @@ const ApplicationList = () => {
   const confirmStatus = searchParams.get('confirmStatus') || '';
   const resultStatus = searchParams.get('resultStatus') || '';
   const searchWord = searchParams.get('searchWord') || '';
+  const generationNumber = searchParams.get('generationNumber');
 
   const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
     { accessor: 'applicant.name', type: SORT_TYPE.DEFAULT },
@@ -90,9 +92,10 @@ const ApplicationList = () => {
       confirmStatus,
       resultStatus,
       sort: sortParam,
+      generationNumber: parseUrlParam(generationNumber),
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, size, teamId, searchWord, sortParam, confirmStatus, resultStatus],
+    [page, size, teamId, searchWord, sortParam, confirmStatus, resultStatus, generationNumber],
   );
 
   const [totalCount, setTotalCount] = useState(0);
@@ -143,6 +146,7 @@ const ApplicationList = () => {
           page: 0,
           size: tableRows.page.totalCount + APPLICATION_EXTRA_SIZE,
           teamId: parseInt(teamId, 10) || undefined,
+          generationNumber: parseUrlParam(generationNumber),
         });
         setSelectedRows(applications.data);
         if (applications.page) {
