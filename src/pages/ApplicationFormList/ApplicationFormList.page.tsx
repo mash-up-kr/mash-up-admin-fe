@@ -15,10 +15,10 @@ import {
   BottomCTA,
 } from '@/components';
 import { useDirty, usePagination, useToggleState } from '@/hooks';
-import { $applicationForms, $teamIdByName } from '@/store';
+import { $applicationForms, $generationNumber, $teamIdByName } from '@/store';
 import { ApplicationFormResponse, Question, ApplicationFormRequest } from '@/types';
 import { PATH, SORT_TYPE } from '@/constants';
-import { formatDate, parseUrlParam } from '@/utils';
+import { formatDate } from '@/utils';
 import { TableColumn, SortType } from '@/components/common/Table/Table.component';
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 import { ApplicationFormPreviewModal } from '@/components/ApplicationForm/ApplicationFormPreview/ApplicationFormPreview.component';
@@ -45,7 +45,7 @@ const ApplicationFormList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const teamId = useRecoilValue($teamIdByName(teamName));
-  const generationNumber = searchParams.get('generationNumber');
+  const generationNumber = useRecoilValue($generationNumber);
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
@@ -74,7 +74,7 @@ const ApplicationFormList = () => {
       teamId: parseInt(teamId, 10) || undefined,
       searchWord,
       sort: sortParam,
-      generationNumber: parseUrlParam(generationNumber),
+      generationNumber,
     }),
     [page, size, teamId, searchWord, sortParam, generationNumber],
   );
