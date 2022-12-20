@@ -1,5 +1,5 @@
 export interface MemberRequest {
-  generationNumber: number;
+  generationNumber?: number;
   page?: number;
   size?: number;
   platform?: string;

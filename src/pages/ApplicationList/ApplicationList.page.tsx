@@ -17,9 +17,16 @@ import {
   Table,
   TeamNavigationTabs,
 } from '@/components';
-import { formatDate, parseUrlParam, uniqArray } from '@/utils';
+import { formatDate, uniqArray } from '@/utils';
 import { PATH, SORT_TYPE } from '@/constants';
-import { $applications, $teamIdByName, ModalKey, $modalByStorage, $profile } from '@/store';
+import {
+  $applications,
+  $teamIdByName,
+  ModalKey,
+  $modalByStorage,
+  $profile,
+  $generationNumber,
+} from '@/store';
 import { useConvertToXlsx, useDirty, usePagination } from '@/hooks';
 import { ApplicationRequest, ApplicationResponse } from '@/types';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
@@ -47,6 +54,7 @@ const ApplicationList = () => {
 
   const teamId = useRecoilValue($teamIdByName(teamName));
   const myTeamName = useRecoilValue($profile)[0];
+  const generationNumber = useRecoilValue($generationNumber);
   const isMyTeam = useMemo(
     () =>
       !teamName ||
@@ -61,7 +69,6 @@ const ApplicationList = () => {
   const confirmStatus = searchParams.get('confirmStatus') || '';
   const resultStatus = searchParams.get('resultStatus') || '';
   const searchWord = searchParams.get('searchWord') || '';
-  const generationNumber = searchParams.get('generationNumber');
 
   const [sortTypes, setSortTypes] = useState<SortType<ApplicationResponse>[]>([
     { accessor: 'applicant.name', type: SORT_TYPE.DEFAULT },
@@ -92,7 +99,7 @@ const ApplicationList = () => {
       confirmStatus,
       resultStatus,
       sort: sortParam,
-      generationNumber: parseUrlParam(generationNumber),
+      generationNumber,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [page, size, teamId, searchWord, sortParam, confirmStatus, resultStatus, generationNumber],
@@ -146,7 +153,7 @@ const ApplicationList = () => {
           page: 0,
           size: tableRows.page.totalCount + APPLICATION_EXTRA_SIZE,
           teamId: parseInt(teamId, 10) || undefined,
-          generationNumber: parseUrlParam(generationNumber),
+          generationNumber,
         });
         setSelectedRows(applications.data);
         if (applications.page) {
@@ -154,7 +161,7 @@ const ApplicationList = () => {
         }
       }
     },
-    [tableRows.page?.totalCount, teamId],
+    [tableRows.page?.totalCount, teamId, generationNumber],
   );
 
   const columns: TableColumn<ApplicationResponse>[] = [
