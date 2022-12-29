@@ -21,6 +21,7 @@ export interface ApplicationFormRequest {
   size?: number;
   sort?: string;
   teamId?: number;
+  generationNumber?: number;
 }
 
 export interface ApplicationFormResponse {

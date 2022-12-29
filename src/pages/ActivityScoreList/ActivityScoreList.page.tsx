@@ -3,24 +3,21 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
 import { BottomCTA, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
 import * as Styled from './ActivityScoreList.styled';
-import { SearchOptionBarFilter } from '@/components/common/SearchOptionBar/SearchOptionBar.component';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { PATH, SORT_TYPE } from '@/constants';
 import { useMyTeam, usePagination } from '@/hooks';
-import { $generations } from '@/store';
+import { $generationNumber } from '@/store';
 import { MemberRequest, MemberResponse } from '@/types';
 import { $members } from '@/store/member';
-import { parseUrlParam } from '@/utils';
 
 const ActivityScoreList = () => {
   const [searchParams] = useSearchParams();
-  const generations = useRecoilValue($generations);
+  const generationNumber = useRecoilValue($generationNumber);
+
   const { isMyTeam } = useMyTeam();
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
-  const generationNumber =
-    parseUrlParam(searchParams.get('generation')) || generations?.[0]?.generationNumber;
 
   const team = searchParams.get('team') || '';
   const searchWord = searchParams.get('searchWord') || '';
@@ -37,17 +34,6 @@ const ActivityScoreList = () => {
     const { accessor, type } = matched;
     return `${accessor},${type}`;
   }, [sortTypes]);
-
-  const filters: SearchOptionBarFilter[] = [
-    {
-      title: '기수',
-      key: 'generation',
-      options: generations.map((generation) => ({
-        label: `${generation.generationNumber}기`,
-        value: generation.generationNumber.toString(),
-      })),
-    },
-  ];
 
   const { pathname, search } = useLocation();
 
@@ -115,7 +101,7 @@ const ActivityScoreList = () => {
       <Styled.Heading>활동점수</Styled.Heading>
       <Styled.StickyContainer>
         <TeamNavigationTabs />
-        <SearchOptionBar placeholder="이름 검색" filters={filters} />
+        <SearchOptionBar placeholder="이름 검색" />
       </Styled.StickyContainer>
       <Table
         prefix="activity-score"

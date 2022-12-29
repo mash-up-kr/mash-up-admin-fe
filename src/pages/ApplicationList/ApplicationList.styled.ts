@@ -20,7 +20,7 @@ export const StickyContainer = styled.div`
   ${({ theme }) => css`
     position: sticky;
     top: 0;
-    z-index: ${theme.zIndex.select};
+    z-index: calc(${theme.zIndex.sticky} + 1);
     padding-bottom: 1.2rem;
     background-color: ${theme.colors.white};
   `}

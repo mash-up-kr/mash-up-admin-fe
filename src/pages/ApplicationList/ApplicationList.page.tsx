@@ -19,7 +19,14 @@ import {
 } from '@/components';
 import { formatDate, uniqArray } from '@/utils';
 import { PATH, SORT_TYPE } from '@/constants';
-import { $applications, $teamIdByName, ModalKey, $modalByStorage, $profile } from '@/store';
+import {
+  $applications,
+  $teamIdByName,
+  ModalKey,
+  $modalByStorage,
+  $profile,
+  $generationNumber,
+} from '@/store';
 import { useConvertToXlsx, useDirty, usePagination } from '@/hooks';
 import { ApplicationRequest, ApplicationResponse } from '@/types';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
@@ -44,8 +51,10 @@ const ApplicationList = () => {
   const { pathname, search } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const teamName = searchParams.get('team');
+
   const teamId = useRecoilValue($teamIdByName(teamName));
   const myTeamName = useRecoilValue($profile)[0];
+  const generationNumber = useRecoilValue($generationNumber);
   const isMyTeam = useMemo(
     () =>
       !teamName ||
@@ -90,9 +99,10 @@ const ApplicationList = () => {
       confirmStatus,
       resultStatus,
       sort: sortParam,
+      generationNumber,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, size, teamId, searchWord, sortParam, confirmStatus, resultStatus],
+    [page, size, teamId, searchWord, sortParam, confirmStatus, resultStatus, generationNumber],
   );
 
   const [totalCount, setTotalCount] = useState(0);
@@ -143,6 +153,7 @@ const ApplicationList = () => {
           page: 0,
           size: tableRows.page.totalCount + APPLICATION_EXTRA_SIZE,
           teamId: parseInt(teamId, 10) || undefined,
+          generationNumber,
         });
         setSelectedRows(applications.data);
         if (applications.page) {
@@ -150,7 +161,7 @@ const ApplicationList = () => {
         }
       }
     },
-    [tableRows.page?.totalCount, teamId],
+    [tableRows.page?.totalCount, teamId, generationNumber],
   );
 
   const columns: TableColumn<ApplicationResponse>[] = [

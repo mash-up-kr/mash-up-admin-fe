@@ -73,7 +73,8 @@ const Select = (
     if (defaultValue) {
       setSelectedOption(defaultValue);
     }
-  }, [defaultValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValue?.value]);
 
   useEffect(() => {
     if (currentValue) {
