@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, useFormState } from 'react-hook-form';
 import { useRecoilCallback, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { ApplicationFormAside, ApplicationFormSection } from '@/components';
+import { ApplicationFormAside, ApplicationFormSection, Blocker } from '@/components';
 import * as Styled from './CreateApplicationForm.styled';
 
 import { Question, QuestionKind } from '@/types/dto/applicationForm';
@@ -42,7 +42,9 @@ const CreateApplicationForm = () => {
     },
   });
 
-  const { register, handleSubmit, setValue, formState } = methods;
+  const { register, handleSubmit, setValue, control, formState } = methods;
+
+  const { isDirty, isSubmitSuccessful } = useFormState({ control });
 
   const navigate = useNavigate();
 
@@ -126,31 +128,34 @@ const CreateApplicationForm = () => {
   }, [formState.errors.teamId]);
 
   return (
-    <FormProvider {...methods}>
-      <Styled.ApplicationFormControlPage>
-        <ApplicationFormSection headline="지원서 설문지 작성" />
-        <form onSubmit={handleSubmit(handleSubmitForm)}>
-          <article>
-            <ApplicationFormTemplate />
-          </article>
-          <ApplicationFormAside
-            createdAt={current}
-            platform={
-              <Styled.TeamSelect
-                placeholder="플랫폼 선택"
-                size={SelectSize.sm}
-                options={teamOptions}
-                onChangeOption={(option) => setValue('teamId', Number(option.value))}
-                {...register(`teamId`, { required: true })}
-              />
-            }
-            createdBy={position}
-            leftActionButton={{ text: '취소', onClick: () => navigate(-1), isLoading }}
-            rightActionButton={{ text: '저장', type: 'submit' }}
-          />
-        </form>
-      </Styled.ApplicationFormControlPage>
-    </FormProvider>
+    <>
+      <FormProvider {...methods}>
+        <Styled.ApplicationFormControlPage>
+          <ApplicationFormSection headline="지원서 설문지 작성" />
+          <form onSubmit={handleSubmit(handleSubmitForm)}>
+            <article>
+              <ApplicationFormTemplate />
+            </article>
+            <ApplicationFormAside
+              createdAt={current}
+              platform={
+                <Styled.TeamSelect
+                  placeholder="플랫폼 선택"
+                  size={SelectSize.sm}
+                  options={teamOptions}
+                  onChangeOption={(option) => setValue('teamId', Number(option.value))}
+                  {...register(`teamId`, { required: true })}
+                />
+              }
+              createdBy={position}
+              leftActionButton={{ text: '취소', onClick: () => navigate(-1), isLoading }}
+              rightActionButton={{ text: '저장', type: 'submit' }}
+            />
+          </form>
+        </Styled.ApplicationFormControlPage>
+      </FormProvider>
+      <Blocker isBlocking={isDirty && !isSubmitSuccessful} />
+    </>
   );
 };
 
