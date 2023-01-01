@@ -41,7 +41,7 @@ const UpdateApplicationForm = () => {
 
   const { handleSubmit, control } = methods;
 
-  const { isDirty } = useFormState({ control });
+  const { isDirty, isSubmitSuccessful } = useFormState({ control });
 
   const { handleAddToast } = useToast();
   const refreshSelectorFamilyByKey = useRefreshSelectorFamilyByKey();
@@ -125,7 +125,7 @@ const UpdateApplicationForm = () => {
           </form>
         </Styled.UpdateApplicationFormPage>
       </FormProvider>
-      <Blocker isBlocking={isDirty} />
+      <Blocker isBlocking={isDirty && !isSubmitSuccessful} />
     </>
   );
 };
