@@ -10,7 +10,7 @@ import * as api from '@/api';
 import { $modalByStorage, $profile, $teams, ModalKey } from '@/store';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import ApplicationFormTemplate from '@/components/ApplicationForm/ApplicationFormTemplate/ApplicationFormTemplate.component';
-import { useToast } from '@/hooks';
+import { useRefreshSelectorFamilyByKey, useToast } from '@/hooks';
 
 import { request } from '@/utils';
 import { ToastType } from '@/components/common/Toast/Toast.component';
@@ -58,6 +58,7 @@ const CreateApplicationForm = () => {
   );
 
   const { handleAddToast } = useToast();
+  const refreshSelectorFamilyByKey = useRefreshSelectorFamilyByKey();
 
   const handleSubmitForm = useRecoilCallback(({ set }) => async (data: FormValues) => {
     if (data.questions.length === 0) {
@@ -96,6 +97,7 @@ const CreateApplicationForm = () => {
                 message: '성공적으로 지원서 설문지를 작성했습니다.',
               });
 
+              refreshSelectorFamilyByKey('applicationForms');
               navigate(getApplicationFormDetailPage(applicationFormId));
             },
             onCompleted: () => {

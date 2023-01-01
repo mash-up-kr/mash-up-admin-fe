@@ -10,7 +10,7 @@ import { ParamId, Question, QuestionKind } from '@/types';
 import { $applicationFormDetail } from '@/store/applicationForm';
 import { InputSize } from '@/components/common/Input/Input.component';
 import * as api from '@/api';
-import { useToast, useUnmount } from '@/hooks';
+import { useRefreshSelectorFamilyByKey, useToast, useUnmount } from '@/hooks';
 import { request } from '@/utils';
 import { PATH } from '@/constants';
 import { $modalByStorage, ModalKey } from '@/store';
@@ -26,6 +26,7 @@ const ApplicationFormDetail = () => {
 
   const navigate = useNavigate();
   const { handleAddToast } = useToast();
+  const refreshSelectorFamilyByKey = useRefreshSelectorFamilyByKey();
 
   const [{ questions, name, team, createdAt, createdBy, updatedAt, updatedBy }] = useRecoilState(
     $applicationFormDetail({ id: id ?? '' }),
@@ -60,6 +61,7 @@ const ApplicationFormDetail = () => {
                 message: '성공적으로 지원서 설문지를 삭제했습니다.',
               });
 
+              refreshSelectorFamilyByKey('applicationForms');
               navigate(PATH.APPLICATION_FORM);
             },
             onCompleted: () => {
