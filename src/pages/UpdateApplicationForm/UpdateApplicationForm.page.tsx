@@ -9,7 +9,7 @@ import { ApplicationFormAside, ApplicationFormSection, Blocker } from '@/compone
 import ApplicationFormTemplate from '@/components/ApplicationForm/ApplicationFormTemplate/ApplicationFormTemplate.component';
 import * as api from '@/api';
 import { request } from '@/utils';
-import { useHistory, useToast, useUnmount } from '@/hooks';
+import { useHistory, useRefreshSelectorFamilyByKey, useToast, useUnmount } from '@/hooks';
 import { ToastType } from '@/components/common/Toast/Toast.component';
 import { getApplicationFormDetailPage, PATH } from '@/constants';
 
@@ -44,6 +44,7 @@ const UpdateApplicationForm = () => {
   const { isDirty } = useFormState({ control });
 
   const { handleAddToast } = useToast();
+  const refreshSelectorFamilyByKey = useRefreshSelectorFamilyByKey();
 
   const handleSubmitForm = useRecoilCallback(({ set }) => async (data: FormValues) => {
     if (!id) {
@@ -79,6 +80,7 @@ const UpdateApplicationForm = () => {
                 message: '성공적으로 지원서 설문지를 수정했습니다.',
               });
 
+              refreshSelectorFamilyByKey('applicationForms');
               navigate(getApplicationFormDetailPage(id));
             },
             onCompleted: () => {
