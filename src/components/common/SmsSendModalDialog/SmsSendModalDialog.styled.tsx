@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-export const SmsSendModalContainer = styled.div`
+export const EmailSendModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
@@ -78,5 +78,27 @@ export const Divider = styled.div`
   ${({ theme }) => css`
     height: 0.1rem;
     background-color: ${theme.colors.gray30};
+  `}
+`;
+
+export const Label = styled.span`
+  ${({ theme }) => css`
+    ${theme.fonts.medium15};
+
+    display: flex;
+    flex: 1;
+    gap: 0.6rem;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    color: ${theme.colors.gray70};
+  `}
+`;
+
+export const RequiredDot = styled.span`
+  ${({ theme }) => css`
+    width: 0.6rem;
+    height: 0.6rem;
+    background-color: ${theme.colors.red50};
+    border-radius: 50%;
   `}
 `;
