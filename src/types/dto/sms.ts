@@ -1,74 +1,79 @@
-import { KeyOf } from '../helper';
+import { ValueOf, KeyOf } from '../helper';
 import { MemberPositionType } from './adminMember';
 
-export const SmsStatus = {
-  CREATED: '메시지 생성',
-  FAILURE: '발송실패',
-  SUCCESS: '발송성공',
-};
+export const EmailStatus = {
+  CREATED: 'CREATED',
+  SUCCESS: 'SUCCESS',
+  FAIL: 'FAIL',
+} as const;
 
-export type SmsStatusType = KeyOf<typeof SmsStatus>;
+export type EmailStatusType = KeyOf<typeof EmailStatus>;
 
-export interface SmsContent {
-  notificationContent?: string;
-  notificationName?: string;
-  sender?: MemberPositionType;
-  senderPhoneNumber?: string;
-  recipientName?: string;
-  recipientPhoneNumber?: string;
-  smsRequestId: number;
-  status: SmsStatusType;
-  sentAt?: string;
-  createdAt: string;
-  team: {
-    createdAt: string;
-    createdBy: string;
-    name: string;
-    teamId: number;
-    updatedAt: string;
-    updatedBy: string;
-  };
+export const EmailTypes = {
+  SUBMIT: '제출',
+  SCREENING_RESULT: '서류 결과 발표',
+  SCREENING_DELAY: '서류 결과 발표 지연',
+  INTERVIEW_RESULT: '면접 결과 발표',
+  INTERVIEW_DELAY: '면접 결과 발표 지연',
+} as const;
+
+export type EmailType = KeyOf<typeof EmailTypes>;
+
+export interface EmailRequest {
+  applicationId: number;
+  emailRequestId: number;
+  recipientEmail: string;
+  recipientName: string;
+  status: EmailStatusType;
+  team: string;
 }
 
-export interface SmsSendingListResponse {
-  failureCount: number;
+export const TemplateNames = {
+  제출: 'SUBMIT',
+  '서류 결과 발표': 'SCREENING_RESULT',
+  '서류 결과 발표 지연': 'SCREENING_DELAY',
+  '면접 결과 발표': 'INTERVIEW_RESULT',
+  '면접 결과 발표 지연': 'INTERVIEW_DELAY',
+} as const;
+
+export type TemplateName = ValueOf<typeof TemplateNames>;
+
+export interface EmailSendingListResponse {
+  emailNotificationId: number;
   name: string;
-  notificationId: number;
-  sender: string;
-  senderPhoneNumber: string;
-  sentAt: string;
-  status: SmsStatusType;
+  type: EmailType;
+  sendAt: string;
+  sender: MemberPositionType;
   successCount: number;
+  failureCount: number;
   totalCount: number;
 }
 
-export interface SmsSendingListRequest {
+export interface EmailSendingListRequest {
   page?: number;
   searchWord?: string;
   size?: number;
   sort?: string;
 }
 
-export interface SmsByIdRequest {
+export interface EmailByIdRequest {
   notificationId: string;
 }
 
-export interface SmsResponse {
-  content: string;
+export interface EmailResponse {
+  emailNotificationId: number;
+  emailRequests: EmailRequest[];
   failureCount: number;
   name: string;
-  notificationId: number;
-  sender: string;
-  senderPhoneNumber: string;
-  sentAt: string;
-  smsRequests: SmsContent[];
-  status: SmsStatusType;
+  sendAt: string;
+  sender: MemberPositionType;
   successCount: number;
   totalCount: number;
+  type: EmailType;
 }
 
-export interface SmsRequest {
-  applicantIds: number[];
-  content: string;
-  name: string;
+export interface EmailSendRequest {
+  applicationIds: number[];
+  memo: string;
+  templateName: TemplateName;
 }

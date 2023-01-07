@@ -2,8 +2,15 @@ import {
   ApplicationConfirmationStatusKeyType,
   ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { ValueOf, Team, Question } from '@/types';
-import { SmsContent } from './sms';
+import {
+  ValueOf,
+  KeyOf,
+  Team,
+  Question,
+  MemberPositionType,
+  EmailStatusType,
+  TemplateName,
+} from '@/types';
 
 export const ApplicationConfirmationStatusInDto = {
   NOT_APPLICABLE: 'NOT_APPLICABLE',
@@ -116,8 +123,48 @@ export interface ApplicationByIdResponseData extends Array<Team> {
     interviewStartedAt: string;
     status: ApplicationResultStatusInDtoType;
   };
-  smsRequests: SmsContent[];
+  emailRequests?: EmailRequestItem[];
+  smsRequests?: SmsContent[];
   submittedAt: string;
   team: Team;
   updatedAt: string;
 }
+
+export interface EmailRequestItem {
+  emailNotificationId: number;
+  emailRequestId: number;
+  emailRequestStatus: EmailStatusType;
+  memo: string;
+  sendAt: string;
+  senderPosition: MemberPositionType;
+  templateName: TemplateName;
+}
+
+export interface SmsContent {
+  notificationContent?: string;
+  notificationName?: string;
+  sender?: MemberPositionType;
+  senderPhoneNumber?: string;
+  recipientName?: string;
+  recipientPhoneNumber?: string;
+  smsRequestId: number;
+  status: SmsStatusType;
+  sentAt?: string;
+  createdAt: string;
+  team: {
+    createdAt: string;
+    createdBy: string;
+    name: string;
+    teamId: number;
+    updatedAt: string;
+    updatedBy: string;
+  };
+}
+
+export const SmsStatus = {
+  CREATED: '메시지 생성',
+  FAILURE: '발송실패',
+  SUCCESS: '발송성공',
+};
+
+export type SmsStatusType = KeyOf<typeof SmsStatus>;
