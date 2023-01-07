@@ -22,6 +22,7 @@ interface FormValues {
 }
 
 const LoginPage = () => {
+  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { handleSubmit, register } = useForm<FormValues>();
 
@@ -31,12 +32,16 @@ const LoginPage = () => {
 
   const handleLogin = useRecoilCallback(({ set }) => async ({ username, password }: FormValues) => {
     try {
+      setLoading(true);
+
       const { data } = await api.postLogin({ username, password });
 
       localStorage.setItem(ACCESS_TOKEN, data.accessToken);
       set($me, data);
     } catch (e) {
       handleSetError(ERROR_MESSAGE.AUTH_FAILED);
+    } finally {
+      setLoading(false);
     }
   });
 
@@ -64,7 +69,7 @@ const LoginPage = () => {
             onFocus={() => handleSetError('')}
           />
         </div>
-        <Button type="submit" shape={ButtonShape.primary} label="로그인" />
+        <Button type="submit" shape={ButtonShape.primary} label="로그인" isLoading={isLoading} />
         {error ? <MinsourSad /> : <MinsourLogo />}
       </Styled.LoginContainer>
     </Styled.LoginPageWrapper>
