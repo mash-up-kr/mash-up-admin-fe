@@ -56,8 +56,10 @@ const App = () => {
 
     try {
       if (!isAuthorizedSnapshot && !!TOKEN) {
-        const { data: me } = await api.getMyInfo();
-        const { data: generations } = await api.getGenerations();
+        const [{ data: me }, { data: generations }] = await Promise.all([
+          api.getMyInfo(),
+          api.getGenerations(),
+        ]);
 
         set($me, { accessToken: TOKEN as string, adminMember: me });
         set($generations, generations);
