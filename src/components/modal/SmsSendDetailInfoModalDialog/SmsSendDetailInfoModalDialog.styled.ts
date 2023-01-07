@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { SmsStatus } from '@/types';
+import { EmailStatus } from '@/types';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -52,12 +52,12 @@ export const SendingStatus = styled.div`
 
 export const StatusWrapper = styled.div<{ status: string }>`
   ${({ theme, status }) => css`
-    ${status === SmsStatus.SUCCESS &&
+    ${status === EmailStatus.SUCCESS &&
     css`
       color: ${theme.colors.blue70};
     `}
 
-    ${status === SmsStatus.FAILURE &&
+    ${status === EmailStatus.FAIL &&
     css`
       color: ${theme.colors.red70};
     `}
