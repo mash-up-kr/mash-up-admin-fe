@@ -14,7 +14,7 @@ import {
   LoginPage,
   ApplicationList,
   ApplicationDetailView,
-  SmsSendingList,
+  EmailSendingList,
   ApplicationFormList,
   CreateApplicationForm,
   UpdateApplicationForm,
@@ -104,10 +104,10 @@ const App = () => {
               }
             />
             <Route
-              path={PATH.SMS}
+              path={PATH.EMAIL}
               element={
                 <RequiredAuth isAuth={isAuthorized}>
-                  <SmsSendingList />
+                  <EmailSendingList />
                 </RequiredAuth>
               }
             />

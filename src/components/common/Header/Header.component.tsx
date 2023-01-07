@@ -23,8 +23,8 @@ const navigationItems: NavigationItem[] = [
     to: PATH.APPLICATION,
   },
   {
-    label: 'SMS 발송 내역',
-    to: PATH.SMS,
+    label: '이메일 발송 내역',
+    to: PATH.EMAIL,
   },
   {
     label: '지원서 설문지 내역',
