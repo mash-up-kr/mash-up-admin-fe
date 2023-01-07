@@ -14,24 +14,18 @@ const Template: ComponentStory<typeof MessageListPanel> = (args: MessageListPane
 export const messageListPanel = Template.bind({});
 
 messageListPanel.args = {
-  smsRequests: [
-    {
-      notificationName: 'TEST',
-      senderPhoneNumber: 'TEST',
-      sender: 'MASHUP_LEADER',
-      notificationContent: 'TEST TEST',
-      smsRequestId: 0,
-      status: 'FAILURE',
-      createdAt: '2022-02-19T05:43:38.517Z',
-    },
-    {
-      notificationName: 'TEST',
-      senderPhoneNumber: 'TEST',
-      sender: 'MASHUP_LEADER',
-      notificationContent: 'TEST TEST',
-      smsRequestId: 0,
-      status: 'SUCCESS',
-      createdAt: '2022-02-19T05:43:38.517Z',
-    },
-  ],
+  // @ts-ignore (바인딩 되지 않는 `application`의 필드 생략)
+  application: {
+    emailRequests: [
+      {
+        emailNotificationId: '2798',
+        emailRequestId: '2799',
+        emailRequestStatus: 'SUCCESS',
+        memo: '서류 면접 결과 안내 발송 메모',
+        sendAt: '2023-01-07T18:57:59',
+        senderPosition: 'BRANDING_MEMBER',
+        templateName: 'INTERVIEW_RESULT',
+      },
+    ],
+  },
 };
