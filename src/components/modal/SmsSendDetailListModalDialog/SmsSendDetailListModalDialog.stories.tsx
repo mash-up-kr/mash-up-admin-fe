@@ -1,14 +1,14 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import SmsSendDetailListModalDialog from './SmsSendDetailListModalDialog.component';
+import EmailSendDetailListModalDialog from './SmsSendDetailListModalDialog.component';
 
 export default {
-  title: 'Modal/Sms Send Detail List Modal Dialog',
-  component: SmsSendDetailListModalDialog,
-} as ComponentMeta<typeof SmsSendDetailListModalDialog>;
+  title: 'Modal/Email Send Detail List Modal Dialog',
+  component: EmailSendDetailListModalDialog,
+} as ComponentMeta<typeof EmailSendDetailListModalDialog>;
 
-const Template: ComponentStory<typeof SmsSendDetailListModalDialog> = () => (
-  <SmsSendDetailListModalDialog selectedApplications={[]} />
+const Template: ComponentStory<typeof EmailSendDetailListModalDialog> = () => (
+  <EmailSendDetailListModalDialog selectedApplications={[]} />
 );
 
-export const smsSendDetailListModalDialog = Template.bind({});
+export const emailSendDetailListModalDialog = Template.bind({});
