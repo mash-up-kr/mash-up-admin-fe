@@ -5,17 +5,17 @@ import { $modalByStorage, ModalKey, ModalKeyType } from '@/store';
 import {
   AlertModalDialog,
   ChangeResultModalDialog,
-  SmsSendDetailInfoModalDialog,
-  SmsSendDetailListModalDialog,
-  SmsSendModalDialog,
+  EmailSendDetailInfoModalDialog,
+  EmailSendDetailListModalDialog,
+  EmailSendModalDialog,
   ApplyActivityScoreModalDialog,
   ActivityScoreModalDialog,
 } from '@/components';
 import { AlertModalDialogProps } from '../AlertModalDialog/AlertModalDialog.component';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
-import { SmsSendModalDialogProps } from '../SmsSendModalDialog/SmsSendModalDialog.component';
-import { SmsSendDetailListModalDialogProps } from '../../modal/SmsSendDetailListModalDialog/SmsSendDetailListModalDialog.component';
-import { SmsSendDetailInfoModalDialogProps } from '@/components/modal/SmsSendDetailInfoModalDialog/SmsSendDetailInfoModalDialog.component';
+import { EmailSendModalDialogProps } from '../SmsSendModalDialog/SmsSendModalDialog.component';
+import { EmailSendDetailListModalDialogProps } from '../../modal/SmsSendDetailListModalDialog/SmsSendDetailListModalDialog.component';
+import { EmailSendDetailInfoModalDialogProps } from '@/components/modal/SmsSendDetailInfoModalDialog/SmsSendDetailInfoModalDialog.component';
 import { ApplyActivityScoreModalDialogProps } from '@/components/modal/ApplyActivityScoreModalDialog/ApplyActivityScoreModalDialog.component';
 import { ActivityScoreModalDialogProps } from '@/components/modal/ActivityScoreModalDialog/ActivityScoreModalDialog.component';
 
@@ -32,24 +32,24 @@ const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
     );
   }
 
-  if (modalKey === ModalKey.smsSendModalDialog && modal.isOpen && modal.props) {
-    return <SmsSendModalDialog key={modalKey} {...(modal.props as SmsSendModalDialogProps)} />;
+  if (modalKey === ModalKey.emailSendModalDialog && modal.isOpen && modal.props) {
+    return <EmailSendModalDialog key={modalKey} {...(modal.props as EmailSendModalDialogProps)} />;
   }
 
-  if (modalKey === ModalKey.smsSendDetailListModalDialog && modal.isOpen && modal.props) {
+  if (modalKey === ModalKey.emailSendDetailListModalDialog && modal.isOpen && modal.props) {
     return (
-      <SmsSendDetailListModalDialog
+      <EmailSendDetailListModalDialog
         key={modalKey}
-        {...(modal.props as SmsSendDetailListModalDialogProps)}
+        {...(modal.props as EmailSendDetailListModalDialogProps)}
       />
     );
   }
 
-  if (modalKey === ModalKey.smsSendDetailInfoModalDialog && modal.isOpen && modal.props) {
+  if (modalKey === ModalKey.emailSendDetailInfoModalDialog && modal.isOpen && modal.props) {
     return (
-      <SmsSendDetailInfoModalDialog
+      <EmailSendDetailInfoModalDialog
         key={modalKey}
-        {...(modal.props as SmsSendDetailInfoModalDialogProps)}
+        {...(modal.props as EmailSendDetailInfoModalDialogProps)}
       />
     );
   }
@@ -78,12 +78,12 @@ const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
 const ModalViewer = () => {
   const setAlertModal = useSetRecoilState($modalByStorage(ModalKey.alertModalDialog));
   const setChangeResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
-  const setSmsSendModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
-  const setSmsSendDetailListModal = useSetRecoilState(
-    $modalByStorage(ModalKey.smsSendDetailListModalDialog),
+  const setEmailSendModal = useSetRecoilState($modalByStorage(ModalKey.emailSendModalDialog));
+  const setEmailSendDetailListModal = useSetRecoilState(
+    $modalByStorage(ModalKey.emailSendDetailListModalDialog),
   );
-  const setSmsSendDetailInfoModal = useSetRecoilState(
-    $modalByStorage(ModalKey.smsSendDetailInfoModalDialog),
+  const setEmailSendDetailInfoModal = useSetRecoilState(
+    $modalByStorage(ModalKey.emailSendDetailInfoModalDialog),
   );
 
   const { pathname } = useLocation();
@@ -93,23 +93,23 @@ const ModalViewer = () => {
     setAlertModal({ key: ModalKey.alertModalDialog, isOpen: false });
     setChangeResultModal({ key: ModalKey.changeResultModalDialog, isOpen: false });
     if (!/\/application\/\d/g.test(pathname)) {
-      setSmsSendModal({ key: ModalKey.smsSendModalDialog, isOpen: false });
+      setEmailSendModal({ key: ModalKey.emailSendModalDialog, isOpen: false });
     }
-    setSmsSendDetailListModal({
-      key: ModalKey.smsSendDetailListModalDialog,
+    setEmailSendDetailListModal({
+      key: ModalKey.emailSendDetailListModalDialog,
       isOpen: false,
     });
-    setSmsSendDetailInfoModal({
-      key: ModalKey.smsSendDetailInfoModalDialog,
+    setEmailSendDetailInfoModal({
+      key: ModalKey.emailSendDetailInfoModalDialog,
       isOpen: false,
     });
   }, [
     setAlertModal,
     setChangeResultModal,
-    setSmsSendModal,
+    setEmailSendModal,
     pathname,
-    setSmsSendDetailListModal,
-    setSmsSendDetailInfoModal,
+    setEmailSendDetailListModal,
+    setEmailSendDetailInfoModal,
   ]);
 
   return (

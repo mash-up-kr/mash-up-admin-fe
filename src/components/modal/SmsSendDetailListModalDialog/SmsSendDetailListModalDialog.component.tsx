@@ -29,13 +29,13 @@ const columns: TableColumn<ApplicationResponse>[] = [
   },
 ];
 
-export interface SmsSendDetailListModalDialogProps {
+export interface EmailSendDetailListModalDialogProps {
   selectedApplications: ApplicationResponse[];
 }
 
-const SmsSendDetailListModalDialog = ({
+const EmailSendDetailListModalDialog = ({
   selectedApplications,
-}: SmsSendDetailListModalDialogProps) => {
+}: EmailSendDetailListModalDialogProps) => {
   const { pageOptions, handleChangePage } = usePagination({
     totalCount: selectedApplications.length,
     pagingSize: 10,
@@ -56,8 +56,8 @@ const SmsSendDetailListModalDialog = ({
   ]);
 
   const handleRemoveCurrentModal = useRecoilCallback(({ set }) => () => {
-    set($modalByStorage(ModalKey.smsSendDetailListModalDialog), {
-      key: ModalKey.smsSendDetailListModalDialog,
+    set($modalByStorage(ModalKey.emailSendDetailListModalDialog), {
+      key: ModalKey.emailSendDetailListModalDialog,
       isOpen: false,
     });
   });
@@ -78,7 +78,7 @@ const SmsSendDetailListModalDialog = ({
     <ModalWrapper {...modalProps}>
       <Styled.TableWrapper>
         <Table<ApplicationResponse>
-          prefix="application-sms"
+          prefix="application-email"
           columns={columns}
           rows={pagedRows}
           supportBar={{
@@ -116,4 +116,4 @@ const SmsSendDetailListModalDialog = ({
   );
 };
 
-export default SmsSendDetailListModalDialog;
+export default EmailSendDetailListModalDialog;

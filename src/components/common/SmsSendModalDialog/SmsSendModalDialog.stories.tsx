@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import SmsSendModalDialog, { SmsSendModalDialogProps } from './SmsSendModalDialog.component';
+import EmailSendModalDialog, { EmailSendModalDialogProps } from './SmsSendModalDialog.component';
 import { ApplicationConfirmationStatusInDto, ApplicationResultStatusInDto } from '@/types';
 
 const mockApplication = {
@@ -34,31 +34,30 @@ const mockApplication = {
 };
 
 export default {
-  title: 'common/Sms Send Modal Dialog',
-  component: SmsSendModalDialog,
-} as ComponentMeta<typeof SmsSendModalDialog>;
+  title: 'common/Email Send Modal Dialog',
+  component: EmailSendModalDialog,
+} as ComponentMeta<typeof EmailSendModalDialog>;
 
-const Template: ComponentStory<typeof SmsSendModalDialog> = (args: SmsSendModalDialogProps) => (
-  <SmsSendModalDialog {...args} />
+const Template: ComponentStory<typeof EmailSendModalDialog> = (args: EmailSendModalDialogProps) => (
+  <EmailSendModalDialog {...args} />
 );
 
-export const smsSendModalDialogNormal = Template.bind({});
+export const emailSendModalDialogNormal = Template.bind({});
 
-smsSendModalDialogNormal.args = {
+emailSendModalDialogNormal.args = {
   selectedApplications: [mockApplication],
 };
 
-export const smsSendModalDialogWithResult = Template.bind({});
+export const emailSendModalDialogWithResult = Template.bind({});
 
-smsSendModalDialogWithResult.args = {
+emailSendModalDialogWithResult.args = {
   selectedApplications: [mockApplication],
   showSummary: true,
 };
 
-export const smsSendModalDialogSendFailure = Template.bind({});
+export const emailSendModalDialogSendFailure = Template.bind({});
 
-smsSendModalDialogSendFailure.args = {
+emailSendModalDialogSendFailure.args = {
   selectedApplications: [mockApplication],
   isSendFailed: true,
-  messageContent: 'ABCD',
 };

@@ -47,7 +47,7 @@ const ChangeResultModalDialog = ({
     });
   });
 
-  const handleSendSms = useRecoilCallback(
+  const handleSendEmail = useRecoilCallback(
     ({ set, refresh }) =>
       async ({ applicationResultStatus }: FormValues) => {
         set($modalByStorage(ModalKey.alertModalDialog), {
@@ -100,7 +100,7 @@ const ChangeResultModalDialog = ({
       },
       confirmButton: {
         label: '변경',
-        onClick: handleSubmit(handleSendSms),
+        onClick: handleSubmit(handleSendEmail),
         type: 'submit',
         isLoading,
       },

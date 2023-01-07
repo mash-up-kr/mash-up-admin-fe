@@ -4,18 +4,18 @@ import { recoilPersist } from 'recoil-persist';
 import { AlertModalDialogProps } from '@/components/common/AlertModalDialog/AlertModalDialog.component';
 import { ValueOf } from '@/types';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
-import { SmsSendModalDialogProps } from '@/components/common/SmsSendModalDialog/SmsSendModalDialog.component';
-import { SmsSendDetailInfoModalDialogProps } from '@/components/modal/SmsSendDetailInfoModalDialog/SmsSendDetailInfoModalDialog.component';
-import { SmsSendDetailListModalDialogProps } from '@/components/modal/SmsSendDetailListModalDialog/SmsSendDetailListModalDialog.component';
+import { EmailSendModalDialogProps } from '@/components/common/SmsSendModalDialog/SmsSendModalDialog.component';
+import { EmailSendDetailInfoModalDialogProps } from '@/components/modal/SmsSendDetailInfoModalDialog/SmsSendDetailInfoModalDialog.component';
+import { EmailSendDetailListModalDialogProps } from '@/components/modal/SmsSendDetailListModalDialog/SmsSendDetailListModalDialog.component';
 import { ApplyActivityScoreModalDialogProps } from '@/components/modal/ApplyActivityScoreModalDialog/ApplyActivityScoreModalDialog.component';
 import { ActivityScoreModalDialogProps } from '@/components/modal/ActivityScoreModalDialog/ActivityScoreModalDialog.component';
 
 export const ModalKey = {
   alertModalDialog: 'alertModalDialog',
-  smsSendModalDialog: 'smsSendModalDialog',
+  emailSendModalDialog: 'emailSendModalDialog',
   changeResultModalDialog: 'changeResultModalDialog',
-  smsSendDetailInfoModalDialog: 'smsSendDetailInfoModalDialog',
-  smsSendDetailListModalDialog: 'smsSendDetailListModalDialog',
+  emailSendDetailInfoModalDialog: 'emailSendDetailInfoModalDialog',
+  emailSendDetailListModalDialog: 'emailSendDetailListModalDialog',
   applyActivityScoreModalDialog: 'applyActivityScoreModalDialog',
   activityScoreModalDialog: 'activityScoreModalDialog',
 } as const;
@@ -23,9 +23,9 @@ export const ModalKey = {
 export type ModalKeyType = ValueOf<typeof ModalKey>;
 export type ModalProps =
   | AlertModalDialogProps
-  | SmsSendModalDialogProps
-  | SmsSendDetailListModalDialogProps
-  | SmsSendDetailInfoModalDialogProps
+  | EmailSendModalDialogProps
+  | EmailSendDetailListModalDialogProps
+  | EmailSendDetailInfoModalDialogProps
   | ChangeResultModalDialogProps
   | ApplyActivityScoreModalDialogProps
   | ActivityScoreModalDialogProps;
