@@ -1,32 +1,37 @@
 import http from '@/api/core';
-import { BaseResponse } from '@/types';
-import { SmsByIdRequest, SmsRequest, SmsResponse, SmsSendingListRequest } from '@/types/dto/sms';
+import {
+  BaseResponse,
+  EmailResponse,
+  EmailByIdRequest,
+  EmailSendRequest,
+  EmailSendingListRequest,
+} from '@/types';
 
-export const getSmsById = ({
+export const getEmailById = ({
   notificationId,
-}: SmsByIdRequest): Promise<BaseResponse<SmsResponse>> =>
+}: EmailByIdRequest): Promise<BaseResponse<EmailResponse>> =>
   http.get({
-    url: `/notifications/${notificationId}`,
+    url: `/email/${notificationId}`,
   });
 
-export const getSmsSendingList = (
-  params: SmsSendingListRequest,
-): Promise<BaseResponse<SmsResponse[]>> =>
+export const getEmailSendingList = (
+  params: EmailSendingListRequest,
+): Promise<BaseResponse<EmailResponse[]>> =>
   http.get({
-    url: '/notifications',
+    url: '/email',
     params,
   });
 
-export const postSmsSend = ({
-  applicantIds,
-  content,
-  name,
-}: SmsRequest): Promise<BaseResponse<SmsResponse>> =>
+export const postEmailSend = ({
+  applicationIds,
+  memo,
+  templateName,
+}: EmailSendRequest): Promise<BaseResponse<EmailResponse>> =>
   http.post({
-    url: `/notifications/sms/send`,
+    url: `/email/send`,
     data: {
-      applicantIds,
-      content,
-      name,
+      applicationIds,
+      memo,
+      templateName,
     },
   });
