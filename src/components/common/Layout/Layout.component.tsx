@@ -2,12 +2,25 @@ import React, { useMemo } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Header } from '@/components';
 import * as Styled from './Layout.styled';
+import { PATH } from '@/constants';
+import { GenerationSelect } from '@/components/Generation';
 
 const Layout = () => {
   const { pathname } = useLocation();
 
   const isBackgroundGray = useMemo(
-    () => ['login', 'application/', 'application-form/'].some((each) => pathname.includes(each)),
+    () =>
+      ['login', 'application/', 'application-form/', 'activity-score/'].some((each) =>
+        pathname.includes(each),
+      ),
+    [pathname],
+  );
+
+  const isListPage = useMemo(
+    () =>
+      [PATH.APPLICATION, PATH.APPLICATION_FORM, PATH.ACTIVITY_SCORE].some(
+        (each) => pathname === each,
+      ),
     [pathname],
   );
 
@@ -16,6 +29,11 @@ const Layout = () => {
       <Header />
       <Styled.Main isBackgroundGray={isBackgroundGray}>
         <section>
+          {isListPage && (
+            <Styled.SelectWrapper>
+              <GenerationSelect />
+            </Styled.SelectWrapper>
+          )}
           <Outlet />
         </section>
       </Styled.Main>

@@ -14,6 +14,7 @@ export const DatePickerWrapper = styled.div`
     background-color: ${theme.colors.white};
     border: 0.1rem solid ${theme.colors.gray30};
     border-radius: 1.2rem;
+    filter: drop-shadow(0px 0.5rem 2rem rgba(0, 0, 0, 0.08));
   `}
 `;
 
@@ -28,7 +29,7 @@ export const DatePickerHeader = styled.div`
     border-bottom: 0.1rem solid ${theme.colors.gray30};
 
     & div {
-      ${theme.fonts.bold24}
+      ${theme.fonts.bold16}
 
       cursor: default;
     }

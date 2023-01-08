@@ -19,7 +19,14 @@ import {
 } from '@/components';
 import { formatDate, uniqArray } from '@/utils';
 import { PATH, SORT_TYPE } from '@/constants';
-import { $applications, $teamIdByName, ModalKey, $modalByStorage, $profile } from '@/store';
+import {
+  $applications,
+  $teamIdByName,
+  ModalKey,
+  $modalByStorage,
+  $profile,
+  $generationNumber,
+} from '@/store';
 import { useConvertToXlsx, useDirty, usePagination } from '@/hooks';
 import { ApplicationRequest, ApplicationResponse } from '@/types';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
@@ -31,8 +38,11 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import * as Styled from './ApplicationList.styled';
+import { SelectOption } from '@/components/common/Select/Select.component';
+import { SearchOptionBarFilter } from '@/components/common/SearchOptionBar/SearchOptionBar.component';
 
 const APPLICATION_EXTRA_SIZE = 100;
+const DEFAULT_OPTION = { label: '전체', value: '' };
 
 const ApplicationList = () => {
   const handleSMSModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
@@ -41,8 +51,10 @@ const ApplicationList = () => {
   const { pathname, search } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const teamName = searchParams.get('team');
+
   const teamId = useRecoilValue($teamIdByName(teamName));
   const myTeamName = useRecoilValue($profile)[0];
+  const generationNumber = useRecoilValue($generationNumber);
   const isMyTeam = useMemo(
     () =>
       !teamName ||
@@ -87,9 +99,10 @@ const ApplicationList = () => {
       confirmStatus,
       resultStatus,
       sort: sortParam,
+      generationNumber,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, size, teamId, searchWord, sortParam, confirmStatus, resultStatus],
+    [page, size, teamId, searchWord, sortParam, confirmStatus, resultStatus, generationNumber],
   );
 
   const [totalCount, setTotalCount] = useState(0);
@@ -140,6 +153,7 @@ const ApplicationList = () => {
           page: 0,
           size: tableRows.page.totalCount + APPLICATION_EXTRA_SIZE,
           teamId: parseInt(teamId, 10) || undefined,
+          generationNumber,
         });
         setSelectedRows(applications.data);
         if (applications.page) {
@@ -147,7 +161,7 @@ const ApplicationList = () => {
         }
       }
     },
-    [tableRows.page?.totalCount, teamId],
+    [tableRows.page?.totalCount, teamId, generationNumber],
   );
 
   const columns: TableColumn<ApplicationResponse>[] = [
@@ -220,6 +234,55 @@ const ApplicationList = () => {
     },
   ];
 
+  const applicationConfirmStatusOptions = useMemo(
+    () => [
+      DEFAULT_OPTION,
+      ...Object.keys(ApplicationConfirmationStatus).reduce<SelectOption[]>(
+        (acc, cur) => [
+          ...acc,
+          {
+            label: ApplicationConfirmationStatus[cur as ApplicationConfirmationStatusKeyType],
+            value: cur,
+          },
+        ],
+        [],
+      ),
+    ],
+    [],
+  );
+
+  const applicationResultStatusOptions = useMemo(
+    () => [
+      DEFAULT_OPTION,
+      ...Object.keys(ApplicationResultStatus).reduce<SelectOption[]>(
+        (acc, cur) => [
+          ...acc,
+          {
+            label: ApplicationResultStatus[cur as ApplicationResultStatusKeyType],
+            value: cur,
+          },
+        ],
+        [],
+      ),
+    ],
+    [],
+  );
+
+  const searchOptionBarFilters: SearchOptionBarFilter[] = [
+    {
+      title: '합격여부',
+      options: applicationResultStatusOptions,
+      key: 'resultStatus',
+      defaultOption: DEFAULT_OPTION,
+    },
+    {
+      title: '사용자 확인여부',
+      options: applicationConfirmStatusOptions,
+      key: 'confirmStatus',
+      defaultOption: DEFAULT_OPTION,
+    },
+  ];
+
   useEffect(() => {
     if (!isLoading) {
       setLoadedTableRows(tableRows.data);
@@ -236,6 +299,12 @@ const ApplicationList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamName]);
 
+  useEffect(() => {
+    searchParams.delete('page');
+    setSearchParams(searchParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [generationNumber]);
+
   useLayoutEffect(() => {
     if (isDirty && !isLoading) {
       window.scrollTo({ top: 179, left: 0, behavior: 'smooth' });
@@ -248,7 +317,7 @@ const ApplicationList = () => {
       <Styled.Heading>지원서 내역</Styled.Heading>
       <Styled.StickyContainer>
         <TeamNavigationTabs />
-        <SearchOptionBar placeholder="이름, 전화번호 검색" />
+        <SearchOptionBar placeholder="이름, 전화번호 검색" filters={searchOptionBarFilters} />
       </Styled.StickyContainer>
       <Table
         prefix="application"

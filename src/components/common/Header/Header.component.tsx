@@ -30,6 +30,11 @@ const navigationItems: NavigationItem[] = [
     label: '지원서 설문지 내역',
     to: PATH.APPLICATION_FORM,
   },
+  // MEMO: (@mango906): 활동점수 QA할 때 다시 노출시키기
+  // {
+  //   label: '활동점수',
+  //   to: PATH.ACTIVITY_SCORE,
+  // },
 ];
 
 const Header = () => {

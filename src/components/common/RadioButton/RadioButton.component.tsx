@@ -1,23 +1,25 @@
-import React, { MouseEventHandler } from 'react';
+import React, { forwardRef } from 'react';
 import * as Styled from './RadioButton.styled';
 
-export interface RadioButtonProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
-  handleClickButton: MouseEventHandler<HTMLInputElement>;
+export interface RadioButtonProps extends React.InputHTMLAttributes<HTMLInputElement> {
   disabled?: boolean;
   defaultChecked?: boolean;
   label?: string;
 }
 
-const RadioButton = ({
-  handleClickButton,
-  disabled = false,
-  defaultChecked = false,
-  label = '',
-  ...resetProps
-}: RadioButtonProps) => {
+const RadioButton = (
+  {
+    className,
+    disabled = false,
+    defaultChecked = false,
+    label = '',
+    ...resetProps
+  }: RadioButtonProps,
+  ref: React.Ref<HTMLInputElement>,
+) => {
   return (
-    <Styled.RadioButtonWrapper {...resetProps} disabled={disabled}>
-      <input type="radio" onClick={handleClickButton} defaultChecked={defaultChecked} />
+    <Styled.RadioButtonWrapper className={className} disabled={disabled}>
+      <input ref={ref} type="radio" defaultChecked={defaultChecked} {...resetProps} />
       <Styled.RadioButtonMark>
         <span />
       </Styled.RadioButtonMark>
@@ -26,4 +28,4 @@ const RadioButton = ({
   );
 };
 
-export default RadioButton;
+export default forwardRef<HTMLInputElement, RadioButtonProps>(RadioButton);
