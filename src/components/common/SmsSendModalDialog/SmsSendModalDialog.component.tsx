@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilCallback, useSetRecoilState } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { InputField, ModalWrapper, RadioButtonField, TitleWithContent } from '@/components';
 import * as Styled from './SmsSendModalDialog.styled';
 import * as api from '@/api';
-import { $me, $modalByStorage, ModalKey } from '@/store';
+import { $modalByStorage, ModalKey } from '@/store';
 import ApplicationStatusBadge, {
   ApplicationConfirmationStatus,
   ApplicationConfirmationStatusKeyType,
@@ -61,7 +61,6 @@ const EmailSendModalDialog = ({
 
   const { handleAddToast } = useToast();
   const navigate = useNavigate();
-  const { adminMember } = useRecoilValue($me);
   const setEmailSendDetailListModal = useSetRecoilState(
     $modalByStorage(ModalKey.emailSendDetailListModalDialog),
   );
@@ -166,7 +165,7 @@ const EmailSendModalDialog = ({
             </Styled.TitleArea>
             {!isSendFailed && (
               <Styled.TitleArea>
-                <TitleWithContent title="발송번호">{adminMember.phoneNumber}</TitleWithContent>
+                <TitleWithContent title="발송이메일">recruit.mashup@gmail.com</TitleWithContent>
               </Styled.TitleArea>
             )}
             <Styled.StatusArea isSendFailed={isSendFailed}>
