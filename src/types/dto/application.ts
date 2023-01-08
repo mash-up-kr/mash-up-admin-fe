@@ -123,8 +123,8 @@ export interface ApplicationByIdResponseData extends Array<Team> {
     interviewStartedAt: string;
     status: ApplicationResultStatusInDtoType;
   };
-  emailRequests?: EmailRequestItem[];
-  smsRequests?: SmsContent[];
+  applicationEmailResponses: EmailRequestItem[];
+  smsRequests: SmsContent[];
   submittedAt: string;
   team: Team;
   updatedAt: string;

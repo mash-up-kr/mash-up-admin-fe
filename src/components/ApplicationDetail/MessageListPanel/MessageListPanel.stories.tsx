@@ -16,7 +16,7 @@ export const messageListPanel = Template.bind({});
 messageListPanel.args = {
   // @ts-ignore (바인딩 되지 않는 `application`의 필드 생략)
   application: {
-    emailRequests: [
+    applicationEmailResponses: [
       {
         emailNotificationId: '2798',
         emailRequestId: '2799',

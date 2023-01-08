@@ -44,7 +44,7 @@ export interface MessageListPanelProps {
 
 const MessageListPanel = ({ application }: MessageListPanelProps) => {
   const handleControlModal = useSetRecoilState($modalByStorage(ModalKey.emailSendModalDialog));
-  const messageItems = application?.emailRequests || [];
+  const messageItems = application.applicationEmailResponses;
 
   return (
     <Styled.MessageListPanelContainer>
