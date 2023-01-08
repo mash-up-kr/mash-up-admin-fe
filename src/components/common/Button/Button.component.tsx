@@ -47,6 +47,7 @@ const Button = (
   parentRef: React.Ref<ParentRef>,
 ) => {
   const childRef = useRef<HTMLButtonElement>(null);
+  const showLabel = shape !== ButtonShape.icon && !isLoading;
 
   useImperativeHandle(parentRef, () => {
     return {
@@ -69,7 +70,7 @@ const Button = (
       {...resetProps}
     >
       {Icon && <Icon />}
-      {shape !== ButtonShape.icon && label}
+      {showLabel && label}
       {children}
       {isLoading && <Styled.Spinner />}
     </Styled.ButtonWrapper>

@@ -72,9 +72,13 @@ const App = () => {
   })();
 
   useEffect(() => {
+    if (!isAuthorized) {
+      return;
+    }
+
     getTeams();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [generationNumber]);
+  }, [isAuthorized, generationNumber]);
 
   return (
     <ThemeProvider theme={theme}>
