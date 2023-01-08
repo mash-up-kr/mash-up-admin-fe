@@ -6,7 +6,7 @@ import UserProfile, {
 import { TitleWithContent } from '..';
 import * as Styled from './MessageListPanel.styled';
 import { Button } from '@/components';
-import { EmailRequestItem, EmailTypes, ApplicationByIdResponseData } from '@/types';
+import { EmailRequestItem, EmailTypes, ApplicationByIdResponseData, EmailStatus } from '@/types';
 import { $modalByStorage, ModalKey } from '@/store';
 import { formatDate } from '@/utils/date';
 
@@ -19,7 +19,7 @@ const MessageInfo = ({
 }: EmailRequestItem) => {
   return (
     <Styled.MessageInfoContainer>
-      <Styled.Label status={emailRequestStatus}>{emailRequestStatus}</Styled.Label>
+      <Styled.Label status={emailRequestStatus}>{EmailStatus[emailRequestStatus]}</Styled.Label>
       <Styled.TitleContainer>
         <div>{memo}</div>
         <div>{formatDate(sendAt, 'YYYY년 M월 D일(ddd) a hh시 mm분')}</div>

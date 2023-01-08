@@ -2,9 +2,9 @@ import { ValueOf, KeyOf } from '../helper';
 import { MemberPositionType } from './adminMember';
 
 export const EmailStatus = {
-  CREATED: 'CREATED',
-  SUCCESS: 'SUCCESS',
-  FAIL: 'FAIL',
+  CREATED: '이메일 생성',
+  SUCCESS: '발송성공',
+  FAIL: '발송실패',
 } as const;
 
 export type EmailStatusType = KeyOf<typeof EmailStatus>;
