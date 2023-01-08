@@ -14,7 +14,7 @@ import ApplicationStatusBadge, {
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import ArrowRight from '@/assets/svg/chevron-right-16.svg';
 import { request, uniqArray } from '@/utils';
-import { useToast } from '@/hooks';
+import { useRefreshSelectorFamilyByKey, useToast } from '@/hooks';
 import { ToastType } from '../Toast/Toast.component';
 import { PATH } from '@/constants';
 import {
@@ -65,6 +65,7 @@ const EmailSendModalDialog = ({
   const setEmailSendDetailListModal = useSetRecoilState(
     $modalByStorage(ModalKey.emailSendDetailListModalDialog),
   );
+  const refreshSelectorFamilyByKey = useRefreshSelectorFamilyByKey();
 
   const handleOpenEmailSendDetailListModalDialog = () => {
     setEmailSendDetailListModal({
@@ -122,6 +123,7 @@ const EmailSendModalDialog = ({
                 key: ModalKey.alertModalDialog,
                 isOpen: false,
               });
+              refreshSelectorFamilyByKey('emailSendingList');
             },
           });
         },
