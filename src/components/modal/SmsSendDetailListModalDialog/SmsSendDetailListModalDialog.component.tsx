@@ -18,8 +18,8 @@ const columns: TableColumn<ApplicationResponse>[] = [
     widthRatio: '30%',
   },
   {
-    title: '전화번호',
-    accessor: 'applicant.phoneNumber',
+    title: '이메일',
+    accessor: 'applicant.email',
     widthRatio: '40%',
   },
   {
