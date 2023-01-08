@@ -28,12 +28,12 @@ const columns: TableColumn<EmailRequest>[] = [
   {
     title: '이름',
     accessor: 'recipientName',
-    widthRatio: '25%',
+    widthRatio: '20%',
   },
   {
     title: '이메일',
     accessor: 'recipientEmail',
-    widthRatio: '30%',
+    widthRatio: '35%',
   },
   {
     title: '지원플랫폼',
@@ -125,7 +125,7 @@ const EmailSendDetailInfoModalDialog = ({ email }: EmailSendDetailInfoModalDialo
           <TitleWithContent title="발송일시">
             {email.sendAt ? formatDate(email.sendAt, 'YYYY년 M월 D일 A h시 m분') : '-'}
           </TitleWithContent>
-          <TitleWithContent title="발송여부">
+          <TitleWithContent title="발송여부(성공/실패/전체)">
             <Styled.SendingStatus>
               <span>{email.successCount}</span>/<span>{email.failureCount}</span>/
               <span>{email.totalCount}</span>
