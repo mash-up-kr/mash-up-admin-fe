@@ -24,6 +24,6 @@ export { default as Toast } from './Toast/Toast.component';
 export { default as PopOver } from './PopOver/PopOver.component';
 export { default as Loading } from './Loading/Loading.component';
 export { default as Portal } from './Portal/Portal.component';
-export { default as EmailSendModalDialog } from './SmsSendModalDialog/SmsSendModalDialog.component';
+export { default as EmailSendModalDialog } from './EmailSendModalDialog/EmailSendModalDialog.component';
 export { default as BottomCTA } from './BottomCTA/BottomCTA.component';
 export { default as Blocker } from './Blocker/Blocker.component';

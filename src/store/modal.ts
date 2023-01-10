@@ -4,9 +4,9 @@ import { recoilPersist } from 'recoil-persist';
 import { AlertModalDialogProps } from '@/components/common/AlertModalDialog/AlertModalDialog.component';
 import { ValueOf } from '@/types';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
-import { EmailSendModalDialogProps } from '@/components/common/SmsSendModalDialog/SmsSendModalDialog.component';
-import { EmailSendDetailInfoModalDialogProps } from '@/components/modal/SmsSendDetailInfoModalDialog/SmsSendDetailInfoModalDialog.component';
-import { EmailSendDetailListModalDialogProps } from '@/components/modal/SmsSendDetailListModalDialog/SmsSendDetailListModalDialog.component';
+import { EmailSendModalDialogProps } from '@/components/common/EmailSendModalDialog/EmailSendModalDialog.component';
+import { EmailSendDetailInfoModalDialogProps } from '@/components/modal/EmailSendDetailInfoModalDialog/EmailSendDetailInfoModalDialog.component';
+import { EmailSendDetailListModalDialogProps } from '@/components/modal/EmailSendDetailListModalDialog/EmailSendDetailListModalDialog.component';
 import { ApplyActivityScoreModalDialogProps } from '@/components/modal/ApplyActivityScoreModalDialog/ApplyActivityScoreModalDialog.component';
 import { ActivityScoreModalDialogProps } from '@/components/modal/ActivityScoreModalDialog/ActivityScoreModalDialog.component';
 

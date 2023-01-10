@@ -3,7 +3,7 @@ import { useRecoilCallback, useSetRecoilState } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { InputField, ModalWrapper, RadioButtonField, TitleWithContent } from '@/components';
-import * as Styled from './SmsSendModalDialog.styled';
+import * as Styled from './EmailSendModalDialog.styled';
 import * as api from '@/api';
 import { $modalByStorage, ModalKey } from '@/store';
 import ApplicationStatusBadge, {

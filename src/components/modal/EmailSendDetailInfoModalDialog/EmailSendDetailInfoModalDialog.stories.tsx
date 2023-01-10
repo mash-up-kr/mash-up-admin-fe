@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import EmailSendDetailInfoModalDialog from './SmsSendDetailInfoModalDialog.component';
+import EmailSendDetailInfoModalDialog from './EmailSendDetailInfoModalDialog.component';
 
 export default {
   title: 'Modal/Email Send Detail Info Modal Dialog',
