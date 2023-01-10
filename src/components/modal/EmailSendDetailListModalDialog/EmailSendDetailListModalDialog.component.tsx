@@ -6,7 +6,7 @@ import { SORT_TYPE } from '@/constants';
 import { usePagination } from '@/hooks';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { ApplicationResponse } from '@/types';
-import * as Styled from './SmsSendDetailListModalDialog.styled';
+import * as Styled from './EmailSendDetailListModalDialog.styled';
 import { getOwnValueByKey } from '@/utils';
 import { sortString } from '../../../utils/string';
 

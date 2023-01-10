@@ -13,9 +13,9 @@ import {
 } from '@/components';
 import { AlertModalDialogProps } from '../AlertModalDialog/AlertModalDialog.component';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
-import { EmailSendModalDialogProps } from '../SmsSendModalDialog/SmsSendModalDialog.component';
-import { EmailSendDetailListModalDialogProps } from '../../modal/SmsSendDetailListModalDialog/SmsSendDetailListModalDialog.component';
-import { EmailSendDetailInfoModalDialogProps } from '@/components/modal/SmsSendDetailInfoModalDialog/SmsSendDetailInfoModalDialog.component';
+import { EmailSendModalDialogProps } from '../EmailSendModalDialog/EmailSendModalDialog.component';
+import { EmailSendDetailListModalDialogProps } from '../../modal/EmailSendDetailListModalDialog/EmailSendDetailListModalDialog.component';
+import { EmailSendDetailInfoModalDialogProps } from '@/components/modal/EmailSendDetailInfoModalDialog/EmailSendDetailInfoModalDialog.component';
 import { ApplyActivityScoreModalDialogProps } from '@/components/modal/ApplyActivityScoreModalDialog/ApplyActivityScoreModalDialog.component';
 import { ActivityScoreModalDialogProps } from '@/components/modal/ActivityScoreModalDialog/ActivityScoreModalDialog.component';
 

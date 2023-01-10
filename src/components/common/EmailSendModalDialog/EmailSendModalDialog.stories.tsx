@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import EmailSendModalDialog, { EmailSendModalDialogProps } from './SmsSendModalDialog.component';
+import EmailSendModalDialog, { EmailSendModalDialogProps } from './EmailSendModalDialog.component';
 import { ApplicationConfirmationStatusInDto, ApplicationResultStatusInDto } from '@/types';
 
 const mockApplication = {

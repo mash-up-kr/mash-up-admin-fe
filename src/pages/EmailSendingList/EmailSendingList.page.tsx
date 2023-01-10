@@ -11,7 +11,7 @@ import * as api from '@/api';
 import { TableColumn, SortType } from '@/components/common/Table/Table.component';
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 
-import * as Styled from './SmsSendingList.styled';
+import * as Styled from './EmailSendingList.styled';
 import {
   EmailResponse,
   EmailSendingListResponse,

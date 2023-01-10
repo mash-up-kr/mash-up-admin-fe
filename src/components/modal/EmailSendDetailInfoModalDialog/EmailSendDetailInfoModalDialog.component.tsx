@@ -15,7 +15,7 @@ import { usePagination } from '@/hooks';
 import { SORT_TYPE } from '@/constants';
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
-import * as Styled from './SmsSendDetailInfoModalDialog.styled';
+import * as Styled from './EmailSendDetailInfoModalDialog.styled';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 
 const EMAIL_STATUS = {
