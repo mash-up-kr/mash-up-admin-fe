@@ -18,7 +18,19 @@ import {
   EmailSendingListRequest,
   EmailTypes,
   EmailType,
+  NestedKeyOf,
 } from '@/types';
+
+const changeParamForBackend = (sortParam: NestedKeyOf<EmailSendingListResponse>) => {
+  switch (sortParam) {
+    case 'type':
+      return 'templateName';
+    case 'sendAt':
+      return 'createdAt';
+    default:
+      return sortParam;
+  }
+};
 
 const EmailSendingList = () => {
   const [searchParams] = useSearchParams();
@@ -36,7 +48,7 @@ const EmailSendingList = () => {
     if (!matched) return '';
 
     const { accessor, type } = matched;
-    return `${accessor},${type}`;
+    return `${changeParamForBackend(accessor)},${type}`;
   }, [sortTypes]);
 
   const emailSendingListParams = useMemo<EmailSendingListRequest>(
