@@ -1,4 +1,4 @@
-import { ValueOf, KeyOf } from '../helper';
+import { KeyOf } from '../helper';
 import { MemberPositionType } from './adminMember';
 
 export const EmailStatus = {
@@ -28,15 +28,7 @@ export interface EmailRequest {
   team: string;
 }
 
-export const TemplateNames = {
-  제출: 'SUBMIT',
-  '서류 결과 발표': 'SCREENING_RESULT',
-  '서류 결과 발표 지연': 'SCREENING_DELAY',
-  '면접 결과 발표': 'INTERVIEW_RESULT',
-  '면접 결과 발표 지연': 'INTERVIEW_DELAY',
-} as const;
-
-export type TemplateName = ValueOf<typeof TemplateNames>;
+export type TemplateName = KeyOf<typeof EmailTypes>;
 
 export interface EmailSendingListResponse {
   emailNotificationId: number;

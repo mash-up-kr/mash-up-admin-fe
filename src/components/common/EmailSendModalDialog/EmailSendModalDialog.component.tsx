@@ -17,13 +17,7 @@ import { request, uniqArray } from '@/utils';
 import { useRefreshSelectorFamilyByKey, useToast } from '@/hooks';
 import { ToastType } from '../Toast/Toast.component';
 import { PATH } from '@/constants';
-import {
-  ApplicationResponse,
-  EmailRequest,
-  EmailTypes,
-  TemplateName,
-  TemplateNames,
-} from '@/types';
+import { ApplicationResponse, EmailRequest, EmailTypes, TemplateName } from '@/types';
 
 interface FormValues {
   memo: string;
@@ -194,13 +188,13 @@ const EmailSendModalDialog = ({
           발송유형
           <Styled.RequiredDot />
         </Styled.Label>
-        {Object.values(EmailTypes).map(
-          (emailType) =>
-            TemplateNames[emailType] !== 'SUBMIT' && (
+        {Object.entries(EmailTypes).map(
+          ([englishEmailType, koreanEmailType]) =>
+            englishEmailType !== 'SUBMIT' && (
               <RadioButtonField
-                key={emailType}
-                label={emailType}
-                value={TemplateNames[emailType]}
+                key={koreanEmailType}
+                label={koreanEmailType}
+                value={englishEmailType}
                 {...register('templateName', { required: true })}
               />
             ),
