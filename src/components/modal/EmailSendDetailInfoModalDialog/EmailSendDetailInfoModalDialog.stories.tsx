@@ -27,7 +27,7 @@ const Template: ComponentStory<typeof EmailSendDetailInfoModalDialog> = () => (
       sender: 'ANDROID_HELPER',
       successCount: 99,
       totalCount: 100,
-      type: 'INTERVIEW_DELAY',
+      type: 'INTERVIEW_RESULT',
     }}
   />
 );

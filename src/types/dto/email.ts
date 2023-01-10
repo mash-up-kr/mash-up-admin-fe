@@ -14,7 +14,6 @@ export const EmailTypes = {
   SCREENING_RESULT: '서류 결과 발표',
   SCREENING_DELAY: '서류 결과 발표 지연',
   INTERVIEW_RESULT: '면접 결과 발표',
-  INTERVIEW_DELAY: '면접 결과 발표 지연',
 } as const;
 
 export type EmailType = KeyOf<typeof EmailTypes>;
