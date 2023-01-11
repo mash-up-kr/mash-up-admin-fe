@@ -28,6 +28,8 @@ export const Answer = styled.div`
     ${theme.fonts.regular15};
     margin-top: 1.2rem;
     color: ${theme.colors.gray70};
+    white-space: pre-wrap;
+    word-break: break-word;
 
     & a {
       text-decoration: underline;
