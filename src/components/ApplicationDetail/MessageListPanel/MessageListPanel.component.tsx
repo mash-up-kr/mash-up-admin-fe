@@ -68,7 +68,7 @@ const MessageListPanel = ({ application }: MessageListPanelProps) => {
       </Styled.MessageListPanelTitle>
       {messageItems.length > 0 && (
         <Styled.MessageListPanelContent>
-          {messageItems.map((each: any) => (
+          {messageItems.map((each) => (
             <MessageInfo key={each?.emailRequestId} {...each} />
           ))}
         </Styled.MessageListPanelContent>
