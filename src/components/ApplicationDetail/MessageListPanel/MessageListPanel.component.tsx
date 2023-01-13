@@ -1,76 +1,61 @@
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
-import unescape from 'lodash-es/unescape';
 import UserProfile, {
   splitMemberPosition,
 } from '@/components/common/UserProfile/UserProfile.component';
 import { TitleWithContent } from '..';
 import * as Styled from './MessageListPanel.styled';
 import { Button } from '@/components';
-import { MemberPositionType, ApplicationResponse } from '@/types';
+import { EmailRequestItem, EmailTypes, ApplicationByIdResponseData, EmailStatus } from '@/types';
 import { $modalByStorage, ModalKey } from '@/store';
 import { formatDate } from '@/utils/date';
-import { SmsStatus, SmsStatusType } from '@/types/dto/sms';
-import { useConvertTextToLink } from '@/hooks';
-
-export interface MessageInfoProps {
-  notificationName?: string;
-  senderPhoneNumber?: string;
-  sender?: MemberPositionType;
-  notificationContent?: string;
-  smsRequestId: number;
-  status: SmsStatusType;
-  createdAt: string;
-}
 
 const MessageInfo = ({
-  notificationName,
-  senderPhoneNumber,
-  sender,
-  notificationContent,
-  status,
-  createdAt,
-}: MessageInfoProps) => {
-  const convertedContent = useConvertTextToLink(unescape(notificationContent));
+  memo,
+  emailRequestStatus,
+  sendAt,
+  senderPosition,
+  templateName,
+}: EmailRequestItem) => {
   return (
     <Styled.MessageInfoContainer>
-      <Styled.Label status={status}>{SmsStatus[status]}</Styled.Label>
+      <Styled.Label status={emailRequestStatus}>{EmailStatus[emailRequestStatus]}</Styled.Label>
       <Styled.TitleContainer>
-        <div>{notificationName}</div>
-        <div>{formatDate(createdAt, 'YYYY년 M월 D일(ddd) a hh시 mm분')}</div>
+        <div>{memo}</div>
+        <div>{formatDate(sendAt, 'YYYY년 M월 D일(ddd) a hh시 mm분')}</div>
       </Styled.TitleContainer>
-      <TitleWithContent title="발송번호">{senderPhoneNumber}</TitleWithContent>
+      <TitleWithContent title="발송이메일">recruit.mashup@gmail.com</TitleWithContent>
       <TitleWithContent title="발송자">
         <UserProfile
-          team={splitMemberPosition(sender!)[0]}
-          role={splitMemberPosition(sender!)[1]}
+          team={splitMemberPosition(senderPosition)[0]}
+          role={splitMemberPosition(senderPosition)[1]}
           showBackground={false}
           removePadding
         />
       </TitleWithContent>
-      <TitleWithContent title="발송내용">{convertedContent}</TitleWithContent>
+      <TitleWithContent title="발송내용">{EmailTypes[templateName]}</TitleWithContent>
     </Styled.MessageInfoContainer>
   );
 };
 
 export interface MessageListPanelProps {
-  smsRequests: MessageInfoProps[];
-  application: ApplicationResponse;
+  application: ApplicationByIdResponseData;
 }
 
-const MessageListPanel = ({ smsRequests, application }: MessageListPanelProps) => {
-  const handleControlModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+const MessageListPanel = ({ application }: MessageListPanelProps) => {
+  const handleControlModal = useSetRecoilState($modalByStorage(ModalKey.emailSendModalDialog));
+  const messageItems = application.applicationEmailResponses;
 
   return (
     <Styled.MessageListPanelContainer>
       <Styled.MessageListPanelTitle>
-        <h3>SMS 발송내역</h3>
+        <h3>이메일 발송내역</h3>
         <Button
           $size="xs"
           shape="defaultLine"
           onClick={() =>
             handleControlModal({
-              key: ModalKey.smsSendModalDialog,
+              key: ModalKey.emailSendModalDialog,
               props: {
                 selectedApplications: [application],
               },
@@ -78,13 +63,13 @@ const MessageListPanel = ({ smsRequests, application }: MessageListPanelProps) =
             })
           }
         >
-          SMS 발송
+          이메일 발송
         </Button>
       </Styled.MessageListPanelTitle>
-      {smsRequests.length > 0 && (
+      {messageItems.length > 0 && (
         <Styled.MessageListPanelContent>
-          {smsRequests.map((each: MessageInfoProps) => (
-            <MessageInfo key={each.smsRequestId} {...each} />
+          {messageItems.map((each) => (
+            <MessageInfo key={each?.emailRequestId} {...each} />
           ))}
         </Styled.MessageListPanelContent>
       )}

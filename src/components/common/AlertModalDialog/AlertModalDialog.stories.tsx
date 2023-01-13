@@ -10,10 +10,10 @@ const Template: ComponentStory<typeof AlertModalDialog> = (args: AlertModalDialo
   return <AlertModalDialog {...args} />;
 };
 
-export const SmsComplete = Template.bind({});
-SmsComplete.args = {
-  heading: 'SMS 발송 완료',
-  paragraph: 'SMS 발송내역 페이지로 이동하시겠습니까?',
+export const EmailComplete = Template.bind({});
+EmailComplete.args = {
+  heading: '이메일 발송 완료',
+  paragraph: '이메일 발송내역 페이지로 이동하시겠습니까?',
   cancelButtonLabel: '취소',
   confirmButtonLabel: '이동',
   handleClickConfirmButton: () => {},

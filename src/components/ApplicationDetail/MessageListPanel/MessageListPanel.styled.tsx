@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { SmsStatus, SmsStatusType } from '@/types/dto/sms';
+import { EmailStatus, EmailStatusType } from '@/types';
 
 export const MessageListPanelContainer = styled.div`
   ${({ theme }) => css`
@@ -46,12 +46,12 @@ export const MessageInfoContainer = styled.div`
 `;
 
 interface StyledLabelProps {
-  status: SmsStatusType;
+  status: EmailStatusType;
 }
 
 export const Label = styled.div<StyledLabelProps>`
   ${({ theme, status }) => css`
-    ${theme.badge[SmsStatus[status]]}
+    ${theme.badge[EmailStatus[status]]}
     ${theme.fonts.medium13}
     display: flex;
     align-items: center;

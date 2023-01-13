@@ -42,12 +42,14 @@ export default {
 
 const Template: ComponentStory<typeof ModalViewer> = () => {
   const handleControlAlertModal = useSetRecoilState($modalByStorage(ModalKey.alertModalDialog));
-  const handleControlSmsSendModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+  const handleControlEmailSendModal = useSetRecoilState(
+    $modalByStorage(ModalKey.emailSendModalDialog),
+  );
   const handleControlChangeResultModal = useSetRecoilState(
     $modalByStorage(ModalKey.changeResultModalDialog),
   );
-  const handleControlSmsSendDetailInfoModal = useSetRecoilState(
-    $modalByStorage(ModalKey.smsSendDetailInfoModalDialog),
+  const handleControlEmailSendDetailInfoModal = useSetRecoilState(
+    $modalByStorage(ModalKey.emailSendDetailInfoModalDialog),
   );
 
   return (
@@ -59,8 +61,8 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
           handleControlAlertModal({
             key: ModalKey.alertModalDialog,
             props: {
-              heading: 'SMS 발송 완료',
-              paragraph: 'SMS 발송내역 페이지로 이동하시겠습니까?',
+              heading: '이메일 발송 완료',
+              paragraph: '이메일 발송내역 페이지로 이동하시겠습니까?',
               cancelButtonLabel: '취소',
               confirmButtonLabel: '이동',
               handleClickConfirmButton: () => {},
@@ -69,7 +71,7 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
           })
         }
       >
-        SMS 발송 완료 알럿모달
+        이메일 발송 완료 알럿모달
       </Button>
       <Button
         onClick={() =>
@@ -137,8 +139,8 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
       </Button>
       <Button
         onClick={() =>
-          handleControlSmsSendModal({
-            key: ModalKey.smsSendModalDialog,
+          handleControlEmailSendModal({
+            key: ModalKey.emailSendModalDialog,
             props: {
               selectedApplications: [mockApplication],
             },
@@ -146,12 +148,12 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
           })
         }
       >
-        SMS 발송
+        이메일 발송
       </Button>
       <Button
         onClick={() =>
-          handleControlSmsSendModal({
-            key: ModalKey.smsSendModalDialog,
+          handleControlEmailSendModal({
+            key: ModalKey.emailSendModalDialog,
             props: {
               selectedApplications: [mockApplication],
             },
@@ -159,17 +161,17 @@ const Template: ComponentStory<typeof ModalViewer> = () => {
           })
         }
       >
-        SMS 발송(여러명)
+        이메일 발송(여러명)
       </Button>
       <Button
         onClick={() =>
-          handleControlSmsSendDetailInfoModal({
-            key: ModalKey.smsSendDetailInfoModalDialog,
+          handleControlEmailSendDetailInfoModal({
+            key: ModalKey.emailSendDetailInfoModalDialog,
             isOpen: true,
           })
         }
       >
-        SMS 발송 상세내역
+        이메일 발송 상세내역
       </Button>
     </div>
   );

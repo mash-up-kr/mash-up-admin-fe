@@ -4,7 +4,7 @@ import {
   ApplicationConfirmationStatus,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
 import { colors } from '.';
-import { SmsStatus } from '@/types/dto/sms';
+import { EmailStatus } from '@/types';
 
 export const badge = {
   [ApplicationResultStatus.NOT_RATED]: css`
@@ -71,15 +71,15 @@ export const badge = {
     color: ${colors.gray60};
     background-color: ${colors.gray20};
   `,
-  [SmsStatus.CREATED]: css`
+  [EmailStatus.CREATED]: css`
     color: ${colors.blue70};
     border: 0.1rem solid ${colors.blue70};
   `,
-  [SmsStatus.FAILURE]: css`
+  [EmailStatus.FAIL]: css`
     color: ${colors.red70};
     border: 0.1rem solid ${colors.red70};
   `,
-  [SmsStatus.SUCCESS]: css`
+  [EmailStatus.SUCCESS]: css`
     color: ${colors.blue70};
     border: 0.1rem solid ${colors.blue70};
   `,
