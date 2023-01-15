@@ -18,9 +18,13 @@ const Layout = () => {
 
   const isListPage = useMemo(
     () =>
-      [PATH.APPLICATION, PATH.APPLICATION_FORM, PATH.ACTIVITY_SCORE].some(
-        (each) => pathname === each,
-      ),
+      [
+        PATH.APPLICATION,
+        PATH.APPLICATION_FORM,
+        PATH.ACTIVITY_SCORE,
+        PATH.ACTIVITY_SCORE,
+        PATH.SCHEDULE,
+      ].some((each) => pathname === each),
     [pathname],
   );
 
