@@ -11,6 +11,20 @@ export interface ScheduleResponse {
   name: string;
   scheduleId: number;
   startedAt: string;
-  eventList: any[];
+  eventList: Event[];
   status: ValueOf<typeof ScheduleStatus>;
+}
+
+interface Event {
+  contentList: Content[];
+  endedAt: string;
+  eventId: number;
+  startedAt: string;
+}
+
+export interface Content {
+  content: string;
+  contentId: number;
+  startedAt: string;
+  title: string;
 }
