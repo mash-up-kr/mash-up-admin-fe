@@ -1,28 +1,27 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
 import { BottomCTA, Button, Link, Pagination, SearchOptionBar, Table } from '@/components';
 import * as Styled from './ScheduleList.styled';
 import { TableColumn } from '@/components/common/Table/Table.component';
-import { ScheduleResponse, ScheduleStatus } from '@/types/dto/schedule';
+import { ScheduleRequest, ScheduleResponse, ScheduleStatus } from '@/types/dto/schedule';
 import { formatDate } from '@/utils/date';
 import { PATH } from '@/constants';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 import { usePagination } from '@/hooks';
-
-const rows: ScheduleResponse[] = [
-  {
-    name: '스케줄 명',
-    endedAt: '2023-01-15',
-    eventList: [],
-    generationNumber: 13,
-    scheduleId: 1,
-    startedAt: '2023-01-15',
-    status: ScheduleStatus.ADMIN_ONLY,
-  },
-];
-
-const totalCount = rows.length;
+import { $generationNumber } from '@/store';
+import { $schedules } from '@/store/schedule';
+import { ValueOf } from '@/types';
 
 const ScheduleList = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const teamName = searchParams.get('team');
+  const generationNumber = useRecoilValue($generationNumber);
+  const page = searchParams.get('page') || '1';
+  const size = searchParams.get('size') || '20';
+  const searchWord = searchParams.get('searchWord') || '';
+
+  // TODO(@mango906): 서버 응답에 등록 일시, 배포 일시 생기면 accessor 변경해주기
   const columns: TableColumn<ScheduleResponse>[] = [
     {
       title: '스케줄 명',
@@ -31,32 +30,73 @@ const ScheduleList = () => {
     },
     {
       title: '스케줄 일시',
-      accessor: 'name',
+      accessor: 'startedAt',
       widthRatio: '20%',
       renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
     },
     {
       title: '등록 일시',
-      accessor: 'name',
+      accessor: 'startedAt',
       widthRatio: '20%',
       renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
     },
     {
       title: '배포 일시',
-      accessor: 'name',
+      accessor: 'startedAt',
       widthRatio: '20%',
       renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
     },
     {
       title: '배포 상태',
-      accessor: 'name',
+      accessor: 'status',
       widthRatio: '20%',
+      renderCustomCell: (cellValue) => {
+        const value = cellValue as ValueOf<typeof ScheduleStatus>;
+
+        if (value === ScheduleStatus.ADMIN_ONLY) {
+          return '-';
+        }
+
+        if (value === ScheduleStatus.PUBLIC) {
+          return '배포 완료';
+        }
+
+        return '';
+      },
     },
   ];
 
+  const scheduleParams = useMemo<ScheduleRequest>(
+    () => ({
+      page: parseInt(page, 10) - 1,
+      size: parseInt(size, 10),
+      searchWord,
+      generationNumber,
+    }),
+    [generationNumber, page, searchWord, size],
+  );
+
+  const [{ contents }] = useRecoilStateLoadable($schedules(scheduleParams));
+
+  const tableRows = contents.data ?? [];
+  const { totalCount = 0 } = contents.page ?? {};
+
   const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
-    totalCount: rows.length,
+    totalCount,
+    pagingSize: 10,
   });
+
+  useEffect(() => {
+    searchParams.delete('searchWord');
+    setSearchParams(searchParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamName]);
+
+  useEffect(() => {
+    searchParams.delete('page');
+    setSearchParams(searchParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [generationNumber]);
 
   return (
     <Styled.PageWrapper>
@@ -68,7 +108,7 @@ const ScheduleList = () => {
         prefix="schedule"
         topStickyHeight={14.1}
         columns={columns}
-        rows={rows}
+        rows={tableRows}
         supportBar={{
           totalCount,
           totalSummaryText: '총 지원설문지',
@@ -84,7 +124,7 @@ const ScheduleList = () => {
           <Pagination
             pageOptions={pageOptions}
             selectableSize={{
-              selectBoxPosition: rows.length > 3 ? 'top' : 'bottom',
+              selectBoxPosition: tableRows.length > 3 ? 'top' : 'bottom',
               handleChangeSize,
             }}
             handleChangePage={handleChangePage}
@@ -100,7 +140,7 @@ const ScheduleList = () => {
         <Pagination
           pageOptions={pageOptions}
           selectableSize={{
-            selectBoxPosition: rows.length > 3 ? 'top' : 'bottom',
+            selectBoxPosition: tableRows.length > 3 ? 'top' : 'bottom',
             handleChangeSize,
           }}
           handleChangePage={handleChangePage}
