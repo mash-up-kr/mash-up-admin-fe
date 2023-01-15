@@ -34,6 +34,10 @@ const navigationItems: NavigationItem[] = [
     label: '활동점수',
     to: PATH.ACTIVITY_SCORE,
   },
+  {
+    label: '스케쥴 정보',
+    to: PATH.SCHEDULE,
+  },
 ];
 
 const Header = () => {

@@ -11,6 +11,7 @@ export const PATH = {
   APPLICATION_FORM_UPDATE: '/application-form/update/:id',
   ACTIVITY_SCORE: '/activity-score',
   ACTIVITY_SCORE_DETAIL: '/activity-score/:generationNumber/:memberId',
+  SCHEDULE: '/schedule',
   NOT_FOUND: '/404',
   FORBIDDEN: '/403',
 } as const;
