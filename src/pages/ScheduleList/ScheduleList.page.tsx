@@ -12,6 +12,7 @@ import { usePagination } from '@/hooks';
 import { $generationNumber } from '@/store';
 import { $schedules } from '@/store/schedule';
 import { ValueOf } from '@/types';
+import { parsePlaceholderWhenInvalidDate } from '@/utils';
 
 const ScheduleList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,7 +22,6 @@ const ScheduleList = () => {
   const size = searchParams.get('size') || '20';
   const searchWord = searchParams.get('searchWord') || '';
 
-  // TODO(@mango906): 서버 응답에 등록 일시, 배포 일시 생기면 accessor 변경해주기
   const columns: TableColumn<ScheduleResponse>[] = [
     {
       title: '스케줄 명',
@@ -36,15 +36,21 @@ const ScheduleList = () => {
     },
     {
       title: '등록 일시',
-      accessor: 'startedAt',
+      accessor: 'createdAt',
       widthRatio: '20%',
-      renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+      renderCustomCell: (cellValue) =>
+        parsePlaceholderWhenInvalidDate(
+          formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+        ),
     },
     {
       title: '배포 일시',
-      accessor: 'startedAt',
+      accessor: 'publishedAt',
       widthRatio: '20%',
-      renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+      renderCustomCell: (cellValue) =>
+        parsePlaceholderWhenInvalidDate(
+          formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+        ),
     },
     {
       title: '배포 상태',

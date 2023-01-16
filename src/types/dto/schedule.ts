@@ -17,7 +17,9 @@ export interface ScheduleResponse {
   generationNumber: number;
   name: string;
   scheduleId: number;
+  createdAt: string;
   startedAt: string;
+  publishedAt?: string;
   eventList: Event[];
   status: ValueOf<typeof ScheduleStatus>;
 }
