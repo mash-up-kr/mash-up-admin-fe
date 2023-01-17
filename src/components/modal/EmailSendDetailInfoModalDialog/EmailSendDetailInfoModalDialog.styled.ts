@@ -10,13 +10,13 @@ export const DetailWrapper = styled.div`
   flex-direction: column;
   gap: 1.6rem;
   width: 48.6rem;
-  height: 72rem;
+  max-height: 72rem;
   padding: 2.4rem 1rem 2.4rem 2.4rem;
 `;
 
 export const TableWrapper = styled.div`
   width: 57.4rem;
-  height: 72rem;
+  max-height: 72rem;
   padding: 2.4rem 2.4rem 2.4rem 1rem;
 `;
 
