@@ -21,7 +21,7 @@ import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.compo
 const EMAIL_STATUS = {
   CREATED: '생성',
   SUCCESS: '성공',
-  FAILURE: '실패',
+  FAIL: '실패',
 } as const;
 
 const columns: TableColumn<EmailRequest>[] = [
