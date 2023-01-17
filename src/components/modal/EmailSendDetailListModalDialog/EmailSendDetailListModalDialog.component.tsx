@@ -80,7 +80,7 @@ const EmailSendDetailListModalDialog = ({
         <Table<ApplicationResponse>
           prefix="application-email"
           columns={columns}
-          rows={pagedRows}
+          rows={pagedRows.length > 0 ? pagedRows : tableRows}
           supportBar={{
             totalCount: selectedApplications.length,
             totalSummaryText: '총 발송인원',
