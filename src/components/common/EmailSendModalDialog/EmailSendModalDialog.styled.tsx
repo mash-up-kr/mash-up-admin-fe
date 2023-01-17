@@ -5,7 +5,7 @@ export const EmailSendModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-  width: 50rem;
+  max-width: 76rem;
   padding: 1.2rem 2.4rem;
 
   & .textarea {
