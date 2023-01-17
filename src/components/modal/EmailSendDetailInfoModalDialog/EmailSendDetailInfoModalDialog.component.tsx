@@ -87,13 +87,18 @@ const EmailSendDetailInfoModalDialog = ({ email }: EmailSendDetailInfoModalDialo
     });
   });
 
+  const failedEmailRequests = useMemo(
+    () => email.emailRequests.filter(({ status }) => status === 'FAIL'),
+    [email],
+  );
+
   const handleEmailModal = useRecoilCallback(({ set }) => () => {
     set($modalByStorage(ModalKey.emailSendModalDialog), {
       key: ModalKey.emailSendModalDialog,
       props: {
         selectedApplications: [],
         isSendFailed: true,
-        failedEmailRequests: email.emailRequests,
+        failedEmailRequests,
       },
       isOpen: true,
     });
