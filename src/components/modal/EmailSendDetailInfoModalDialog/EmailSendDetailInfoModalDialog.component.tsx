@@ -88,7 +88,7 @@ const EmailSendDetailInfoModalDialog = ({ email }: EmailSendDetailInfoModalDialo
   });
 
   const failedEmailRequests = useMemo(
-    () => email.emailRequests.filter(({ status }) => status === 'FAIL'),
+    () => email.emailRequests.filter(({ status }) => EMAIL_STATUS[status] === EMAIL_STATUS.FAIL),
     [email],
   );
 
