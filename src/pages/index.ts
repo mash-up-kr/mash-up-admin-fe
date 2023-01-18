@@ -9,3 +9,4 @@ export { default as EmailSendingList } from './EmailSendingList/EmailSendingList
 export { default as ErrorPage } from './ErrorPage/ErrorPage.page';
 export { default as ActivityScoreList } from './ActivityScoreList/ActivityScoreList.page';
 export { default as ActivityScoreDetail } from './ActivityScoreDetail/ActivityScoreDetail.page';
+export { default as ScheduleList } from './ScheduleList/ScheduleList.page';
