@@ -21,7 +21,7 @@ import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.compo
 const EMAIL_STATUS = {
   CREATED: '생성',
   SUCCESS: '성공',
-  FAILURE: '실패',
+  FAIL: '실패',
 } as const;
 
 const columns: TableColumn<EmailRequest>[] = [
@@ -87,13 +87,18 @@ const EmailSendDetailInfoModalDialog = ({ email }: EmailSendDetailInfoModalDialo
     });
   });
 
+  const failedEmailRequests = useMemo(
+    () => email.emailRequests.filter(({ status }) => EMAIL_STATUS[status] === EMAIL_STATUS.FAIL),
+    [email],
+  );
+
   const handleEmailModal = useRecoilCallback(({ set }) => () => {
     set($modalByStorage(ModalKey.emailSendModalDialog), {
       key: ModalKey.emailSendModalDialog,
       props: {
         selectedApplications: [],
         isSendFailed: true,
-        failedEmailRequests: email.emailRequests,
+        failedEmailRequests,
       },
       isOpen: true,
     });
