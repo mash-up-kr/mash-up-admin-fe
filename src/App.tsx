@@ -23,6 +23,7 @@ import {
   ActivityScoreDetail,
   ErrorPage,
   ScheduleList,
+  CreateSchedule,
 } from './pages';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
@@ -165,6 +166,14 @@ const App = () => {
               element={
                 <RequiredAuth isAuth={isAuthorized}>
                   <ScheduleList />
+                </RequiredAuth>
+              }
+            />
+            <Route
+              path={PATH.SCHEDULE_CREATE}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <CreateSchedule />
                 </RequiredAuth>
               }
             />
