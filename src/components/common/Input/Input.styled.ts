@@ -7,11 +7,14 @@ interface InputWrapperProps {
   fill?: boolean;
 }
 
-interface StyledInputProps {
-  $size: InputSizeType;
+interface StyledInputWrapperProps {
   errorMessage?: string;
   fill?: boolean;
   disabled?: boolean;
+}
+
+interface StyledInputProps {
+  $size: InputSizeType;
 }
 
 export const InputContainer = styled.div<InputWrapperProps>`
@@ -54,15 +57,17 @@ export const Description = styled.span`
   `}
 `;
 
-export const InputWrapper = styled.div<StyledInputProps>`
-  ${({ theme, $size, errorMessage, disabled }) => css`
-    ${theme.input.size[$size]};
-
+export const InputWrapper = styled.div<StyledInputWrapperProps>`
+  ${({ theme, errorMessage, disabled }) => css`
     display: flex;
     align-items: center;
     background-color: white;
     border: 0.1rem solid ${theme.colors.gray30};
     border-radius: 0.9rem;
+
+    svg {
+      margin-right: 1.2rem;
+    }
 
     &:hover {
       border: 0.1rem solid ${theme.colors.purple40};
@@ -89,8 +94,10 @@ export const InputWrapper = styled.div<StyledInputProps>`
   `}
 `;
 
-export const Input = styled.input`
-  ${({ theme }) => css`
+export const Input = styled.input<StyledInputProps>`
+  ${({ theme, $size }) => css`
+    ${theme.input.size[$size]};
+
     width: 100%;
     color: ${theme.colors.gray70};
     background-color: transparent;

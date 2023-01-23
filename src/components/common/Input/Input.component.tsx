@@ -44,8 +44,8 @@ const Input = (
         </Styled.InputLabel>
       )}
       {description && <Styled.Description>{description}</Styled.Description>}
-      <Styled.InputWrapper $size={$size} errorMessage={errorMessage} disabled={disabled}>
-        <Styled.Input ref={ref} id={id} disabled={disabled} {...resetProps} />
+      <Styled.InputWrapper errorMessage={errorMessage} disabled={disabled}>
+        <Styled.Input $size={$size} ref={ref} id={id} disabled={disabled} {...resetProps} />
         {endIcon}
       </Styled.InputWrapper>
       {errorMessage && <Styled.InputErrorMessage>{errorMessage}</Styled.InputErrorMessage>}
