@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { SmsStatus } from '@/types';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -10,15 +9,14 @@ export const DetailWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-  width: 38rem;
-  max-width: 48.6rem;
-  max-height: 65vh;
+  width: 48.6rem;
+  max-height: 72rem;
   padding: 2.4rem 1rem 2.4rem 2.4rem;
 `;
 
 export const TableWrapper = styled.div`
-  width: 51.4rem;
-  max-height: 65vh;
+  width: 57.4rem;
+  max-height: 72rem;
   padding: 2.4rem 2.4rem 2.4rem 1rem;
 `;
 
@@ -52,12 +50,12 @@ export const SendingStatus = styled.div`
 
 export const StatusWrapper = styled.div<{ status: string }>`
   ${({ theme, status }) => css`
-    ${status === SmsStatus.SUCCESS &&
+    ${status === 'SUCCESS' &&
     css`
       color: ${theme.colors.blue70};
     `}
 
-    ${status === SmsStatus.FAILURE &&
+    ${status === 'FAIL' &&
     css`
       color: ${theme.colors.red70};
     `}

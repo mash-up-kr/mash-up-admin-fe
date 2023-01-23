@@ -4,7 +4,7 @@ export const PATH = {
   LOGIN: '/login',
   APPLICATION: '/application',
   APPLICATION_DETAIL: '/application/:id',
-  SMS: '/sms',
+  EMAIL: '/email',
   APPLICATION_FORM: '/application-form',
   APPLICATION_FORM_DETAIL: '/application-form/:id',
   APPLICATION_FORM_CREATE: '/application-form/create',

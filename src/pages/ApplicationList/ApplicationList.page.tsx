@@ -45,7 +45,7 @@ const APPLICATION_EXTRA_SIZE = 100;
 const DEFAULT_OPTION = { label: '전체', value: '' };
 
 const ApplicationList = () => {
-  const handleSMSModal = useSetRecoilState($modalByStorage(ModalKey.smsSendModalDialog));
+  const handleEmailModal = useSetRecoilState($modalByStorage(ModalKey.emailSendModalDialog));
   const handleResultModal = useSetRecoilState($modalByStorage(ModalKey.changeResultModalDialog));
 
   const { pathname, search } = useLocation();
@@ -334,8 +334,8 @@ const ApplicationList = () => {
               $size={ButtonSize.xs}
               shape={ButtonShape.defaultLine}
               onClick={() =>
-                handleSMSModal({
-                  key: ModalKey.smsSendModalDialog,
+                handleEmailModal({
+                  key: ModalKey.emailSendModalDialog,
                   props: {
                     selectedApplications: selectedRows,
                     showSummary: true,
@@ -345,7 +345,7 @@ const ApplicationList = () => {
               }
               disabled={selectedResults.length === 0 && isMyTeam}
             >
-              SMS 발송
+              이메일 발송
             </Button>,
             <Button
               $size={ButtonSize.xs}

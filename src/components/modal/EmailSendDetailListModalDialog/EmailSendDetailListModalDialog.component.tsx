@@ -6,7 +6,7 @@ import { SORT_TYPE } from '@/constants';
 import { usePagination } from '@/hooks';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { ApplicationResponse } from '@/types';
-import * as Styled from './SmsSendDetailListModalDialog.styled';
+import * as Styled from './EmailSendDetailListModalDialog.styled';
 import { getOwnValueByKey } from '@/utils';
 import { sortString } from '../../../utils/string';
 
@@ -18,8 +18,8 @@ const columns: TableColumn<ApplicationResponse>[] = [
     widthRatio: '30%',
   },
   {
-    title: '전화번호',
-    accessor: 'applicant.phoneNumber',
+    title: '이메일',
+    accessor: 'applicant.email',
     widthRatio: '40%',
   },
   {
@@ -29,13 +29,13 @@ const columns: TableColumn<ApplicationResponse>[] = [
   },
 ];
 
-export interface SmsSendDetailListModalDialogProps {
+export interface EmailSendDetailListModalDialogProps {
   selectedApplications: ApplicationResponse[];
 }
 
-const SmsSendDetailListModalDialog = ({
+const EmailSendDetailListModalDialog = ({
   selectedApplications,
-}: SmsSendDetailListModalDialogProps) => {
+}: EmailSendDetailListModalDialogProps) => {
   const { pageOptions, handleChangePage } = usePagination({
     totalCount: selectedApplications.length,
     pagingSize: 10,
@@ -56,8 +56,8 @@ const SmsSendDetailListModalDialog = ({
   ]);
 
   const handleRemoveCurrentModal = useRecoilCallback(({ set }) => () => {
-    set($modalByStorage(ModalKey.smsSendDetailListModalDialog), {
-      key: ModalKey.smsSendDetailListModalDialog,
+    set($modalByStorage(ModalKey.emailSendDetailListModalDialog), {
+      key: ModalKey.emailSendDetailListModalDialog,
       isOpen: false,
     });
   });
@@ -78,9 +78,9 @@ const SmsSendDetailListModalDialog = ({
     <ModalWrapper {...modalProps}>
       <Styled.TableWrapper>
         <Table<ApplicationResponse>
-          prefix="application-sms"
+          prefix="application-email"
           columns={columns}
-          rows={pagedRows}
+          rows={pagedRows.length > 0 ? pagedRows : tableRows}
           supportBar={{
             totalCount: selectedApplications.length,
             totalSummaryText: '총 발송인원',
@@ -116,4 +116,4 @@ const SmsSendDetailListModalDialog = ({
   );
 };
 
-export default SmsSendDetailListModalDialog;
+export default EmailSendDetailListModalDialog;

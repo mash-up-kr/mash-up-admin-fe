@@ -5,7 +5,7 @@ export { default as ApplicationFormDetail } from './ApplicationFormDetail/Applic
 export { default as UpdateApplicationForm } from './UpdateApplicationForm/UpdateApplicationForm.page';
 export { default as ApplicationFormList } from './ApplicationFormList/ApplicationFormList.page';
 export { default as ApplicationList } from './ApplicationList/ApplicationList.page';
-export { default as SmsSendingList } from './SmsSendingList/SmsSendingList.page';
+export { default as EmailSendingList } from './EmailSendingList/EmailSendingList.page';
 export { default as ErrorPage } from './ErrorPage/ErrorPage.page';
 export { default as ActivityScoreList } from './ActivityScoreList/ActivityScoreList.page';
 export { default as ActivityScoreDetail } from './ActivityScoreDetail/ActivityScoreDetail.page';

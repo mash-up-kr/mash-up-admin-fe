@@ -4,38 +4,88 @@ import { useSearchParams } from 'react-router-dom';
 
 import { Pagination, Table, UserProfile, SearchOptionBar, BottomCTA } from '@/components';
 import { useDirty, usePagination } from '@/hooks';
-import { $modalByStorage, $smsSendingList, ModalKey } from '@/store';
+import { $modalByStorage, $emailSendingList, ModalKey } from '@/store';
 import { SORT_TYPE } from '@/constants';
 import { formatDate } from '@/utils';
 import * as api from '@/api';
 import { TableColumn, SortType } from '@/components/common/Table/Table.component';
 import { TeamType, RoleType } from '@/components/common/UserProfile/UserProfile.component';
 
-import * as Styled from './SmsSendingList.styled';
-import { SmsResponse, SmsSendingListRequest, SmsSendingListResponse } from '@/types/dto/sms';
+import * as Styled from './EmailSendingList.styled';
+import {
+  EmailResponse,
+  EmailSendingListResponse,
+  EmailSendingListRequest,
+  EmailTypes,
+  EmailType,
+  NestedKeyOf,
+} from '@/types';
 
-const ApplicationFormList = () => {
-  const handleSMSModal = useRecoilCallback(({ set }) => (sms: SmsResponse) => {
-    set($modalByStorage(ModalKey.smsSendDetailInfoModalDialog), {
-      key: ModalKey.smsSendDetailInfoModalDialog,
-      props: { sms },
+const changeParamForBackend = (sortParam: NestedKeyOf<EmailSendingListResponse>) => {
+  switch (sortParam) {
+    case 'type':
+      return 'templateName';
+    case 'sendAt':
+      return 'createdAt';
+    default:
+      return sortParam;
+  }
+};
+
+const EmailSendingList = () => {
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get('page') || '1';
+  const size = searchParams.get('size') || '20';
+  const searchWord = searchParams.get('searchWord') || '';
+
+  const [sortTypes, setSortTypes] = useState<SortType<EmailSendingListResponse>[]>([
+    { accessor: 'type', type: SORT_TYPE.DEFAULT },
+    { accessor: 'sendAt', type: SORT_TYPE.DEFAULT },
+  ]);
+
+  const sortParam = useMemo(() => {
+    const matched = sortTypes.find((sortType) => sortType.type !== SORT_TYPE.DEFAULT);
+    if (!matched) return '';
+
+    const { accessor, type } = matched;
+    return `${changeParamForBackend(accessor)},${type}`;
+  }, [sortTypes]);
+
+  const emailSendingListParams = useMemo<EmailSendingListRequest>(
+    () => ({
+      page: parseInt(page, 10) - 1,
+      size: parseInt(size, 10),
+      searchWord,
+      sort: sortParam,
+    }),
+    [page, size, searchWord, sortParam],
+  );
+
+  const [{ state, contents: tableRows }] = useRecoilStateLoadable(
+    $emailSendingList(emailSendingListParams),
+  );
+
+  const handleEmailModal = useRecoilCallback(({ set }) => (email: EmailResponse) => {
+    set($modalByStorage(ModalKey.emailSendDetailInfoModalDialog), {
+      key: ModalKey.emailSendDetailInfoModalDialog,
+      props: { email },
       isOpen: true,
     });
   });
 
-  const columns: TableColumn<SmsSendingListResponse>[] = useMemo(
+  const columns: TableColumn<EmailSendingListResponse>[] = useMemo(
     () => [
       {
         title: '발송메모',
         accessor: 'name',
-        idAccessor: 'notificationId',
+        idAccessor: 'emailNotificationId',
         widthRatio: '35%',
         renderCustomCell: (cellValue, id) => (
           <Styled.TitleButton
             onClick={async () => {
-              const { data: sms } = await api.getSmsById({ notificationId: id as string });
+              const { data: email } = await api.getEmailById({ notificationId: id });
 
-              handleSMSModal(sms);
+              handleEmailModal(email);
             }}
           >
             {cellValue as string}
@@ -43,9 +93,10 @@ const ApplicationFormList = () => {
         ),
       },
       {
-        title: '발송번호',
-        accessor: 'senderPhoneNumber',
+        title: '발송유형',
+        accessor: 'type',
         widthRatio: '15%',
+        renderCustomCell: (cellValue) => EmailTypes[cellValue as EmailType],
       },
       {
         title: '발송자',
@@ -62,7 +113,7 @@ const ApplicationFormList = () => {
       },
       {
         title: '발송일시',
-        accessor: 'sentAt',
+        accessor: 'sendAt',
         widthRatio: '20%',
         renderCustomCell: (cellValue) =>
           formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
@@ -81,43 +132,13 @@ const ApplicationFormList = () => {
         },
       },
     ],
-    [handleSMSModal],
-  );
-
-  const [searchParams] = useSearchParams();
-  const page = searchParams.get('page') || '1';
-  const size = searchParams.get('size') || '20';
-  const searchWord = searchParams.get('searchWord') || '';
-
-  const [sortTypes, setSortTypes] = useState<SortType<SmsSendingListResponse>[]>([
-    { accessor: 'senderPhoneNumber', type: SORT_TYPE.DEFAULT },
-    { accessor: 'sentAt', type: SORT_TYPE.DEFAULT },
-  ]);
-  const sortParam = useMemo(() => {
-    const matched = sortTypes.find((sortType) => sortType.type !== SORT_TYPE.DEFAULT);
-    if (!matched) return '';
-
-    const { accessor, type } = matched;
-    return `${accessor},${type}`;
-  }, [sortTypes]);
-
-  const smsSendingListParams = useMemo<SmsSendingListRequest>(
-    () => ({
-      page: parseInt(page, 10) - 1,
-      size: parseInt(size, 10),
-      searchWord,
-      sort: sortParam,
-    }),
-    [page, size, searchWord, sortParam],
+    [handleEmailModal],
   );
 
   const [totalCount, setTotalCount] = useState(0);
-  const [{ state, contents: tableRows }] = useRecoilStateLoadable(
-    $smsSendingList(smsSendingListParams),
-  );
 
   const isLoading = state === 'loading';
-  const [loadedTableRows, setLoadedTableRows] = useState<SmsSendingListResponse[]>(
+  const [loadedTableRows, setLoadedTableRows] = useState<EmailSendingListResponse[]>(
     tableRows.data || [],
   );
 
@@ -145,12 +166,12 @@ const ApplicationFormList = () => {
 
   return (
     <Styled.PageWrapper>
-      <Styled.Heading>SMS 발송 내역</Styled.Heading>
+      <Styled.Heading>이메일 발송 내역</Styled.Heading>
       <Styled.StickyContainer>
-        <SearchOptionBar placeholder="발송번호, 발송자, 발송메모 검색" />
+        <SearchOptionBar placeholder="발송유형, 발송자, 발송메모 검색" />
       </Styled.StickyContainer>
       <Table
-        prefix="sms"
+        prefix="email"
         topStickyHeight={9.2}
         columns={columns}
         rows={loadedTableRows}
@@ -196,4 +217,4 @@ const ApplicationFormList = () => {
   );
 };
 
-export default ApplicationFormList;
+export default EmailSendingList;
