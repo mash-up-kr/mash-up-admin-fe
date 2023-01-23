@@ -24,6 +24,8 @@ export const SelectPosition = {
 export interface SelectProps {
   className?: string;
   size: ValueOf<typeof SelectSize>;
+  label?: string;
+  required?: boolean;
   position?: ValueOf<typeof SelectPosition>;
   placeholder?: string;
   options: SelectOption[];
@@ -38,6 +40,8 @@ const Select = (
   {
     className,
     size,
+    label,
+    required = false,
     position = SelectPosition.bottom,
     placeholder = '전체',
     options,
@@ -86,6 +90,12 @@ const Select = (
 
   return (
     <div ref={outerRef}>
+      {label && (
+        <Styled.SelectLabel>
+          <span>{label}</span>
+          {required && <Styled.RequiredDot />}
+        </Styled.SelectLabel>
+      )}
       <Styled.SelectContainer className={className} isFullWidth={isFullWidth}>
         <Styled.Select
           size={size}
