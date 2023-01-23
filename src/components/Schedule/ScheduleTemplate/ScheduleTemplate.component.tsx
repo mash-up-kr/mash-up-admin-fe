@@ -8,16 +8,16 @@ import { $generations } from '@/store';
 import { SelectOption } from '@/components/common/Select/Select.component';
 import { SessionTemplate } from '../SessionTemplate';
 import Plus from '@/assets/svg/plus-20.svg';
-import { Session } from '@/types';
+import { EventCreateRequest } from '@/types';
 
 interface FormValues {
   name: string;
   generationNumber: number;
   date: string;
-  sessions: Session[];
+  sessions: EventCreateRequest[];
 }
 
-const DEFAULT_SESSION: Partial<Session> = {
+const DEFAULT_SESSION: Partial<EventCreateRequest> = {
   startedAt: undefined,
   name: undefined,
   endedAt: undefined,
