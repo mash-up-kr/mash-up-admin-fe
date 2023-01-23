@@ -12,6 +12,21 @@ export interface ScheduleRequest {
   sort?: string;
 }
 
+// MEMO(@mango906): 서버는 세션에 대해 Event라는 이름을 가지고 있으므로 Event 대신 Session
+export interface Session {
+  endedAt: string;
+  name: string;
+  startedAt: string;
+}
+
+export interface CreateScheduleRequest {
+  generationNumber?: number;
+  endedAt: string;
+  name: string;
+  startedAt: string;
+  eventsCreateRequests: Session;
+}
+
 export interface ScheduleResponse {
   endedAt: string;
   generationNumber: number;

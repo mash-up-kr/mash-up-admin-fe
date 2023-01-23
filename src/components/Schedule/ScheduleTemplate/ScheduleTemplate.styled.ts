@@ -31,3 +31,12 @@ export const SessionContent = styled.div`
     border-radius: 2rem;
   `}
 `;
+
+export const AddButton = styled.button`
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 2.4rem;
+  background-color: transparent;
+`;
