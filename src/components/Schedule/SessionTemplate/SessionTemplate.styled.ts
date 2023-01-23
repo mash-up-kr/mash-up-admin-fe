@@ -45,6 +45,25 @@ export const SessionTimeInput = styled(InputField)`
   }
 `;
 
+export const ContentTemplateWrapper = styled.div`
+  ${({ theme }) => css`
+    margin-top: 2.4rem;
+    padding: 1rem;
+    background-color: ${theme.colors.gray20};
+    border-radius: 1.2rem;
+  `}
+`;
+
+export const AddButton = styled.button`
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  height: 5.6rem;
+  margin: 0 auto;
+  margin-top: 2.4rem;
+  background-color: transparent;
+`;
+
 export const DeleteButton = styled.button`
   display: flex;
   gap: 0.4rem;

@@ -17,6 +17,13 @@ export interface Session {
   endedAt: string;
   name: string;
   startedAt: string;
+  contentsCreateRequests: ContentsCreateRequest[];
+}
+
+export interface ContentsCreateRequest {
+  title: string;
+  startedAt: string;
+  desc: string;
 }
 
 export interface CreateScheduleRequest {

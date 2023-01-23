@@ -21,6 +21,7 @@ const DEFAULT_SESSION: Partial<Session> = {
   startedAt: undefined,
   name: undefined,
   endedAt: undefined,
+  contentsCreateRequests: [],
 };
 
 const ScheduleTemplate = () => {
