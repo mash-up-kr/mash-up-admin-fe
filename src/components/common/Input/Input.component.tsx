@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, ReactElement } from 'react';
 import { ValueOf } from '@/types';
 import * as Styled from './Input.styled';
 
@@ -16,6 +16,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   description?: string;
   errorMessage?: string;
   fill?: boolean;
+  endIcon?: ReactElement;
 }
 
 const Input = (
@@ -28,12 +29,14 @@ const Input = (
     required,
     description,
     fill,
+    endIcon,
+    disabled,
     ...resetProps
   }: InputProps,
   ref: React.Ref<HTMLInputElement>,
 ) => {
   return (
-    <Styled.InputWrapper className={className} fill={fill}>
+    <Styled.InputContainer className={className} fill={fill}>
       {label && (
         <Styled.InputLabel htmlFor={id}>
           <span>{label}</span>
@@ -41,9 +44,12 @@ const Input = (
         </Styled.InputLabel>
       )}
       {description && <Styled.Description>{description}</Styled.Description>}
-      <Styled.Input ref={ref} id={id} $size={$size} errorMessage={errorMessage} {...resetProps} />
+      <Styled.InputWrapper $size={$size} errorMessage={errorMessage} disabled={disabled}>
+        <Styled.Input ref={ref} id={id} disabled={disabled} {...resetProps} />
+        {endIcon}
+      </Styled.InputWrapper>
       {errorMessage && <Styled.InputErrorMessage>{errorMessage}</Styled.InputErrorMessage>}
-    </Styled.InputWrapper>
+    </Styled.InputContainer>
   );
 };
 

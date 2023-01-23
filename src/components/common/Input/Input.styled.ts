@@ -11,9 +11,10 @@ interface StyledInputProps {
   $size: InputSizeType;
   errorMessage?: string;
   fill?: boolean;
+  disabled?: boolean;
 }
 
-export const InputWrapper = styled.div<InputWrapperProps>`
+export const InputContainer = styled.div<InputWrapperProps>`
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -53,31 +54,30 @@ export const Description = styled.span`
   `}
 `;
 
-export const Input = styled.input<StyledInputProps>`
-  ${({ theme, $size, errorMessage }) => css`
+export const InputWrapper = styled.div<StyledInputProps>`
+  ${({ theme, $size, errorMessage, disabled }) => css`
     ${theme.input.size[$size]};
 
-    color: ${theme.colors.gray70};
+    display: flex;
+    align-items: center;
+    background-color: white;
     border: 0.1rem solid ${theme.colors.gray30};
     border-radius: 0.9rem;
-    outline: none;
-
-    &::placeholder {
-      color: ${theme.colors.gray50};
-    }
 
     &:hover {
       border: 0.1rem solid ${theme.colors.purple40};
     }
 
-    &:focus {
+    &:focus-within {
       border: 0.1rem solid ${theme.colors.purple70};
     }
 
-    &:disabled {
-      background-color: ${theme.colors.gray5};
-      border: 0.1rem solid ${theme.colors.gray30};
-    }
+    ${disabled
+      ? css`
+          background-color: ${theme.colors.gray5};
+          border: 0.1rem solid ${theme.colors.gray30};
+        `
+      : ''}
 
     ${errorMessage
       ? css`
@@ -86,6 +86,20 @@ export const Input = styled.input<StyledInputProps>`
           }
         `
       : ''}
+  `}
+`;
+
+export const Input = styled.input`
+  ${({ theme }) => css`
+    width: 100%;
+    color: ${theme.colors.gray70};
+    background-color: transparent;
+    border: none;
+    outline: none;
+
+    &::placeholder {
+      color: ${theme.colors.gray50};
+    }
   `}
 `;
 
