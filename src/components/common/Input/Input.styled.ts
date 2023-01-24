@@ -61,7 +61,7 @@ export const InputWrapper = styled.div<StyledInputWrapperProps>`
   ${({ theme, errorMessage, disabled }) => css`
     display: flex;
     align-items: center;
-    background-color: white;
+    background-color: ${theme.colors.white};
     border: 0.1rem solid ${theme.colors.gray30};
     border-radius: 0.9rem;
 
