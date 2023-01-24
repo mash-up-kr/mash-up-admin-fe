@@ -414,7 +414,6 @@ const ApplicationList = () => {
           />
         }
         applicationParams={applicationParams}
-        isMyTeam={isMyTeam}
       />
       <BottomCTA
         boundaries={{

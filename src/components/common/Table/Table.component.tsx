@@ -7,7 +7,9 @@ import React, {
   useMemo,
   MouseEventHandler,
 } from 'react';
-import { ApplicationRequest, NestedKeyOf, ValueOf } from '@/types';
+import { useRecoilValue } from 'recoil';
+import { useLocation } from 'react-router-dom';
+import { ApplicationRequest, NestedKeyOf, ValueOf, Team } from '@/types';
 import { getOwnValueByKey, isArray, isSameObject } from '@/utils';
 import { colors } from '@/styles';
 import QuestionFile from '@/assets/svg/question-file-72.svg';
@@ -16,9 +18,11 @@ import CaretUp from '@/assets/svg/caret-up-16.svg';
 import * as Styled from './Table.styled';
 import Loading from '../Loading/Loading.component';
 import Checkbox from '../Checkbox/Checkbox.component';
-import { SORT_TYPE } from '@/constants';
+import { SORT_TYPE, PATH } from '@/constants';
 import { ToastType } from '../Toast/Toast.component';
 import { useToast } from '@/hooks';
+import { $profile } from '@/store';
+import { Team as TeamNames } from '@/components/common/UserProfile/UserProfile.component';
 
 export type TextAlign = 'start' | 'center' | 'end';
 
@@ -51,7 +55,7 @@ export interface TableProps<T extends object> {
   prefix: string;
   topStickyHeight?: number;
   columns: TableColumn<T>[];
-  rows: T[];
+  rows: Array<T & { team: Team }>;
   isLoading?: boolean;
   selectableRow?: {
     selectedCount: number;
@@ -68,7 +72,6 @@ export interface TableProps<T extends object> {
   };
   pagination?: ReactNode;
   applicationParams?: ApplicationRequest;
-  isMyTeam?: boolean;
 }
 
 interface TableSupportBarProps {
@@ -258,11 +261,12 @@ const Table = <T extends object>({
   supportBar: { totalCount, totalSummaryText, selectedSummaryText, buttons: supportButtons },
   pagination,
   applicationParams,
-  isMyTeam,
 }: TableProps<T>) => {
   const { handleAddToast } = useToast();
   const { selectedCount, selectedRows, setSelectedRows, handleSelectAll } = selectableRow || {};
   const isEmptyData = rows.length === 0;
+  const myTeamName = useRecoilValue($profile)[0];
+  const { pathname } = useLocation();
 
   const checkedValues = useMemo(
     () =>
@@ -377,7 +381,16 @@ const Table = <T extends object>({
                             )
                           : getOwnValueByKey(row, accessor as any);
 
-                        if (isMyTeam) {
+                        const isCurrentPageIncludingPrivacy =
+                          pathname === PATH.APPLICATION || pathname === PATH.ACTIVITY_SCORE;
+
+                        const isCurrentRowAccessible =
+                          !isCurrentPageIncludingPrivacy ||
+                          myTeamName === TeamNames.mashUp ||
+                          myTeamName === TeamNames.branding ||
+                          row.team.name.toLowerCase() === myTeamName.toLowerCase();
+
+                        if (isCurrentRowAccessible) {
                           return (
                             <Styled.TableCell key={`cell-${columnIndex}`} textAlign={textAlign}>
                               {renderCustomCell
