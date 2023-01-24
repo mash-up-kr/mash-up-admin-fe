@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
+import { parsePlaceholderWhenInvalidDate } from '.';
 
 dayjs.locale('ko');
 
@@ -13,7 +14,7 @@ type DateFormat =
   | 'YYYY년 M월 D일 hh시 mm분';
 
 export const formatDate = (date: string | Date, format: DateFormat) => {
-  return dayjs(date).format(format);
+  return parsePlaceholderWhenInvalidDate(dayjs(date).format(format));
 };
 
 export const toUtcWithoutChangingTime = (date: string | Date) => {

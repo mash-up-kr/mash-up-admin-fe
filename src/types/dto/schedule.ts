@@ -5,12 +5,21 @@ export const ScheduleStatus = {
   PUBLIC: 'PUBLIC',
 } as const;
 
+export interface ScheduleRequest {
+  generationNumber?: number;
+  page?: number;
+  size?: number;
+  sort?: string;
+}
+
 export interface ScheduleResponse {
   endedAt: string;
   generationNumber: number;
   name: string;
   scheduleId: number;
+  createdAt: string;
   startedAt: string;
+  publishedAt?: string;
   eventList: Event[];
   status: ValueOf<typeof ScheduleStatus>;
 }

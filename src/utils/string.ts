@@ -18,3 +18,14 @@ export const parsePlaceholderWhenEmpty = (value: string | null | undefined, pars
 
   return value;
 };
+
+export const parsePlaceholderWhenInvalidDate = (
+  value: string | null | undefined,
+  parsingText = '-',
+) => {
+  if (!value || value === 'Invalid Date') {
+    return parsingText;
+  }
+
+  return value;
+};
