@@ -266,7 +266,7 @@ const Table = <T extends object>({
   const { selectedCount, selectedRows, setSelectedRows, handleSelectAll } = selectableRow || {};
   const isEmptyData = rows.length === 0;
   const myTeamName = useRecoilValue($profile)[0];
-  const { pathname } = useLocation();
+  const { pathname: currentPath } = useLocation();
 
   const checkedValues = useMemo(
     () =>
@@ -279,6 +279,11 @@ const Table = <T extends object>({
     () => !!rows.length && checkedValues.filter(Boolean).length === rows.length,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [checkedValues],
+  );
+
+  const isCurrentPageIncludingPrivacy = useMemo(
+    () => [PATH.APPLICATION, PATH.ACTIVITY_SCORE].some((path) => path === currentPath),
+    [currentPath],
   );
 
   const handleSelectRow: (index: number) => ChangeEventHandler<HTMLInputElement> =
@@ -380,9 +385,6 @@ const Table = <T extends object>({
                               getOwnValueByKey(row, accessorItem as any),
                             )
                           : getOwnValueByKey(row, accessor as any);
-
-                        const isCurrentPageIncludingPrivacy =
-                          pathname === PATH.APPLICATION || pathname === PATH.ACTIVITY_SCORE;
 
                         const isCurrentRowAccessible =
                           !isCurrentPageIncludingPrivacy ||
