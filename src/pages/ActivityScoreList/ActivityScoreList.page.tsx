@@ -5,7 +5,7 @@ import { BottomCTA, Pagination, SearchOptionBar, Table, TeamNavigationTabs } fro
 import * as Styled from './ActivityScoreList.styled';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { PATH, SORT_TYPE } from '@/constants';
-import { useMyTeam, usePagination } from '@/hooks';
+import { usePagination } from '@/hooks';
 import { $generationNumber } from '@/store';
 import { MemberRequest, MemberResponse } from '@/types';
 import { $members } from '@/store/member';
@@ -13,8 +13,6 @@ import { $members } from '@/store/member';
 const ActivityScoreList = () => {
   const [searchParams] = useSearchParams();
   const generationNumber = useRecoilValue($generationNumber);
-
-  const { isMyTeam } = useMyTeam();
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
@@ -126,7 +124,6 @@ const ActivityScoreList = () => {
             handleChangePage={handleChangePage}
           />
         }
-        isMyTeam={isMyTeam}
       />
       <BottomCTA
         boundaries={{
