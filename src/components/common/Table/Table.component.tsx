@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useLocation } from 'react-router-dom';
-import { ApplicationRequest, NestedKeyOf, ValueOf, Team } from '@/types';
+import { ApplicationRequest, NestedKeyOf, ValueOf } from '@/types';
 import { getOwnValueByKey, isArray, isSameObject } from '@/utils';
 import { colors } from '@/styles';
 import QuestionFile from '@/assets/svg/question-file-72.svg';
@@ -55,7 +55,7 @@ export interface TableProps<T extends object> {
   prefix: string;
   topStickyHeight?: number;
   columns: TableColumn<T>[];
-  rows: Array<T & { team: Team }>;
+  rows: any[];
   isLoading?: boolean;
   selectableRow?: {
     selectedCount: number;
@@ -388,7 +388,7 @@ const Table = <T extends object>({
                           !isCurrentPageIncludingPrivacy ||
                           myTeamName === TeamNames.mashUp ||
                           myTeamName === TeamNames.branding ||
-                          row.team.name.toLowerCase() === myTeamName.toLowerCase();
+                          row?.team?.name.toLowerCase() === myTeamName.toLowerCase();
 
                         if (isCurrentRowAccessible) {
                           return (
