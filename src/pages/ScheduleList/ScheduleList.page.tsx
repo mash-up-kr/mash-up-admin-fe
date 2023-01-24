@@ -12,7 +12,6 @@ import { usePagination } from '@/hooks';
 import { $generationNumber } from '@/store';
 import { $schedules } from '@/store/schedule';
 import { ValueOf } from '@/types';
-import { parsePlaceholderWhenInvalidDate } from '@/utils';
 
 const ScheduleList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -38,19 +37,13 @@ const ScheduleList = () => {
       title: '등록 일시',
       accessor: 'createdAt',
       widthRatio: '20%',
-      renderCustomCell: (cellValue) =>
-        parsePlaceholderWhenInvalidDate(
-          formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
-        ),
+      renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
     },
     {
       title: '배포 일시',
       accessor: 'publishedAt',
       widthRatio: '20%',
-      renderCustomCell: (cellValue) =>
-        parsePlaceholderWhenInvalidDate(
-          formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
-        ),
+      renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
     },
     {
       title: '배포 상태',
