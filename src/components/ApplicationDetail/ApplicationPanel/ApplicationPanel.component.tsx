@@ -4,7 +4,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useRecoilCallback } from 'recoil';
 import utc from 'dayjs/plugin/utc';
 import { useLocation } from 'react-router-dom';
-import { Button, DatePicker, Select, SelectField } from '@/components';
+import { Button, DatePicker, Select } from '@/components';
 import * as Styled from './ApplicationPanel.styled';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 import { TitleWithContent } from '..';
@@ -161,7 +161,7 @@ const ControlArea = ({
     return (
       <>
         <TitleWithContent title="합격 여부" isActive>
-          <SelectField
+          <Select
             size={SelectSize.md}
             options={applicationResultOptions}
             isFullWidth

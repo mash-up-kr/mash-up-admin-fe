@@ -7,13 +7,17 @@ interface InputWrapperProps {
   fill?: boolean;
 }
 
-interface StyledInputProps {
-  $size: InputSizeType;
+interface StyledInputWrapperProps {
   errorMessage?: string;
   fill?: boolean;
+  disabled?: boolean;
 }
 
-export const InputWrapper = styled.div<InputWrapperProps>`
+interface StyledInputProps {
+  $size: InputSizeType;
+}
+
+export const InputContainer = styled.div<InputWrapperProps>`
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -53,31 +57,32 @@ export const Description = styled.span`
   `}
 `;
 
-export const Input = styled.input<StyledInputProps>`
-  ${({ theme, $size, errorMessage }) => css`
-    ${theme.input.size[$size]};
-
-    color: ${theme.colors.gray70};
+export const InputWrapper = styled.div<StyledInputWrapperProps>`
+  ${({ theme, errorMessage, disabled }) => css`
+    display: flex;
+    align-items: center;
+    background-color: ${theme.colors.white};
     border: 0.1rem solid ${theme.colors.gray30};
     border-radius: 0.9rem;
-    outline: none;
 
-    &::placeholder {
-      color: ${theme.colors.gray50};
+    svg {
+      margin-right: 1.2rem;
     }
 
     &:hover {
       border: 0.1rem solid ${theme.colors.purple40};
     }
 
-    &:focus {
+    &:focus-within {
       border: 0.1rem solid ${theme.colors.purple70};
     }
 
-    &:disabled {
-      background-color: ${theme.colors.gray5};
-      border: 0.1rem solid ${theme.colors.gray30};
-    }
+    ${disabled
+      ? css`
+          background-color: ${theme.colors.gray5};
+          border: 0.1rem solid ${theme.colors.gray30};
+        `
+      : ''}
 
     ${errorMessage
       ? css`
@@ -86,6 +91,22 @@ export const Input = styled.input<StyledInputProps>`
           }
         `
       : ''}
+  `}
+`;
+
+export const Input = styled.input<StyledInputProps>`
+  ${({ theme, $size }) => css`
+    ${theme.input.size[$size]};
+
+    width: 100%;
+    color: ${theme.colors.gray70};
+    background-color: transparent;
+    border: none;
+    outline: none;
+
+    &::placeholder {
+      color: ${theme.colors.gray50};
+    }
   `}
 `;
 

@@ -49,6 +49,24 @@ const getSelectStyle = (
   }
 };
 
+export const SelectLabel = styled.label`
+  ${({ theme }) => css`
+    ${theme.fonts.medium15}
+    display: flex;
+    margin-bottom: 0.6rem;
+    color: ${theme.colors.gray70};
+  `}
+`;
+
+export const RequiredDot = styled.span`
+  width: 0.6rem;
+  min-width: 0.6rem;
+  height: 0.6rem;
+  margin: 0.8rem 0 0 0.6rem;
+  background-color: #eb6963;
+  border-radius: 50%;
+`;
+
 export const SelectContainer = styled.div<StyledSelectContainerProps>`
   ${({ isFullWidth }) => css`
     position: relative;

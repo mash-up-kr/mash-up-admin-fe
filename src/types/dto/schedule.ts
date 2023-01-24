@@ -12,6 +12,27 @@ export interface ScheduleRequest {
   sort?: string;
 }
 
+export interface EventCreateRequest {
+  endedAt: string;
+  name: string;
+  startedAt: string;
+  contentsCreateRequests: ContentsCreateRequest[];
+}
+
+export interface ContentsCreateRequest {
+  title: string;
+  startedAt: string;
+  desc: string;
+}
+
+export interface CreateScheduleRequest {
+  generationNumber?: number;
+  endedAt: string;
+  name: string;
+  startedAt: string;
+  eventsCreateRequests: EventCreateRequest;
+}
+
 export interface ScheduleResponse {
   endedAt: string;
   generationNumber: number;

@@ -7,3 +7,4 @@ export * from './email';
 export * from './generation';
 export * from './member';
 export * from './scoreHistory';
+export * from './schedule';
