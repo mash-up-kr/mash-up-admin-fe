@@ -169,7 +169,7 @@ const ApplicationList = () => {
       title: '이름',
       accessor: 'applicant.name',
       idAccessor: 'applicationId',
-      widthRatio: '10%',
+      widthRatio: '12%',
       renderCustomCell: (cellValue, id, handleClickLink, applicationParamStates) => (
         <Styled.FormTitleWrapper title={cellValue as string}>
           <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
@@ -187,24 +187,24 @@ const ApplicationList = () => {
     {
       title: '전화번호',
       accessor: 'applicant.phoneNumber',
-      widthRatio: '14%',
+      widthRatio: '13%',
     },
     {
       title: '지원플랫폼',
       accessor: 'team.name',
-      widthRatio: '8%',
+      widthRatio: '9%',
     },
     {
       title: '지원일시',
       accessor: 'submittedAt',
-      widthRatio: '21%',
+      widthRatio: '20%',
       renderCustomCell: (cellValue) =>
         cellValue ? formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분') : '-',
     },
     {
       title: '면접일시',
       accessor: 'result.interviewStartedAt',
-      widthRatio: '21%',
+      widthRatio: '20%',
       renderCustomCell: (cellValue) =>
         cellValue ? formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분') : '-',
     },
@@ -414,7 +414,6 @@ const ApplicationList = () => {
           />
         }
         applicationParams={applicationParams}
-        isMyTeam={isMyTeam}
       />
       <BottomCTA
         boundaries={{
