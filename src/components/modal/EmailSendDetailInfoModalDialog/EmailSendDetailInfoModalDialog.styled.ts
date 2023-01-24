@@ -9,7 +9,7 @@ export const DetailWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-  width: 48.6rem;
+  width: 32rem;
   max-height: 72rem;
   padding: 2.4rem 1rem 2.4rem 2.4rem;
 `;
