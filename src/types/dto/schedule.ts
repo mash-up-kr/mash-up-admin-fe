@@ -25,12 +25,12 @@ export interface ContentsCreateRequest {
   desc: string;
 }
 
-export interface CreateScheduleRequest {
+export interface ScheduleCreateRequest {
   generationNumber?: number;
   endedAt: string;
   name: string;
   startedAt: string;
-  eventsCreateRequests: EventCreateRequest;
+  eventsCreateRequests: EventCreateRequest[];
 }
 
 export interface ScheduleResponse {

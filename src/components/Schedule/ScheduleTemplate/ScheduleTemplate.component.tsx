@@ -25,7 +25,7 @@ const DEFAULT_SESSION: Partial<EventCreateRequest> = {
 };
 
 const ScheduleTemplate = () => {
-  const { register, control } = useFormContext<FormValues>();
+  const { register, control, formState } = useFormContext<FormValues>();
   const generations = useRecoilValue($generations);
 
   const { fields, append, remove } = useFieldArray({
@@ -70,7 +70,13 @@ const ScheduleTemplate = () => {
       <Styled.SessionContent>
         <Styled.Title>세션 정보</Styled.Title>
         {fields.map((field, index) => (
-          <SessionTemplate key={field.id} index={index} {...field} onRemove={remove} />
+          <SessionTemplate
+            key={field.id}
+            index={index}
+            {...field}
+            onRemove={remove}
+            errors={formState.errors.sessions?.[index]}
+          />
         ))}
         <Styled.AddButton type="button" onClick={() => append(DEFAULT_SESSION)}>
           <Plus />
