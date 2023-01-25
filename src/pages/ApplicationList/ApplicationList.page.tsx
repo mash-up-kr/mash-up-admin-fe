@@ -299,12 +299,6 @@ const ApplicationList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamName]);
 
-  useEffect(() => {
-    searchParams.delete('page');
-    setSearchParams(searchParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [generationNumber]);
-
   useLayoutEffect(() => {
     if (isDirty && !isLoading) {
       window.scrollTo({ top: 179, left: 0, behavior: 'smooth' });

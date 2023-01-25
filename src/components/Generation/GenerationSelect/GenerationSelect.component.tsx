@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
+import { useSearchParams } from 'react-router-dom';
 import { Select } from '@/components/common';
 
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
@@ -9,6 +10,7 @@ import { $generationNumber, $generations } from '@/store';
 const GenerationSelect = () => {
   const generations = useRecoilValue($generations);
   const [generationNumber, setGenerationNumber] = useRecoilState($generationNumber);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const options: SelectOption[] = generations.map((generation) => ({
     label: `${generation.generationNumber}기`,
@@ -17,6 +19,8 @@ const GenerationSelect = () => {
 
   const handleChangeGeneration = (selectedOption: SelectOption) => {
     setGenerationNumber(parseInt(selectedOption.value, 10));
+    searchParams.delete('page');
+    setSearchParams(searchParams);
   };
 
   useEffect(() => {
