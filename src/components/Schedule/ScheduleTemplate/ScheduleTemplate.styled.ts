@@ -24,6 +24,9 @@ export const Title = styled.h3`
 
 export const SessionContent = styled.div`
   ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
     margin-top: 2.4rem;
     padding: 3.2rem;
     background-color: ${theme.colors.white};

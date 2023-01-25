@@ -8,7 +8,7 @@ import { useHistory, useRefreshSelectorFamilyByKey, useToast } from '@/hooks';
 import { getScheduleDetailPage, PATH } from '@/constants';
 import { ScheduleTemplate } from '@/components/Schedule';
 import { ScheduleCreateRequest, EventCreateRequest } from '@/types';
-import { formatDate, request, toUtcWithoutChangingTime } from '@/utils';
+import { formatDate, RecursivePartial, request, toUtcWithoutChangingTime } from '@/utils';
 
 import * as api from '@/api';
 import { ToastType } from '@/styles';
@@ -21,10 +21,16 @@ interface FormValues {
   sessions: EventCreateRequest[];
 }
 
+const DEFAULT_SESSIONS: RecursivePartial<EventCreateRequest[]> = [
+  {
+    contentsCreateRequests: [{}],
+  },
+];
+
 const CreateSchedule = () => {
   const { handleGoBack } = useHistory();
 
-  const methods = useForm<FormValues>();
+  const methods = useForm<FormValues>({ defaultValues: { sessions: DEFAULT_SESSIONS } });
 
   const { handleSubmit, formState } = methods;
   const { handleAddToast } = useToast();
