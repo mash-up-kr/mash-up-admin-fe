@@ -82,7 +82,7 @@ const ControlArea = ({
   );
   const [isDatePickerOpened, setIsDatePickerOpened] = useState(false);
   const outerRef = useRef<HTMLDivElement>(null);
-  const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
+  const selectedApplicationResultStatusRef = useRef<HTMLInputElement>(null);
 
   const handleSelectDate = useCallback(
     (clickedDate: Dayjs) => {
