@@ -14,3 +14,15 @@ export const $schedules = selectorFamilyWithRefresher<
     return data;
   },
 });
+
+export const $scheduleDetail = selectorFamilyWithRefresher<
+  BaseResponse<ScheduleResponse>,
+  { scheduleId: string }
+>({
+  key: 'scheduleDetail',
+  get: (params) => async () => {
+    const data = await api.getScheduleDetail(params.scheduleId);
+
+    return data;
+  },
+});

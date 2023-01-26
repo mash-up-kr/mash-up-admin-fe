@@ -13,3 +13,6 @@ export const createSchedule = ({
   ...data
 }: ScheduleCreateRequest): Promise<BaseResponse<ScheduleResponse>> =>
   http.post({ url: '/schedules', data, params: { generationNumber } });
+
+export const getScheduleDetail = (scheduleId: string): Promise<BaseResponse<ScheduleResponse>> =>
+  http.get({ url: `/schedules/${scheduleId}` });
