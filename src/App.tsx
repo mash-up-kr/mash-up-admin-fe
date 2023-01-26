@@ -24,6 +24,7 @@ import {
   ErrorPage,
   ScheduleList,
   CreateSchedule,
+  ScheduleDetail,
 } from './pages';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
@@ -174,6 +175,15 @@ const App = () => {
               element={
                 <RequiredAuth isAuth={isAuthorized}>
                   <CreateSchedule />
+                </RequiredAuth>
+              }
+            />
+
+            <Route
+              path={PATH.SCHEDULE_DETAIL}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <ScheduleDetail />
                 </RequiredAuth>
               }
             />

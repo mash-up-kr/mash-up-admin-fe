@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
 import { BottomCTA, Button, Link, Pagination, SearchOptionBar, Table } from '@/components';
 import * as Styled from './ScheduleList.styled';
 import { TableColumn } from '@/components/common/Table/Table.component';
 import { ScheduleRequest, ScheduleResponse, ScheduleStatus } from '@/types/dto/schedule';
 import { formatDate } from '@/utils/date';
-import { PATH } from '@/constants';
+import { getScheduleDetailPage, PATH } from '@/constants';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 import { usePagination } from '@/hooks';
 import { $generationNumber } from '@/store';
@@ -21,11 +21,19 @@ const ScheduleList = () => {
   const size = searchParams.get('size') || '20';
   const searchWord = searchParams.get('searchWord') || '';
 
+  const { pathname, search } = useLocation();
+
   const columns: TableColumn<ScheduleResponse>[] = [
     {
       title: '스케줄 명',
       accessor: 'name',
       widthRatio: '20%',
+      idAccessor: 'scheduleId',
+      renderCustomCell: (cellValue, id) => (
+        <Styled.TitleLink to={getScheduleDetailPage(id)} state={{ from: `${pathname}${search}` }}>
+          {cellValue as string}
+        </Styled.TitleLink>
+      ),
     },
     {
       title: '스케줄 일시',

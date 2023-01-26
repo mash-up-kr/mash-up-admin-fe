@@ -11,3 +11,4 @@ export { default as ActivityScoreList } from './ActivityScoreList/ActivityScoreL
 export { default as ActivityScoreDetail } from './ActivityScoreDetail/ActivityScoreDetail.page';
 export { default as ScheduleList } from './ScheduleList/ScheduleList.page';
 export { default as CreateSchedule } from './CreateSchedule/CreateSchedule.page';
+export { default as ScheduleDetail } from './ScheduleDetail/ScheduleDetail.page';
