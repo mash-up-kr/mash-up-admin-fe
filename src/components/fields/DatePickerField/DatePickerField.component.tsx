@@ -55,7 +55,7 @@ const DatePickerField = ({
       control={control}
       render={({ field }) => (
         <div ref={containerRef}>
-          <Input {...restProps} value={formattedDate} onClick={handleClick} />
+          <Input {...restProps} ref={field.ref} value={formattedDate} onClick={handleClick} />
           {isDatePickerOpened && (
             <DatePicker
               className={className}
