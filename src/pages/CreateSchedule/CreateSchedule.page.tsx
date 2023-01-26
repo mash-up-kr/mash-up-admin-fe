@@ -67,6 +67,28 @@ const CreateSchedule = () => {
       eventsCreateRequests,
     };
 
+    if (createScheduleRequest.eventsCreateRequests.length === 0) {
+      handleAddToast({
+        type: 'error',
+        message: '최소 한가지의 세션을 작성해야 합니다.',
+      });
+
+      return;
+    }
+
+    if (
+      createScheduleRequest.eventsCreateRequests.some(
+        ({ contentsCreateRequests }) => contentsCreateRequests.length === 0,
+      )
+    ) {
+      handleAddToast({
+        type: 'error',
+        message: '콘텐츠가 작성되지 않은 세션이 있습니다.',
+      });
+
+      return;
+    }
+
     set($modalByStorage(ModalKey.alertModalDialog), {
       key: ModalKey.alertModalDialog,
       isOpen: true,
