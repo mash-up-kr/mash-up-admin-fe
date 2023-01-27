@@ -9,23 +9,17 @@ import { SelectOption } from '@/components/common/Select/Select.component';
 import { SessionTemplate } from '../SessionTemplate';
 import Plus from '@/assets/svg/plus-20.svg';
 import { EventCreateRequest } from '@/types';
+import { ScheduleFormValues } from '@/utils';
 
-interface FormValues {
-  name: string;
-  generationNumber: number;
-  date: string;
-  sessions: EventCreateRequest[];
-}
-
-const DEFAULT_SESSION: Partial<EventCreateRequest> = {
-  startedAt: undefined,
-  name: undefined,
-  endedAt: undefined,
+const DEFAULT_SESSION: EventCreateRequest = {
+  startedAt: '',
+  name: '',
+  endedAt: '',
   contentsCreateRequests: [],
 };
 
 const ScheduleTemplate = () => {
-  const { register, control, formState } = useFormContext<FormValues>();
+  const { register, control, formState, getValues } = useFormContext<ScheduleFormValues>();
   const generations = useRecoilValue($generations);
 
   const { fields, append, remove } = useFieldArray({
@@ -39,6 +33,10 @@ const ScheduleTemplate = () => {
       value: generationNumber.toString(),
     }));
   }, [generations]);
+
+  const defaultOption = generationOptions.find(
+    (option) => option.value === getValues('generationNumber')?.toString(),
+  );
 
   return (
     <>
@@ -55,6 +53,7 @@ const ScheduleTemplate = () => {
           label="기수"
           size="md"
           options={generationOptions}
+          defaultValue={defaultOption}
           required
           isFullWidth
           {...register('generationNumber', { required: true })}
@@ -64,6 +63,7 @@ const ScheduleTemplate = () => {
           $size="md"
           placeholder="내용을 입력해주세요"
           required
+          defaultDate={getValues('date')}
           {...register('date', { required: true })}
         />
       </Styled.ScheduleContent>

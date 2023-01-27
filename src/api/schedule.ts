@@ -22,6 +22,7 @@ export const createSchedule = ({
 export const getScheduleDetail = (scheduleId: string): Promise<BaseResponse<ScheduleResponse>> =>
   http.get({ url: `/schedules/${scheduleId}` });
 
+// TODO(@mango906): 추후 서버가 http method를 put으로 변경하면 이에 맞게 변경 필요
 export const updateSchedule = (
   scheduleId: string,
   data: ScheduleUpdateRequest,

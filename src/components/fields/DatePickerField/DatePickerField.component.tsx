@@ -1,5 +1,5 @@
 import { Control, Controller, UseControllerProps } from 'react-hook-form';
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { Dayjs } from 'dayjs';
 
 import { DatePicker, Input } from '@/components';
@@ -10,6 +10,7 @@ import { formatDate } from '@/utils';
 
 type DatePickerFieldProps = {
   control?: Control<any>;
+  defaultDate?: Dayjs;
 } & InputProps &
   Omit<UseControllerProps, 'control'>;
 
@@ -17,6 +18,7 @@ const DatePickerField = ({
   name,
   className,
   control,
+  defaultDate,
   onClick,
   ...restProps
 }: DatePickerFieldProps) => {
@@ -44,6 +46,12 @@ const DatePickerField = ({
     setSelectedDate(clickedDate);
     toggleDatePickerOpened();
   };
+
+  useEffect(() => {
+    if (defaultDate) {
+      setSelectedDate(defaultDate);
+    }
+  }, [defaultDate]);
 
   useOnClickOutSide(containerRef, () => {
     if (isDatePickerOpened) toggleDatePickerOpened();
