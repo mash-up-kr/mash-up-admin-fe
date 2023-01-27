@@ -89,6 +89,7 @@ const UpdateSchedule = () => {
                   });
 
                   refreshSelectorFamilyByKey('schedules');
+                  refreshSelectorFamilyByKey('scheduleDetail');
                   navigate(getScheduleDetailPage(scheduleId));
                 },
                 onCompleted: () => {
