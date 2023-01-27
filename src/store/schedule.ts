@@ -16,12 +16,12 @@ export const $schedules = selectorFamilyWithRefresher<
 });
 
 export const $scheduleDetail = selectorFamilyWithRefresher<
-  BaseResponse<ScheduleResponse>,
+  ScheduleResponse,
   { scheduleId: string }
 >({
   key: 'scheduleDetail',
   get: (params) => async () => {
-    const data = await api.getScheduleDetail(params.scheduleId);
+    const { data } = await api.getScheduleDetail(params.scheduleId);
 
     return data;
   },

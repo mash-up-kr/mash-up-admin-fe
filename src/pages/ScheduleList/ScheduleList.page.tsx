@@ -12,6 +12,7 @@ import { usePagination } from '@/hooks';
 import { $generationNumber } from '@/store';
 import { $schedules } from '@/store/schedule';
 import { ValueOf } from '@/types';
+import { getScheduleStatusText } from '@/utils';
 
 const ScheduleList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -60,15 +61,7 @@ const ScheduleList = () => {
       renderCustomCell: (cellValue) => {
         const value = cellValue as ValueOf<typeof ScheduleStatus>;
 
-        if (value === ScheduleStatus.ADMIN_ONLY) {
-          return '-';
-        }
-
-        if (value === ScheduleStatus.PUBLIC) {
-          return '배포 완료';
-        }
-
-        return '';
+        return getScheduleStatusText(value);
       },
     },
   ];

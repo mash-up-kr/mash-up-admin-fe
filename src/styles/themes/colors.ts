@@ -10,6 +10,7 @@ export const colors = {
   gray70: '#495057',
   gray80: '#343A40',
   gray90: '#212529',
+  gray100: '#EBEFF9',
   purple90: '#140087',
   purple80: '#4127D1',
   purple70: '#6244FF',
@@ -29,6 +30,8 @@ export const colors = {
   green40: '#A5DED4',
   green70: '#0FB093',
   yellow70: '#F9B127',
+  brand100: '#F5F1FF',
+  brand500: '#6A36FF',
   whiteLoadingDimmed: '#ffffff99',
   grayLoadingDimmed: '#ffffff99',
 } as const;
