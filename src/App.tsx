@@ -25,6 +25,7 @@ import {
   ScheduleList,
   CreateSchedule,
   ScheduleDetail,
+  UpdateSchedule,
 } from './pages';
 
 interface RequiredAuthProps extends Partial<NavigateProps> {
@@ -187,6 +188,16 @@ const App = () => {
                 </RequiredAuth>
               }
             />
+
+            <Route
+              path={PATH.SCHEDULE_UPDATE}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <UpdateSchedule />
+                </RequiredAuth>
+              }
+            />
+
             <Route path="/" element={<Navigate to={TOKEN ? PATH.APPLICATION : PATH.LOGIN} />} />
           </Route>
           <Route
