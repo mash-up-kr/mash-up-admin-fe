@@ -31,6 +31,7 @@ const Input = (
     fill,
     endIcon,
     disabled,
+    onClick,
     ...resetProps
   }: InputProps,
   ref: React.Ref<HTMLInputElement>,
@@ -44,7 +45,7 @@ const Input = (
         </Styled.InputLabel>
       )}
       {description && <Styled.Description>{description}</Styled.Description>}
-      <Styled.InputWrapper errorMessage={errorMessage} disabled={disabled}>
+      <Styled.InputWrapper onClick={onClick} errorMessage={errorMessage} disabled={disabled}>
         <Styled.Input $size={$size} ref={ref} id={id} disabled={disabled} {...resetProps} />
         {endIcon}
       </Styled.InputWrapper>

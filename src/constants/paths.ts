@@ -22,3 +22,5 @@ export type PathValueType = ValueOf<typeof PATH>;
 
 export const getApplicationFormDetailPage = (applicationFormId: string | number) =>
   `/application-form/${applicationFormId}`;
+
+export const getScheduleDetailPage = (scheduleId: string | number) => `/schedule/${scheduleId}`;

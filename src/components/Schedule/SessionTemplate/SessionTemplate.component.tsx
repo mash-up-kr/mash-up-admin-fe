@@ -1,21 +1,23 @@
 import React from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { FieldErrors, useFieldArray, useFormContext } from 'react-hook-form';
 import { InputField } from '@/components';
 import * as Styled from './SessionTemplate.styled';
-import Time from '@/assets/svg/time-16.svg';
 import Plus from '@/assets/svg/plus-20.svg';
 import Minus from '@/assets/svg/minus-20.svg';
 import { ContentTemplate } from '../ContentTemplate';
-import { ContentsCreateRequest } from '@/types';
+import { ContentsCreateRequest, EventCreateRequest } from '@/types';
+import Time from '@/assets/svg/time-16.svg';
+import { TIME_REGEX } from '@/utils';
 
 interface SessionTemplateProps {
   index: number;
   onRemove: (index: number) => void;
+  errors?: FieldErrors<EventCreateRequest>;
 }
 
 const DEFAULT_CONTENT: Partial<ContentsCreateRequest> = {};
 
-const SessionTemplate = ({ index, onRemove }: SessionTemplateProps) => {
+const SessionTemplate = ({ index, onRemove, errors }: SessionTemplateProps) => {
   const { register, control } = useFormContext();
 
   const { fields, append, remove } = useFieldArray({
@@ -34,7 +36,7 @@ const SessionTemplate = ({ index, onRemove }: SessionTemplateProps) => {
         label="세션명"
         placeholder="세션명을 입력해주세요"
         required
-        {...register(`sessions.${index}.title`)}
+        {...register(`sessions.${index}.name`, { required: true })}
       />
       <Styled.SessionTimeInputLabel>
         세션 진행 시간
@@ -45,13 +47,27 @@ const SessionTemplate = ({ index, onRemove }: SessionTemplateProps) => {
           $size="md"
           endIcon={<Time />}
           placeholder="13:00"
-          {...register(`sessions.${index}.startedAt`)}
+          errorMessage={errors?.startedAt?.message}
+          {...register(`sessions.${index}.startedAt`, {
+            required: true,
+            pattern: {
+              value: TIME_REGEX,
+              message: '시간 형식이 올바르지 않습니다,',
+            },
+          })}
         />
         <Styled.SessionTimeInput
-          endIcon={<Time />}
           $size="md"
+          endIcon={<Time />}
           placeholder="13:45"
-          {...register(`sessions.${index}.endedAt`)}
+          errorMessage={errors?.endedAt?.message}
+          {...register(`sessions.${index}.endedAt`, {
+            required: true,
+            pattern: {
+              value: TIME_REGEX,
+              message: '시간 형식이 올바르지 않습니다,',
+            },
+          })}
         />
       </Styled.SessionTimeInputWrapper>
       <Styled.ContentTemplateWrapper>
@@ -61,6 +77,7 @@ const SessionTemplate = ({ index, onRemove }: SessionTemplateProps) => {
             key={field.id}
             index={fieldIndex}
             onRemove={remove}
+            errors={errors?.contentsCreateRequests?.[index]}
           />
         ))}
         <Styled.AddButton onClick={() => append(DEFAULT_CONTENT)}>

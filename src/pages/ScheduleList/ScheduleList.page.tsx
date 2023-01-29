@@ -105,7 +105,7 @@ const ScheduleList = () => {
       </Styled.StickyContainer>
       <Table
         prefix="schedule"
-        topStickyHeight={14.1}
+        topStickyHeight={9.2}
         columns={columns}
         rows={tableRows}
         supportBar={{

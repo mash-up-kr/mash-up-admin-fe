@@ -36,7 +36,7 @@ const ChangeResultModalDialog = ({
   refreshList,
 }: ChangeResultModalDialogProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
+  const selectedApplicationResultStatusRef = useRef<HTMLInputElement>(null);
   const { handleAddToast } = useToast();
   const { setValue, handleSubmit } = useForm<FormValues>();
 

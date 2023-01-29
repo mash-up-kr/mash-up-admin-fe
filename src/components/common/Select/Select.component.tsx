@@ -51,13 +51,13 @@ const Select = (
     onChangeOption,
     disabled = false,
   }: SelectProps,
-  ref: React.Ref<HTMLSelectElement>,
+  ref: React.Ref<HTMLInputElement>,
 ) => {
   const [isOpened, setOpened] = useState(false);
 
   const [selectedOption, setSelectedOption] = useState<SelectOption | undefined>(defaultValue);
 
-  const outerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const toggleOpened = () => {
     if (disabled) {
@@ -86,53 +86,40 @@ const Select = (
     }
   }, [currentValue]);
 
-  useOnClickOutSide(outerRef, () => setOpened(false));
+  useOnClickOutSide(containerRef, () => {
+    setOpened(false);
+  });
 
   return (
-    <div ref={outerRef}>
-      {label && (
-        <Styled.SelectLabel>
-          <span>{label}</span>
-          {required && <Styled.RequiredDot />}
-        </Styled.SelectLabel>
-      )}
-      <Styled.SelectContainer className={className} isFullWidth={isFullWidth}>
-        <Styled.Select
-          size={size}
-          onClick={toggleOpened}
-          isOpened={isOpened}
-          position={position}
-          disabled={disabled}
-        >
-          {selectedOption || defaultValue ? (
-            <Styled.SelectValue>{selectedOption?.label || defaultValue?.label}</Styled.SelectValue>
-          ) : (
-            <Styled.SelectPlaceholder>{placeholder}</Styled.SelectPlaceholder>
-          )}
-          <ChevronDown />
-        </Styled.Select>
-        <Styled.SelectMenu isOpened={isOpened} position={position}>
-          {options.map((option) => (
-            <Styled.SelectOption
-              isSelected={selectedOption?.value === option.value}
-              key={option.value}
-              onClick={() => handleClickOption(option)}
-            >
-              {option.label}
-            </Styled.SelectOption>
-          ))}
-        </Styled.SelectMenu>
-      </Styled.SelectContainer>
-      {/* SelectField를 위해 보이지 않는 select 추가 */}
-      <Styled.HiddenSelect ref={ref} value={selectedOption?.value} disabled>
+    <Styled.SelectContainer ref={containerRef} className={className} isFullWidth={isFullWidth}>
+      <Styled.Select
+        $size={size}
+        label={label}
+        required={required}
+        ref={ref}
+        onClick={toggleOpened}
+        isOpened={isOpened}
+        position={position}
+        disabled={disabled}
+        placeholder={placeholder}
+        endIcon={<ChevronDown />}
+        value={selectedOption?.label || defaultValue?.label}
+        readOnly
+        fill
+      />
+      <Styled.SelectMenu isOpened={isOpened} position={position}>
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <Styled.SelectOption
+            isSelected={selectedOption?.value === option.value}
+            key={option.value}
+            onClick={() => handleClickOption(option)}
+          >
             {option.label}
-          </option>
+          </Styled.SelectOption>
         ))}
-      </Styled.HiddenSelect>
-    </div>
+      </Styled.SelectMenu>
+    </Styled.SelectContainer>
   );
 };
 
-export default forwardRef<HTMLSelectElement, SelectProps>(Select);
+export default forwardRef<HTMLInputElement, SelectProps>(Select);

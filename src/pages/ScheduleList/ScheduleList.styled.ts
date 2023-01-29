@@ -7,7 +7,7 @@ export const PageWrapper = styled.div`
 
 export const Heading = styled.h2`
   ${({ theme }) => css`
-    margin-bottom: 2.4rem;
+    margin-bottom: 1.2rem;
     color: ${theme.colors.gray80};
     font-weight: 700;
     font-size: 3.6rem;
@@ -20,7 +20,7 @@ export const StickyContainer = styled.div`
     position: sticky;
     top: 0;
     z-index: ${theme.zIndex.sticky};
-    padding-bottom: 1.2rem;
+    padding: 1.2rem 0;
     background-color: ${theme.colors.white};
   `}
 `;
