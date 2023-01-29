@@ -1,17 +1,18 @@
 import React, { useEffect, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
 import { BottomCTA, Button, Link, Pagination, SearchOptionBar, Table } from '@/components';
 import * as Styled from './ScheduleList.styled';
 import { TableColumn } from '@/components/common/Table/Table.component';
 import { ScheduleRequest, ScheduleResponse, ScheduleStatus } from '@/types/dto/schedule';
 import { formatDate } from '@/utils/date';
-import { PATH } from '@/constants';
+import { getScheduleDetailPage, PATH } from '@/constants';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 import { usePagination } from '@/hooks';
 import { $generationNumber } from '@/store';
 import { $schedules } from '@/store/schedule';
 import { ValueOf } from '@/types';
+import { getScheduleStatusText } from '@/utils';
 
 const ScheduleList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,11 +22,19 @@ const ScheduleList = () => {
   const size = searchParams.get('size') || '20';
   const searchWord = searchParams.get('searchWord') || '';
 
+  const { pathname, search } = useLocation();
+
   const columns: TableColumn<ScheduleResponse>[] = [
     {
       title: '스케줄 명',
       accessor: 'name',
       widthRatio: '20%',
+      idAccessor: 'scheduleId',
+      renderCustomCell: (cellValue, id) => (
+        <Styled.TitleLink to={getScheduleDetailPage(id)} state={{ from: `${pathname}${search}` }}>
+          {cellValue as string}
+        </Styled.TitleLink>
+      ),
     },
     {
       title: '스케줄 일시',
@@ -52,15 +61,7 @@ const ScheduleList = () => {
       renderCustomCell: (cellValue) => {
         const value = cellValue as ValueOf<typeof ScheduleStatus>;
 
-        if (value === ScheduleStatus.ADMIN_ONLY) {
-          return '-';
-        }
-
-        if (value === ScheduleStatus.PUBLIC) {
-          return '배포 완료';
-        }
-
-        return '';
+        return getScheduleStatusText(value);
       },
     },
   ];

@@ -41,11 +41,11 @@ export interface ScheduleResponse {
   createdAt: string;
   startedAt: string;
   publishedAt?: string;
-  eventList: Event[];
+  eventList: Session[];
   status: ValueOf<typeof ScheduleStatus>;
 }
 
-interface Event {
+export interface Session {
   contentList: Content[];
   endedAt: string;
   eventId: number;
