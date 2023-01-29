@@ -6,7 +6,7 @@ import * as Styled from './ScheduleDetail.styled';
 import { $scheduleDetail } from '@/store';
 import { ScheduleInfoList, SessionListItem } from '@/components/ScheduleDetail';
 import { useHistory } from '@/hooks';
-import { getSCheduleUpdatePage, PATH } from '@/constants';
+import { getScheduleUpdatePage, PATH } from '@/constants';
 
 const ScheduleDetail = () => {
   const { scheduleId = '' } = useParams();
@@ -36,7 +36,7 @@ const ScheduleDetail = () => {
           <Button
             $size="sm"
             shape="primaryLine"
-            onClick={() => navigate(getSCheduleUpdatePage(scheduleId))}
+            onClick={() => navigate(getScheduleUpdatePage(scheduleId))}
           >
             수정
           </Button>

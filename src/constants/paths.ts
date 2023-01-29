@@ -27,5 +27,5 @@ export const getApplicationFormDetailPage = (applicationFormId: string | number)
 
 export const getScheduleDetailPage = (scheduleId: string | number) => `/schedule/${scheduleId}`;
 
-export const getSCheduleUpdatePage = (scheduleId: string | number) =>
+export const getScheduleUpdatePage = (scheduleId: string | number) =>
   `/schedule/update/${scheduleId}`;
