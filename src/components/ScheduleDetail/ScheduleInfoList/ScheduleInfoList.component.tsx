@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ScheduleStatus, ValueOf } from '@/types';
 
 import * as Styled from './ScheduleInfoList.styled';
@@ -21,38 +21,43 @@ const ScheduleInfoList = ({
   publishedAt,
   status,
 }: ScheduleInfoListProps) => {
+  const scheduleInfoListItem = useMemo(() => {
+    return [
+      {
+        label: '스케줄 명',
+        value: name,
+      },
+      {
+        label: '기수',
+        value: `${generationNumber}기`,
+      },
+      {
+        label: '스케줄 일시',
+        value: formatDate(startedAt, 'YYYY년 M월 D일 A hh시 mm분'),
+      },
+      {
+        label: '등록 일시',
+        value: formatDate(createdAt, 'YYYY년 M월 D일 A hh시 mm분'),
+      },
+      {
+        label: '배포 일시',
+        value: formatDate(publishedAt, 'YYYY년 M월 D일 A hh시 mm분'),
+      },
+      {
+        label: '배포 상태',
+        value: getScheduleStatusText(status),
+      },
+    ];
+  }, [createdAt, generationNumber, name, publishedAt, startedAt, status]);
+
   return (
     <Styled.ScheduleInfoList>
-      <li>
-        <Styled.ScheduleInfoLabel>스케줄 명</Styled.ScheduleInfoLabel>
-        <Styled.ScheduleInfoValue>{name}</Styled.ScheduleInfoValue>
-      </li>
-      <li>
-        <Styled.ScheduleInfoLabel>기수</Styled.ScheduleInfoLabel>
-        <Styled.ScheduleInfoValue>{generationNumber}기</Styled.ScheduleInfoValue>
-      </li>
-      <li>
-        <Styled.ScheduleInfoLabel>스케줄 일시</Styled.ScheduleInfoLabel>
-        <Styled.ScheduleInfoValue>
-          {formatDate(startedAt, 'YYYY년 M월 D일 A hh시 mm분')}
-        </Styled.ScheduleInfoValue>
-      </li>
-      <li>
-        <Styled.ScheduleInfoLabel>등록 일시</Styled.ScheduleInfoLabel>
-        <Styled.ScheduleInfoValue>
-          {formatDate(createdAt, 'YYYY년 M월 D일 A hh시 mm분')}
-        </Styled.ScheduleInfoValue>
-      </li>
-      <li>
-        <Styled.ScheduleInfoLabel>배포 일시</Styled.ScheduleInfoLabel>
-        <Styled.ScheduleInfoValue>
-          {formatDate(publishedAt, 'YYYY년 M월 D일 A hh시 mm분')}
-        </Styled.ScheduleInfoValue>
-      </li>
-      <li>
-        <Styled.ScheduleInfoLabel>배포 상태</Styled.ScheduleInfoLabel>
-        <Styled.ScheduleInfoValue>{getScheduleStatusText(status)}</Styled.ScheduleInfoValue>
-      </li>
+      {scheduleInfoListItem.map(({ label, value }) => (
+        <li key={label}>
+          <Styled.ScheduleInfoLabel>{label}</Styled.ScheduleInfoLabel>
+          <Styled.ScheduleInfoValue>{value}</Styled.ScheduleInfoValue>
+        </li>
+      ))}
     </Styled.ScheduleInfoList>
   );
 };
