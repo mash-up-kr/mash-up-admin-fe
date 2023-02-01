@@ -26,4 +26,4 @@ export const getScheduleDetail = (scheduleId: string): Promise<BaseResponse<Sche
 export const updateSchedule = (
   scheduleId: string,
   data: ScheduleUpdateRequest,
-): Promise<BaseResponse<ScheduleResponse>> => http.post({ url: `/schedules/${scheduleId}`, data });
+): Promise<BaseResponse<ScheduleResponse>> => http.put({ url: `/schedules/${scheduleId}`, data });
