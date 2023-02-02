@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useRecoilCallback, useRecoilValue } from 'recoil';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { $modalByStorage, $scheduleDetail, ModalKey } from '@/store';
@@ -17,6 +17,7 @@ import {
 } from '@/utils';
 
 import { ToastType } from '@/styles';
+import { ScheduleStatus } from '@/types';
 
 const UpdateSchedule = () => {
   const { scheduleId } = useParams();
@@ -31,6 +32,8 @@ const UpdateSchedule = () => {
   const { handleGoBack } = useHistory();
   const { handleAddToast } = useToast();
   const refreshSelectorFamilyByKey = useRefreshSelectorFamilyByKey();
+
+  const isPublished = scheduleResponse.status === ScheduleStatus.PUBLIC;
 
   const methods = useForm<ScheduleFormValues>({ defaultValues: defaultFormValues });
 
@@ -104,6 +107,12 @@ const UpdateSchedule = () => {
         });
       },
   );
+
+  if (isPublished) {
+    handleAddToast({ type: 'error', message: '배포가 되어 있는 스케줄은 수정할 수 없습니다.' });
+
+    return <Navigate to={getScheduleDetailPage(scheduleId ?? '')} replace />;
+  }
 
   return (
     <>
