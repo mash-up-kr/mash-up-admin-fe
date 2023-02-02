@@ -76,13 +76,53 @@ const ScheduleDetail = () => {
     });
   });
 
+  const handleDeleteSchedule = useRecoilCallback(({ set }) => async () => {
+    set($modalByStorage(ModalKey.alertModalDialog), {
+      key: ModalKey.alertModalDialog,
+      isOpen: true,
+      props: {
+        heading: '스케줄을 삭제하시겠습니까?',
+        paragraph: '작성 또는 수정하신 데이터가 삭제됩니다.',
+        confirmButtonLabel: '삭제',
+        handleClickConfirmButton: () => {
+          request({
+            requestFunc: () => {
+              return api.deleteSchedule(scheduleId);
+            },
+            errorHandler: handleAddToast,
+            onSuccess: () => {
+              handleAddToast({
+                type: ToastType.success,
+                message: '성공적으로 스케줄을 삭제했습니다.',
+              });
+
+              refreshSelectorFamilyByKey('schedules');
+              navigate(PATH.SCHEDULE);
+            },
+            onCompleted: () => {
+              set($modalByStorage(ModalKey.alertModalDialog), {
+                key: ModalKey.alertModalDialog,
+                isOpen: false,
+              });
+            },
+          });
+        },
+      },
+    });
+  });
+
   return (
     <Styled.ScheduleDetailPage>
       <BackButton onClick={() => handleGoBack(PATH.SCHEDULE)} />
       <Styled.Header>
         <h2>스케줄 상세</h2>
         <Styled.ButtonWrapper>
-          <Button $size="sm" shape="defaultLine" disabled={isPublished}>
+          <Button
+            $size="sm"
+            shape="defaultLine"
+            disabled={isPublished}
+            onClick={handleDeleteSchedule}
+          >
             삭제
           </Button>
           <Button
