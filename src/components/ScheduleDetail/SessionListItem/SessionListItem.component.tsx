@@ -5,12 +5,11 @@ import { ContentListItem, SessionTimeRange } from '..';
 
 type SessionItemProps = Session;
 
-const SessionListItem = ({ startedAt, endedAt, contentList }: SessionItemProps) => {
+const SessionListItem = ({ eventName, startedAt, endedAt, contentList }: SessionItemProps) => {
   return (
     <Styled.SessionListItem>
       <Styled.Header>
-        {/* TODO(@mango906): 세션 이름 서버로 부터 내려오게 되면 변경해주기 */}
-        <Styled.SessionTitle>세션 제목</Styled.SessionTitle>
+        <Styled.SessionTitle>{eventName}</Styled.SessionTitle>
         <SessionTimeRange startedAt={startedAt} endedAt={endedAt} />
       </Styled.Header>
       <Styled.ContentList>

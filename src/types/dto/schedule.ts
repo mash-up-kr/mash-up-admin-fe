@@ -58,6 +58,7 @@ export interface Session {
   endedAt: string;
   eventId: number;
   startedAt: string;
+  eventName: string;
 }
 
 export interface Content {

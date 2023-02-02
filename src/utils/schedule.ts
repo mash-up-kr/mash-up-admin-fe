@@ -35,8 +35,7 @@ export const parseScheduleResponseToFormValues = (
   const date: Dayjs = dayjs(startedAt, 'YYYY-MM-DD').startOf('day');
 
   const sessions: EventCreateRequest[] = eventList.map((event) => ({
-    // TODO(@mango906): 추후에 세션명이 서버로부터 반환되면 서버값 이용하도록 변경 필요
-    name: '세션 명',
+    name: event.eventName,
     startedAt: formatDate(event.startedAt, 'HH:mm'),
     endedAt: formatDate(event.endedAt, 'HH:mm'),
     contentsCreateRequests: event.contentList.map((content) => ({
