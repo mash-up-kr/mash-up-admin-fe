@@ -7,19 +7,17 @@ import * as Styled from './CreateSchedule.styled';
 import { useHistory, useRefreshSelectorFamilyByKey, useToast } from '@/hooks';
 import { getScheduleDetailPage, PATH } from '@/constants';
 import { ScheduleTemplate } from '@/components/Schedule';
-import { ScheduleCreateRequest, EventCreateRequest } from '@/types';
-import { formatDate, RecursivePartial, request, toUtcWithoutChangingTime } from '@/utils';
+import { EventCreateRequest } from '@/types';
+import {
+  parseFormValuesToScheduleRequest,
+  RecursivePartial,
+  request,
+  ScheduleFormValues,
+} from '@/utils';
 
 import * as api from '@/api';
 import { ToastType } from '@/styles';
 import { $modalByStorage, ModalKey } from '@/store';
-
-interface FormValues {
-  name: string;
-  generationNumber: number;
-  date: string;
-  sessions: EventCreateRequest[];
-}
 
 const DEFAULT_SESSIONS: RecursivePartial<EventCreateRequest[]> = [
   {
@@ -30,7 +28,7 @@ const DEFAULT_SESSIONS: RecursivePartial<EventCreateRequest[]> = [
 const CreateSchedule = () => {
   const { handleGoBack } = useHistory();
 
-  const methods = useForm<FormValues>({ defaultValues: { sessions: DEFAULT_SESSIONS } });
+  const methods = useForm<ScheduleFormValues>({ defaultValues: { sessions: DEFAULT_SESSIONS } });
 
   const { handleSubmit, formState } = methods;
   const { handleAddToast } = useToast();
@@ -39,33 +37,8 @@ const CreateSchedule = () => {
 
   const { isDirty, isSubmitting, isSubmitSuccessful } = formState;
 
-  const handleSubmitForm = useRecoilCallback(({ set }) => async (data: FormValues) => {
-    const { generationNumber, date, sessions, name } = data;
-
-    const formattedDate = formatDate(date, 'YYYY-MM-DD');
-
-    const eventsCreateRequests: EventCreateRequest[] = sessions.map((session) => ({
-      ...session,
-      contentsCreateRequests: session.contentsCreateRequests.map((content) => ({
-        ...content,
-        startedAt: toUtcWithoutChangingTime(`${formattedDate} ${content.startedAt}`),
-      })),
-      startedAt: toUtcWithoutChangingTime(`${formattedDate} ${session.startedAt}`),
-      endedAt: toUtcWithoutChangingTime(`${formattedDate} ${session.endedAt}`),
-    }));
-
-    const startedAt = toUtcWithoutChangingTime(`${formattedDate} ${sessions[0].startedAt}`);
-    const endedAt = toUtcWithoutChangingTime(
-      `${formattedDate} ${sessions[sessions.length - 1].endedAt}`,
-    );
-
-    const createScheduleRequest: ScheduleCreateRequest = {
-      generationNumber,
-      name,
-      startedAt,
-      endedAt,
-      eventsCreateRequests,
-    };
+  const handleSubmitForm = useRecoilCallback(({ set }) => async (data: ScheduleFormValues) => {
+    const createScheduleRequest = parseFormValuesToScheduleRequest(data);
 
     if (createScheduleRequest.eventsCreateRequests.length === 0) {
       handleAddToast({

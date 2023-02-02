@@ -12,7 +12,7 @@ interface FormValues {
   teamId: string;
 }
 
-const DEFAULT_QUESTION: Partial<Question> = {
+const DEFAULT_QUESTION: Question = {
   content: '',
   description: '',
   maxContentLength: null,

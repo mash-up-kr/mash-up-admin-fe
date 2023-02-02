@@ -33,6 +33,14 @@ export interface ScheduleCreateRequest {
   eventsCreateRequests: EventCreateRequest[];
 }
 
+export interface ScheduleUpdateRequest {
+  generationNumber?: number;
+  endedAt: string;
+  name: string;
+  startedAt: string;
+  eventsCreateRequests: EventCreateRequest[];
+}
+
 export interface ScheduleResponse {
   endedAt: string;
   generationNumber: number;
@@ -50,6 +58,7 @@ export interface Session {
   endedAt: string;
   eventId: number;
   startedAt: string;
+  eventName: string;
 }
 
 export interface Content {

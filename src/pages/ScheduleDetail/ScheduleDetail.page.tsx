@@ -1,17 +1,18 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { BackButton, Button } from '@/components';
 import * as Styled from './ScheduleDetail.styled';
 import { $scheduleDetail } from '@/store';
 import { ScheduleInfoList, SessionListItem } from '@/components/ScheduleDetail';
 import { useHistory } from '@/hooks';
-import { PATH } from '@/constants';
+import { getScheduleUpdatePage, PATH } from '@/constants';
 
 const ScheduleDetail = () => {
-  const { scheduleId } = useParams();
+  const { scheduleId = '' } = useParams();
 
   const { handleGoBack } = useHistory();
+  const navigate = useNavigate();
 
   const {
     name,
@@ -32,7 +33,11 @@ const ScheduleDetail = () => {
           <Button $size="sm" shape="defaultLine">
             삭제
           </Button>
-          <Button $size="sm" shape="primaryLine">
+          <Button
+            $size="sm"
+            shape="primaryLine"
+            onClick={() => navigate(getScheduleUpdatePage(scheduleId))}
+          >
             수정
           </Button>
           <Button $size="sm" shape="primary">

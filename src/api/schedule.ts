@@ -1,6 +1,11 @@
 import { BaseResponse } from '@/types';
 import http from '@/api/core';
-import { ScheduleRequest, ScheduleResponse, ScheduleCreateRequest } from '@/types/dto';
+import {
+  ScheduleRequest,
+  ScheduleResponse,
+  ScheduleCreateRequest,
+  ScheduleUpdateRequest,
+} from '@/types/dto';
 
 export const getSchedules = (params: ScheduleRequest): Promise<BaseResponse<ScheduleResponse[]>> =>
   http.get({
@@ -16,3 +21,8 @@ export const createSchedule = ({
 
 export const getScheduleDetail = (scheduleId: string): Promise<BaseResponse<ScheduleResponse>> =>
   http.get({ url: `/schedules/${scheduleId}` });
+
+export const updateSchedule = (
+  scheduleId: string,
+  data: ScheduleUpdateRequest,
+): Promise<BaseResponse<ScheduleResponse>> => http.put({ url: `/schedules/${scheduleId}`, data });
