@@ -7,7 +7,7 @@ import {
   ScheduleUpdateRequest,
   ValueOf,
 } from '@/types';
-import { formatDate, toUtcWithoutChangingTime } from '.';
+import { formatDate, toUtcFormat } from '.';
 
 export interface ScheduleFormValues {
   name: string;
@@ -64,16 +64,14 @@ export const parseFormValuesToScheduleRequest = (
     ...session,
     contentsCreateRequests: session.contentsCreateRequests.map((content) => ({
       ...content,
-      startedAt: toUtcWithoutChangingTime(`${formattedDate} ${content.startedAt}`),
+      startedAt: toUtcFormat(`${formattedDate} ${content.startedAt}`),
     })),
-    startedAt: toUtcWithoutChangingTime(`${formattedDate} ${session.startedAt}`),
-    endedAt: toUtcWithoutChangingTime(`${formattedDate} ${session.endedAt}`),
+    startedAt: toUtcFormat(`${formattedDate} ${session.startedAt}`),
+    endedAt: toUtcFormat(`${formattedDate} ${session.endedAt}`),
   }));
 
-  const startedAt = toUtcWithoutChangingTime(`${formattedDate} ${sessions[0].startedAt}`);
-  const endedAt = toUtcWithoutChangingTime(
-    `${formattedDate} ${sessions[sessions.length - 1].endedAt}`,
-  );
+  const startedAt = toUtcFormat(`${formattedDate} ${sessions[0].startedAt}`);
+  const endedAt = toUtcFormat(`${formattedDate} ${sessions[sessions.length - 1].endedAt}`);
 
   const scheduleRequest: ScheduleCreateRequest | ScheduleUpdateRequest = {
     generationNumber,

@@ -23,6 +23,6 @@ export const formatDate = (date: string | Date | undefined, format: DateFormat) 
   return parsePlaceholderWhenInvalidDate(dayjs(date).format(format));
 };
 
-export const toUtcWithoutChangingTime = (date: string | Date) => {
+export const toUtcFormat = (date: string | Date) => {
   return dayjs(date).utc(true).format().replace('Z', '');
 };
