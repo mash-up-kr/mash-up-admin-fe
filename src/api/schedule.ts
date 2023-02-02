@@ -26,3 +26,9 @@ export const updateSchedule = (
   scheduleId: string,
   data: ScheduleUpdateRequest,
 ): Promise<BaseResponse<ScheduleResponse>> => http.put({ url: `/schedules/${scheduleId}`, data });
+
+export const publishSchedule = (scheduleId: string): Promise<BaseResponse<{}>> =>
+  http.post({ url: `/schedules/${scheduleId}/publish` });
+
+export const hideSchedule = (scheduleId: string): Promise<BaseResponse<{}>> =>
+  http.post({ url: `/schedules/${scheduleId}/hide` });
