@@ -34,6 +34,7 @@ export const QRTimeInput = styled(InputField)`
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  height: 10.1rem;
   padding: 0 2.4rem 2.4rem 2.4rem;
 `;
 
