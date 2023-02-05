@@ -21,7 +21,7 @@ const SessionListItem = ({
 
   return (
     <Styled.SessionListItem>
-      <Styled.Header style={{ position: 'relative' }}>
+      <Styled.Header>
         <Styled.SessionTitle>{eventName}</Styled.SessionTitle>
         <Styled.ButtonWrapper>
           <Button
