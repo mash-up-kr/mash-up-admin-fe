@@ -3,3 +3,4 @@ export { default as EmailSendDetailInfoModalDialog } from './EmailSendDetailInfo
 export { default as EmailSendDetailListModalDialog } from './EmailSendDetailListModalDialog/EmailSendDetailListModalDialog.component';
 export { default as ApplyActivityScoreModalDialog } from './ApplyActivityScoreModalDialog/ApplyActivityScoreModalDialog.component';
 export { default as ActivityScoreModalDialog } from './ActivityScoreModalDialog/ActivityScoreModalDialog.component';
+export { default as CreateQRCodeModalDialog } from './CreateQRCodeModalDialog/CreateQRCodeModalDialog.component';

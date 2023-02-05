@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 
 export const SessionListItem = styled.li`
   ${({ theme }) => css`
-    padding: 2.4rem 0;
+    margin-top: 2.4rem;
+    padding: 6rem 0 4.8rem 0;
 
     &:not(&:last-of-type) {
       border-bottom: 0.1rem solid ${theme.colors.gray100};
@@ -12,6 +13,7 @@ export const SessionListItem = styled.li`
 `;
 
 export const Header = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,4 +30,10 @@ export const ContentList = styled.ul`
   flex-direction: column;
   gap: 2.4rem;
   margin-top: 2.4rem;
+`;
+
+export const ButtonWrapper = styled.div`
+  position: absolute;
+  top: -6rem;
+  right: 0;
 `;

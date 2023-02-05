@@ -31,6 +31,7 @@ export type PositionType = ValueOf<typeof Position>;
 export interface ModalProps extends Children {
   className?: string;
   heading?: string;
+  closeButtonHidden?: boolean;
   footer: {
     cancelButton?: {
       shape?: ButtonShapeType;
@@ -58,6 +59,7 @@ const ModalWrapper = ({
   className,
   children,
   heading,
+  closeButtonHidden = false,
   footer,
   handleCloseModal,
   closeOnClickOverlay = true,
@@ -165,7 +167,7 @@ const ModalWrapper = ({
                 />
               )}
             </Styled.ModalFooter>
-            {heading && (
+            {heading && !closeButtonHidden && (
               <Button
                 Icon={CloseIcon}
                 shape={ButtonShape.icon}
