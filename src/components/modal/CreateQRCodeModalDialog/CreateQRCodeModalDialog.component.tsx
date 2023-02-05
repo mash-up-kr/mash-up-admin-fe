@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { css } from '@emotion/css';
 import { useForm } from 'react-hook-form';
 import { useRecoilCallback, useSetRecoilState } from 'recoil';
@@ -36,17 +36,16 @@ const CreateQRCodeMocalDialog = ({
   scheduleId,
   eventId,
   sessionStartedAt,
-  sessionEndedAt,
 }: CreateQRCodeModalDialogProps) => {
-  const methods = useForm<FormValues>();
-  const { register, handleSubmit } = methods;
+  const methods = useForm<FormValues>({ mode: 'onChange' });
+  const { register, handleSubmit, formState } = methods;
   const [isLoading, setIsLoading] = useState(false);
   const { handleAddToast } = useToast();
-  const sessionDate = dayjs(sessionStartedAt).format('YYYY-MM-DDT');
-
-  console.log(isLoading, sessionEndedAt);
+  const formValues = methods.getValues();
+  const formElement = useRef<HTMLFormElement>(null);
 
   const handleSubmitForm = useRecoilCallback(({ set }) => async (data: FormValues) => {
+    const sessionDate = dayjs(sessionStartedAt).format('YYYY-MM-DDT');
     const startedAt = sessionDate + data.startedAt;
     const endedAt = sessionDate + data.endedAt;
 
@@ -89,12 +88,20 @@ const CreateQRCodeMocalDialog = ({
       confirmButton: {
         label: '생성',
         onClick: () => {
-          handleSubmit(handleSubmitForm)();
+          if (formElement.current) {
+            formElement.current.dispatchEvent(
+              new Event('submit', { cancelable: true, bubbles: true }),
+            );
+          }
         },
         type: 'submit',
-        isLoading: false,
+        isLoading,
+        disabled:
+          !formValues.startedAt ||
+          !formValues.endedAt ||
+          !!formState.errors.startedAt?.message ||
+          !!formState.errors.endedAt?.message,
       },
-      position: undefined,
     },
     handleCloseModal: () => {
       handleQRCodeModal({
@@ -112,16 +119,17 @@ const CreateQRCodeMocalDialog = ({
           시작 / 마감
           <Styled.RequiredDot />
         </Styled.QRTimeInputLabel>
-        <Styled.InputWrapper>
+        <Styled.Form onSubmit={handleSubmit(handleSubmitForm)} ref={formElement}>
           <Styled.QRTimeInput
             $size="md"
             endIcon={<Time />}
             placeholder="13:00"
+            errorMessage={formState.errors.startedAt?.message}
             {...register(`startedAt`, {
               required: true,
               pattern: {
                 value: TIME_REGEX,
-                message: '시간 형식이 올바르지 않습니다,',
+                message: '시간 형식을 확인하세요',
               },
             })}
           />
@@ -129,15 +137,16 @@ const CreateQRCodeMocalDialog = ({
             $size="md"
             endIcon={<Time />}
             placeholder="13:45"
+            errorMessage={formState.errors.endedAt?.message}
             {...register(`endedAt`, {
               required: true,
               pattern: {
                 value: TIME_REGEX,
-                message: '시간 형식이 올바르지 않습니다,',
+                message: '시간 형식을 확인하세요',
               },
             })}
           />
-        </Styled.InputWrapper>
+        </Styled.Form>
       </Styled.Wrapper>
     </ModalWrapper>
   );
