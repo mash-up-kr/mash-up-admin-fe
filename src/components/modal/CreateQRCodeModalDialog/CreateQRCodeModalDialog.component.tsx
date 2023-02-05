@@ -36,13 +36,16 @@ const CreateQRCodeMocalDialog = ({
   scheduleId,
   eventId,
   sessionStartedAt,
+  sessionEndedAt,
 }: CreateQRCodeModalDialogProps) => {
-  const methods = useForm<FormValues>({ mode: 'onChange' });
-  const { register, handleSubmit, formState } = methods;
   const [isLoading, setIsLoading] = useState(false);
   const { handleAddToast } = useToast();
+  const methods = useForm<FormValues>({ mode: 'onChange' });
+  const { register, handleSubmit, formState } = methods;
   const formValues = methods.getValues();
   const formElement = useRef<HTMLFormElement>(null);
+  const sessionStartTime = dayjs(sessionStartedAt).format('HH:mm');
+  const sessionEndTime = dayjs(sessionEndedAt).format('HH:mm');
 
   const handleSubmitForm = useRecoilCallback(({ set }) => async (data: FormValues) => {
     const sessionDate = dayjs(sessionStartedAt).format('YYYY-MM-DDT');
@@ -123,7 +126,7 @@ const CreateQRCodeMocalDialog = ({
           <Styled.QRTimeInput
             $size="md"
             endIcon={<Time />}
-            placeholder="13:00"
+            placeholder={sessionStartTime}
             errorMessage={formState.errors.startedAt?.message}
             {...register(`startedAt`, {
               required: true,
@@ -136,7 +139,7 @@ const CreateQRCodeMocalDialog = ({
           <Styled.QRTimeInput
             $size="md"
             endIcon={<Time />}
-            placeholder="13:45"
+            placeholder={sessionEndTime}
             errorMessage={formState.errors.endedAt?.message}
             {...register(`endedAt`, {
               required: true,
