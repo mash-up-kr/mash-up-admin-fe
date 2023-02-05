@@ -32,7 +32,7 @@ export interface ModalProps extends Children {
   className?: string;
   heading?: string;
   closeButtonHidden?: boolean;
-  footer: {
+  footer?: {
     cancelButton?: {
       shape?: ButtonShapeType;
       label?: string;
@@ -146,27 +146,29 @@ const ModalWrapper = ({
             )}
             <Styled.ModalContent isContentScroll={isContentScroll}>{children}</Styled.ModalContent>
 
-            <Styled.ModalFooter position={footer.position || Position.right}>
-              {footer?.cancelButton && (
-                <Button
-                  $size={ButtonSize.sm}
-                  shape={ButtonShape.defaultLine}
-                  {...footer.cancelButton}
-                  onClick={
-                    footer.cancelButton.onClick
-                      ? footer.cancelButton.onClick
-                      : () => handleCloseModal()
-                  }
-                />
-              )}
-              {footer?.confirmButton && (
-                <Button
-                  $size={ButtonSize.sm}
-                  shape={ButtonShape.primary}
-                  {...footer.confirmButton}
-                />
-              )}
-            </Styled.ModalFooter>
+            {footer && (
+              <Styled.ModalFooter position={footer.position || Position.right}>
+                {footer?.cancelButton && (
+                  <Button
+                    $size={ButtonSize.sm}
+                    shape={ButtonShape.defaultLine}
+                    {...footer.cancelButton}
+                    onClick={
+                      footer.cancelButton.onClick
+                        ? footer.cancelButton.onClick
+                        : () => handleCloseModal()
+                    }
+                  />
+                )}
+                {footer?.confirmButton && (
+                  <Button
+                    $size={ButtonSize.sm}
+                    shape={ButtonShape.primary}
+                    {...footer.confirmButton}
+                  />
+                )}
+              </Styled.ModalFooter>
+            )}
             {heading && !closeButtonHidden && (
               <Button
                 Icon={CloseIcon}

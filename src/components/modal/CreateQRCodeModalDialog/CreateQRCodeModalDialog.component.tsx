@@ -15,7 +15,7 @@ interface FormValues {
   endedAt: string;
 }
 
-const modalClassName = css`
+export const QRCodeModalClassName = css`
   min-width: 38.4rem !important;
   max-width: 38.4rem !important;
   h2 {
@@ -62,7 +62,7 @@ const CreateQRCodeMocalDialog = () => {
   };
 
   return (
-    <ModalWrapper {...props} className={modalClassName} closeButtonHidden>
+    <ModalWrapper {...props} className={QRCodeModalClassName} closeButtonHidden>
       <Styled.Wrapper>
         <Styled.QRTimeInputLabel>
           시작 / 마감

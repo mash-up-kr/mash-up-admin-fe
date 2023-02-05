@@ -10,6 +10,7 @@ import { EmailSendDetailListModalDialogProps } from '@/components/modal/EmailSen
 import { ApplyActivityScoreModalDialogProps } from '@/components/modal/ApplyActivityScoreModalDialog/ApplyActivityScoreModalDialog.component';
 import { ActivityScoreModalDialogProps } from '@/components/modal/ActivityScoreModalDialog/ActivityScoreModalDialog.component';
 import { CreateQRCodeModalDialogProps } from '@/components/modal/CreateQRCodeModalDialog/CreateQRCodeModalDialog.component';
+import { DisplayQRCodeModalDialogProps } from '@/components/modal/DisplayQRCodeModalDialog/DisplayQRCodeModalDialog.component';
 
 export const ModalKey = {
   alertModalDialog: 'alertModalDialog',
@@ -20,6 +21,7 @@ export const ModalKey = {
   applyActivityScoreModalDialog: 'applyActivityScoreModalDialog',
   activityScoreModalDialog: 'activityScoreModalDialog',
   createQRCodeModalDialog: 'createQRCodeModalDialog',
+  displayQRCodeModalDialog: 'displayQRCodeModalDialog',
 } as const;
 
 export type ModalKeyType = ValueOf<typeof ModalKey>;
@@ -31,7 +33,8 @@ export type ModalProps =
   | ChangeResultModalDialogProps
   | ApplyActivityScoreModalDialogProps
   | ActivityScoreModalDialogProps
-  | CreateQRCodeModalDialogProps;
+  | CreateQRCodeModalDialogProps
+  | DisplayQRCodeModalDialogProps;
 
 export interface Modal {
   key: ModalKeyType;

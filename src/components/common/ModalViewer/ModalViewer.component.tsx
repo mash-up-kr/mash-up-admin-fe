@@ -11,6 +11,7 @@ import {
   ApplyActivityScoreModalDialog,
   ActivityScoreModalDialog,
   CreateQRCodeModalDialog,
+  DisplayQRCodeModalDialog,
 } from '@/components';
 import { AlertModalDialogProps } from '../AlertModalDialog/AlertModalDialog.component';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
@@ -20,6 +21,7 @@ import { EmailSendDetailInfoModalDialogProps } from '@/components/modal/EmailSen
 import { ApplyActivityScoreModalDialogProps } from '@/components/modal/ApplyActivityScoreModalDialog/ApplyActivityScoreModalDialog.component';
 import { ActivityScoreModalDialogProps } from '@/components/modal/ActivityScoreModalDialog/ActivityScoreModalDialog.component';
 import { CreateQRCodeModalDialogProps } from '@/components/modal/CreateQRCodeModalDialog/CreateQRCodeModalDialog.component';
+import { DisplayQRCodeModalDialogProps } from '@/components/modal/DisplayQRCodeModalDialog/DisplayQRCodeModalDialog.component';
 
 const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
   const modal = useRecoilValue($modalByStorage(modalKey));
@@ -77,6 +79,15 @@ const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
   if (modalKey === ModalKey.createQRCodeModalDialog && modal.isOpen && modal.props) {
     return (
       <CreateQRCodeModalDialog key={modalKey} {...(modal.props as CreateQRCodeModalDialogProps)} />
+    );
+  }
+
+  if (modalKey === ModalKey.displayQRCodeModalDialog && modal.isOpen && modal.props) {
+    return (
+      <DisplayQRCodeModalDialog
+        key={modalKey}
+        {...(modal.props as DisplayQRCodeModalDialogProps)}
+      />
     );
   }
 
