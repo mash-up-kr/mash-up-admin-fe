@@ -32,7 +32,7 @@ export const QRCodeModalClassName = css`
   }
 `;
 
-const CreateQRCodeMocalDialog = ({
+const CreateQRCodeModalDialog = ({
   scheduleId,
   eventId,
   sessionStartedAt,
@@ -150,4 +150,4 @@ const CreateQRCodeMocalDialog = ({
   );
 };
 
-export default CreateQRCodeMocalDialog;
+export default CreateQRCodeModalDialog;
