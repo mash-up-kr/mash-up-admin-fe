@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSetRecoilState } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { InputField, ModalWrapper } from '@/components';
@@ -15,11 +15,7 @@ export interface DisplayQRCodeModalDialogProps {
 const DisplayQRCodeModalDialog = ({ qrCodeUrl }: DisplayQRCodeModalDialogProps) => {
   const handleQRCodeModal = useSetRecoilState($modalByStorage(ModalKey.displayQRCodeModalDialog));
   const { register } = useForm();
-  const [filteredUrl, setFilteredUrl] = useState('');
-
-  useEffect(() => {
-    setFilteredUrl(decodeHTMLEntities(qrCodeUrl));
-  }, [qrCodeUrl]);
+  const filteredUrl = decodeHTMLEntities(qrCodeUrl);
 
   const props = {
     heading: 'QR URL 복사',
