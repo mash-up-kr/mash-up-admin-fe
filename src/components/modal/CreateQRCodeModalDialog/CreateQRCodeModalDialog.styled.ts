@@ -38,7 +38,7 @@ export const Wrapper = styled.div`
   padding: 0 2.4rem 2.4rem 2.4rem;
 `;
 
-export const Form = styled.form`
+export const InputWrapper = styled.div`
   display: flex;
   gap: 6px;
 `;

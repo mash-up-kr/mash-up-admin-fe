@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/css';
 import { useForm } from 'react-hook-form';
 import { useRecoilCallback, useSetRecoilState } from 'recoil';
@@ -43,7 +43,6 @@ const CreateQRCodeMocalDialog = ({
   const methods = useForm<FormValues>({ mode: 'onChange' });
   const { register, handleSubmit, formState } = methods;
   const formValues = methods.getValues();
-  const formElement = useRef<HTMLFormElement>(null);
   const sessionStartTime = dayjs(sessionStartedAt).format('HH:mm');
   const sessionEndTime = dayjs(sessionEndedAt).format('HH:mm');
 
@@ -91,11 +90,7 @@ const CreateQRCodeMocalDialog = ({
       confirmButton: {
         label: '생성',
         onClick: () => {
-          if (formElement.current) {
-            formElement.current.dispatchEvent(
-              new Event('submit', { cancelable: true, bubbles: true }),
-            );
-          }
+          handleSubmit(handleSubmitForm)();
         },
         type: 'submit',
         isLoading,
@@ -122,7 +117,7 @@ const CreateQRCodeMocalDialog = ({
           시작 / 마감
           <Styled.RequiredDot />
         </Styled.QRTimeInputLabel>
-        <Styled.Form onSubmit={handleSubmit(handleSubmitForm)} ref={formElement}>
+        <Styled.InputWrapper>
           <Styled.QRTimeInput
             $size="md"
             endIcon={<Time />}
@@ -149,7 +144,7 @@ const CreateQRCodeMocalDialog = ({
               },
             })}
           />
-        </Styled.Form>
+        </Styled.InputWrapper>
       </Styled.Wrapper>
     </ModalWrapper>
   );
