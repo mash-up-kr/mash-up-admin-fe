@@ -7,9 +7,16 @@ import { Button } from '@/components';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 import { $modalByStorage, ModalKey } from '@/store';
 
-type SessionItemProps = Session;
+type SessionItemProps = Session & { scheduleId: number };
 
-const SessionListItem = ({ eventName, startedAt, endedAt, contentList }: SessionItemProps) => {
+const SessionListItem = ({
+  scheduleId,
+  eventId,
+  eventName,
+  startedAt,
+  endedAt,
+  contentList,
+}: SessionItemProps) => {
   const handleQRCodeModal = useSetRecoilState($modalByStorage(ModalKey.createQRCodeModalDialog));
 
   return (
@@ -26,7 +33,12 @@ const SessionListItem = ({ eventName, startedAt, endedAt, contentList }: Session
               handleQRCodeModal({
                 key: ModalKey.createQRCodeModalDialog,
                 isOpen: true,
-                props: {},
+                props: {
+                  scheduleId,
+                  eventId,
+                  sessionStartedAt: startedAt,
+                  sessionEndedAt: endedAt,
+                },
               })
             }
           />

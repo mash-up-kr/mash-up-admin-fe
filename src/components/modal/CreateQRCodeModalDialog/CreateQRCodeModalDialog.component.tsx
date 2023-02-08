@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/css';
 import { useForm } from 'react-hook-form';
 import { useRecoilCallback, useSetRecoilState } from 'recoil';
+import dayjs from 'dayjs';
 import { ModalWrapper } from '@/components';
 import * as Styled from './CreateQRCodeModalDialog.styled';
 import Time from '@/assets/svg/time-16.svg';
-import { TIME_REGEX } from '@/utils';
+import { TIME_REGEX, request } from '@/utils';
 import { $modalByStorage, ModalKey } from '@/store';
+import * as api from '@/api';
+import { useToast } from '@/hooks';
 
-export interface CreateQRCodeModalDialogProps {}
+export interface CreateQRCodeModalDialogProps {
+  scheduleId: number;
+  eventId: number;
+  sessionStartedAt: string;
+  sessionEndedAt: string;
+}
 
 interface FormValues {
   startedAt: string;
@@ -24,13 +32,50 @@ export const QRCodeModalClassName = css`
   }
 `;
 
-const CreateQRCodeMocalDialog = () => {
+const CreateQRCodeMocalDialog = ({
+  scheduleId,
+  eventId,
+  sessionStartedAt,
+  sessionEndedAt,
+}: CreateQRCodeModalDialogProps) => {
   const methods = useForm<FormValues>();
   const { register, handleSubmit } = methods;
+  const [isLoading, setIsLoading] = useState(false);
+  const { handleAddToast } = useToast();
+  const sessionDate = dayjs(sessionStartedAt).format('YYYY-MM-DDT');
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  console.log(isLoading, sessionEndedAt);
+
   const handleSubmitForm = useRecoilCallback(({ set }) => async (data: FormValues) => {
-    console.log('submit', data);
+    const startedAt = sessionDate + data.startedAt;
+    const endedAt = sessionDate + data.endedAt;
+
+    request({
+      requestFunc: () => {
+        setIsLoading(true);
+        return api.createQRCode({
+          scheduleId,
+          eventId,
+          startedAt,
+          endedAt,
+        });
+      },
+      errorHandler: handleAddToast,
+      onSuccess: ({ data: { qrCodeUrl } }) => {
+        set($modalByStorage(ModalKey.displayQRCodeModalDialog), {
+          key: ModalKey.displayQRCodeModalDialog,
+          isOpen: true,
+          props: { qrCodeUrl },
+        });
+      },
+      onCompleted: () => {
+        setIsLoading(false);
+        set($modalByStorage(ModalKey.createQRCodeModalDialog), {
+          key: ModalKey.createQRCodeModalDialog,
+          isOpen: false,
+        });
+      },
+    });
   });
 
   const handleQRCodeModal = useSetRecoilState($modalByStorage(ModalKey.createQRCodeModalDialog));
@@ -55,7 +100,6 @@ const CreateQRCodeMocalDialog = () => {
       handleQRCodeModal({
         key: ModalKey.createQRCodeModalDialog,
         isOpen: false,
-        props: {},
       });
     },
     isContentScroll: false,

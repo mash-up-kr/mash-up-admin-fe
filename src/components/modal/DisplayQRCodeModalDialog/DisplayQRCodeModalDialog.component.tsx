@@ -7,9 +7,11 @@ import { $modalByStorage, ModalKey } from '@/store';
 import { InputSize } from '@/components/common/Input/Input.component';
 import { QRCodeModalClassName } from '../CreateQRCodeModalDialog/CreateQRCodeModalDialog.component';
 
-export interface DisplayQRCodeModalDialogProps {}
+export interface DisplayQRCodeModalDialogProps {
+  qrCodeUrl: string;
+}
 
-const DisplayQRCodeModalDialog = () => {
+const DisplayQRCodeModalDialog = ({ qrCodeUrl }: DisplayQRCodeModalDialogProps) => {
   const handleQRCodeModal = useSetRecoilState($modalByStorage(ModalKey.displayQRCodeModalDialog));
   const { register } = useForm();
 
@@ -19,7 +21,6 @@ const DisplayQRCodeModalDialog = () => {
       handleQRCodeModal({
         key: ModalKey.displayQRCodeModalDialog,
         isOpen: false,
-        props: {},
       });
     },
     isContentScroll: false,
@@ -35,7 +36,7 @@ const DisplayQRCodeModalDialog = () => {
         <InputField
           $size={InputSize.md}
           type="text"
-          value="http://mashup.attendant.qr"
+          value={qrCodeUrl}
           disabled
           {...register(`display.qrcode.url`)}
         />

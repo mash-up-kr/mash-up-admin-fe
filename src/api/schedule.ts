@@ -5,6 +5,8 @@ import {
   ScheduleResponse,
   ScheduleCreateRequest,
   ScheduleUpdateRequest,
+  QRCodeRequest,
+  QRCodeResponse,
 } from '@/types/dto';
 
 export const getSchedules = (params: ScheduleRequest): Promise<BaseResponse<ScheduleResponse[]>> =>
@@ -35,3 +37,11 @@ export const hideSchedule = (scheduleId: string): Promise<BaseResponse<{}>> =>
 
 export const deleteSchedule = (scheduleId: string): Promise<BaseResponse<{}>> =>
   http.delete({ url: `/schedules/${scheduleId}` });
+
+export const createQRCode = ({
+  scheduleId,
+  eventId,
+  startedAt,
+  endedAt,
+}: QRCodeRequest): Promise<BaseResponse<QRCodeResponse>> =>
+  http.post({ url: `/schedules/${scheduleId}/event/${eventId}/qr`, data: { startedAt, endedAt } });
