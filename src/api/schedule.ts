@@ -32,3 +32,6 @@ export const publishSchedule = (scheduleId: string): Promise<BaseResponse<{}>> =
 
 export const hideSchedule = (scheduleId: string): Promise<BaseResponse<{}>> =>
   http.post({ url: `/schedules/${scheduleId}/hide` });
+
+export const deleteSchedule = (scheduleId: string): Promise<BaseResponse<{}>> =>
+  http.delete({ url: `/schedules/${scheduleId}` });

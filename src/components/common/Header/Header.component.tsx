@@ -35,7 +35,7 @@ const navigationItems: NavigationItem[] = [
     to: PATH.ACTIVITY_SCORE,
   },
   {
-    label: '스케쥴 정보',
+    label: '스케줄 정보',
     to: PATH.SCHEDULE,
   },
 ];

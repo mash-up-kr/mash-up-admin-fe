@@ -88,7 +88,7 @@ const UpdateSchedule = () => {
                 onSuccess: () => {
                   handleAddToast({
                     type: ToastType.success,
-                    message: '성공적으로 스케줄을 추가했습니다.',
+                    message: '성공적으로 스케줄을 수정했습니다.',
                   });
 
                   refreshSelectorFamilyByKey('schedules');
