@@ -1,7 +1,8 @@
-import { css, Theme } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ValueOf } from '@/types';
 import { SelectPosition, SelectSize } from './Select.component';
+import Input from '../Input/Input.component';
 
 interface StyledSelectContainerProps {
   isFullWidth: boolean;
@@ -10,8 +11,7 @@ interface StyledSelectContainerProps {
 interface StyledSelectProps {
   position: ValueOf<typeof SelectPosition>;
   isOpened: boolean;
-  size: ValueOf<typeof SelectSize>;
-  disabled: boolean;
+  $size: ValueOf<typeof SelectSize>;
 }
 
 interface StyledSelectMenuProps {
@@ -23,11 +23,7 @@ interface StyledSelectOptionProps {
   isSelected: boolean;
 }
 
-const getSelectStyle = (
-  position: ValueOf<typeof SelectPosition>,
-  isOpened: boolean,
-  theme: Theme,
-) => {
+const getSelectStyle = (position: ValueOf<typeof SelectPosition>, isOpened: boolean) => {
   if (!isOpened) {
     return css`
       border-radius: 0.9rem;
@@ -36,18 +32,34 @@ const getSelectStyle = (
 
   if (position === SelectPosition.bottom) {
     return css`
-      border: 0.1rem solid ${theme.colors.purple70};
       border-radius: 0.9rem 0.9rem 0 0;
     `;
   }
 
   if (position === SelectPosition.top) {
     return css`
-      border: 0.1rem solid ${theme.colors.purple70};
       border-radius: 0 0 0.9rem 0.9rem;
     `;
   }
 };
+
+export const SelectLabel = styled.label`
+  ${({ theme }) => css`
+    ${theme.fonts.medium15}
+    display: flex;
+    margin-bottom: 0.6rem;
+    color: ${theme.colors.gray70};
+  `}
+`;
+
+export const RequiredDot = styled.span`
+  width: 0.6rem;
+  min-width: 0.6rem;
+  height: 0.6rem;
+  margin: 0.8rem 0 0 0.6rem;
+  background-color: #eb6963;
+  border-radius: 50%;
+`;
 
 export const SelectContainer = styled.div<StyledSelectContainerProps>`
   ${({ isFullWidth }) => css`
@@ -64,48 +76,29 @@ export const SelectContainer = styled.div<StyledSelectContainerProps>`
   `}
 `;
 
-export const Select = styled.div<StyledSelectProps>`
-  ${({ theme, size, isOpened, position, disabled }) => css`
-    ${theme.select.size[size]};
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.8rem 1.2rem;
-    background-color: ${theme.colors.white};
-    border: 0.1rem solid ${theme.colors.gray30};
-    border-radius: 0.9rem;
-    cursor: pointer;
+export const Select = styled(Input)<StyledSelectProps>`
+  ${({ theme, $size, isOpened, position }) => css`
+    ${theme.select.size[$size]};
 
     svg {
       transform: ${isOpened ? 'rotate(180deg)' : 'rotate(0deg)'};
     }
 
-    &:hover {
-      border: 0.1rem solid ${theme.colors.purple40};
+    & > div {
+      width: 100%;
+
+      ${isOpened
+        ? css`
+            border: 0.1rem solid ${theme.colors.purple70};
+          `
+        : css``}
+
+      input {
+        cursor: pointer;
+      }
+
+      ${getSelectStyle(position, isOpened)}
     }
-
-    ${getSelectStyle(position, isOpened, theme)}
-
-    ${disabled
-      ? css`
-          cursor: not-allowed;
-          opacity: 0.5;
-          user-select: none;
-        `
-      : css``}
-  `}
-`;
-
-export const SelectPlaceholder = styled.span`
-  ${({ theme }) => css`
-    color: ${theme.colors.gray50};
-  `}
-`;
-
-export const SelectValue = styled.span`
-  ${({ theme }) => css`
-    color: ${theme.colors.gray80};
   `}
 `;
 

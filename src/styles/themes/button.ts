@@ -100,7 +100,7 @@ export const button = {
 
       &:disabled {
         color: ${colors.purple40};
-        background-color: ${colors.purple40};
+        background-color: ${colors.purple10};
         border-color: ${colors.purple20};
       }
 

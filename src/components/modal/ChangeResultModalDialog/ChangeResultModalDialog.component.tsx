@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useState } from 'react';
 import { useRecoilCallback } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { request } from '@/utils';
-import { ModalWrapper, SelectField, TitleWithContent } from '@/components';
+import { ModalWrapper, Select, TitleWithContent } from '@/components';
 import * as Styled from './ChangeResultModalDialog.styled';
 import * as api from '@/api';
 import { $applicationById, $modalByStorage, ModalKey } from '@/store';
@@ -36,7 +36,7 @@ const ChangeResultModalDialog = ({
   refreshList,
 }: ChangeResultModalDialogProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
+  const selectedApplicationResultStatusRef = useRef<HTMLInputElement>(null);
   const { handleAddToast } = useToast();
   const { setValue, handleSubmit } = useForm<FormValues>();
 
@@ -135,7 +135,7 @@ const ChangeResultModalDialog = ({
         </Styled.SelectedResultArea>
         <Styled.Divider> </Styled.Divider>
         <TitleWithContent title="변경할 합격여부 상태" isActive>
-          <SelectField
+          <Select
             size={SelectSize.md}
             options={applicationResultOptions}
             isFullWidth
