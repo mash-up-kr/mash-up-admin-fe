@@ -53,6 +53,17 @@ export interface ScheduleResponse {
   status: ValueOf<typeof ScheduleStatus>;
 }
 
+export interface QRCodeRequest {
+  scheduleId: number;
+  eventId: number;
+  startedAt: string;
+  endedAt: string;
+}
+
+export interface QRCodeResponse {
+  qrCodeUrl: string;
+}
+
 export interface Session {
   contentList: Content[];
   endedAt: string;

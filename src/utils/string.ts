@@ -29,3 +29,10 @@ export const parsePlaceholderWhenInvalidDate = (
 
   return value;
 };
+
+export const decodeHTMLEntities = (value: string) => {
+  const element = document.createElement('div');
+  element.innerHTML = value;
+  element.remove();
+  return element.textContent ?? '';
+};

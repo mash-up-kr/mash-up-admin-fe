@@ -153,7 +153,7 @@ const ScheduleDetail = () => {
         <h3>세션 정보</h3>
         <Styled.SessionList>
           {sessionList.map((session) => (
-            <SessionListItem key={session.eventId} {...session} />
+            <SessionListItem key={session.eventId} {...session} scheduleId={Number(scheduleId)} />
           ))}
         </Styled.SessionList>
       </Styled.Content>
