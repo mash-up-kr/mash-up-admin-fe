@@ -65,12 +65,12 @@ Mash Up Admin 서비스는 아래와 같은 업무를 효율적으로 처리할 
 - Typescript
 - Emotion
 - Webpack
-- recoil
+- Recoil
 - Yarn berry
 
 ## 연관 레포지토리
 
 - [Mash Up 백엔드](https://github.com/mash-up-kr/mashup-server)
 - [Mash Up 지원 서비스](https://github.com/mash-up-kr/mash-up-recruit-fe)
-- [Mash Up 출척체크 앱 안드로이드](https://github.com/mash-up-kr/mashup_Android)
-- [Mash Up 출척체크 앱 iOS](https://github.com/mash-up-kr/mashup-ios)
+- [Mash Up 출석체크 앱 안드로이드](https://github.com/mash-up-kr/mashup_Android)
+- [Mash Up 출석체크 앱 iOS](https://github.com/mash-up-kr/mashup-ios)
