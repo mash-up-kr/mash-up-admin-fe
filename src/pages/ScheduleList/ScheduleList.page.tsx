@@ -111,7 +111,7 @@ const ScheduleList = () => {
         rows={tableRows}
         supportBar={{
           totalCount,
-          totalSummaryText: '총 지원설문지',
+          totalSummaryText: '총 개수',
           buttons: [
             <Link to={PATH.SCHEDULE_CREATE}>
               <Button $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
