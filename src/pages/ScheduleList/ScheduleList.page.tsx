@@ -19,7 +19,7 @@ const ScheduleList = () => {
   const teamName = searchParams.get('team');
   const generationNumber = useRecoilValue($generationNumber);
   const page = searchParams.get('page') || '1';
-  const size = searchParams.get('size') || '20';
+  const size = searchParams.get('size') || '10';
   const searchWord = searchParams.get('searchWord') || '';
 
   const { pathname, search } = useLocation();
