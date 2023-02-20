@@ -70,8 +70,8 @@ export const parseFormValuesToScheduleRequest = (
     endedAt: toUtcFormat(`${formattedDate} ${session.endedAt}`),
   }));
 
-  const startedAt = toUtcFormat(`${formattedDate} ${sessions[0].startedAt}`);
-  const endedAt = toUtcFormat(`${formattedDate} ${sessions[sessions.length - 1].endedAt}`);
+  const startedAt = toUtcFormat(`${formattedDate} ${sessions[0]?.startedAt}`);
+  const endedAt = toUtcFormat(`${formattedDate} ${sessions[sessions.length - 1]?.endedAt}`);
 
   const scheduleRequest: ScheduleCreateRequest | ScheduleUpdateRequest = {
     generationNumber,

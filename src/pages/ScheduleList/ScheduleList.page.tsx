@@ -19,7 +19,7 @@ const ScheduleList = () => {
   const teamName = searchParams.get('team');
   const generationNumber = useRecoilValue($generationNumber);
   const page = searchParams.get('page') || '1';
-  const size = searchParams.get('size') || '20';
+  const size = searchParams.get('size') || '10';
   const searchWord = searchParams.get('searchWord') || '';
 
   const { pathname, search } = useLocation();
@@ -111,7 +111,7 @@ const ScheduleList = () => {
         rows={tableRows}
         supportBar={{
           totalCount,
-          totalSummaryText: '총 지원설문지',
+          totalSummaryText: '총 개수',
           buttons: [
             <Link to={PATH.SCHEDULE_CREATE}>
               <Button $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
