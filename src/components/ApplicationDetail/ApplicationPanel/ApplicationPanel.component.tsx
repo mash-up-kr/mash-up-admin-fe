@@ -4,7 +4,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useRecoilCallback } from 'recoil';
 import utc from 'dayjs/plugin/utc';
 import { useLocation } from 'react-router-dom';
-import { Button, DatePicker, Select, SelectField } from '@/components';
+import { Button, DatePicker, Select } from '@/components';
 import * as Styled from './ApplicationPanel.styled';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
 import { TitleWithContent } from '..';
@@ -15,7 +15,7 @@ import ApplicationStatusBadge, {
   ApplicationResultStatusKeyType,
   ApplicationResultStatusType,
 } from '@/components/common/ApplicationStatusBadge/ApplicationStatusBadge.component';
-import { toUtcWithoutChangingTime, formatDate } from '@/utils/date';
+import { toUtcFormat, formatDate } from '@/utils/date';
 import { SelectOption, SelectSize } from '@/components/common/Select/Select.component';
 import { useOnClickOutSide, useToast } from '@/hooks';
 import { rangeArray, request } from '@/utils';
@@ -82,7 +82,7 @@ const ControlArea = ({
   );
   const [isDatePickerOpened, setIsDatePickerOpened] = useState(false);
   const outerRef = useRef<HTMLDivElement>(null);
-  const selectedApplicationResultStatusRef = useRef<HTMLSelectElement>(null);
+  const selectedApplicationResultStatusRef = useRef<HTMLInputElement>(null);
 
   const handleSelectDate = useCallback(
     (clickedDate: Dayjs) => {
@@ -161,7 +161,7 @@ const ControlArea = ({
     return (
       <>
         <TitleWithContent title="합격 여부" isActive>
-          <SelectField
+          <Select
             size={SelectSize.md}
             options={applicationResultOptions}
             isFullWidth
@@ -279,8 +279,8 @@ const ApplicationPanel = ({
       async ({ applicationResultStatus, interviewStartedAt }: FormValues) => {
         const requestDto: ApplicationUpdateResultByIdRequest = {
           applicationResultStatus,
-          interviewStartedAt: toUtcWithoutChangingTime(interviewStartedAt),
-          interviewEndedAt: toUtcWithoutChangingTime(
+          interviewStartedAt: toUtcFormat(interviewStartedAt),
+          interviewEndedAt: toUtcFormat(
             dayjs(interviewStartedAt).add(49, 'm').add(59, 's').format(),
           ),
           applicationId,

@@ -108,7 +108,7 @@
     "lodash-es": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-hook-form": "^7.27.0",
+    "react-hook-form": "^7.42.1",
     "react-router-dom": "^6.2.1",
     "recoil": "^0.6.1",
     "recoil-persist": "^4.0.0",

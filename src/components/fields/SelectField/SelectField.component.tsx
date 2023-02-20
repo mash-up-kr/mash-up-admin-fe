@@ -1,9 +1,27 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
+import { Control, Controller, UseControllerProps } from 'react-hook-form';
 import { Select } from '@/components';
 import { SelectProps } from '@/components/common/Select/Select.component';
 
-const SelectField = (props: SelectProps, ref: React.ForwardedRef<HTMLSelectElement>) => {
-  return <Select {...props} ref={ref} />;
+type SelectFieldProps = {
+  control?: Control<any>;
+} & SelectProps &
+  Omit<UseControllerProps, 'control'>;
+
+const SelectField = ({ name, control, ...restProps }: SelectFieldProps) => {
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field: { onChange, ...fieldRestProps } }) => (
+        <Select
+          {...restProps}
+          onChangeOption={(option) => onChange(option.value)}
+          {...fieldRestProps}
+        />
+      )}
+    />
+  );
 };
 
-export default forwardRef<HTMLSelectElement, SelectProps>(SelectField);
+export default SelectField;

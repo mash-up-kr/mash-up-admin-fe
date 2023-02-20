@@ -18,3 +18,21 @@ export const parsePlaceholderWhenEmpty = (value: string | null | undefined, pars
 
   return value;
 };
+
+export const parsePlaceholderWhenInvalidDate = (
+  value: string | null | undefined,
+  parsingText = '-',
+) => {
+  if (!value || value === 'Invalid Date') {
+    return parsingText;
+  }
+
+  return value;
+};
+
+export const decodeHTMLEntities = (value: string) => {
+  const element = document.createElement('div');
+  element.innerHTML = value;
+  element.remove();
+  return element.textContent ?? '';
+};
