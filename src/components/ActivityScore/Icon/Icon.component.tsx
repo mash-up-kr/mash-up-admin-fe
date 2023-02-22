@@ -12,7 +12,8 @@ import Staff from '@/assets/svg/staff-40.svg';
 import ProjectLeader from '@/assets/svg/project-leader-40.svg';
 import ProjectSubLeader from '@/assets/svg/project-sub-leader-40.svg';
 import Prepare from '@/assets/svg/prepare-40.svg';
-import ContentsWrite from '@/assets/svg/contents-write-40.svg';
+import DefaultScore from '@/assets/svg/default-score-40.svg';
+import ContentWrite from '@/assets/svg/content-write-40.svg';
 import { ValueOf } from '@/types';
 import { ScoreType } from '../constants';
 
@@ -29,7 +30,8 @@ const scoreIcon = {
   [ScoreType.PROJECT_LEADER]: <ProjectLeader />,
   [ScoreType.PROJECT_SUBLEADER]: <ProjectSubLeader />,
   [ScoreType.HACKATHON_COMMITTEE]: <Prepare />,
-  [ScoreType.MASHUP_CONTENT_WRITE]: <ContentsWrite />,
+  [ScoreType.DEFAULT]: <DefaultScore />,
+  [ScoreType.MASHUP_CONTENT_WRITE]: <ContentWrite />,
 };
 
 interface IconProps {
