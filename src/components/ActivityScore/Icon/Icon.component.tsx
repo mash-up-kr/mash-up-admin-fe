@@ -40,12 +40,12 @@ interface IconProps {
 }
 
 const Icon = ({ type, size = 44 }: IconProps) => {
-  const icon = React.cloneElement(scoreIcon[type] ?? <svg />, {
+  if (!scoreIcon[type]) return null;
+
+  return React.cloneElement(scoreIcon[type], {
     width: size,
     height: size,
   });
-
-  return icon;
 };
 
 export default Icon;
