@@ -35,8 +35,8 @@ const ActivityScoreDetail = () => {
 
   const columns: TableColumn<ScoreHistory>[] = [
     {
-      title: '-',
-      widthRatio: '6%',
+      title: '',
+      widthRatio: '7%',
       accessor: 'scoreType',
       renderCustomCell: (cellValue) => (
         <Styled.IconWrapper>
@@ -46,7 +46,7 @@ const ActivityScoreDetail = () => {
     },
     {
       title: '제목',
-      widthRatio: '20%',
+      widthRatio: '19%',
       textAlign: 'start',
       accessor: [
         'accumulatedScore',
@@ -122,7 +122,7 @@ const ActivityScoreDetail = () => {
       },
     },
     {
-      title: '등록 일시',
+      title: '일시',
       widthRatio: '20%',
       accessor: ['date', 'isCanceled'],
       renderCustomCell: (cellValue) => {
