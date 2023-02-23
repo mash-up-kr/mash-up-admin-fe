@@ -198,6 +198,7 @@ const ActivityScoreDetail = () => {
             shape={ButtonShape.defaultLine}
             label="점수 추가"
             Icon={Plus}
+            $size="xs"
             onClick={() => {
               handleApplyActivityScoreModal({
                 key: ModalKey.applyActivityScoreModalDialog,
