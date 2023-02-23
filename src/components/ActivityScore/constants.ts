@@ -12,6 +12,7 @@ export const ScoreType = {
   MASHUP_LEADER: 'MASHUP_LEADER',
   MASHUP_SUBLEADER: 'MASHUP_SUBLEADER',
   MASHUP_CONTENT_WRITE: 'MASHUP_CONTENT_WRITE',
+  DEFAULT: 'DEFAULT',
 } as const;
 
 export const ScoreTitle = {
