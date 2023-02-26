@@ -101,7 +101,7 @@ const ActivityScoreList = () => {
         <TeamNavigationTabs />
         <SearchOptionBar placeholder="이름 검색" />
       </Styled.StickyContainer>
-      <Table
+      <Table<MemberResponse>
         prefix="activity-score"
         topStickyHeight={14.1}
         columns={columns}

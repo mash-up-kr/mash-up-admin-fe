@@ -55,7 +55,7 @@ export interface TableProps<T extends object> {
   prefix: string;
   topStickyHeight?: number;
   columns: TableColumn<T>[];
-  rows: T[] | (T & { team: Team })[];
+  rows: T[] | (T & { team: Team; platform: string })[];
   isLoading?: boolean;
   selectableRow?: {
     selectedCount: number;
@@ -385,13 +385,16 @@ const Table = <T extends object>({
                               getOwnValueByKey(row, accessorItem as any),
                             )
                           : getOwnValueByKey(row, accessor as any);
+                        const myTeamNameAsLowercase = myTeamName.toLowerCase();
 
                         const isCurrentRowAccessible =
                           !isCurrentPageIncludingPrivacy ||
                           myTeamName === TeamNames.mashUp ||
                           myTeamName === TeamNames.branding ||
                           ('team' in row &&
-                            row.team.name.toLowerCase() === myTeamName.toLowerCase());
+                            row.team.name.toLowerCase() === myTeamNameAsLowercase) ||
+                          ('platform' in row &&
+                            row.platform.toLowerCase() === myTeamNameAsLowercase);
 
                         if (isCurrentRowAccessible) {
                           return (
