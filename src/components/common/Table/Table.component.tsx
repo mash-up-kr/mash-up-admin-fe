@@ -412,7 +412,7 @@ const Table = <T extends object>({
                               ? renderCustomCell(cellValue, id, () => {
                                   handleAddToast({
                                     type: ToastType.error,
-                                    message: '접근 불가능한 지원서입니다.',
+                                    message: '접근 권한이 없는 팀입니다.',
                                   });
                                 })
                               : cellValue}
