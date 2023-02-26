@@ -286,6 +286,17 @@ const Table = <T extends object>({
     [currentPath],
   );
 
+  const checkIsCurrentRowAccessible = (rowTeamName: string) => {
+    const myTeamNameAsLowercase = myTeamName.toLowerCase();
+    return (
+      !isCurrentPageIncludingPrivacy ||
+      myTeamName === TeamNames.mashUp ||
+      myTeamName === TeamNames.branding ||
+      rowTeamName === myTeamNameAsLowercase ||
+      rowTeamName === myTeamNameAsLowercase
+    );
+  };
+
   const handleSelectRow: (index: number) => ChangeEventHandler<HTMLInputElement> =
     (index) => (e) => {
       if (e.target.checked) {
@@ -385,16 +396,11 @@ const Table = <T extends object>({
                               getOwnValueByKey(row, accessorItem as any),
                             )
                           : getOwnValueByKey(row, accessor as any);
-                        const myTeamNameAsLowercase = myTeamName.toLowerCase();
-
+                        const rowTeamName =
+                          ('team' in row && row.team.name.toLowerCase()) ||
+                          ('platform' in row && row.platform.toLowerCase());
                         const isCurrentRowAccessible =
-                          !isCurrentPageIncludingPrivacy ||
-                          myTeamName === TeamNames.mashUp ||
-                          myTeamName === TeamNames.branding ||
-                          ('team' in row &&
-                            row.team.name.toLowerCase() === myTeamNameAsLowercase) ||
-                          ('platform' in row &&
-                            row.platform.toLowerCase() === myTeamNameAsLowercase);
+                          rowTeamName && checkIsCurrentRowAccessible(rowTeamName);
 
                         if (isCurrentRowAccessible) {
                           return (
