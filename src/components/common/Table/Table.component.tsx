@@ -289,7 +289,6 @@ const Table = <T extends object>({
   const checkIsCurrentRowAccessible = (rowTeamName: string) => {
     const myTeamNameAsLowercase = myTeamName.toLowerCase();
     return (
-      !isCurrentPageIncludingPrivacy ||
       myTeamName === TeamNames.mashUp ||
       myTeamName === TeamNames.branding ||
       rowTeamName === myTeamNameAsLowercase ||
@@ -396,32 +395,45 @@ const Table = <T extends object>({
                               getOwnValueByKey(row, accessorItem as any),
                             )
                           : getOwnValueByKey(row, accessor as any);
+
+                        const normalContents = renderCustomCell
+                          ? renderCustomCell(cellValue, id, undefined, applicationParams)
+                          : cellValue;
+
+                        const blockContents = renderCustomCell
+                          ? renderCustomCell(cellValue, id, () => {
+                              handleAddToast({
+                                type: ToastType.error,
+                                message: '접근 권한이 없는 팀입니다.',
+                              });
+                            })
+                          : cellValue;
+
+                        if (!isCurrentPageIncludingPrivacy) {
+                          return (
+                            <Styled.TableCell key={`cell-${columnIndex}`} textAlign={textAlign}>
+                              {normalContents}
+                            </Styled.TableCell>
+                          );
+                        }
+
                         const rowTeamName =
                           ('team' in row && row.team.name.toLowerCase()) ||
                           ('platform' in row && row.platform.toLowerCase());
+
                         const isCurrentRowAccessible =
                           rowTeamName && checkIsCurrentRowAccessible(rowTeamName);
 
                         if (isCurrentRowAccessible) {
                           return (
                             <Styled.TableCell key={`cell-${columnIndex}`} textAlign={textAlign}>
-                              {renderCustomCell
-                                ? renderCustomCell(cellValue, id, undefined, applicationParams)
-                                : cellValue}
+                              {normalContents}
                             </Styled.TableCell>
                           );
                         }
-
                         return (
                           <Styled.TableCell key={`cell-${columnIndex}`} textAlign={textAlign}>
-                            {renderCustomCell
-                              ? renderCustomCell(cellValue, id, () => {
-                                  handleAddToast({
-                                    type: ToastType.error,
-                                    message: '접근 권한이 없는 팀입니다.',
-                                  });
-                                })
-                              : cellValue}
+                            {blockContents}
                           </Styled.TableCell>
                         );
                       })}
