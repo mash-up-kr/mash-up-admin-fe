@@ -44,7 +44,7 @@ const columns: TableColumn<EmailRequest>[] = [
     title: '발송여부',
     accessor: 'status',
     widthRatio: '20%',
-    renderCustomCell: (cellValue) => (
+    renderCustomCell: ({ cellValue }) => (
       <Styled.StatusWrapper status={cellValue as string}>
         {EMAIL_STATUS[cellValue as KeyOf<typeof EMAIL_STATUS>]}
       </Styled.StatusWrapper>

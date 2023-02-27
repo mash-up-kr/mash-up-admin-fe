@@ -63,7 +63,7 @@ const ActivityScoreList = () => {
       widthRatio: '25%',
       accessor: 'name',
       idAccessor: 'memberId',
-      renderCustomCell: (cellValue, id, handleClickLink) => (
+      renderCustomCell: ({ cellValue, id, handleClickLink }) => (
         <Styled.FormTitleWrapper title={cellValue as string}>
           <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
           {handleClickLink ? (

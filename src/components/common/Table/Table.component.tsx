@@ -32,12 +32,17 @@ export interface TableColumn<T extends object> {
   idAccessor?: NestedKeyOf<T>;
   widthRatio: string;
   textAlign?: TextAlign;
-  renderCustomCell?: (
-    cellValue: unknown,
-    id: string,
-    handleClickLink?: MouseEventHandler<HTMLButtonElement>,
-    applicationParams?: ApplicationRequest,
-  ) => ReactNode;
+  renderCustomCell?: ({
+    cellValue,
+    id,
+    handleClickLink,
+    applicationParams,
+  }: {
+    cellValue: unknown;
+    id: string;
+    handleClickLink?: MouseEventHandler<HTMLButtonElement>;
+    applicationParams?: ApplicationRequest;
+  }) => ReactNode;
 }
 
 export interface SortType<T extends object> {
@@ -397,15 +402,24 @@ const Table = <T extends object>({
                           : getOwnValueByKey(row, accessor as any);
 
                         const normalContents = renderCustomCell
-                          ? renderCustomCell(cellValue, id, undefined, applicationParams)
+                          ? renderCustomCell({
+                              cellValue,
+                              id,
+                              handleClickLink: undefined,
+                              applicationParams,
+                            })
                           : cellValue;
 
                         const blockContents = renderCustomCell
-                          ? renderCustomCell(cellValue, id, () => {
-                              handleAddToast({
-                                type: ToastType.error,
-                                message: '접근 권한이 없는 팀입니다.',
-                              });
+                          ? renderCustomCell({
+                              cellValue,
+                              id,
+                              handleClickLink: () => {
+                                handleAddToast({
+                                  type: ToastType.error,
+                                  message: '접근 권한이 없는 팀입니다.',
+                                });
+                              },
                             })
                           : cellValue;
 

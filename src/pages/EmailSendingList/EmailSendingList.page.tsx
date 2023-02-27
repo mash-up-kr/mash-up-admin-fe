@@ -80,7 +80,7 @@ const EmailSendingList = () => {
         accessor: 'name',
         idAccessor: 'emailNotificationId',
         widthRatio: '35%',
-        renderCustomCell: (cellValue, id) => (
+        renderCustomCell: ({ cellValue, id }) => (
           <Styled.TitleButton
             onClick={async () => {
               const { data: email } = await api.getEmailById({ notificationId: id });
@@ -96,13 +96,13 @@ const EmailSendingList = () => {
         title: '발송유형',
         accessor: 'type',
         widthRatio: '15%',
-        renderCustomCell: (cellValue) => EmailTypes[cellValue as EmailType],
+        renderCustomCell: ({ cellValue }) => EmailTypes[cellValue as EmailType],
       },
       {
         title: '발송자',
         accessor: 'sender',
         widthRatio: '15%',
-        renderCustomCell: (cellValue) => {
+        renderCustomCell: ({ cellValue }) => {
           const [team, role] = (cellValue as string).split('_') as [TeamType, RoleType];
           return (
             <Styled.CustomUserProfile>
@@ -115,14 +115,14 @@ const EmailSendingList = () => {
         title: '발송일시',
         accessor: 'sendAt',
         widthRatio: '20%',
-        renderCustomCell: (cellValue) =>
+        renderCustomCell: ({ cellValue }) =>
           formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
       },
       {
         title: '발송여부\n(성공/실패/전체)',
         accessor: ['successCount', 'failureCount', 'totalCount'],
         widthRatio: '10%',
-        renderCustomCell: (cellValue) => {
+        renderCustomCell: ({ cellValue }) => {
           const [successCount, failureCount, totalCount] = cellValue as string[];
           return (
             <Styled.SendingStatus>

@@ -170,7 +170,12 @@ const ApplicationList = () => {
       accessor: 'applicant.name',
       idAccessor: 'applicationId',
       widthRatio: '12%',
-      renderCustomCell: (cellValue, id, handleClickLink, applicationParamStates) => (
+      renderCustomCell: ({
+        cellValue,
+        id,
+        handleClickLink,
+        applicationParams: applicationParamStates,
+      }) => (
         <Styled.FormTitleWrapper title={cellValue as string}>
           <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
           {handleClickLink ? (
@@ -198,21 +203,21 @@ const ApplicationList = () => {
       title: '지원일시',
       accessor: 'submittedAt',
       widthRatio: '20%',
-      renderCustomCell: (cellValue) =>
+      renderCustomCell: ({ cellValue }) =>
         cellValue ? formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분') : '-',
     },
     {
       title: '면접일시',
       accessor: 'result.interviewStartedAt',
       widthRatio: '20%',
-      renderCustomCell: (cellValue) =>
+      renderCustomCell: ({ cellValue }) =>
         cellValue ? formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분') : '-',
     },
     {
       title: '사용자확인여부',
       accessor: 'confirmationStatus',
       widthRatio: '13%',
-      renderCustomCell: (cellValue) => (
+      renderCustomCell: ({ cellValue }) => (
         <Styled.Center>
           <ApplicationStatusBadge
             text={ApplicationConfirmationStatus[cellValue as ApplicationConfirmationStatusKeyType]}
@@ -224,7 +229,7 @@ const ApplicationList = () => {
       title: '합격여부',
       accessor: 'result.status',
       widthRatio: '13%',
-      renderCustomCell: (cellValue) => (
+      renderCustomCell: ({ cellValue }) => (
         <Styled.Center>
           <ApplicationStatusBadge
             text={ApplicationResultStatus[cellValue as ApplicationResultStatusKeyType]}
