@@ -30,7 +30,7 @@ const ScheduleList = () => {
       accessor: 'name',
       widthRatio: '20%',
       idAccessor: 'scheduleId',
-      renderCustomCell: (cellValue, id) => (
+      renderCustomCell: ({ cellValue, id }) => (
         <Styled.TitleLink to={getScheduleDetailPage(id)} state={{ from: `${pathname}${search}` }}>
           {cellValue as string}
         </Styled.TitleLink>
@@ -40,25 +40,28 @@ const ScheduleList = () => {
       title: '스케줄 일시',
       accessor: 'startedAt',
       widthRatio: '20%',
-      renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+      renderCustomCell: ({ cellValue }) =>
+        formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
     },
     {
       title: '등록 일시',
       accessor: 'createdAt',
       widthRatio: '20%',
-      renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+      renderCustomCell: ({ cellValue }) =>
+        formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
     },
     {
       title: '배포 일시',
       accessor: 'publishedAt',
       widthRatio: '20%',
-      renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+      renderCustomCell: ({ cellValue }) =>
+        formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
     },
     {
       title: '배포 상태',
       accessor: 'status',
       widthRatio: '20%',
-      renderCustomCell: (cellValue) => {
+      renderCustomCell: ({ cellValue }) => {
         const value = cellValue as ValueOf<typeof ScheduleStatus>;
 
         return getScheduleStatusText(value);

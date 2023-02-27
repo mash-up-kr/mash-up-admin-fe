@@ -38,7 +38,7 @@ const ActivityScoreDetail = () => {
       title: '',
       widthRatio: '7%',
       accessor: 'scoreType',
-      renderCustomCell: (cellValue) => (
+      renderCustomCell: ({ cellValue }) => (
         <Styled.IconWrapper>
           <Icon type={cellValue as ValueOf<typeof ScoreType>} />
         </Styled.IconWrapper>
@@ -59,7 +59,7 @@ const ActivityScoreDetail = () => {
         'scoreName',
         'scoreType',
       ],
-      renderCustomCell: (cellValue) => {
+      renderCustomCell: ({ cellValue }) => {
         const [
           accumulatedScore,
           date,
@@ -111,7 +111,7 @@ const ActivityScoreDetail = () => {
       title: '세미나 정보',
       widthRatio: '20%',
       accessor: ['scheduleName', 'isCanceled'],
-      renderCustomCell: (cellValue) => {
+      renderCustomCell: ({ cellValue }) => {
         const [scheduleName, isCanceled] = cellValue as [string, boolean];
 
         return (
@@ -125,7 +125,7 @@ const ActivityScoreDetail = () => {
       title: '일시',
       widthRatio: '20%',
       accessor: ['date', 'isCanceled'],
-      renderCustomCell: (cellValue) => {
+      renderCustomCell: ({ cellValue }) => {
         const [date, isCanceled] = cellValue as [string, boolean];
 
         return (
@@ -139,7 +139,7 @@ const ActivityScoreDetail = () => {
       title: '메모',
       widthRatio: '20%',
       accessor: ['memo', 'isCanceled'],
-      renderCustomCell: (cellValue) => {
+      renderCustomCell: ({ cellValue }) => {
         const [memo, isCanceled] = cellValue as [string, boolean];
 
         return (
@@ -153,7 +153,7 @@ const ActivityScoreDetail = () => {
       title: '점수',
       widthRatio: '7%',
       accessor: ['score', 'isCanceled'],
-      renderCustomCell: (cellValue) => {
+      renderCustomCell: ({ cellValue }) => {
         const [score, isCanceled] = cellValue as [number, boolean];
 
         return (
