@@ -22,7 +22,7 @@ import { SORT_TYPE, PATH } from '@/constants';
 import { ToastType } from '../Toast/Toast.component';
 import { useToast } from '@/hooks';
 import { $profile } from '@/store';
-import { Team as TeamNames } from '@/components/common/UserProfile/UserProfile.component';
+import { Team as TeamNames, TeamType } from '@/components/common/UserProfile/UserProfile.component';
 
 export type TextAlign = 'start' | 'center' | 'end';
 
@@ -55,7 +55,7 @@ export interface TableProps<T extends object> {
   prefix: string;
   topStickyHeight?: number;
   columns: TableColumn<T>[];
-  rows: T[] | (T & { team: Team; platform: string })[];
+  rows: T[] | (T & { team: Team; platform: TeamType })[];
   isLoading?: boolean;
   selectableRow?: {
     selectedCount: number;
