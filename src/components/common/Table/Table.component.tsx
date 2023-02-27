@@ -22,7 +22,7 @@ import { SORT_TYPE, PATH } from '@/constants';
 import { ToastType } from '../Toast/Toast.component';
 import { useToast } from '@/hooks';
 import { $profile } from '@/store';
-import { Team as TeamNames } from '@/components/common/UserProfile/UserProfile.component';
+import { Team as TeamNames, TeamType } from '@/components/common/UserProfile/UserProfile.component';
 
 export type TextAlign = 'start' | 'center' | 'end';
 
@@ -32,12 +32,17 @@ export interface TableColumn<T extends object> {
   idAccessor?: NestedKeyOf<T>;
   widthRatio: string;
   textAlign?: TextAlign;
-  renderCustomCell?: (
-    cellValue: unknown,
-    id: string,
-    handleClickLink?: MouseEventHandler<HTMLButtonElement>,
-    applicationParams?: ApplicationRequest,
-  ) => ReactNode;
+  renderCustomCell?: ({
+    cellValue,
+    id,
+    handleClickLink,
+    applicationParams,
+  }: {
+    cellValue: unknown;
+    id: string;
+    handleClickLink?: MouseEventHandler<HTMLButtonElement>;
+    applicationParams?: ApplicationRequest;
+  }) => ReactNode;
 }
 
 export interface SortType<T extends object> {
@@ -55,7 +60,7 @@ export interface TableProps<T extends object> {
   prefix: string;
   topStickyHeight?: number;
   columns: TableColumn<T>[];
-  rows: T[] | (T & { team: Team })[];
+  rows: T[] | (T & { team: Team; platform: TeamType })[];
   isLoading?: boolean;
   selectableRow?: {
     selectedCount: number;
@@ -286,6 +291,16 @@ const Table = <T extends object>({
     [currentPath],
   );
 
+  const checkIsCurrentRowAccessible = (rowTeamName: string) => {
+    const myTeamNameAsLowercase = myTeamName.toLowerCase();
+    return (
+      myTeamName === TeamNames.mashUp ||
+      myTeamName === TeamNames.branding ||
+      rowTeamName === myTeamNameAsLowercase ||
+      rowTeamName === myTeamNameAsLowercase
+    );
+  };
+
   const handleSelectRow: (index: number) => ChangeEventHandler<HTMLInputElement> =
     (index) => (e) => {
       if (e.target.checked) {
@@ -386,33 +401,53 @@ const Table = <T extends object>({
                             )
                           : getOwnValueByKey(row, accessor as any);
 
-                        const isCurrentRowAccessible =
-                          !isCurrentPageIncludingPrivacy ||
-                          myTeamName === TeamNames.mashUp ||
-                          myTeamName === TeamNames.branding ||
-                          ('team' in row &&
-                            row.team.name.toLowerCase() === myTeamName.toLowerCase());
+                        const normalContents = renderCustomCell
+                          ? renderCustomCell({
+                              cellValue,
+                              id,
+                              handleClickLink: undefined,
+                              applicationParams,
+                            })
+                          : cellValue;
 
-                        if (isCurrentRowAccessible) {
+                        const blockContents = renderCustomCell
+                          ? renderCustomCell({
+                              cellValue,
+                              id,
+                              handleClickLink: () => {
+                                handleAddToast({
+                                  type: ToastType.error,
+                                  message: '접근 권한이 없는 플랫폼입니다.',
+                                });
+                              },
+                            })
+                          : cellValue;
+
+                        if (!isCurrentPageIncludingPrivacy) {
                           return (
                             <Styled.TableCell key={`cell-${columnIndex}`} textAlign={textAlign}>
-                              {renderCustomCell
-                                ? renderCustomCell(cellValue, id, undefined, applicationParams)
-                                : cellValue}
+                              {normalContents}
                             </Styled.TableCell>
                           );
                         }
 
+                        const rowTeamName =
+                          ('team' in row && row.team.name.toLowerCase()) ||
+                          ('platform' in row && row.platform.toLowerCase());
+
+                        const isCurrentRowAccessible =
+                          rowTeamName && checkIsCurrentRowAccessible(rowTeamName);
+
+                        if (isCurrentRowAccessible) {
+                          return (
+                            <Styled.TableCell key={`cell-${columnIndex}`} textAlign={textAlign}>
+                              {normalContents}
+                            </Styled.TableCell>
+                          );
+                        }
                         return (
                           <Styled.TableCell key={`cell-${columnIndex}`} textAlign={textAlign}>
-                            {renderCustomCell
-                              ? renderCustomCell(cellValue, id, () => {
-                                  handleAddToast({
-                                    type: ToastType.error,
-                                    message: '접근 불가능한 지원서입니다.',
-                                  });
-                                })
-                              : cellValue}
+                            {blockContents}
                           </Styled.TableCell>
                         );
                       })}

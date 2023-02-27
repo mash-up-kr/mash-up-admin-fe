@@ -56,7 +56,7 @@ const columnsWithCustomCell: TableColumn<ApplicationFormResponse>[] = [
     accessor: 'name',
     idAccessor: 'applicationFormId',
     widthRatio: '28%',
-    renderCustomCell: (cellValue) => (
+    renderCustomCell: ({ cellValue }) => (
       <Styled.FormTitleWrapper title={cellValue as string}>
         <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
       </Styled.FormTitleWrapper>
@@ -66,7 +66,7 @@ const columnsWithCustomCell: TableColumn<ApplicationFormResponse>[] = [
     title: '작성자',
     accessor: 'createdBy',
     widthRatio: '14%',
-    renderCustomCell: (cellValue) => {
+    renderCustomCell: ({ cellValue }) => {
       const [team, role] = (cellValue as string).split('_') as [TeamType, RoleType];
       return (
         <Styled.CustomUserProfile>
@@ -79,13 +79,15 @@ const columnsWithCustomCell: TableColumn<ApplicationFormResponse>[] = [
     title: '작성일시',
     accessor: 'createdAt',
     widthRatio: '21%',
-    renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+    renderCustomCell: ({ cellValue }) =>
+      formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
   },
   {
     title: '수정일시',
     accessor: 'updatedAt',
     widthRatio: '21%',
-    renderCustomCell: (cellValue) => formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
+    renderCustomCell: ({ cellValue }) =>
+      formatDate(cellValue as string, 'YYYY년 M월 D일 A h시 m분'),
   },
 ];
 

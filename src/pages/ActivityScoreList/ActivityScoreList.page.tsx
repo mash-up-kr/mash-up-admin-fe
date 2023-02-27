@@ -54,7 +54,7 @@ const ActivityScoreList = () => {
 
   const { pageOptions, handleChangePage, handleChangeSize } = usePagination({
     totalCount,
-    pagingSize: 10,
+    pagingSize: 20,
   });
 
   const columns: TableColumn<MemberResponse>[] = [
@@ -63,7 +63,7 @@ const ActivityScoreList = () => {
       widthRatio: '25%',
       accessor: 'name',
       idAccessor: 'memberId',
-      renderCustomCell: (cellValue, id, handleClickLink) => (
+      renderCustomCell: ({ cellValue, id, handleClickLink }) => (
         <Styled.FormTitleWrapper title={cellValue as string}>
           <Styled.FormTitle>{cellValue as string}</Styled.FormTitle>
           {handleClickLink ? (
@@ -101,7 +101,7 @@ const ActivityScoreList = () => {
         <TeamNavigationTabs />
         <SearchOptionBar placeholder="이름 검색" />
       </Styled.StickyContainer>
-      <Table
+      <Table<MemberResponse>
         prefix="activity-score"
         topStickyHeight={14.1}
         columns={columns}
