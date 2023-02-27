@@ -417,7 +417,7 @@ const Table = <T extends object>({
                               handleClickLink: () => {
                                 handleAddToast({
                                   type: ToastType.error,
-                                  message: '접근 권한이 없는 팀입니다.',
+                                  message: '접근 권한이 없는 플랫폼입니다.',
                                 });
                               },
                             })
