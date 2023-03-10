@@ -56,8 +56,9 @@ export interface ScheduleResponse {
 export interface QRCodeRequest {
   scheduleId: number;
   eventId: number;
-  startedAt: string;
-  endedAt: string;
+  attendanceCheckStartedAt: string;
+  attendanceCheckEndedAt: string;
+  latenessCheckEndedAt: string;
 }
 
 export interface QRCodeResponse {
