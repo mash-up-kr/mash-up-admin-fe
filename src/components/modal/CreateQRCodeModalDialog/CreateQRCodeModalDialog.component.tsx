@@ -19,8 +19,9 @@ export interface CreateQRCodeModalDialogProps {
 }
 
 interface FormValues {
-  startedAt: string;
-  endedAt: string;
+  attendanceCheckStartedAt: string;
+  attendanceCheckEndedAt: string;
+  latenessCheckEndedAt: string;
 }
 
 export const QRCodeModalClassName = css`
@@ -48,8 +49,6 @@ const CreateQRCodeModalDialog = ({
 
   const handleSubmitForm = useRecoilCallback(({ set }) => async (data: FormValues) => {
     const sessionDate = dayjs(sessionStartedAt).format('YYYY-MM-DDT');
-    const startedAt = sessionDate + data.startedAt;
-    const endedAt = sessionDate + data.endedAt;
 
     request({
       requestFunc: () => {
@@ -57,8 +56,9 @@ const CreateQRCodeModalDialog = ({
         return api.createQRCode({
           scheduleId,
           eventId,
-          startedAt,
-          endedAt,
+          attendanceCheckStartedAt: sessionDate + data.attendanceCheckStartedAt,
+          attendanceCheckEndedAt: sessionDate + data.attendanceCheckEndedAt,
+          latenessCheckEndedAt: sessionDate + data.latenessCheckEndedAt,
         });
       },
       errorHandler: handleAddToast,
@@ -82,7 +82,7 @@ const CreateQRCodeModalDialog = ({
   const handleQRCodeModal = useSetRecoilState($modalByStorage(ModalKey.createQRCodeModalDialog));
 
   const props = {
-    heading: 'QR체크 시작과 마감 시간을\n입력해주세요',
+    heading: 'QR체크 시간을 입력해주세요',
     footer: {
       cancelButton: {
         label: '취소',
@@ -95,10 +95,12 @@ const CreateQRCodeModalDialog = ({
         type: 'submit',
         isLoading,
         disabled:
-          !formValues.startedAt ||
-          !formValues.endedAt ||
-          !!formState.errors.startedAt?.message ||
-          !!formState.errors.endedAt?.message,
+          !formValues.attendanceCheckStartedAt ||
+          !formValues.attendanceCheckEndedAt ||
+          !formValues.latenessCheckEndedAt ||
+          !!formState.errors.attendanceCheckStartedAt?.message ||
+          !!formState.errors.attendanceCheckEndedAt?.message ||
+          !!formState.errors.latenessCheckEndedAt?.message,
       },
     },
     handleCloseModal: () => {
@@ -114,16 +116,16 @@ const CreateQRCodeModalDialog = ({
     <ModalWrapper {...props} className={QRCodeModalClassName} closeButtonHidden>
       <Styled.Wrapper>
         <Styled.QRTimeInputLabel>
-          시작 / 마감
+          출석 시작 / 마감 시간
           <Styled.RequiredDot />
         </Styled.QRTimeInputLabel>
         <Styled.InputWrapper>
           <Styled.QRTimeInput
-            $size="md"
+            $size="sm"
             endIcon={<Time />}
             placeholder={sessionStartTime}
-            errorMessage={formState.errors.startedAt?.message}
-            {...register(`startedAt`, {
+            errorMessage={formState.errors.attendanceCheckStartedAt?.message}
+            {...register(`attendanceCheckStartedAt`, {
               required: true,
               pattern: {
                 value: TIME_REGEX,
@@ -132,11 +134,11 @@ const CreateQRCodeModalDialog = ({
             })}
           />
           <Styled.QRTimeInput
-            $size="md"
+            $size="sm"
             endIcon={<Time />}
             placeholder={sessionEndTime}
-            errorMessage={formState.errors.endedAt?.message}
-            {...register(`endedAt`, {
+            errorMessage={formState.errors.attendanceCheckEndedAt?.message}
+            {...register(`attendanceCheckEndedAt`, {
               required: true,
               pattern: {
                 value: TIME_REGEX,
@@ -145,6 +147,25 @@ const CreateQRCodeModalDialog = ({
             })}
           />
         </Styled.InputWrapper>
+        <Styled.BottomInputWrapper>
+          <Styled.QRTimeInputLabel>
+            지각 마감 시간
+            <Styled.RequiredDot />
+          </Styled.QRTimeInputLabel>
+          <Styled.QRTimeInput
+            $size="sm"
+            endIcon={<Time />}
+            placeholder={sessionStartTime}
+            errorMessage={formState.errors.latenessCheckEndedAt?.message}
+            {...register(`latenessCheckEndedAt`, {
+              required: true,
+              pattern: {
+                value: TIME_REGEX,
+                message: '시간 형식을 확인하세요',
+              },
+            })}
+          />
+        </Styled.BottomInputWrapper>
       </Styled.Wrapper>
     </ModalWrapper>
   );

@@ -41,7 +41,11 @@ export const deleteSchedule = (scheduleId: string): Promise<BaseResponse<{}>> =>
 export const createQRCode = ({
   scheduleId,
   eventId,
-  startedAt,
-  endedAt,
+  attendanceCheckStartedAt,
+  attendanceCheckEndedAt,
+  latenessCheckEndedAt,
 }: QRCodeRequest): Promise<BaseResponse<QRCodeResponse>> =>
-  http.post({ url: `/schedules/${scheduleId}/event/${eventId}/qr`, data: { startedAt, endedAt } });
+  http.post({
+    url: `/schedules/${scheduleId}/event/${eventId}/qr`,
+    data: { attendanceCheckStartedAt, attendanceCheckEndedAt, latenessCheckEndedAt },
+  });
