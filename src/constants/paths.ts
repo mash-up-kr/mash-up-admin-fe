@@ -15,6 +15,7 @@ export const PATH = {
   SCHEDULE_DETAIL: '/schedule/:scheduleId',
   SCHEDULE_CREATE: '/schedule/create',
   SCHEDULE_UPDATE: '/schedule/update/:scheduleId',
+  UPDATE_PLATFORM_RECRUIT: '/recruit/update/:platformName',
   NOT_FOUND: '/404',
   FORBIDDEN: '/403',
 } as const;
