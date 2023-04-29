@@ -27,3 +27,4 @@ export { default as Portal } from './Portal/Portal.component';
 export { default as EmailSendModalDialog } from './EmailSendModalDialog/EmailSendModalDialog.component';
 export { default as BottomCTA } from './BottomCTA/BottomCTA.component';
 export { default as Blocker } from './Blocker/Blocker.component';
+export { default as LNB } from './LNB/LNB.component';

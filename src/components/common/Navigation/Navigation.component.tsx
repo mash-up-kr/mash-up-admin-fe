@@ -6,9 +6,14 @@ import { colors } from '@/styles';
 import * as Styled from './Navigation.styled';
 import { PATH } from '@/constants';
 
-export interface NavigationItem {
+interface Menu {
   label: string;
   to: ValueOf<typeof PATH>;
+}
+
+export interface NavigationItem {
+  title: string;
+  menus: Menu[];
 }
 
 export const NavigationSize = {
@@ -30,21 +35,36 @@ const Navigation = ({ size, inActiveColor, items, showBottomBorder = true }: Nav
 
   return (
     <Styled.NavigationContainer showBottomBorder={showBottomBorder}>
-      {items.map((item) => {
-        const isActive = pathname.split('/').some((pathNameItem) => `/${pathNameItem}` === item.to);
+      {items.map((item, itemIdx) => (
+        <>
+          <Styled.NavigationTitle>{item.title}</Styled.NavigationTitle>
+          {item.menus.map((menu, menuIdx) => {
+            const isActive = pathname
+              .split('/')
+              .some((pathNameItem) => `/${pathNameItem}` === menu.to);
 
-        return (
-          <Styled.NavigationItem
-            key={item.to}
-            size={size}
-            to={item.to}
-            inActiveColor={inActiveColor}
-            active={isActive}
-          >
-            {item.label}
-          </Styled.NavigationItem>
-        );
-      })}
+            return (
+              <>
+                <div style={{ padding: '0 1rem' }}>
+                  <Styled.NavigationItem
+                    key={menu.to}
+                    size={size}
+                    to={menu.to}
+                    inActiveColor={inActiveColor}
+                    active={isActive}
+                  >
+                    <Styled.NavigationItemWrapper />
+                    {menu.label}
+                  </Styled.NavigationItem>
+                </div>
+                {item.menus.length === menuIdx + 1 && items.length !== itemIdx + 1 && (
+                  <Styled.NavigationDivider />
+                )}
+              </>
+            );
+          })}
+        </>
+      ))}
     </Styled.NavigationContainer>
   );
 };

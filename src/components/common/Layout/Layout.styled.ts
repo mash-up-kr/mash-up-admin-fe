@@ -8,8 +8,8 @@ interface StyledMainProps {
 
 export const Main = styled.main<StyledMainProps>`
   ${({ isBackgroundGray, theme }) => css`
+    flex: 10;
     background-color: ${isBackgroundGray ? theme.colors.gray10 : theme.colors.white};
-
     & > section {
       max-width: 120rem;
       min-height: calc(100vh - ${HEADER_HEIGHT});
@@ -20,4 +20,13 @@ export const Main = styled.main<StyledMainProps>`
 
 export const SelectWrapper = styled.div`
   margin-top: 4rem;
+`;
+
+export const LayoutWrapper = styled.div`
+  display: flex;
+`;
+
+export const EmptyRightSection = styled.div`
+  flex: 1;
+  min-width: 20rem;
 `;
