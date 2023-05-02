@@ -9,7 +9,7 @@ export const globalStyles = css`
     min-width: 89.6rem;
   }
 
-  #editorjs {
+  #update-platform-recruit {
     min-height: 20rem;
     margin: 0 auto;
     padding: 4.2rem 1.4rem;
