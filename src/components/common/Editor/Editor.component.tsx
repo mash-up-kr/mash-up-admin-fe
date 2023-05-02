@@ -10,6 +10,7 @@ import TextVariantTune from '@editorjs/text-variant-tune';
 import DragDrop from 'editorjs-drag-drop';
 import Paragraph from '@editorjs/paragraph';
 import { Blocker } from '@/components';
+import i18n from './i18n';
 
 const DEFAULT_INITIAL_DATA = {
   time: new Date().getTime(),
@@ -87,6 +88,7 @@ const Editor = ({ id }: EditorProps) => {
         textVariant: TextVariantTune,
       },
       tunes: ['textVariant'],
+      i18n,
     });
   };
 
