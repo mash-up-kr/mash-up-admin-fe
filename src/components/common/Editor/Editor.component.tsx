@@ -9,6 +9,7 @@ import Underline from '@editorjs/underline';
 import TextVariantTune from '@editorjs/text-variant-tune';
 import DragDrop from 'editorjs-drag-drop';
 import Paragraph from '@editorjs/paragraph';
+import { Blocker } from '@/components';
 
 const DEFAULT_INITIAL_DATA = {
   time: new Date().getTime(),
@@ -98,7 +99,12 @@ const Editor = ({ id }: EditorProps) => {
     };
   }, []);
 
-  return <div id={id} />;
+  return (
+    <>
+      <div id={id} />;
+      <Blocker isBlocking={editorData.blocks.length !== 0} />
+    </>
+  );
 };
 
 export default Editor;
