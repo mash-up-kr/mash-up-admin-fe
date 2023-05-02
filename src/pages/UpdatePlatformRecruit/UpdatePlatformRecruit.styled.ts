@@ -14,3 +14,7 @@ export const Heading = styled.h2`
     line-height: 4.5rem;
   `};
 `;
+
+export const EditorWrapper = styled.div`
+  padding-top: 20px;
+`;
