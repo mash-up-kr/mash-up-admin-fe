@@ -6,3 +6,4 @@ declare module '@editorjs/underline';
 declare module '@editorjs/underline';
 declare module '@editorjs/text-variant-tune';
 declare module 'editorjs-drag-drop';
+declare module '@editorjs/paragraph';

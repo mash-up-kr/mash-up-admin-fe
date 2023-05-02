@@ -39,6 +39,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@editorjs/header", "npm:2.7.0"],\
             ["@editorjs/list", "npm:1.8.0"],\
             ["@editorjs/marker", "npm:1.3.0"],\
+            ["@editorjs/paragraph", "npm:2.9.0"],\
             ["@editorjs/table", "npm:2.2.1"],\
             ["@editorjs/text-variant-tune", "npm:1.0.1"],\
             ["@editorjs/underline", "npm:1.1.0"],\
@@ -3143,6 +3144,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@editorjs/marker", "npm:1.3.0"],\
             ["@codexteam/icons", "npm:0.0.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@editorjs/paragraph", [\
+        ["npm:2.9.0", {\
+          "packageLocation": "./.yarn/cache/@editorjs-paragraph-npm-2.9.0-1df54d17fb-f91acaee6d.zip/node_modules/@editorjs/paragraph/",\
+          "packageDependencies": [\
+            ["@editorjs/paragraph", "npm:2.9.0"],\
+            ["@codexteam/icons", "npm:0.0.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17513,6 +17524,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@editorjs/header", "npm:2.7.0"],\
             ["@editorjs/list", "npm:1.8.0"],\
             ["@editorjs/marker", "npm:1.3.0"],\
+            ["@editorjs/paragraph", "npm:2.9.0"],\
             ["@editorjs/table", "npm:2.2.1"],\
             ["@editorjs/text-variant-tune", "npm:1.0.1"],\
             ["@editorjs/underline", "npm:1.1.0"],\
