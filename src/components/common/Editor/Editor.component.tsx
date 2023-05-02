@@ -8,6 +8,7 @@ import Marker from '@editorjs/marker';
 import Underline from '@editorjs/underline';
 import TextVariantTune from '@editorjs/text-variant-tune';
 import DragDrop from 'editorjs-drag-drop';
+import Paragraph from '@editorjs/paragraph';
 
 const DEFAULT_INITIAL_DATA = {
   time: new Date().getTime(),
@@ -35,7 +36,21 @@ const Editor = () => {
       },
       autofocus: true,
       tools: {
-        header: Header,
+        header: {
+          class: Header,
+          config: {
+            placeholder: `Tab 으로 크기를 변경하세요.`,
+            levels: [1, 2, 3, 4],
+            defaultLevel: 3,
+          },
+        },
+        paragraph: {
+          class: Paragraph,
+          inlineToolbar: true,
+          config: {
+            placeholder: `Tab 으로 새로운 블록을 추가하세요.`,
+          },
+        },
         list: {
           class: List,
           inlineToolbar: true,
