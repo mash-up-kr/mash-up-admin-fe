@@ -10,16 +10,18 @@ export const globalStyles = css`
   }
 
   #update-platform-recruit {
+    flex: 1;
     min-height: 20rem;
     margin: 0 auto;
-    padding: 4.2rem 1.4rem;
+    padding: 6rem 8rem;
+    background-color: #ffffff;
     border: 0.1rem solid #dee2e6;
-    border-radius: 1.2rem;
+    border-radius: 2rem;
   }
 
   .ce-toolbar__actions {
     top: -2px;
-    left: -245px;
+    left: -6rem;
   }
 
   h1.ce-header {
@@ -59,11 +61,14 @@ export const globalStyles = css`
 
   .ce-toolbar__plus,
   .ce-toolbar__settings-btn {
+    display: flex;
+    align-items: center;
+    margin-left: 0;
     color: #868e96;
   }
 
   div.codex-editor__redactor {
-    padding-bottom: 100px !important;
+    padding-bottom: 0 !important;
   }
 
   .ce-toolbox .cdx-search-field,
