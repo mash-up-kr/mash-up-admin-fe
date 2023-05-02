@@ -4,6 +4,7 @@ import { Editor, EditorAside } from '@/components';
 import * as Styled from './UpdatePlatformRecruit.styled';
 import { $teams } from '@/store';
 import { SelectSize } from '@/components/common/Select/Select.component';
+import { postStorage } from '@/api/storage';
 
 const UpdatePlatformRecruit = () => {
   const [selectedPlatform, setSelectedPlatform] = useState('');
@@ -13,8 +14,7 @@ const UpdatePlatformRecruit = () => {
     label: team.name,
   }));
 
-  const editorId = 'update-platform-recruit';
-  const autoSaveStorageKey = `${editorId}-editor`;
+  const editorId = 'platform-recruit-editor';
 
   return (
     <Styled.PageWrapper>
@@ -27,14 +27,22 @@ const UpdatePlatformRecruit = () => {
               placeholder="플랫폼 선택"
               size={SelectSize.sm}
               options={teamOptions}
-              onChangeOption={(option) => setSelectedPlatform(option.label.toUpperCase())}
+              onChangeOption={(option) => setSelectedPlatform(option.label.toLowerCase())}
             />
           }
           rightActionButton={{
             text: '수정',
-            onClick: () => {
-              console.log('TEST:PLATFORM', selectedPlatform);
-              console.log('TEST:CONTENT', localStorage.getItem(autoSaveStorageKey));
+            onClick: async () => {
+              await postStorage({
+                keyString: `recruit-${selectedPlatform}`,
+                valueMap: {
+                  editorData: localStorage.getItem(editorId) ?? '',
+                },
+              });
+
+              // 리크루트 사용 형태
+              // const { data } = await getStorage(`recruit-${selectedPlatform}`);
+              // JSON.parse(data.valueMap.editorData.replace(/&quot;/g, '"').replace(/^"|"\s*$/g, ''))
             },
           }}
         />

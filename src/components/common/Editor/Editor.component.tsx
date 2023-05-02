@@ -21,9 +21,8 @@ interface EditorProps {
 }
 
 const Editor = ({ id }: EditorProps) => {
-  const autoSaveStorageKey = `${id}-editor`;
-  const savedData = localStorage.getItem(autoSaveStorageKey)
-    ? JSON.parse(localStorage.getItem(autoSaveStorageKey) ?? '{}')
+  const savedData = localStorage.getItem(id)
+    ? JSON.parse(localStorage.getItem(id) ?? '{}')
     : DEFAULT_INITIAL_DATA;
 
   const ejInstance = useRef<EditorJS>();
@@ -40,7 +39,7 @@ const Editor = ({ id }: EditorProps) => {
       },
       onChange: async () => {
         const content = (await ejInstance.current?.saver.save()) as OutputData;
-        localStorage.setItem(autoSaveStorageKey, JSON.stringify(content));
+        localStorage.setItem(id, JSON.stringify(content));
         setEditorData(content);
       },
       autofocus: true,

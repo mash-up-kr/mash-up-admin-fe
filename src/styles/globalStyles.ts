@@ -9,7 +9,7 @@ export const globalStyles = css`
     min-width: 89.6rem;
   }
 
-  #update-platform-recruit {
+  #platform-recruit-editor {
     flex: 1;
     min-height: 20rem;
     margin: 0 auto;
