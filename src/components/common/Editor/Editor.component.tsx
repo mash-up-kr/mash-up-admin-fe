@@ -46,6 +46,7 @@ const Editor = ({ id }: EditorProps) => {
       autofocus: true,
       tools: {
         header: {
+          // @ts-ignore
           class: Header,
           config: {
             placeholder: `Tab 으로 크기를 변경하세요.`,
