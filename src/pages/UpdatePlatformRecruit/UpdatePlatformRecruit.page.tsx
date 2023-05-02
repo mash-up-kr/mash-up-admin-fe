@@ -8,7 +8,7 @@ const UpdatePlatformRecruit = () => {
       <Styled.Heading>리쿠르트 모집공고 수정</Styled.Heading>
       <TeamNavigationTabs />
       <Styled.EditorWrapper>
-        <Editor />
+        <Editor id="update-platform-recruit" />
       </Styled.EditorWrapper>
     </Styled.PageWrapper>
   );

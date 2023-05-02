@@ -15,15 +15,22 @@ const DEFAULT_INITIAL_DATA = {
   blocks: [],
 };
 
-const EDITTOR_HOLDER_ID = 'editorjs';
+interface EditorProps {
+  id: string;
+}
 
-const Editor = () => {
+const Editor = ({ id }: EditorProps) => {
+  const autoSaveStorageKey = `${id}-editor`;
+  const savedData = localStorage.getItem(autoSaveStorageKey)
+    ? JSON.parse(localStorage.getItem(autoSaveStorageKey) ?? '{}')
+    : DEFAULT_INITIAL_DATA;
+
   const ejInstance = useRef<EditorJS>();
-  const [editorData, setEditorData] = useState<OutputData>(DEFAULT_INITIAL_DATA);
+  const [editorData, setEditorData] = useState<OutputData>(savedData);
 
   const initEditor = () => {
     const editor = new EditorJS({
-      holder: EDITTOR_HOLDER_ID,
+      holder: id,
       data: editorData,
       onReady: () => {
         ejInstance.current = editor;
@@ -32,6 +39,7 @@ const Editor = () => {
       },
       onChange: async () => {
         const content = (await ejInstance.current?.saver.save()) as OutputData;
+        localStorage.setItem(autoSaveStorageKey, JSON.stringify(content));
         setEditorData(content);
       },
       autofocus: true,
@@ -90,7 +98,7 @@ const Editor = () => {
     };
   }, []);
 
-  return <div id={EDITTOR_HOLDER_ID} />;
+  return <div id={id} />;
 };
 
 export default Editor;
