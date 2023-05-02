@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import { Select } from '@/components';
 
 export const PageWrapper = styled.div`
   padding: 4rem 0;
@@ -16,5 +17,11 @@ export const Heading = styled.h2`
 `;
 
 export const EditorWrapper = styled.div`
+  display: flex;
+  gap: 0.8rem;
   padding-top: 20px;
+`;
+
+export const TeamSelect = styled(Select)`
+  width: 100%;
 `;
