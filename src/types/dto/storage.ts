@@ -1,6 +1,6 @@
 export interface StorageRequest {
   keyString: string;
-  valueMap: { [key: string]: any };
+  valueMap: Record<string, any>;
 }
 
 export type StorageResponse = StorageRequest;

@@ -9,9 +9,9 @@ import { postStorage } from '@/api/storage';
 const UpdatePlatformRecruit = () => {
   const [selectedPlatform, setSelectedPlatform] = useState('');
   const teams = useRecoilValue($teams);
-  const teamOptions = teams.map((team) => ({
-    value: team.teamId.toString(),
-    label: team.name,
+  const teamOptions = teams.map(({ teamId, name }) => ({
+    value: teamId.toString(),
+    label: name,
   }));
 
   const editorId = 'platform-recruit-editor';
