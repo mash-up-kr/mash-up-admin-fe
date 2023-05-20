@@ -1594,10 +1594,128 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@codexteam/icons@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@codexteam/icons@npm:0.1.0"
+  checksum: df50a6606aed5e4375ca2c7c21da7bb91877022793a2362bc37135309d92c86695619887160416db64d9e1fb1c063761e6aacebe1ce478ef43e59ca75d8f6ab5
+  languageName: node
+  linkType: hard
+
+"@codexteam/icons@npm:^0.0.4":
+  version: 0.0.4
+  resolution: "@codexteam/icons@npm:0.0.4"
+  checksum: ead8fc8ad333e450f174fe5c7a74cbde7e34beff4ae6512962d96a115860c5a254ad5577f4e9a5c9134ef01775a6771da8fc547807b6e08dc000bd1c67642304
+  languageName: node
+  linkType: hard
+
+"@codexteam/icons@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@codexteam/icons@npm:0.0.5"
+  checksum: 7a27857f769bab2ec6fa52662b9fad0b8084c3b1b86ad12addad774d03430a6666b88ba6f49bae945aab7e53dd5d3c9797d92948d5db177042e881caab394e86
+  languageName: node
+  linkType: hard
+
+"@codexteam/icons@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "@codexteam/icons@npm:0.0.6"
+  checksum: b2d4aa71d2608f53922ca164e4c5ecb4cf446498ca65efe7da7b19c4642f6dca68119da2df5ff740e11e6e3f4dfcd822920694cab2f70ab2f1c3d2ae33b6ebfd
+  languageName: node
+  linkType: hard
+
+"@codexteam/icons@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@codexteam/icons@npm:0.3.0"
+  checksum: 4949e753a9f8d0442c581512566167dddf7853fce0aa388ec9ddd9acc2aa3f081192d266c0eb1a2f78154492f376f7ce042f69ca45cad9a1f02583ab70e0000b
+  languageName: node
+  linkType: hard
+
 "@discoveryjs/json-ext@npm:^0.5.0, @discoveryjs/json-ext@npm:^0.5.3":
   version: 0.5.6
   resolution: "@discoveryjs/json-ext@npm:0.5.6"
   checksum: e97df618511fb202dffa2eb0d23e17dfb02943a70e5bc38f6b9603ad1cb1d6b525aa2b07ff9fb00b041abe425b341146ddd9e487f1e35ddadc8c6b8c56358ae0
+  languageName: node
+  linkType: hard
+
+"@editorjs/checklist@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@editorjs/checklist@npm:1.5.0"
+  dependencies:
+    "@codexteam/icons": ^0.3.0
+  checksum: cf71993ba60d1301d4b9fdb8709ee4f37f87430cf74548e710dc8a829c7b624b11f2a7c8b90fe21526e7002664d3e04880309849e9c21ae322a64b5be33dc829
+  languageName: node
+  linkType: hard
+
+"@editorjs/editorjs@npm:^2.26.5":
+  version: 2.26.5
+  resolution: "@editorjs/editorjs@npm:2.26.5"
+  dependencies:
+    "@codexteam/icons": 0.1.0
+    codex-notifier: ^1.1.2
+    codex-tooltip: ^1.0.5
+    html-janitor: ^2.0.4
+    nanoid: ^3.1.22
+  checksum: 899741482b421ca8ca0f6662e9a446043a255e607b39f08394a669c0f5efa68590197dd4f740ada47ba3a72fb830c3e7e7efca0a2680338ec1a240e509f1acd4
+  languageName: node
+  linkType: hard
+
+"@editorjs/header@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "@editorjs/header@npm:2.7.0"
+  dependencies:
+    "@codexteam/icons": ^0.0.5
+  checksum: 9b26ed44356bb0a2099d6b7d0d1c44b47c38737107e7c99cc43e337811926393f0494e8ce5b300115562c6e6f9b9cd9962da7e3ec9c81c14fded93bbe5b3a999
+  languageName: node
+  linkType: hard
+
+"@editorjs/list@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "@editorjs/list@npm:1.8.0"
+  dependencies:
+    "@codexteam/icons": ^0.0.4
+  checksum: fb62db17e96a22305bc71d94ae89be12ad4ca44cba4bb4271bec6d38c1b24d03221ba1db8f3b9e8c6555aac9873039fec8194a2e52bca95a03c01d9ce4e88549
+  languageName: node
+  linkType: hard
+
+"@editorjs/marker@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@editorjs/marker@npm:1.3.0"
+  dependencies:
+    "@codexteam/icons": ^0.0.5
+  checksum: b93bc22b92ba39a568b146adc4d2d3134a331c1b344e4a75d12cc654864fb5f0dad0ec305fb9aa1e0de81c3599da7e9e2f6a1d6ef776275106d8530804a96f9e
+  languageName: node
+  linkType: hard
+
+"@editorjs/paragraph@npm:^2.9.0":
+  version: 2.9.0
+  resolution: "@editorjs/paragraph@npm:2.9.0"
+  dependencies:
+    "@codexteam/icons": ^0.0.4
+  checksum: f91acaee6d052ad78b9ee3245a2bdf02627dac66e7f8bbdb9676d3bfa85dc91d0cc25508b68c9b4cbaa1dd1a1ccba8689e4b54ede36ea5d950adf8a06458a79a
+  languageName: node
+  linkType: hard
+
+"@editorjs/table@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "@editorjs/table@npm:2.2.1"
+  dependencies:
+    "@codexteam/icons": ^0.0.6
+  checksum: 7f03086928e5562e5fd919e80919f7a62b73556b2c01923c7b2f5a417e9027357e295b870d36ebbc8661351fa816108b9f7cd52f3948821032dbc6f021316d2c
+  languageName: node
+  linkType: hard
+
+"@editorjs/text-variant-tune@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@editorjs/text-variant-tune@npm:1.0.1"
+  checksum: 723359d5361d7716a0d33c8ee28e4de4f27c19db371afd339e19d70f0c58f16b4ab5b8fe9b180816d26f66513033deea4cc89ca2f4fd9d7e7be8d27893aa8df5
+  languageName: node
+  linkType: hard
+
+"@editorjs/underline@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@editorjs/underline@npm:1.1.0"
+  dependencies:
+    "@codexteam/icons": ^0.0.6
+  checksum: 5611b76bea374e698479c06315f1d93e69f16297bd7c04eafd31bdd8d5bcdf2d16dce8711d7cee6a89f8c6edbcbafdd8c659646dc57138710d0aaefefc51bfe2
   languageName: node
   linkType: hard
 
@@ -3825,6 +3943,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: fe81351470f2d3165e8b12ce33542eef89ea893e36dd62e8f7d72566dfb7e448376ae962f9f3ea888547ce8b55a40020ca0e01d637fab5d99567673084542641
+  languageName: node
+  linkType: hard
+
+"@types/editorjs__header@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "@types/editorjs__header@npm:2.6.0"
+  checksum: 4f0b76c9bb4d25f7b3335bf8c00ce1276d50b9ff5f0b7e36520ad15b7f80d94e95e00a36feebccbf00fc641c6f0f1b215cabdc456d9237992c26bbff665eb20e
   languageName: node
   linkType: hard
 
@@ -6826,6 +6951,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"codex-notifier@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "codex-notifier@npm:1.1.2"
+  checksum: 2130f5b1ff2a55417cb40132b8fa220139e761f95b9183a3616cf595c4d9cb1777a0e90675ac69a5c22253013f65ae76428f09946c69b08b11b846b1f849e461
+  languageName: node
+  linkType: hard
+
+"codex-tooltip@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "codex-tooltip@npm:1.0.5"
+  checksum: 8ea91ce69853b7054f7379710ce03163fc1262db20f4e56a38d4eb946ece37fa18b07d13df6fb72d3b7fce768af26c8af169766b0aed1f9625210fe05e182f20
+  languageName: node
+  linkType: hard
+
 "collapse-white-space@npm:^1.0.2":
   version: 1.0.6
   resolution: "collapse-white-space@npm:1.0.6"
@@ -8085,6 +8224,13 @@ __metadata:
   version: 0.2.0
   resolution: "eastasianwidth@npm:0.2.0"
   checksum: 7d00d7cd8e49b9afa762a813faac332dee781932d6f2c848dc348939c4253f1d4564341b7af1d041853bc3f32c2ef141b58e0a4d9862c17a7f08f68df1e0f1ed
+  languageName: node
+  linkType: hard
+
+"editorjs-drag-drop@npm:^1.1.13":
+  version: 1.1.13
+  resolution: "editorjs-drag-drop@npm:1.1.13"
+  checksum: fa4dfa23c8be8a95d6205372c534f1e4c36b6b92e10fa2109c265f7a6c935fa5594b0cd32ca4773d0710669f4d0ab5dc85fd15114341c1bac790898c145bf4d4
   languageName: node
   linkType: hard
 
@@ -10298,6 +10444,13 @@ __metadata:
   version: 2.0.2
   resolution: "html-escaper@npm:2.0.2"
   checksum: d2df2da3ad40ca9ee3a39c5cc6475ef67c8f83c234475f24d8e9ce0dc80a2c82df8e1d6fa78ddd1e9022a586ea1bd247a615e80a5cd9273d90111ddda7d9e974
+  languageName: node
+  linkType: hard
+
+"html-janitor@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "html-janitor@npm:2.0.4"
+  checksum: e571c8d75363a2c448507dff7654bbe35cf66755295a71e20289d1374d73786430ff2525b742d69adabeb6697c90c17d9b04fb70ce8de14b2ef635b4e06d0161
   languageName: node
   linkType: hard
 
@@ -12801,6 +12954,15 @@ __metadata:
   resolution: "mashup-admin-fe@workspace:."
   dependencies:
     "@babel/core": ^7.16.12
+    "@editorjs/checklist": ^1.5.0
+    "@editorjs/editorjs": ^2.26.5
+    "@editorjs/header": ^2.7.0
+    "@editorjs/list": ^1.8.0
+    "@editorjs/marker": ^1.3.0
+    "@editorjs/paragraph": ^2.9.0
+    "@editorjs/table": ^2.2.1
+    "@editorjs/text-variant-tune": ^1.0.1
+    "@editorjs/underline": ^1.1.0
     "@emotion/css": ^11.7.1
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
@@ -12817,6 +12979,7 @@ __metadata:
     "@testing-library/react": ^12.1.2
     "@testing-library/react-hooks": ^7.0.2
     "@testing-library/user-event": ^13.5.0
+    "@types/editorjs__header": ^2.6.0
     "@types/jest": ^27.4.0
     "@types/lodash-es": ^4.17.6
     "@types/node": ^17.0.10
@@ -12833,6 +12996,7 @@ __metadata:
     copy-webpack-plugin: ^10.2.4
     dayjs: ^1.10.7
     dotenv-webpack: ^7.0.3
+    editorjs-drag-drop: ^1.1.13
     emotion-ts-plugin: ^1.1.0
     eslint: ^8.7.0
     eslint-config-airbnb: ^19.0.4
@@ -13425,6 +13589,15 @@ __metadata:
   dependencies:
     node-gyp: latest
   checksum: 33e1bb4dfca447fe37d4bb5889be55de154828632c8d38646db67293a21afd61ed9909cdf1b886214a64707d935926c4e60e2b09de9edfc2ad58de31d6ce8f39
+  languageName: node
+  linkType: hard
+
+"nanoid@npm:^3.1.22":
+  version: 3.3.6
+  resolution: "nanoid@npm:3.3.6"
+  bin:
+    nanoid: bin/nanoid.cjs
+  checksum: 7d0eda657002738aa5206107bd0580aead6c95c460ef1bdd0b1a87a9c7ae6277ac2e9b945306aaa5b32c6dcb7feaf462d0f552e7f8b5718abfc6ead5c94a71b3
   languageName: node
   linkType: hard
 

@@ -28,3 +28,5 @@ export { default as EmailSendModalDialog } from './EmailSendModalDialog/EmailSen
 export { default as BottomCTA } from './BottomCTA/BottomCTA.component';
 export { default as Blocker } from './Blocker/Blocker.component';
 export { default as LNB } from './LNB/LNB.component';
+export { default as Editor } from './Editor/Editor.component';
+export { default as EditorAside } from './EditorAside/EditorAside.component';
