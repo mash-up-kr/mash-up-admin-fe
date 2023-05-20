@@ -19,8 +19,13 @@ const Template: ComponentStory<typeof Navigation> = (args: NavigationProps) => (
 
 const items: NavigationItem[] = [
   {
-    label: 'All',
-    to: PATH.NOT_FOUND,
+    title: 'ALL',
+    menus: [
+      {
+        label: 'All',
+        to: PATH.NOT_FOUND,
+      },
+    ],
   },
 ];
 

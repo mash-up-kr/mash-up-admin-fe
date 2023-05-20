@@ -12,12 +12,8 @@ export const navigation = {
       }
     `,
     [NavigationSize.md]: css`
-      width: 12rem;
-      height: 7rem;
-
-      &:not(:first-of-type) {
-        margin-left: 2rem;
-      }
+      width: 100%;
+      height: 5rem;
     `,
   },
 } as const;
