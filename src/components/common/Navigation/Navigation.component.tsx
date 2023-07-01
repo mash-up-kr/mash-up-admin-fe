@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ValueOf } from '@/types';
 import { colors } from '@/styles';
@@ -9,6 +9,7 @@ import { PATH } from '@/constants';
 interface Menu {
   label: string;
   to: ValueOf<typeof PATH>;
+  icon: ReactElement;
 }
 
 export interface NavigationItem {
@@ -53,7 +54,7 @@ const Navigation = ({ size, inActiveColor, items, showBottomBorder = true }: Nav
                     inActiveColor={inActiveColor}
                     active={isActive}
                   >
-                    <Styled.NavigationItemWrapper />
+                    <Styled.NavigationIcon>{menu.icon}</Styled.NavigationIcon>
                     {menu.label}
                   </Styled.NavigationItem>
                 </div>

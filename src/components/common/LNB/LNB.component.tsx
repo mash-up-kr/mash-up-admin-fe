@@ -8,6 +8,16 @@ import { colors } from '@/styles';
 
 import { Navigation } from '@/components';
 
+import ApplicationIcon from '@/assets/svg/application.svg';
+import ApplicationFormIcon from '@/assets/svg/application-form.svg';
+import EmailIcon from '@/assets/svg/email.svg';
+import ActivityScoreIcon from '@/assets/svg/activity-score.svg';
+import ScheduleIcon from '@/assets/svg/schedule.svg';
+// import SignupCodeIcon from "@/assets/svg/signup-code.svg"
+// import RecruitIcon from "@/assets/svg/recruit.svg"
+// import AdminMembersIcon from '@/assets/svg/admin-members.svg';
+// import MyPageIcon from "@/assets/svg/my-page.svg"
+
 const navigationItems: NavigationItem[] = [
   {
     title: '리크루팅 관리',
@@ -15,14 +25,17 @@ const navigationItems: NavigationItem[] = [
       {
         label: '지원서',
         to: PATH.APPLICATION,
+        icon: <ApplicationIcon />,
       },
       {
         label: '지원서 설문지',
         to: PATH.APPLICATION_FORM,
+        icon: <ApplicationFormIcon />,
       },
       {
         label: '이메일 발송 내역',
         to: PATH.EMAIL,
+        icon: <EmailIcon />,
       },
     ],
   },
@@ -32,15 +45,17 @@ const navigationItems: NavigationItem[] = [
       {
         label: '활동점수',
         to: PATH.ACTIVITY_SCORE,
+        icon: <ActivityScoreIcon />,
       },
       {
         label: '스케줄 정보',
         to: PATH.SCHEDULE,
+        icon: <ScheduleIcon />,
       },
       // TODO: 추가 예정 메뉴
       // {
       //   label: '가입 코드',
-      //   to: '',
+      //   to: PATH.SIGNUP_CODE,
       // },
     ],
   },
@@ -50,7 +65,7 @@ const navigationItems: NavigationItem[] = [
   //   menus: [
   //     {
   //       label: '모집 공고',
-  //       to: '',
+  //       to: PATH.RECRUIT,
   //     },
   //   ],
   // },
@@ -59,12 +74,13 @@ const navigationItems: NavigationItem[] = [
   //   menus: [
   //     {
   //       label: '계정 목록',
-  //       to: '#',
+  //       to: PATH.ADMIN_MEMBERS,
+  //       icon: <AdminMembersIcon />,
   //     },
-  //     {
-  //       label: '내 정보',
-  //       to: '',
-  //     },
+  // {
+  //   label: '내 정보',
+  //   to: PATH.MY_PAGE,
+  // },
   //   ],
   // },
 ];
