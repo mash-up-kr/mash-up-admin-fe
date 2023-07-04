@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { OutputData, OutputBlockData } from '@editorjs/editorjs';
+import { OutputData } from '@editorjs/editorjs';
 import { Editor, EditorAside } from '@/components';
 import * as Styled from './UpdatePlatformRecruit.styled';
 import { $teams } from '@/store';
 import { SelectSize } from '@/components/common/Select/Select.component';
-import { getDefaultEditorData, removeWrongAmpString, request } from '@/utils';
+import { decodeHTMLEntities, getDefaultEditorData, removeWrongAmpString, request } from '@/utils';
 import { useToast } from '@/hooks';
 import { ToastType } from '@/components/common/Toast/Toast.component';
 import * as api from '@/api';
@@ -56,14 +56,11 @@ const UpdatePlatformRecruit = () => {
     const { data } = await api.getStorage(storageKey);
     const editorOutputData = data.valueMap.editorData;
 
-    editorOutputData.blocks?.forEach((block: OutputBlockData) => {
-      if (block.data?.text) {
-        // eslint-disable-next-line no-param-reassign
-        block.data.text = removeWrongAmpString(block.data.text);
-      }
-    });
+    const modifiedData = JSON.parse(
+      decodeHTMLEntities(removeWrongAmpString(JSON.stringify(editorOutputData))),
+    );
 
-    return editorOutputData;
+    return modifiedData;
   };
 
   useEffect(() => {
