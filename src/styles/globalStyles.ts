@@ -10,13 +10,24 @@ export const globalStyles = css`
   }
 
   #platform-recruit-editor {
-    flex: 1;
     min-height: 20rem;
     margin: 0 auto;
-    padding: 6rem 8rem;
+    padding: 4rem 2rem 4rem 6rem;
     background-color: #ffffff;
     border: 0.1rem solid #dee2e6;
     border-radius: 2rem;
+  }
+
+  .codex-editor {
+    width: 78.4rem;
+  }
+
+  .codex-editor--narrow .codex-editor__redactor {
+    margin-right: 0px;
+  }
+
+  .ce-toolbar {
+    left: -12rem;
   }
 
   .ce-toolbar__actions {
@@ -88,5 +99,16 @@ export const globalStyles = css`
     margin-left: 2.5rem;
     padding: 0.3rem 0 0.3rem 0.3rem;
     list-style-type: unset;
+  }
+
+  /** 불필요한 반응형 제거 */
+  @media (min-width: 651px) {
+    .codex-editor--narrow .ce-toolbox {
+      left: 0;
+
+      .ce-popover {
+        left: 0;
+      }
+    }
   }
 `;
