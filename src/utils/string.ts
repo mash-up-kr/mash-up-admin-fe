@@ -36,3 +36,8 @@ export const decodeHTMLEntities = (value: string) => {
   element.remove();
   return element.textContent ?? '';
 };
+
+/** 백엔드 이스케이프 과정에서 `&`를 `&amp;`로 응답하기 때문에 프론트에서 임시로 처리 */
+export const removeWrongAmpString = (value: string) => {
+  return value.replace(/&amp;/g, '&');
+};
