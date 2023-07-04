@@ -35,6 +35,8 @@ export const globalStyles = css`
   }
 
   h3.ce-header {
+    margin: 1.6rem 0;
+    padding: 0;
     font-weight: 700;
     font-size: 1.8rem;
   }
@@ -45,10 +47,6 @@ export const globalStyles = css`
     font-size: 1.6rem;
     line-height: 1.5;
     letter-spacing: -0.08rem;
-  }
-
-  li.cdx-list__item {
-    list-style-type: unset;
   }
 
   div.ce-block__content {
@@ -67,10 +65,6 @@ export const globalStyles = css`
     color: #868e96;
   }
 
-  div.codex-editor__redactor {
-    padding-bottom: 0 !important;
-  }
-
   .ce-toolbox .cdx-search-field,
   .ce-settings .cdx-search-field {
     display: none;
@@ -80,5 +74,19 @@ export const globalStyles = css`
     font-weight: 400;
     font-size: 1.5rem;
     line-height: 1.5;
+  }
+
+  .cdx-block {
+    padding: 0.2rem 0;
+  }
+
+  ul.cdx-block.cdx-list {
+    padding: 0;
+  }
+
+  li.cdx-list__item {
+    margin-left: 2.5rem;
+    padding: 0.3rem 0 0.3rem 0.3rem;
+    list-style-type: unset;
   }
 `;
