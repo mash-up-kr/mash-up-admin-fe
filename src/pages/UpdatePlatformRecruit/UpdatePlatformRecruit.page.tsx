@@ -82,7 +82,7 @@ const UpdatePlatformRecruit = () => {
 
   return (
     <Styled.PageWrapper>
-      <Styled.Heading>리쿠르트 모집공고 수정</Styled.Heading>
+      <Styled.Heading>모집공고</Styled.Heading>
       <Styled.EditorWrapper>
         <Editor id={EDITOR_ID} savedData={savedEditorData} />
         <EditorAside
