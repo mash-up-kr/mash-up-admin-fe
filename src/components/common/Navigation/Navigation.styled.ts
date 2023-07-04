@@ -34,18 +34,10 @@ export const NavigationTitle = styled.div`
   `}
 `;
 
-export const NavigationItemWrapper = styled.div`
-  width: 24px;
-  height: 24px;
-  margin-right: 12px;
-  /* FIXME: 임시 코드라 theme 사용 안함 */
-  background-color: #6244ff;
-`;
-
 export const NavigationItem = styled(Link)<StyledNavigationItemProps>`
   ${({ theme, size, active, inActiveColor }) => css`
     ${theme.navigation.size[size]};
-    ${theme.fonts.medium14};
+    ${theme.fonts.regular14};
 
     display: flex;
     align-items: center;
@@ -57,6 +49,7 @@ export const NavigationItem = styled(Link)<StyledNavigationItemProps>`
 
     ${active
       ? css`
+          ${theme.fonts.medium14};
           background-color: ${theme.colors.purple10};
         `
       : ''};
@@ -72,4 +65,11 @@ export const NavigationDivider = styled.hr`
   height: 2px;
   background-color: #f8f9fa;
   border: 0;
+`;
+
+export const NavigationIcon = styled.i`
+  display: flex;
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
 `;
