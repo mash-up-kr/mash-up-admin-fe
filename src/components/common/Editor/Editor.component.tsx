@@ -34,7 +34,6 @@ const Editor = ({ id, savedData }: EditorProps) => {
       autofocus: true,
       // @ts-expect-error: third party plugin
       tools,
-      tunes: ['textVariant'],
       i18n,
     });
   };

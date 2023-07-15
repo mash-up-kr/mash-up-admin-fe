@@ -1,10 +1,6 @@
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
-import Checklist from '@editorjs/checklist';
-import Table from '@editorjs/table';
-import Marker from '@editorjs/marker';
 import Underline from '@editorjs/underline';
-import TextVariantTune from '@editorjs/text-variant-tune';
 import Paragraph from '@editorjs/paragraph';
 
 export default {
@@ -34,22 +30,5 @@ export default {
       defaultStyle: 'unordered',
     },
   },
-  checklist: {
-    class: Checklist,
-    inlineToolbar: true,
-  },
-  table: {
-    class: Table,
-    inlineToolbar: true,
-    config: {
-      rows: 2,
-      cols: 3,
-    },
-  },
-  Marker: {
-    class: Marker,
-    shortcut: 'CMD+SHIFT+M',
-  },
   underline: Underline,
-  textVariant: TextVariantTune,
 };
