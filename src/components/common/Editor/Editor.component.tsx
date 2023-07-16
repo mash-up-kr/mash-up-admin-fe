@@ -53,6 +53,23 @@ const Editor = ({ id, savedData }: EditorProps) => {
     editorRef.current.render(newEditorData);
   }, [editorReady, savedData]);
 
+  /** Tab을 입력했을 때 에디터 밖으로 TabIndex가 변경되는 것을 방지 */
+  useEffect(() => {
+    const isEditorFocused = editorRef.current?.blocks?.getCurrentBlockIndex() !== -1;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (isEditorFocused && event.key === 'Tab') {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <>
       <div id={id} />;
