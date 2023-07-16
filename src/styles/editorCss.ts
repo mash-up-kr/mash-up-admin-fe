@@ -25,6 +25,7 @@ export default css`
   .ce-toolbar__actions {
     top: -2px;
     left: -6rem;
+    width: 50px;
   }
 
   h1.ce-header {
@@ -75,12 +76,12 @@ export default css`
 
   .ce-paragraph {
     font-weight: 400;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     line-height: 1.5;
   }
 
   .cdx-block {
-    padding: 0.2rem 0;
+    padding: 0;
   }
 
   ul.cdx-block.cdx-list {
@@ -89,8 +90,16 @@ export default css`
 
   li.cdx-list__item {
     margin-left: 2.5rem;
-    padding: 0.3rem 0 0.3rem 0.3rem;
+    padding: 0 0 0.6rem 0.3rem;
     list-style-type: unset;
+  }
+
+  /**
+   * 'Header'에 'placeholder'가 있을 때 클릭 불가 이슈 수정
+   * @see {@link https://github.com/codex-team/editor.js/issues/1130}
+   */
+  .ce-header[contentEditable='true'][data-placeholder]::before {
+    pointer-events: none;
   }
 
   /** 불필요한 반응형 제거 */
@@ -101,6 +110,14 @@ export default css`
       .ce-popover {
         left: 0;
       }
+    }
+  }
+
+  /** 불필요한 반응형 제거 */
+  @media (min-width: 651px) {
+    .codex-editor--narrow .ce-block--focused {
+      margin-right: 0;
+      padding-right: 0;
     }
   }
 `;
