@@ -1,10 +1,13 @@
 import React, { ReactElement } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useResetRecoilState } from 'recoil';
 import { ValueOf } from '@/types';
 import { colors } from '@/styles';
 
 import * as Styled from './Navigation.styled';
-import { PATH } from '@/constants';
+import { ACCESS_TOKEN, PATH } from '@/constants';
+import LogoutIcon from '@/assets/svg/logout-24.svg';
+import { $me } from '@/store';
 
 interface Menu {
   label: string;
@@ -33,10 +36,18 @@ export interface NavigationProps {
 
 const Navigation = ({ size, inActiveColor, items, showBottomBorder = true }: NavigationProps) => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const resetMe = useResetRecoilState($me);
+
+  const handleLogout = () => {
+    localStorage.removeItem(ACCESS_TOKEN);
+    resetMe();
+    navigate(PATH.LOGIN);
+  };
 
   return (
     <Styled.NavigationContainer showBottomBorder={showBottomBorder}>
-      {items.map((item, itemIdx) => (
+      {items.map((item) => (
         <>
           <Styled.NavigationTitle>{item.title}</Styled.NavigationTitle>
           {item.menus.map((menu, menuIdx) => {
@@ -46,7 +57,7 @@ const Navigation = ({ size, inActiveColor, items, showBottomBorder = true }: Nav
 
             return (
               <>
-                <div style={{ padding: '0 1rem' }}>
+                <Styled.ItemWrapper>
                   <Styled.NavigationItem
                     key={menu.to}
                     size={size}
@@ -57,15 +68,21 @@ const Navigation = ({ size, inActiveColor, items, showBottomBorder = true }: Nav
                     <Styled.NavigationIcon>{menu.icon}</Styled.NavigationIcon>
                     {menu.label}
                   </Styled.NavigationItem>
-                </div>
-                {item.menus.length === menuIdx + 1 && items.length !== itemIdx + 1 && (
-                  <Styled.NavigationDivider />
-                )}
+                </Styled.ItemWrapper>
+                {item.menus.length === menuIdx + 1 && <Styled.NavigationDivider />}
               </>
             );
           })}
         </>
       ))}
+      <Styled.ItemWrapper>
+        <Styled.LogoutButton size={size} onClick={handleLogout}>
+          <Styled.NavigationIcon>
+            <LogoutIcon />
+          </Styled.NavigationIcon>
+          로그아웃
+        </Styled.LogoutButton>
+      </Styled.ItemWrapper>
     </Styled.NavigationContainer>
   );
 };

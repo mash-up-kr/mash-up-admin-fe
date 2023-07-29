@@ -36,20 +36,21 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <Styled.LayoutWrapper>
+      <Styled.Wrapper>
         <LNB />
-        <Styled.Main isBackgroundGray={isBackgroundGray}>
-          <section>
-            {isListPage && (
-              <Styled.SelectWrapper>
-                <GenerationSelect />
-              </Styled.SelectWrapper>
-            )}
-            <Outlet />
-          </section>
+        <Styled.Main>
+          <Styled.Container isBackgroundGray={isBackgroundGray}>
+            <section>
+              {isListPage && (
+                <Styled.SelectWrapper>
+                  <GenerationSelect />
+                </Styled.SelectWrapper>
+              )}
+              <Outlet />
+            </section>
+          </Styled.Container>
         </Styled.Main>
-        <Styled.EmptyRightSection />
-      </Styled.LayoutWrapper>
+      </Styled.Wrapper>
     </>
   );
 };

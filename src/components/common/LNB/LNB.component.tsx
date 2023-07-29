@@ -5,6 +5,7 @@ import {
   NavigationSize,
 } from '@/components/common/Navigation/Navigation.component';
 import { colors } from '@/styles';
+import * as Styled from './LNB.styled';
 
 import { Navigation } from '@/components';
 
@@ -87,12 +88,14 @@ const navigationItems: NavigationItem[] = [
 
 const LNB = () => {
   return (
-    <Navigation
-      size={NavigationSize.md}
-      items={navigationItems}
-      inActiveColor={colors.gray70}
-      showBottomBorder={false}
-    />
+    <Styled.LNBContainer>
+      <Navigation
+        size={NavigationSize.md}
+        items={navigationItems}
+        inActiveColor={colors.gray70}
+        showBottomBorder={false}
+      />
+    </Styled.LNBContainer>
   );
 };
 
