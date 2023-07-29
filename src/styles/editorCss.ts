@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 
 export default css`
-  #platform-recruit-editor {
+  #platform-recruit-editor,
+  #platform-faq-editor {
     min-height: 20rem;
     margin: 0 auto;
     padding: 4rem 2rem 4rem 6rem;
