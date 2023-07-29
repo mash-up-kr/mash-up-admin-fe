@@ -1,110 +1,79 @@
 import React, { useState, useEffect, useRef } from 'react';
 import EditorJS, { OutputData } from '@editorjs/editorjs';
-import Header from '@editorjs/header';
-import List from '@editorjs/list';
-import Checklist from '@editorjs/checklist';
-import Table from '@editorjs/table';
-import Marker from '@editorjs/marker';
-import Underline from '@editorjs/underline';
-import TextVariantTune from '@editorjs/text-variant-tune';
 import DragDrop from 'editorjs-drag-drop';
-import Paragraph from '@editorjs/paragraph';
 import { Blocker } from '@/components';
 import i18n from './i18n';
-
-const DEFAULT_INITIAL_DATA = {
-  time: new Date().getTime(),
-  blocks: [],
-};
+import { getDefaultEditorData } from '@/utils';
+import tools from './tools';
 
 interface EditorProps {
   id: string;
+  savedData: OutputData;
 }
 
-const Editor = ({ id }: EditorProps) => {
-  const savedData = localStorage.getItem(id)
-    ? JSON.parse(localStorage.getItem(id) ?? '{}')
-    : DEFAULT_INITIAL_DATA;
-
-  const ejInstance = useRef<EditorJS>();
+const Editor = ({ id, savedData }: EditorProps) => {
+  const editorRef = useRef<EditorJS>();
   const [editorData, setEditorData] = useState<OutputData>(savedData);
+  const [editorReady, setEditorReady] = useState(false);
 
   const initEditor = () => {
     const editor = new EditorJS({
       holder: id,
       data: editorData,
       onReady: () => {
-        ejInstance.current = editor;
+        editorRef.current = editor;
         // eslint-disable-next-line no-new
         new DragDrop(editor);
+        setEditorReady(true);
       },
       onChange: async () => {
-        const content = (await ejInstance.current?.saver.save()) as OutputData;
+        const content = (await editorRef.current?.saver.save()) as OutputData;
         localStorage.setItem(id, JSON.stringify(content));
         setEditorData(content);
       },
       autofocus: true,
-      tools: {
-        header: {
-          // @ts-ignore
-          class: Header,
-          config: {
-            placeholder: `Tab 으로 크기를 변경하세요.`,
-            levels: [1, 2, 3, 4],
-            defaultLevel: 3,
-          },
-        },
-        paragraph: {
-          class: Paragraph,
-          inlineToolbar: true,
-          config: {
-            placeholder: `Tab 으로 새로운 블록을 추가하세요.`,
-          },
-        },
-        list: {
-          class: List,
-          inlineToolbar: true,
-          config: {
-            defaultStyle: 'unordered',
-          },
-        },
-        checklist: {
-          class: Checklist,
-          inlineToolbar: true,
-        },
-        table: {
-          class: Table,
-          inlineToolbar: true,
-          config: {
-            rows: 2,
-            cols: 3,
-          },
-        },
-
-        Marker: {
-          class: Marker,
-          shortcut: 'CMD+SHIFT+M',
-        },
-        underline: Underline,
-        textVariant: TextVariantTune,
-      },
-      tunes: ['textVariant'],
+      // @ts-expect-error: third party plugin
+      tools,
       i18n,
     });
   };
 
   useEffect(() => {
-    if (!ejInstance.current) initEditor();
+    if (!editorRef.current) initEditor();
 
     return () => {
-      ejInstance.current?.destroy();
+      editorRef.current?.destroy();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!editorRef.current) return;
+    const newEditorData = savedData?.blocks ? savedData : getDefaultEditorData();
+    setEditorData(newEditorData);
+    editorRef.current.render(newEditorData);
+  }, [editorReady, savedData]);
+
+  /** Tab을 입력했을 때 에디터 밖으로 TabIndex가 변경되는 것을 방지 */
+  useEffect(() => {
+    const isEditorFocused = editorRef.current?.blocks?.getCurrentBlockIndex() !== -1;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (isEditorFocused && event.key === 'Tab') {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
   return (
     <>
       <div id={id} />;
-      <Blocker isBlocking={editorData.blocks.length !== 0} />
+      <Blocker isBlocking={editorData.blocks?.length !== 0} />
     </>
   );
 };

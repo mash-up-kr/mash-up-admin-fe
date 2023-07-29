@@ -1622,26 +1622,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codexteam/icons@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@codexteam/icons@npm:0.3.0"
-  checksum: 4949e753a9f8d0442c581512566167dddf7853fce0aa388ec9ddd9acc2aa3f081192d266c0eb1a2f78154492f376f7ce042f69ca45cad9a1f02583ab70e0000b
-  languageName: node
-  linkType: hard
-
 "@discoveryjs/json-ext@npm:^0.5.0, @discoveryjs/json-ext@npm:^0.5.3":
   version: 0.5.6
   resolution: "@discoveryjs/json-ext@npm:0.5.6"
   checksum: e97df618511fb202dffa2eb0d23e17dfb02943a70e5bc38f6b9603ad1cb1d6b525aa2b07ff9fb00b041abe425b341146ddd9e487f1e35ddadc8c6b8c56358ae0
-  languageName: node
-  linkType: hard
-
-"@editorjs/checklist@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "@editorjs/checklist@npm:1.5.0"
-  dependencies:
-    "@codexteam/icons": ^0.3.0
-  checksum: cf71993ba60d1301d4b9fdb8709ee4f37f87430cf74548e710dc8a829c7b624b11f2a7c8b90fe21526e7002664d3e04880309849e9c21ae322a64b5be33dc829
   languageName: node
   linkType: hard
 
@@ -1676,37 +1660,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@editorjs/marker@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "@editorjs/marker@npm:1.3.0"
-  dependencies:
-    "@codexteam/icons": ^0.0.5
-  checksum: b93bc22b92ba39a568b146adc4d2d3134a331c1b344e4a75d12cc654864fb5f0dad0ec305fb9aa1e0de81c3599da7e9e2f6a1d6ef776275106d8530804a96f9e
-  languageName: node
-  linkType: hard
-
 "@editorjs/paragraph@npm:^2.9.0":
   version: 2.9.0
   resolution: "@editorjs/paragraph@npm:2.9.0"
   dependencies:
     "@codexteam/icons": ^0.0.4
   checksum: f91acaee6d052ad78b9ee3245a2bdf02627dac66e7f8bbdb9676d3bfa85dc91d0cc25508b68c9b4cbaa1dd1a1ccba8689e4b54ede36ea5d950adf8a06458a79a
-  languageName: node
-  linkType: hard
-
-"@editorjs/table@npm:^2.2.1":
-  version: 2.2.1
-  resolution: "@editorjs/table@npm:2.2.1"
-  dependencies:
-    "@codexteam/icons": ^0.0.6
-  checksum: 7f03086928e5562e5fd919e80919f7a62b73556b2c01923c7b2f5a417e9027357e295b870d36ebbc8661351fa816108b9f7cd52f3948821032dbc6f021316d2c
-  languageName: node
-  linkType: hard
-
-"@editorjs/text-variant-tune@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@editorjs/text-variant-tune@npm:1.0.1"
-  checksum: 723359d5361d7716a0d33c8ee28e4de4f27c19db371afd339e19d70f0c58f16b4ab5b8fe9b180816d26f66513033deea4cc89ca2f4fd9d7e7be8d27893aa8df5
   languageName: node
   linkType: hard
 
@@ -12954,14 +12913,10 @@ __metadata:
   resolution: "mashup-admin-fe@workspace:."
   dependencies:
     "@babel/core": ^7.16.12
-    "@editorjs/checklist": ^1.5.0
     "@editorjs/editorjs": ^2.26.5
     "@editorjs/header": ^2.7.0
     "@editorjs/list": ^1.8.0
-    "@editorjs/marker": ^1.3.0
     "@editorjs/paragraph": ^2.9.0
-    "@editorjs/table": ^2.2.1
-    "@editorjs/text-variant-tune": ^1.0.1
     "@editorjs/underline": ^1.1.0
     "@emotion/css": ^11.7.1
     "@emotion/react": ^11.7.1
