@@ -15,7 +15,11 @@ interface StyledNavigationItemProps {
   inActiveColor: ValueOf<typeof colors>;
 }
 
-export const NavigationContainer = styled.nav<NavigationContainerProps>`
+interface LogoutButtonProps {
+  size: NavigationSizeType;
+}
+
+export const NavigationContainer = styled.div<NavigationContainerProps>`
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -32,6 +36,10 @@ export const NavigationTitle = styled.div`
     padding: 0 2rem;
     color: ${theme.colors.gray80};
   `}
+`;
+
+export const ItemWrapper = styled.div`
+  padding: 0 1rem;
 `;
 
 export const NavigationItem = styled(Link)<StyledNavigationItemProps>`
@@ -72,4 +80,20 @@ export const NavigationIcon = styled.i`
   width: 24px;
   height: 24px;
   margin-right: 12px;
+`;
+
+export const LogoutButton = styled.button<LogoutButtonProps>`
+  ${({ theme, size }) => css`
+    ${theme.navigation.size[size]};
+    ${theme.fonts.regular14};
+
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 10px 12px;
+    color: ${theme.colors.red100};
+    letter-spacing: -0.08rem;
+    background-color: ${theme.colors.white};
+    border-radius: 10px;
+  `}
 `;
