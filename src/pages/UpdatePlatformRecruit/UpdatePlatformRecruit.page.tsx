@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { OutputData } from '@editorjs/editorjs';
 import { Editor, EditorAside } from '@/components';
 import * as Styled from './UpdatePlatformRecruit.styled';
-import { $teams } from '@/store';
+import { $teams, $profile } from '@/store';
 import { SelectSize } from '@/components/common/Select/Select.component';
 import { decodeHTMLEntities, getDefaultEditorData, removeWrongAmpString, request } from '@/utils';
 import { useToast } from '@/hooks';
@@ -11,6 +11,7 @@ import { ToastType } from '@/components/common/Toast/Toast.component';
 import * as api from '@/api';
 
 const EDITOR_ID = 'platform-recruit-editor';
+const STAFF_PROFILES = ['BRANDING', 'MASHUP'];
 
 const UpdatePlatformRecruit = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +25,14 @@ const UpdatePlatformRecruit = () => {
     value: teamId.toString(),
     label: name,
   }));
+
+  const myTeamName = useRecoilValue($profile)[0];
+  const getTeamSelectOptions = () => {
+    if (STAFF_PROFILES.includes(myTeamName)) return teamOptions;
+    const myTeamOptionObject = teamOptions.find(({ label }) => label.toUpperCase() === myTeamName);
+    return [myTeamOptionObject ?? { label: '', value: '' }];
+  };
+  const teamSelectOptions = getTeamSelectOptions();
 
   const handleUpdateButtonClick = async () => {
     const originalOutputData = JSON.parse(localStorage.getItem(EDITOR_ID) ?? '{}');
@@ -89,9 +98,9 @@ const UpdatePlatformRecruit = () => {
           platform={
             <Styled.TeamSelect
               placeholder="플랫폼 선택"
-              defaultValue={teamOptions[0]}
+              defaultValue={teamSelectOptions[0]}
               size={SelectSize.sm}
-              options={teamOptions}
+              options={teamSelectOptions}
               onChangeOption={(option) => setSelectedPlatform(option.label.toLowerCase())}
             />
           }
