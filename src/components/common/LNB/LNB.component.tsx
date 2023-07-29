@@ -13,8 +13,8 @@ import ApplicationFormIcon from '@/assets/svg/application-form.svg';
 import EmailIcon from '@/assets/svg/email.svg';
 import ActivityScoreIcon from '@/assets/svg/activity-score.svg';
 import ScheduleIcon from '@/assets/svg/schedule.svg';
+import RecruitIcon from '@/assets/svg/recruit.svg';
 // import SignupCodeIcon from "@/assets/svg/signup-code.svg"
-// import RecruitIcon from "@/assets/svg/recruit.svg"
 // import AdminMembersIcon from '@/assets/svg/admin-members.svg';
 // import MyPageIcon from "@/assets/svg/my-page.svg"
 
@@ -60,15 +60,16 @@ const navigationItems: NavigationItem[] = [
     ],
   },
   // TODO: 추가 예정 메뉴
-  // {
-  //   title: '콘텐츠 관리',
-  //   menus: [
-  //     {
-  //       label: '모집 공고',
-  //       to: PATH.RECRUIT,
-  //     },
-  //   ],
-  // },
+  {
+    title: '콘텐츠 관리',
+    menus: [
+      {
+        label: '모집 공고',
+        to: PATH.RECRUIT,
+        icon: <RecruitIcon />,
+      },
+    ],
+  },
   // {
   //   title: '계정 관리',
   //   menus: [
@@ -77,10 +78,10 @@ const navigationItems: NavigationItem[] = [
   //       to: PATH.ADMIN_MEMBERS,
   //       icon: <AdminMembersIcon />,
   //     },
-  // {
-  //   label: '내 정보',
-  //   to: PATH.MY_PAGE,
-  // },
+  //     {
+  //       label: '내 정보',
+  //       to: PATH.MY_PAGE,
+  //     },
   //   ],
   // },
 ];

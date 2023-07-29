@@ -8,3 +8,4 @@ export * from './string';
 export * from './number';
 export * from './format';
 export * from './schedule';
+export * from './editor';

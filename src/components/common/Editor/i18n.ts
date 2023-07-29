@@ -37,11 +37,34 @@ export default {
       Underline: '밑줄',
     },
 
-    tools: {},
+    tools: {
+      table: {
+        'With headings': '제목 추가',
+        'Without headings': '제목 제거',
+        'Add column to left': '왼쪽에 열 삽입',
+        'Add column to right': '오른쪽에 열 삽입',
+        'Delete column': '열 삭제',
+        'Add row above': '위에 행 삽입',
+        'Add row below': '아래에 행 삽입',
+        'Delete row': '행 삭제',
+        Heading: '제목',
+      },
+      header: {
+        'Heading 1': '제목 1',
+        'Heading 2': '제목 2',
+        'Heading 3': '제목 3',
+        'Heading 4': '제목 4',
+      },
+      list: {
+        Unordered: '글머리 목록',
+        Ordered: '번호 목록',
+      },
+    },
 
     blockTunes: {
       delete: {
         Delete: '삭제',
+        'Click to delete': '확인',
       },
       moveUp: {
         'Move up': '위로 이동',

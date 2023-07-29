@@ -34,14 +34,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["@babel/core", "npm:7.16.12"],\
-            ["@editorjs/checklist", "npm:1.5.0"],\
             ["@editorjs/editorjs", "npm:2.26.5"],\
             ["@editorjs/header", "npm:2.7.0"],\
             ["@editorjs/list", "npm:1.8.0"],\
-            ["@editorjs/marker", "npm:1.3.0"],\
             ["@editorjs/paragraph", "npm:2.9.0"],\
-            ["@editorjs/table", "npm:2.2.1"],\
-            ["@editorjs/text-variant-tune", "npm:1.0.1"],\
             ["@editorjs/underline", "npm:1.1.0"],\
             ["@emotion/css", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:11.7.1"],\
             ["@emotion/react", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:11.7.1"],\
@@ -3076,13 +3072,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@codexteam/icons", "npm:0.1.0"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:0.3.0", {\
-          "packageLocation": "./.yarn/cache/@codexteam-icons-npm-0.3.0-40c6171ad6-4949e753a9.zip/node_modules/@codexteam/icons/",\
-          "packageDependencies": [\
-            ["@codexteam/icons", "npm:0.3.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["@discoveryjs/json-ext", [\
@@ -3090,16 +3079,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@discoveryjs-json-ext-npm-0.5.6-95d4b518e8-e97df61851.zip/node_modules/@discoveryjs/json-ext/",\
           "packageDependencies": [\
             ["@discoveryjs/json-ext", "npm:0.5.6"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@editorjs/checklist", [\
-        ["npm:1.5.0", {\
-          "packageLocation": "./.yarn/cache/@editorjs-checklist-npm-1.5.0-5b071f8456-cf71993ba6.zip/node_modules/@editorjs/checklist/",\
-          "packageDependencies": [\
-            ["@editorjs/checklist", "npm:1.5.0"],\
-            ["@codexteam/icons", "npm:0.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3138,41 +3117,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["@editorjs/marker", [\
-        ["npm:1.3.0", {\
-          "packageLocation": "./.yarn/cache/@editorjs-marker-npm-1.3.0-1ca2af4b28-b93bc22b92.zip/node_modules/@editorjs/marker/",\
-          "packageDependencies": [\
-            ["@editorjs/marker", "npm:1.3.0"],\
-            ["@codexteam/icons", "npm:0.0.5"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["@editorjs/paragraph", [\
         ["npm:2.9.0", {\
           "packageLocation": "./.yarn/cache/@editorjs-paragraph-npm-2.9.0-1df54d17fb-f91acaee6d.zip/node_modules/@editorjs/paragraph/",\
           "packageDependencies": [\
             ["@editorjs/paragraph", "npm:2.9.0"],\
             ["@codexteam/icons", "npm:0.0.4"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@editorjs/table", [\
-        ["npm:2.2.1", {\
-          "packageLocation": "./.yarn/cache/@editorjs-table-npm-2.2.1-232aba2d28-7f03086928.zip/node_modules/@editorjs/table/",\
-          "packageDependencies": [\
-            ["@editorjs/table", "npm:2.2.1"],\
-            ["@codexteam/icons", "npm:0.0.6"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@editorjs/text-variant-tune", [\
-        ["npm:1.0.1", {\
-          "packageLocation": "./.yarn/cache/@editorjs-text-variant-tune-npm-1.0.1-2fd3c439da-723359d536.zip/node_modules/@editorjs/text-variant-tune/",\
-          "packageDependencies": [\
-            ["@editorjs/text-variant-tune", "npm:1.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17519,14 +17469,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["mashup-admin-fe", "workspace:."],\
             ["@babel/core", "npm:7.16.12"],\
-            ["@editorjs/checklist", "npm:1.5.0"],\
             ["@editorjs/editorjs", "npm:2.26.5"],\
             ["@editorjs/header", "npm:2.7.0"],\
             ["@editorjs/list", "npm:1.8.0"],\
-            ["@editorjs/marker", "npm:1.3.0"],\
             ["@editorjs/paragraph", "npm:2.9.0"],\
-            ["@editorjs/table", "npm:2.2.1"],\
-            ["@editorjs/text-variant-tune", "npm:1.0.1"],\
             ["@editorjs/underline", "npm:1.1.0"],\
             ["@emotion/css", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:11.7.1"],\
             ["@emotion/react", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:11.7.1"],\
