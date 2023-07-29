@@ -15,6 +15,7 @@ const Editor = ({ id, savedData }: EditorProps) => {
   const editorRef = useRef<EditorJS>();
   const [editorData, setEditorData] = useState<OutputData>(savedData);
   const [editorReady, setEditorReady] = useState(false);
+  const [isDataChanged, setIsDataChanged] = useState(false);
 
   const initEditor = () => {
     const editor = new EditorJS({
@@ -27,9 +28,10 @@ const Editor = ({ id, savedData }: EditorProps) => {
         setEditorReady(true);
       },
       onChange: async () => {
-        const content = (await editorRef.current?.saver.save()) as OutputData;
-        localStorage.setItem(id, JSON.stringify(content));
-        setEditorData(content);
+        const newEditorData = (await editorRef.current?.saver.save()) as OutputData;
+        localStorage.setItem(id, JSON.stringify(newEditorData));
+        setEditorData(newEditorData);
+        if (editorData.time !== newEditorData.time) setIsDataChanged(true);
       },
       autofocus: true,
       // @ts-expect-error: third party plugin
@@ -73,7 +75,7 @@ const Editor = ({ id, savedData }: EditorProps) => {
   return (
     <>
       <div id={id} />;
-      <Blocker isBlocking={editorData.blocks?.length !== 0} />
+      <Blocker isBlocking={isDataChanged} />
     </>
   );
 };
