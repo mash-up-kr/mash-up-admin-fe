@@ -23,6 +23,7 @@ export const colors = {
   red40: '#FFC4CF',
   red50: '#F35D78',
   red70: '#FC4162',
+  red100: '#F13F5F',
   blue20: '#DFF0FF',
   blue70: '#2892F4',
   orange70: '#FF8E6A',
