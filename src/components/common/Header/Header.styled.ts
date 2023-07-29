@@ -6,7 +6,7 @@ export const HeaderContainer = styled.header`
   ${({ theme }) => css`
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 9;
     height: ${HEADER_HEIGHT};
     background: ${theme.colors.white};
     border-bottom: 0.1rem solid ${theme.colors.gray100};
