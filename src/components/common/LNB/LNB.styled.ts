@@ -5,5 +5,5 @@ export const LNBContainer = styled.nav`
   min-width: 20rem;
   height: calc(100vh - ${HEADER_HEIGHT});
   overflow: scroll;
-  border-right: 0.1rem solid ${({ theme }) => theme.colors.gray100};
+  box-shadow: inset -1px 0px ${({ theme }) => theme.colors.gray100};
 `;
