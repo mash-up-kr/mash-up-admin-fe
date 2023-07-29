@@ -1,4 +1,4 @@
-export const HEADER_HEIGHT = '7rem';
+export const HEADER_HEIGHT = '5rem';
 
 export const SORT_TYPE = {
   DEFAULT: '',

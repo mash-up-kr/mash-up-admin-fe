@@ -7,6 +7,7 @@ import Navigation, {
 } from './Navigation.component';
 import { colors } from '@/styles';
 import { PATH } from '@/constants';
+import ApplicationIcon from '@/assets/svg/application.svg';
 
 export default {
   title: 'Navigation',
@@ -19,8 +20,14 @@ const Template: ComponentStory<typeof Navigation> = (args: NavigationProps) => (
 
 const items: NavigationItem[] = [
   {
-    label: 'All',
-    to: PATH.NOT_FOUND,
+    title: 'ALL',
+    menus: [
+      {
+        label: 'All',
+        to: PATH.NOT_FOUND,
+        icon: <ApplicationIcon />,
+      },
+    ],
   },
 ];
 

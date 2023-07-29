@@ -4,8 +4,12 @@ import { HEADER_HEIGHT } from '@/constants';
 
 export const HeaderContainer = styled.header`
   ${({ theme }) => css`
+    position: sticky;
+    top: 0;
+    z-index: 9;
     height: ${HEADER_HEIGHT};
-    border-bottom: 0.1rem solid ${theme.colors.gray30};
+    background: ${theme.colors.white};
+    border-bottom: 0.1rem solid ${theme.colors.gray100};
   `}
 `;
 
@@ -13,8 +17,8 @@ export const HeaderContainerInner = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 120rem;
-  margin: 0 auto;
+  height: 100%;
+  margin-left: 2rem;
 `;
 
 export const VisuallyHiddenLogo = styled.h1`

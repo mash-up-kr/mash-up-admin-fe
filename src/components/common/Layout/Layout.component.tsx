@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Header } from '@/components';
+import { Header, LNB } from '@/components';
 import * as Styled from './Layout.styled';
 import { PATH } from '@/constants';
 import { GenerationSelect } from '@/components/Generation';
@@ -10,9 +10,14 @@ const Layout = () => {
 
   const isBackgroundGray = useMemo(
     () =>
-      ['login', 'application/', 'application-form/', 'activity-score/', 'schedule/'].some((each) =>
-        pathname.includes(each),
-      ),
+      [
+        'login',
+        'application/',
+        'application-form/',
+        'activity-score/',
+        'schedule/',
+        'recruit/',
+      ].some((each) => pathname.includes(each)),
     [pathname],
   );
 
@@ -31,16 +36,21 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <Styled.Main isBackgroundGray={isBackgroundGray}>
-        <section>
-          {isListPage && (
-            <Styled.SelectWrapper>
-              <GenerationSelect />
-            </Styled.SelectWrapper>
-          )}
-          <Outlet />
-        </section>
-      </Styled.Main>
+      <Styled.Wrapper>
+        <LNB />
+        <Styled.Main>
+          <Styled.Container isBackgroundGray={isBackgroundGray}>
+            <section>
+              {isListPage && (
+                <Styled.SelectWrapper>
+                  <GenerationSelect />
+                </Styled.SelectWrapper>
+              )}
+              <Outlet />
+            </section>
+          </Styled.Container>
+        </Styled.Main>
+      </Styled.Wrapper>
     </>
   );
 };
