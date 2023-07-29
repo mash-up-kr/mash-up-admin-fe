@@ -15,6 +15,7 @@ import EmailIcon from '@/assets/svg/email.svg';
 import ActivityScoreIcon from '@/assets/svg/activity-score.svg';
 import ScheduleIcon from '@/assets/svg/schedule.svg';
 import RecruitIcon from '@/assets/svg/recruit.svg';
+import FaqIcon from '@/assets/svg/faq.svg';
 // import SignupCodeIcon from "@/assets/svg/signup-code.svg"
 // import AdminMembersIcon from '@/assets/svg/admin-members.svg';
 // import MyPageIcon from "@/assets/svg/my-page.svg"
@@ -68,6 +69,11 @@ const navigationItems: NavigationItem[] = [
         label: '모집 공고',
         to: PATH.RECRUIT,
         icon: <RecruitIcon />,
+      },
+      {
+        label: '자주 묻는 질문',
+        to: PATH.FAQ,
+        icon: <FaqIcon />,
       },
     ],
   },
