@@ -5,10 +5,17 @@ import { Editor, EditorAside } from '@/components';
 import * as Styled from './FaqPage.styled';
 import { $teams, $profile } from '@/store';
 import { SelectSize } from '@/components/common/Select/Select.component';
-import { decodeHTMLEntities, getDefaultEditorData, removeWrongAmpString, request } from '@/utils';
+import {
+  decodeHTMLEntities,
+  getDefaultEditorData,
+  getLocalStorageData,
+  removeWrongAmpString,
+  request,
+} from '@/utils';
 import { useToast } from '@/hooks';
 import { ToastType } from '@/components/common/Toast/Toast.component';
 import * as api from '@/api';
+import { Team } from '@/components/common/UserProfile/UserProfile.component';
 
 const EDITOR_ID = 'platform-faq-editor';
 const commonSelectOption = { label: '공통', value: 'common' };
@@ -27,7 +34,7 @@ const FaqPage = () => {
   }));
 
   const myTeamName = useRecoilValue($profile)[0];
-  const isStaffUser = myTeamName === 'MASHUP';
+  const isStaffUser = myTeamName === Team.mashUp;
 
   const getTeamSelectOptions = () => {
     if (isStaffUser) return [{ label: commonSelectOption.label, value: commonSelectOption.value }];
@@ -38,7 +45,7 @@ const FaqPage = () => {
   const teamSelectOptions = getTeamSelectOptions();
 
   const handleUpdateButtonClick = async () => {
-    const originalOutputData = JSON.parse(localStorage.getItem(EDITOR_ID) ?? '{}');
+    const originalOutputData = getLocalStorageData(EDITOR_ID);
     const storageValue = { editorData: originalOutputData };
 
     request({
