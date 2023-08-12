@@ -1,7 +1,7 @@
 import Header from '@editorjs/header';
-import List from '@editorjs/list';
 import Underline from '@editorjs/underline';
 import Paragraph from '@editorjs/paragraph';
+import NestedList from '@editorjs/nested-list';
 
 export default {
   /**
@@ -24,7 +24,7 @@ export default {
     },
   },
   list: {
-    class: List,
+    class: NestedList,
     inlineToolbar: true,
     config: {
       defaultStyle: 'unordered',
