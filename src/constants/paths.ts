@@ -19,6 +19,7 @@ export const PATH = {
   ADMIN_MEMBERS: '/admin-members',
   SIGNUP_CODE: '/signup-code',
   RECRUIT: '/recruit',
+  FAQ: '/faq',
   MY_PAGE: '/my-page',
   NOT_FOUND: '/404',
   FORBIDDEN: '/403',
