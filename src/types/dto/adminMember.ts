@@ -46,3 +46,10 @@ export interface LoginResponse {
 }
 
 export interface MeResponse extends Member {}
+
+export interface AdminMemberResponse {
+  adminMemberId: number;
+  phoneNumber: string;
+  position: MemberPositionType;
+  username: string;
+}

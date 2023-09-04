@@ -5,3 +5,4 @@ export { default as ApplyActivityScoreModalDialog } from './ApplyActivityScoreMo
 export { default as ActivityScoreModalDialog } from './ActivityScoreModalDialog/ActivityScoreModalDialog.component';
 export { default as CreateQRCodeModalDialog } from './CreateQRCodeModalDialog/CreateQRCodeModalDialog.component';
 export { default as DisplayQRCodeModalDialog } from './DisplayQRCodeModalDialog/DisplayQRCodeModalDialog.component';
+export { default as CreateHelperAdminMemberDialog } from './CreateHelperAdminMemberDialog/CreateHelperAdminMemberDialog.component';

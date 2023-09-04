@@ -12,6 +12,7 @@ import {
   ActivityScoreModalDialog,
   CreateQRCodeModalDialog,
   DisplayQRCodeModalDialog,
+  CreateHelperAdminMemberDialog,
 } from '@/components';
 import { AlertModalDialogProps } from '../AlertModalDialog/AlertModalDialog.component';
 import { ChangeResultModalDialogProps } from '@/components/modal/ChangeResultModalDialog/ChangeResultModalDialog.component';
@@ -22,6 +23,7 @@ import { ApplyActivityScoreModalDialogProps } from '@/components/modal/ApplyActi
 import { ActivityScoreModalDialogProps } from '@/components/modal/ActivityScoreModalDialog/ActivityScoreModalDialog.component';
 import { CreateQRCodeModalDialogProps } from '@/components/modal/CreateQRCodeModalDialog/CreateQRCodeModalDialog.component';
 import { DisplayQRCodeModalDialogProps } from '@/components/modal/DisplayQRCodeModalDialog/DisplayQRCodeModalDialog.component';
+import { CreateHelperAdminMemberDialogProps } from '@/components/modal/CreateHelperAdminMemberDialog/CreateHelperAdminMemberDialog.component';
 
 const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
   const modal = useRecoilValue($modalByStorage(modalKey));
@@ -91,6 +93,15 @@ const Modal = ({ modalKey }: { modalKey: ModalKeyType }) => {
     );
   }
 
+  if (modalKey === ModalKey.createHelperAdminMemberDialog && modal.isOpen && modal.props) {
+    return (
+      <CreateHelperAdminMemberDialog
+        key={modalKey}
+        {...(modal.props as CreateHelperAdminMemberDialogProps)}
+      />
+    );
+  }
+
   return null;
 };
 
@@ -103,6 +114,9 @@ const ModalViewer = () => {
   );
   const setEmailSendDetailInfoModal = useSetRecoilState(
     $modalByStorage(ModalKey.emailSendDetailInfoModalDialog),
+  );
+  const setCreateHelperAdminMemberDialog = useSetRecoilState(
+    $modalByStorage(ModalKey.createHelperAdminMemberDialog),
   );
 
   const { pathname } = useLocation();
@@ -122,6 +136,10 @@ const ModalViewer = () => {
       key: ModalKey.emailSendDetailInfoModalDialog,
       isOpen: false,
     });
+    setCreateHelperAdminMemberDialog({
+      key: ModalKey.createHelperAdminMemberDialog,
+      isOpen: false,
+    });
   }, [
     setAlertModal,
     setChangeResultModal,
@@ -129,6 +147,7 @@ const ModalViewer = () => {
     pathname,
     setEmailSendDetailListModal,
     setEmailSendDetailInfoModal,
+    setCreateHelperAdminMemberDialog,
   ]);
 
   return (
