@@ -339,7 +339,9 @@ const Table = <T extends object>({
         topStickyHeight={topStickyHeight}
       />
       <Styled.TableWrapper>
-        <Styled.Table topStickyHeight={topStickyHeight && topStickyHeight + 6}>
+        <Styled.Table
+          topStickyHeight={topStickyHeight !== undefined ? topStickyHeight + 6 : undefined}
+        >
           <colgroup>
             {!!selectableRow && <col width="4%" />}
             {columns.map((column, columnIndex) => (
