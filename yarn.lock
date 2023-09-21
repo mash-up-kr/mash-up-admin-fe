@@ -1667,12 +1667,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@editorjs/nested-list@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "@editorjs/nested-list@npm:1.3.0"
+"@editorjs/nested-list@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@editorjs/nested-list@npm:1.1.0"
   dependencies:
     "@codexteam/icons": ^0.0.2
-  checksum: aa7febc423b0c9f0fba843370b433d58b31a3bb8abf2606b68ca7e278ab25abe78a0b9fb7ae9689f4e3948d6458e53b78f60f15da40fb51bfc81a622286d14d1
+  checksum: 556970f607d54d8902eb57fb4bdaa0c5fb3d622a4d870907ef100cb1ae999fc3c46c4060c35a6d36f0711c3a0401aef2f0fc6cd1694d07c11e8d37fad1fddc93
   languageName: node
   linkType: hard
 
@@ -12932,7 +12932,7 @@ __metadata:
     "@editorjs/editorjs": ^2.26.5
     "@editorjs/header": ^2.7.0
     "@editorjs/list": ^1.8.0
-    "@editorjs/nested-list": ^1.3.0
+    "@editorjs/nested-list": 1.1.0
     "@editorjs/paragraph": ^2.9.0
     "@editorjs/underline": ^1.1.0
     "@emotion/css": ^11.7.1
