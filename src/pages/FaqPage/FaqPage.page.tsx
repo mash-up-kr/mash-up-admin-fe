@@ -2,45 +2,50 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { OutputData } from '@editorjs/editorjs';
 import { Editor, EditorAside } from '@/components';
-import * as Styled from './UpdatePlatformRecruit.styled';
-import { $profile, $teams } from '@/store';
+import * as Styled from './FaqPage.styled';
+import { $teams, $profile } from '@/store';
 import { SelectSize } from '@/components/common/Select/Select.component';
-import { decodeHTMLEntities, getDefaultEditorData, removeWrongAmpString, request } from '@/utils';
+import {
+  decodeHTMLEntities,
+  getDefaultEditorData,
+  getLocalStorageData,
+  removeWrongAmpString,
+  request,
+} from '@/utils';
 import { useToast } from '@/hooks';
 import { ToastType } from '@/components/common/Toast/Toast.component';
 import * as api from '@/api';
 import { Team } from '@/components/common/UserProfile/UserProfile.component';
 
-const EDITOR_ID = 'platform-recruit-editor';
+const EDITOR_ID = 'platform-faq-editor';
+const commonSelectOption = { label: '공통', value: 'common' };
 
-const UpdatePlatformRecruit = () => {
+const FaqPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [savedEditorData, setSavedEditorData] = useState<OutputData>(getDefaultEditorData());
-  const [selectedPlatform, setSelectedPlatform] = useState('design');
-  const storageKey = `recruit-${selectedPlatform}`;
+  const [selectedPlatform, setSelectedPlatform] = useState(commonSelectOption.value);
+  const storageKey = `faq-${selectedPlatform}`;
 
   const { handleAddToast } = useToast();
-
   const teams = useRecoilValue($teams);
-  const myTeamName = useRecoilValue($profile)[0];
-  const isStaffMember = myTeamName === Team.mashUp;
-
-  const myTeamInfo = isStaffMember
-    ? null
-    : teams.find(({ name }) => name.toUpperCase() === myTeamName);
-
-  const myTeamOption = {
-    value: (myTeamInfo?.teamId ?? '').toString(),
-    label: myTeamInfo?.name ?? '',
-  };
-
-  const allTeamOptions = teams.map(({ teamId, name }) => ({
+  const teamOptions = teams.map(({ teamId, name }) => ({
     value: teamId.toString(),
     label: name,
   }));
 
+  const myTeamName = useRecoilValue($profile)[0];
+  const isStaffUser = myTeamName === Team.mashUp;
+
+  const getTeamSelectOptions = () => {
+    if (isStaffUser) return [{ label: commonSelectOption.label, value: commonSelectOption.value }];
+    const myTeamOptionObject = teamOptions.find(({ label }) => label.toUpperCase() === myTeamName);
+    return [myTeamOptionObject ?? commonSelectOption];
+  };
+
+  const teamSelectOptions = getTeamSelectOptions();
+
   const handleUpdateButtonClick = async () => {
-    const originalOutputData = JSON.parse(localStorage.getItem(EDITOR_ID) ?? '{}');
+    const originalOutputData = getLocalStorageData(EDITOR_ID);
     const storageValue = { editorData: originalOutputData };
 
     request({
@@ -51,13 +56,13 @@ const UpdatePlatformRecruit = () => {
       errorHandler: () => {
         handleAddToast({
           type: ToastType.error,
-          message: '모집공고를 저장하지 못했습니다. 다시 시도해주세요.',
+          message: '자주 묻는 질문을 저장하지 못했습니다. 다시 시도해주세요.',
         });
       },
       onSuccess: () => {
         handleAddToast({
           type: ToastType.success,
-          message: '성공적으로 모집공고를 저장했습니다.',
+          message: '성공적으로 자주 묻는 질문을 저장했습니다.',
         });
       },
       onCompleted: () => {
@@ -78,10 +83,14 @@ const UpdatePlatformRecruit = () => {
   };
 
   useEffect(() => {
-    if (myTeamInfo?.name) {
-      setSelectedPlatform(myTeamInfo?.name.toLowerCase());
+    const myTeamSelectOptions = teamSelectOptions[0] ?? commonSelectOption;
+
+    if (myTeamSelectOptions.value === commonSelectOption.value) {
+      setSelectedPlatform(commonSelectOption.value);
+    } else {
+      setSelectedPlatform(myTeamSelectOptions.label.toLowerCase());
     }
-  }, [myTeamInfo]);
+  }, [teamSelectOptions]);
 
   useEffect(() => {
     const setPlatformRecruit = async () => {
@@ -91,7 +100,7 @@ const UpdatePlatformRecruit = () => {
       } catch (error) {
         handleAddToast({
           type: ToastType.error,
-          message: '모집공고를 불러오지 못했습니다. 다시 시도해주세요.',
+          message: '자주 묻는 질문을 불러오지 못했습니다. 다시 시도해주세요.',
         });
         return getDefaultEditorData();
       }
@@ -102,17 +111,16 @@ const UpdatePlatformRecruit = () => {
 
   return (
     <Styled.PageWrapper>
-      <Styled.Heading>모집공고</Styled.Heading>
+      <Styled.Heading>자주 묻는 질문</Styled.Heading>
       <Styled.EditorWrapper>
         <Editor id={EDITOR_ID} savedData={savedEditorData} />
         <EditorAside
           platform={
             <Styled.TeamSelect
               placeholder="플랫폼 선택"
-              defaultValue={isStaffMember ? allTeamOptions[0] : myTeamOption}
+              defaultValue={teamSelectOptions[0]}
               size={SelectSize.sm}
-              options={isStaffMember ? allTeamOptions : [myTeamOption]}
-              onChangeOption={(option) => setSelectedPlatform(option.label.toLowerCase())}
+              options={teamSelectOptions}
             />
           }
           rightActionButton={{
@@ -126,4 +134,4 @@ const UpdatePlatformRecruit = () => {
   );
 };
 
-export default UpdatePlatformRecruit;
+export default FaqPage;
