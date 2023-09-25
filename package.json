@@ -124,11 +124,11 @@
     "xlsx": "^0.18.5"
   },
   "engines": {
-    "node": "^14.19.0",
+    "node": "^18.13.0",
     "npm": "please-use-yarn",
-    "yarn": "^3.2.0"
+    "yarn": "^3.6.3"
   },
-  "packageManager": "yarn@3.2.0",
+  "packageManager": "yarn@3.6.3",
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "yarn lint:code-fix --cache",
