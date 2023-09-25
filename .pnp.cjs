@@ -32,7 +32,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@editorjs/editorjs", "npm:2.26.5"],\
             ["@editorjs/header", "npm:2.7.0"],\
             ["@editorjs/list", "npm:1.8.0"],\
-            ["@editorjs/nested-list", "npm:1.3.0"],\
+            ["@editorjs/nested-list", "npm:1.1.0"],\
             ["@editorjs/paragraph", "npm:2.9.0"],\
             ["@editorjs/underline", "npm:1.1.0"],\
             ["@emotion/css", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:11.7.1"],\
@@ -3121,10 +3121,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@editorjs/nested-list", [\
-        ["npm:1.3.0", {\
-          "packageLocation": "./.yarn/cache/@editorjs-nested-list-npm-1.3.0-cd766219c6-aa7febc423.zip/node_modules/@editorjs/nested-list/",\
+        ["npm:1.1.0", {\
+          "packageLocation": "./.yarn/cache/@editorjs-nested-list-npm-1.1.0-66b0d6cb55-556970f607.zip/node_modules/@editorjs/nested-list/",\
           "packageDependencies": [\
-            ["@editorjs/nested-list", "npm:1.3.0"],\
+            ["@editorjs/nested-list", "npm:1.1.0"],\
             ["@codexteam/icons", "npm:0.0.2"]\
           ],\
           "linkType": "HARD"\
@@ -17485,7 +17485,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@editorjs/editorjs", "npm:2.26.5"],\
             ["@editorjs/header", "npm:2.7.0"],\
             ["@editorjs/list", "npm:1.8.0"],\
-            ["@editorjs/nested-list", "npm:1.3.0"],\
+            ["@editorjs/nested-list", "npm:1.1.0"],\
             ["@editorjs/paragraph", "npm:2.9.0"],\
             ["@editorjs/underline", "npm:1.1.0"],\
             ["@emotion/css", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:11.7.1"],\
