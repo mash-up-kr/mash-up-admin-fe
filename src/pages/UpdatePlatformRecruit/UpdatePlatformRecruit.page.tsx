@@ -3,12 +3,13 @@ import { useRecoilValue } from 'recoil';
 import { OutputData } from '@editorjs/editorjs';
 import { Editor, EditorAside } from '@/components';
 import * as Styled from './UpdatePlatformRecruit.styled';
-import { $teams } from '@/store';
+import { $profile, $teams } from '@/store';
 import { SelectSize } from '@/components/common/Select/Select.component';
 import { decodeHTMLEntities, getDefaultEditorData, removeWrongAmpString, request } from '@/utils';
 import { useToast } from '@/hooks';
 import { ToastType } from '@/components/common/Toast/Toast.component';
 import * as api from '@/api';
+import { Team } from '@/components/common/UserProfile/UserProfile.component';
 
 const EDITOR_ID = 'platform-recruit-editor';
 
@@ -19,8 +20,21 @@ const UpdatePlatformRecruit = () => {
   const storageKey = `recruit-${selectedPlatform}`;
 
   const { handleAddToast } = useToast();
+
   const teams = useRecoilValue($teams);
-  const teamOptions = teams.map(({ teamId, name }) => ({
+  const myTeamName = useRecoilValue($profile)[0];
+  const isStaffMember = myTeamName === Team.mashUp;
+
+  const myTeamInfo = isStaffMember
+    ? null
+    : teams.find(({ name }) => name.toUpperCase() === myTeamName);
+
+  const myTeamOption = {
+    value: (myTeamInfo?.teamId ?? '').toString(),
+    label: myTeamInfo?.name ?? '',
+  };
+
+  const allTeamOptions = teams.map(({ teamId, name }) => ({
     value: teamId.toString(),
     label: name,
   }));
@@ -64,6 +78,12 @@ const UpdatePlatformRecruit = () => {
   };
 
   useEffect(() => {
+    if (myTeamInfo?.name) {
+      setSelectedPlatform(myTeamInfo?.name.toLowerCase());
+    }
+  }, [myTeamInfo]);
+
+  useEffect(() => {
     const setPlatformRecruit = async () => {
       try {
         const newPlatformRecruit = await getPlatformRecruit();
@@ -89,9 +109,9 @@ const UpdatePlatformRecruit = () => {
           platform={
             <Styled.TeamSelect
               placeholder="플랫폼 선택"
-              defaultValue={teamOptions[0]}
+              defaultValue={isStaffMember ? allTeamOptions[0] : myTeamOption}
               size={SelectSize.sm}
-              options={teamOptions}
+              options={isStaffMember ? allTeamOptions : [myTeamOption]}
               onChangeOption={(option) => setSelectedPlatform(option.label.toLowerCase())}
             />
           }

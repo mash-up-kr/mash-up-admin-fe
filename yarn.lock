@@ -1667,12 +1667,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@editorjs/nested-list@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "@editorjs/nested-list@npm:1.3.0"
+"@editorjs/nested-list@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@editorjs/nested-list@npm:1.1.0"
   dependencies:
     "@codexteam/icons": ^0.0.2
-  checksum: aa7febc423b0c9f0fba843370b433d58b31a3bb8abf2606b68ca7e278ab25abe78a0b9fb7ae9689f4e3948d6458e53b78f60f15da40fb51bfc81a622286d14d1
+  checksum: 556970f607d54d8902eb57fb4bdaa0c5fb3d622a4d870907ef100cb1ae999fc3c46c4060c35a6d36f0711c3a0401aef2f0fc6cd1694d07c11e8d37fad1fddc93
   languageName: node
   linkType: hard
 
@@ -9686,7 +9686,7 @@ __metadata:
 
 "fsevents@patch:fsevents@^1.2.7#~builtin<compat/fsevents>":
   version: 1.2.13
-  resolution: "fsevents@patch:fsevents@npm%3A1.2.13#~builtin<compat/fsevents>::version=1.2.13&hash=18f3a7"
+  resolution: "fsevents@patch:fsevents@npm%3A1.2.13#~builtin<compat/fsevents>::version=1.2.13&hash=d11327"
   dependencies:
     bindings: ^1.5.0
     nan: ^2.12.1
@@ -9696,7 +9696,7 @@ __metadata:
 
 "fsevents@patch:fsevents@^2.1.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@^2.3.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.2
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=18f3a7"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
   dependencies:
     node-gyp: latest
   conditions: os=darwin
@@ -12932,7 +12932,7 @@ __metadata:
     "@editorjs/editorjs": ^2.26.5
     "@editorjs/header": ^2.7.0
     "@editorjs/list": ^1.8.0
-    "@editorjs/nested-list": ^1.3.0
+    "@editorjs/nested-list": 1.1.0
     "@editorjs/paragraph": ^2.9.0
     "@editorjs/underline": ^1.1.0
     "@emotion/css": ^11.7.1
@@ -16097,7 +16097,7 @@ __metadata:
 
 "resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.12.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.3.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.9.0#~builtin<compat/resolve>":
   version: 1.22.0
-  resolution: "resolve@patch:resolve@npm%3A1.22.0#~builtin<compat/resolve>::version=1.22.0&hash=07638b"
+  resolution: "resolve@patch:resolve@npm%3A1.22.0#~builtin<compat/resolve>::version=1.22.0&hash=c3c19d"
   dependencies:
     is-core-module: ^2.8.1
     path-parse: ^1.0.7
@@ -16110,7 +16110,7 @@ __metadata:
 
 "resolve@patch:resolve@^2.0.0-next.3#~builtin<compat/resolve>":
   version: 2.0.0-next.3
-  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.3#~builtin<compat/resolve>::version=2.0.0-next.3&hash=07638b"
+  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.3#~builtin<compat/resolve>::version=2.0.0-next.3&hash=c3c19d"
   dependencies:
     is-core-module: ^2.2.0
     path-parse: ^1.0.6
@@ -18224,7 +18224,7 @@ __metadata:
 
 "typescript@patch:typescript@^4.5.4#~builtin<compat/typescript>":
   version: 4.5.5
-  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=bda367"
+  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=bcec9a"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
