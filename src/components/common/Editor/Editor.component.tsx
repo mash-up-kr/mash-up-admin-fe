@@ -20,11 +20,13 @@ const Editor = ({ id, savedData }: EditorProps) => {
     const editor = new EditorJS({
       holder: id,
       data: editorData,
-      onReady: () => {
+      onReady: async () => {
         editorRef.current = editor;
         // eslint-disable-next-line no-new
         new DragDrop(editor);
         setEditorReady(true);
+        const content = (await editorRef.current?.saver.save()) as OutputData;
+        localStorage.setItem(id, JSON.stringify(content));
       },
       onChange: async () => {
         const content = (await editorRef.current?.saver.save()) as OutputData;
@@ -51,6 +53,7 @@ const Editor = ({ id, savedData }: EditorProps) => {
     const newEditorData = savedData?.blocks ? savedData : getDefaultEditorData();
     setEditorData(newEditorData);
     editorRef.current.render(newEditorData);
+    setLocalStorageData(id, newEditorData);
   }, [editorReady, savedData]);
 
   /** Tab을 입력했을 때 에디터 밖으로 TabIndex가 변경되는 것을 방지 */
