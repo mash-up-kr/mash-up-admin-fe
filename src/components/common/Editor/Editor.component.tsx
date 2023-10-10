@@ -20,11 +20,13 @@ const Editor = ({ id, savedData }: EditorProps) => {
     const editor = new EditorJS({
       holder: id,
       data: editorData,
-      onReady: () => {
+      onReady: async () => {
         editorRef.current = editor;
         // eslint-disable-next-line no-new
         new DragDrop(editor);
         setEditorReady(true);
+        const content = (await editorRef.current?.saver.save()) as OutputData;
+        localStorage.setItem(id, JSON.stringify(content));
       },
       onChange: async () => {
         const content = (await editorRef.current?.saver.save()) as OutputData;
