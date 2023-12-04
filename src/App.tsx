@@ -211,7 +211,7 @@ const App = () => {
             />
 
             <Route
-              path={PATH.FAQ}
+              path={PATH.ADMIN_MEMBERS}
               element={
                 <RequiredAuth isAuth={isAuthorized}>
                   <AdminMemberList />
