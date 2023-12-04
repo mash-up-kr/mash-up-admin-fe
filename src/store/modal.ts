@@ -11,6 +11,7 @@ import { ApplyActivityScoreModalDialogProps } from '@/components/modal/ApplyActi
 import { ActivityScoreModalDialogProps } from '@/components/modal/ActivityScoreModalDialog/ActivityScoreModalDialog.component';
 import { CreateQRCodeModalDialogProps } from '@/components/modal/CreateQRCodeModalDialog/CreateQRCodeModalDialog.component';
 import { DisplayQRCodeModalDialogProps } from '@/components/modal/DisplayQRCodeModalDialog/DisplayQRCodeModalDialog.component';
+import { CreateHelperAdminMemberDialogProps } from '@/components/modal/CreateHelperAdminMemberDialog/CreateHelperAdminMemberDialog.component';
 
 export const ModalKey = {
   alertModalDialog: 'alertModalDialog',
@@ -22,6 +23,7 @@ export const ModalKey = {
   activityScoreModalDialog: 'activityScoreModalDialog',
   createQRCodeModalDialog: 'createQRCodeModalDialog',
   displayQRCodeModalDialog: 'displayQRCodeModalDialog',
+  createHelperAdminMemberDialog: 'createHelperAdminMemberDialog',
 } as const;
 
 export type ModalKeyType = ValueOf<typeof ModalKey>;
@@ -34,7 +36,8 @@ export type ModalProps =
   | ApplyActivityScoreModalDialogProps
   | ActivityScoreModalDialogProps
   | CreateQRCodeModalDialogProps
-  | DisplayQRCodeModalDialogProps;
+  | DisplayQRCodeModalDialogProps
+  | CreateHelperAdminMemberDialogProps;
 
 export interface Modal {
   key: ModalKeyType;

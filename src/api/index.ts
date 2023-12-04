@@ -8,3 +8,4 @@ export * from './member';
 export * from './scoreHistory';
 export * from './schedule';
 export * from './storage';
+export * from './adminMember';

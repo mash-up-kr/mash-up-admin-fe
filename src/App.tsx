@@ -27,6 +27,7 @@ import {
   ScheduleDetail,
   UpdateSchedule,
   UpdatePlatformRecruit,
+  AdminMemberList,
   FaqPage,
 } from './pages';
 
@@ -205,6 +206,15 @@ const App = () => {
               element={
                 <RequiredAuth isAuth={isAuthorized}>
                   <UpdatePlatformRecruit />
+                </RequiredAuth>
+              }
+            />
+
+            <Route
+              path={PATH.ADMIN_MEMBERS}
+              element={
+                <RequiredAuth isAuth={isAuthorized}>
+                  <AdminMemberList />
                 </RequiredAuth>
               }
             />
