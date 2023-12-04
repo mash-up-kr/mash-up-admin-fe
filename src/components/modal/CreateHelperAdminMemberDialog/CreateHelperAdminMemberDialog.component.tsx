@@ -44,7 +44,7 @@ const CreateHelperAdminMemberDialog = ({ refreshList }: CreateHelperAdminMemberD
     });
   });
 
-  const handleSendEmail = useRecoilCallback(
+  const handleCreateMember = useRecoilCallback(
     () =>
       ({ username, platform, password }: FormValues) => {
         request({
@@ -76,7 +76,7 @@ const CreateHelperAdminMemberDialog = ({ refreshList }: CreateHelperAdminMemberD
       },
       confirmButton: {
         label: '생성',
-        onClick: handleSubmit(handleSendEmail),
+        onClick: handleSubmit(handleCreateMember),
         type: 'submit',
       },
     },
