@@ -32,7 +32,6 @@ const AdminMemberList = () => {
     getAdminMembers();
   }, []);
 
-  const tableRows = useMemo(() => (adminMembers as AdminMemberResponse[]) ?? [], [adminMembers]);
   const totalCount = adminMembers?.length;
 
   const columns: TableColumn<AdminMemberResponse>[] = [
@@ -54,9 +53,9 @@ const AdminMemberList = () => {
         setSelectedRows([]);
         return;
       }
-      setSelectedRows(tableRows);
+      setSelectedRows(adminMembers);
     },
-    [tableRows],
+    [adminMembers],
   );
 
   const handleResetPassword = useRecoilCallback(() => () => {
@@ -98,7 +97,7 @@ const AdminMemberList = () => {
       prefix="admin-members"
       topStickyHeight={0}
       columns={columns}
-      rows={tableRows}
+      rows={adminMembers}
       supportBar={{
         totalSummaryText: '총 인원',
         selectedSummaryText: '명 선택',
