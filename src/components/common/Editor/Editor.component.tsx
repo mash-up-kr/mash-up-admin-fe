@@ -3,7 +3,7 @@ import EditorJS, { OutputData } from '@editorjs/editorjs';
 import DragDrop from 'editorjs-drag-drop';
 import { Blocker } from '@/components';
 import i18n from './i18n';
-import { getDefaultEditorData } from '@/utils';
+import { getDefaultEditorData, setLocalStorageData } from '@/utils';
 import tools from './tools';
 
 interface EditorProps {
@@ -13,8 +13,12 @@ interface EditorProps {
 
 const Editor = ({ id, savedData }: EditorProps) => {
   const editorRef = useRef<EditorJS>();
-  const [editorData, setEditorData] = useState<OutputData>(savedData);
+  const [editorData, setEditorData] = useState<OutputData | undefined>(savedData);
   const [editorReady, setEditorReady] = useState(false);
+
+  const getEditorContent = async (): Promise<OutputData | undefined> => {
+    return editorRef.current?.saver.save();
+  };
 
   const initEditor = () => {
     const editor = new EditorJS({
@@ -27,9 +31,9 @@ const Editor = ({ id, savedData }: EditorProps) => {
         setEditorReady(true);
       },
       onChange: async () => {
-        const content = (await editorRef.current?.saver.save()) as OutputData;
-        localStorage.setItem(id, JSON.stringify(content));
-        setEditorData(content);
+        const editorContent = await getEditorContent();
+        setLocalStorageData(id, editorContent);
+        setEditorData(editorContent);
       },
       autofocus: true,
       // @ts-expect-error: third party plugin
@@ -51,6 +55,7 @@ const Editor = ({ id, savedData }: EditorProps) => {
     const newEditorData = savedData?.blocks ? savedData : getDefaultEditorData();
     setEditorData(newEditorData);
     editorRef.current.render(newEditorData);
+    setLocalStorageData(id, newEditorData);
   }, [editorReady, savedData]);
 
   /** Tab을 입력했을 때 에디터 밖으로 TabIndex가 변경되는 것을 방지 */
@@ -73,7 +78,7 @@ const Editor = ({ id, savedData }: EditorProps) => {
   return (
     <>
       <div id={id} />;
-      <Blocker isBlocking={editorData.blocks?.length !== 0} />
+      <Blocker isBlocking={editorData?.blocks?.length !== 0} />
     </>
   );
 };
