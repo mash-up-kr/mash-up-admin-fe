@@ -23,7 +23,7 @@ const UpdatePlatformRecruit = () => {
 
   const teams = useRecoilValue($teams);
   const myTeamName = useRecoilValue($profile)[0];
-  const isStaffMember = myTeamName === Team.mashUp;
+  const isStaffMember = myTeamName === Team.mashUp || myTeamName === Team.branding;
 
   const myTeamInfo = isStaffMember
     ? null

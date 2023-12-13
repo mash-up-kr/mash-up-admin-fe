@@ -85,10 +85,10 @@ const navigationItems: NavigationItem[] = [
   //       to: PATH.ADMIN_MEMBERS,
   //       icon: <AdminMembersIcon />,
   //     },
-  //     {
-  //       label: '내 정보',
-  //       to: PATH.MY_PAGE,
-  //     },
+  //     // {
+  //     //   label: '내 정보',
+  //     //   to: PATH.MY_PAGE,
+  //     // },
   //   ],
   // },
 ];

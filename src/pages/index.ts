@@ -14,4 +14,5 @@ export { default as CreateSchedule } from './CreateSchedule/CreateSchedule.page'
 export { default as ScheduleDetail } from './ScheduleDetail/ScheduleDetail.page';
 export { default as UpdateSchedule } from './UpdateSchedule/UpdateSchedule.page';
 export { default as UpdatePlatformRecruit } from './UpdatePlatformRecruit/UpdatePlatformRecruit.page';
+export { default as AdminMemberList } from './AdminMemberList/AdminMemberList.page';
 export { default as FaqPage } from './FaqPage/FaqPage.page';

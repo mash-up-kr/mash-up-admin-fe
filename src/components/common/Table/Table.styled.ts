@@ -60,7 +60,7 @@ export const Table = styled.table<{ topStickyHeight?: number }>`
     background-color: ${theme.colors.white};
     border-collapse: collapse;
 
-    ${topStickyHeight &&
+    ${topStickyHeight !== undefined &&
     css`
       position: sticky;
       top: ${topStickyHeight}rem;
@@ -166,10 +166,10 @@ export const TableSupportBar = styled.div<{ topStickyHeight?: number }>`
     align-items: center;
     justify-content: space-between;
     height: 6rem;
-    padding: 1.2rem 0;
+    padding: 3.2rem 0 1.9rem;
     background-color: ${theme.colors.white};
 
-    ${topStickyHeight &&
+    ${topStickyHeight !== undefined &&
     css`
       position: sticky;
       top: ${topStickyHeight}rem;
