@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
+import { useRecoilStateLoadable, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   BottomCTA,
   Pagination,
@@ -8,15 +8,15 @@ import {
   Table,
   TeamNavigationTabs,
   Button,
+  MemberStatusBadge,
 } from '@/components';
 import * as Styled from './ActivityScoreList.styled';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { PATH, SORT_TYPE } from '@/constants';
 import { usePagination } from '@/hooks';
-import { $generationNumber } from '@/store';
+import { $generationNumber, $modalByStorage, ModalKey } from '@/store';
 import { MemberRequest, MemberResponse, MemberStatusKeys } from '@/types';
 import { $members } from '@/store/member';
-import MemberStatusBadge from '@/components/ActivityScore/MemberStatusBadge/MemberStatusBadge.component';
 import * as api from '@/api';
 import { ButtonSize, ButtonShape } from '@/components/common/Button/Button.component';
 
@@ -123,6 +123,10 @@ const ActivityScoreList = () => {
     setSelectedRows(allMemberContents.data);
   };
 
+  const handleChangeMemberStatusDialog = useSetRecoilState(
+    $modalByStorage(ModalKey.changeMemberStatusDialog),
+  );
+
   return (
     <Styled.PageWrapper>
       <Styled.Heading>활동점수</Styled.Heading>
@@ -140,10 +144,25 @@ const ActivityScoreList = () => {
           totalCount,
           selectedSummaryText: '명 선택',
           buttons: [
-            <Button $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
+            <Button
+              $size={ButtonSize.xs}
+              shape={ButtonShape.defaultLine}
+              onClick={() => {
+                handleChangeMemberStatusDialog({
+                  key: ModalKey.changeMemberStatusDialog,
+                  props: { refreshList: () => {}, selectedList: selectedRows },
+                  isOpen: true,
+                });
+              }}
+              disabled={selectedRows.length === 0}
+            >
               활동 상태
             </Button>,
-            <Button $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
+            <Button
+              $size={ButtonSize.xs}
+              shape={ButtonShape.defaultLine}
+              disabled={selectedRows.length === 0}
+            >
               삭제
             </Button>,
           ],
