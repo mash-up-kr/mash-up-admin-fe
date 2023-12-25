@@ -10,10 +10,12 @@ import { $generationNumber } from '@/store';
 import { MemberRequest, MemberResponse, MemberStatusKeys } from '@/types';
 import { $members } from '@/store/member';
 import MemberStatusBadge from '@/components/ActivityScore/MemberStatusBadge/MemberStatusBadge.component';
+import * as api from '@/api';
 
 const ActivityScoreList = () => {
   const [searchParams] = useSearchParams();
   const generationNumber = useRecoilValue($generationNumber);
+  const [selectedRows, setSelectedRows] = useState<MemberResponse[]>([]);
 
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '20';
@@ -103,6 +105,16 @@ const ActivityScoreList = () => {
     },
   ];
 
+  const handleSelectAll = async (checkedValue: boolean) => {
+    if (checkedValue) {
+      setSelectedRows([]);
+      return;
+    }
+    const newMemberParams = { ...membersParams, size: totalCount };
+    const allMemberContents = await api.getMembers(newMemberParams);
+    setSelectedRows(allMemberContents.data);
+  };
+
   return (
     <Styled.PageWrapper>
       <Styled.Heading>활동점수</Styled.Heading>
@@ -115,13 +127,19 @@ const ActivityScoreList = () => {
         topStickyHeight={14.1}
         columns={columns}
         rows={tableRows}
-        supportBar={{ totalSummaryText: '총 인원', totalCount }}
+        supportBar={{ totalSummaryText: '총 인원', totalCount, selectedSummaryText: '명 선택' }}
         sortOptions={{
           sortTypes,
           disableMultiSort: true,
           handleSortColumn: (_sortTypes) => {
             setSortTypes(_sortTypes);
           },
+        }}
+        selectableRow={{
+          selectedCount: selectedRows.length,
+          selectedRows,
+          setSelectedRows,
+          handleSelectAll,
         }}
         pagination={
           <Pagination
