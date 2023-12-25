@@ -1,7 +1,14 @@
 import React, { useMemo, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
-import { BottomCTA, Pagination, SearchOptionBar, Table, TeamNavigationTabs } from '@/components';
+import {
+  BottomCTA,
+  Pagination,
+  SearchOptionBar,
+  Table,
+  TeamNavigationTabs,
+  Button,
+} from '@/components';
 import * as Styled from './ActivityScoreList.styled';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { PATH, SORT_TYPE } from '@/constants';
@@ -11,6 +18,7 @@ import { MemberRequest, MemberResponse, MemberStatusKeys } from '@/types';
 import { $members } from '@/store/member';
 import MemberStatusBadge from '@/components/ActivityScore/MemberStatusBadge/MemberStatusBadge.component';
 import * as api from '@/api';
+import { ButtonSize, ButtonShape } from '@/components/common/Button/Button.component';
 
 const ActivityScoreList = () => {
   const [searchParams] = useSearchParams();
@@ -127,7 +135,19 @@ const ActivityScoreList = () => {
         topStickyHeight={14.1}
         columns={columns}
         rows={tableRows}
-        supportBar={{ totalSummaryText: '총 인원', totalCount, selectedSummaryText: '명 선택' }}
+        supportBar={{
+          totalSummaryText: '총 인원',
+          totalCount,
+          selectedSummaryText: '명 선택',
+          buttons: [
+            <Button $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
+              활동 상태
+            </Button>,
+            <Button $size={ButtonSize.xs} shape={ButtonShape.defaultLine}>
+              삭제
+            </Button>,
+          ],
+        }}
         sortOptions={{
           sortTypes,
           disableMultiSort: true,
