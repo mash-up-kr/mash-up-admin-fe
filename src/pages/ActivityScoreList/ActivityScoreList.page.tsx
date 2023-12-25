@@ -7,8 +7,9 @@ import { SortType, TableColumn } from '@/components/common/Table/Table.component
 import { PATH, SORT_TYPE } from '@/constants';
 import { usePagination } from '@/hooks';
 import { $generationNumber } from '@/store';
-import { MemberRequest, MemberResponse } from '@/types';
+import { MemberRequest, MemberResponse, MemberStatusKeys } from '@/types';
 import { $members } from '@/store/member';
+import MemberStatusBadge from '@/components/ActivityScore/MemberStatusBadge/MemberStatusBadge.component';
 
 const ActivityScoreList = () => {
   const [searchParams] = useSearchParams();
@@ -91,6 +92,14 @@ const ActivityScoreList = () => {
       title: '활동점수',
       widthRatio: '25%',
       accessor: 'score',
+    },
+    {
+      title: '활동 상태',
+      widthRatio: '20%',
+      accessor: 'memberStatus',
+      renderCustomCell: ({ cellValue }) => (
+        <MemberStatusBadge text={cellValue as MemberStatusKeys} />
+      ),
     },
   ];
 
