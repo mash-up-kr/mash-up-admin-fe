@@ -72,7 +72,7 @@ const FaqPage = () => {
     });
   };
 
-  const getPlatformRecruit = async () => {
+  const getFaqData = async () => {
     const { data } = await api.getStorage(storageKey);
     const editorOutputData = data.valueMap.editorData;
 
@@ -94,10 +94,10 @@ const FaqPage = () => {
   }, [teamSelectOptions]);
 
   useEffect(() => {
-    const setPlatformRecruit = async () => {
+    const loadFaqDataToEditor = async () => {
       try {
-        const newPlatformRecruit = await getPlatformRecruit();
-        setSavedEditorData(newPlatformRecruit);
+        const newFaqData = await getFaqData();
+        setSavedEditorData(newFaqData);
       } catch (error) {
         handleAddToast({
           type: ToastType.error,
@@ -110,7 +110,7 @@ const FaqPage = () => {
     const commonFaqDataRequired = !isStaffUser && selectedPlatform === 'common';
 
     if (selectedPlatform || commonFaqDataRequired) {
-      setPlatformRecruit();
+      loadFaqDataToEditor();
     }
   }, [selectedPlatform, isStaffUser]);
 
