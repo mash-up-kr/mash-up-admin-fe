@@ -22,7 +22,7 @@ const UpdatePlatformRecruit = () => {
   const { handleAddToast } = useToast();
 
   const teams = useRecoilValue($teams);
-  const myTeamName = useRecoilValue($profile)[0];
+  const myTeamName = useRecoilValue($profile)[0].toUpperCase();
   const isStaffMember = myTeamName === Team.mashUp || myTeamName === Team.branding;
 
   const myTeamInfo = isStaffMember
