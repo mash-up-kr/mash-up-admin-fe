@@ -38,7 +38,9 @@ const FaqPage = () => {
 
   const getTeamSelectOptions = () => {
     if (isStaffUser) return [{ label: commonSelectOption.label, value: commonSelectOption.value }];
-    const myTeamOptionObject = teamOptions.find(({ label }) => label.toUpperCase() === myTeamName);
+    const myTeamOptionObject = teamOptions.find(
+      ({ label }) => label.toUpperCase() === myTeamName.toUpperCase(),
+    );
     return [myTeamOptionObject ?? commonSelectOption];
   };
 
