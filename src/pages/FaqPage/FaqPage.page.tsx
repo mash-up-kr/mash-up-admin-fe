@@ -34,7 +34,7 @@ const FaqPage = () => {
   }));
 
   const myTeamName = useRecoilValue($profile)[0];
-  const isStaffUser = myTeamName === Team.mashUp;
+  const isStaffUser = myTeamName === Team.mashUp || myTeamName === Team.branding;
 
   const getTeamSelectOptions = () => {
     if (isStaffUser) return [{ label: commonSelectOption.label, value: commonSelectOption.value }];
