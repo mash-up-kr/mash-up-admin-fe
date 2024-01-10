@@ -16,7 +16,7 @@ const EDITOR_ID = 'platform-recruit-editor';
 const UpdatePlatformRecruit = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [savedEditorData, setSavedEditorData] = useState<OutputData>(getDefaultEditorData());
-  const [selectedPlatform, setSelectedPlatform] = useState('design');
+  const [selectedPlatform, setSelectedPlatform] = useState('');
   const storageKey = `recruit-${selectedPlatform}`;
 
   const { handleAddToast } = useToast();
@@ -27,7 +27,7 @@ const UpdatePlatformRecruit = () => {
 
   const myTeamInfo = isStaffMember
     ? null
-    : teams.find(({ name }) => name.toUpperCase() === myTeamName);
+    : teams.find(({ name }) => name.toUpperCase() === myTeamName.toUpperCase());
 
   const myTeamOption = {
     value: (myTeamInfo?.teamId ?? '').toString(),
@@ -80,8 +80,10 @@ const UpdatePlatformRecruit = () => {
   useEffect(() => {
     if (myTeamInfo?.name) {
       setSelectedPlatform(myTeamInfo?.name.toLowerCase());
+    } else if (isStaffMember) {
+      setSelectedPlatform('design');
     }
-  }, [myTeamInfo]);
+  }, [myTeamInfo, isStaffMember]);
 
   useEffect(() => {
     const setPlatformRecruit = async () => {
@@ -97,8 +99,10 @@ const UpdatePlatformRecruit = () => {
       }
     };
 
-    setPlatformRecruit();
-  }, [storageKey]);
+    if (selectedPlatform) {
+      setPlatformRecruit();
+    }
+  }, [selectedPlatform]);
 
   return (
     <Styled.PageWrapper>

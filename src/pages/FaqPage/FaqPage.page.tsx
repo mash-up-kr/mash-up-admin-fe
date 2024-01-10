@@ -23,7 +23,7 @@ const commonSelectOption = { label: '공통', value: 'common' };
 const FaqPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [savedEditorData, setSavedEditorData] = useState<OutputData>(getDefaultEditorData());
-  const [selectedPlatform, setSelectedPlatform] = useState(commonSelectOption.value);
+  const [selectedPlatform, setSelectedPlatform] = useState('');
   const storageKey = `faq-${selectedPlatform}`;
 
   const { handleAddToast } = useToast();
@@ -34,11 +34,12 @@ const FaqPage = () => {
   }));
 
   const myTeamName = useRecoilValue($profile)[0];
-  const isStaffUser = myTeamName === Team.mashUp;
+  const isStaffUser = myTeamName === Team.mashUp || myTeamName === Team.branding;
 
   const getTeamSelectOptions = () => {
-    if (isStaffUser) return [{ label: commonSelectOption.label, value: commonSelectOption.value }];
-    const myTeamOptionObject = teamOptions.find(({ label }) => label.toUpperCase() === myTeamName);
+    const myTeamOptionObject = teamOptions.find(
+      ({ label }) => label.toUpperCase() === myTeamName.toUpperCase(),
+    );
     return [myTeamOptionObject ?? commonSelectOption];
   };
 
@@ -71,7 +72,7 @@ const FaqPage = () => {
     });
   };
 
-  const getPlatformRecruit = async () => {
+  const getFaqData = async () => {
     const { data } = await api.getStorage(storageKey);
     const editorOutputData = data.valueMap.editorData;
 
@@ -93,10 +94,10 @@ const FaqPage = () => {
   }, [teamSelectOptions]);
 
   useEffect(() => {
-    const setPlatformRecruit = async () => {
+    const loadFaqDataToEditor = async () => {
       try {
-        const newPlatformRecruit = await getPlatformRecruit();
-        setSavedEditorData(newPlatformRecruit);
+        const newFaqData = await getFaqData();
+        setSavedEditorData(newFaqData);
       } catch (error) {
         handleAddToast({
           type: ToastType.error,
@@ -106,8 +107,12 @@ const FaqPage = () => {
       }
     };
 
-    setPlatformRecruit();
-  }, [storageKey]);
+    const commonFaqDataRequired = !isStaffUser && selectedPlatform === 'common';
+
+    if (selectedPlatform || commonFaqDataRequired) {
+      loadFaqDataToEditor();
+    }
+  }, [selectedPlatform, isStaffUser]);
 
   return (
     <Styled.PageWrapper>
