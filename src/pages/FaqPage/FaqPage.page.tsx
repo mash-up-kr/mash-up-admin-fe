@@ -23,7 +23,7 @@ const commonSelectOption = { label: '공통', value: 'common' };
 const FaqPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [savedEditorData, setSavedEditorData] = useState<OutputData>(getDefaultEditorData());
-  const [selectedPlatform, setSelectedPlatform] = useState(commonSelectOption.value);
+  const [selectedPlatform, setSelectedPlatform] = useState('');
   const storageKey = `faq-${selectedPlatform}`;
 
   const { handleAddToast } = useToast();
@@ -37,7 +37,6 @@ const FaqPage = () => {
   const isStaffUser = myTeamName === Team.mashUp || myTeamName === Team.branding;
 
   const getTeamSelectOptions = () => {
-    if (isStaffUser) return [{ label: commonSelectOption.label, value: commonSelectOption.value }];
     const myTeamOptionObject = teamOptions.find(
       ({ label }) => label.toUpperCase() === myTeamName.toUpperCase(),
     );
@@ -108,8 +107,12 @@ const FaqPage = () => {
       }
     };
 
-    setPlatformRecruit();
-  }, [storageKey]);
+    const commonFaqDataRequired = !isStaffUser && selectedPlatform === 'common';
+
+    if (selectedPlatform || commonFaqDataRequired) {
+      setPlatformRecruit();
+    }
+  }, [selectedPlatform, isStaffUser]);
 
   return (
     <Styled.PageWrapper>
