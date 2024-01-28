@@ -17,7 +17,7 @@ import ScheduleIcon from '@/assets/svg/schedule.svg';
 import RecruitIcon from '@/assets/svg/recruit.svg';
 import FaqIcon from '@/assets/svg/faq.svg';
 // import SignupCodeIcon from "@/assets/svg/signup-code.svg"
-// import AdminMembersIcon from '@/assets/svg/admin-members.svg';
+import AdminMembersIcon from '@/assets/svg/admin-members.svg';
 // import MyPageIcon from "@/assets/svg/my-page.svg"
 
 const navigationItems: NavigationItem[] = [
@@ -77,20 +77,21 @@ const navigationItems: NavigationItem[] = [
       },
     ],
   },
-  // {
-  //   title: '계정 관리',
-  //   menus: [
-  //     {
-  //       label: '계정 목록',
-  //       to: PATH.ADMIN_MEMBERS,
-  //       icon: <AdminMembersIcon />,
-  //     },
-  //     // {
-  //     //   label: '내 정보',
-  //     //   to: PATH.MY_PAGE,
-  //     // },
-  //   ],
-  // },
+  {
+    title: '계정 관리',
+    menus: [
+      {
+        label: '계정 목록',
+        to: PATH.ADMIN_MEMBERS,
+        icon: <AdminMembersIcon />,
+        isMasterOnly: true,
+      },
+      // {
+      //   label: '내 정보',
+      //   to: PATH.MY_PAGE,
+      // },
+    ],
+  },
 ];
 
 const LNB = () => {

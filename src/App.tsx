@@ -6,7 +6,15 @@ import { ModalViewer, Layout, Toast } from '@/components';
 
 import { theme, globalStyles } from './styles';
 
-import { $me, $isAuthorized, $teams, $toast, $generations, $generationNumber } from './store';
+import {
+  $me,
+  $isAuthorized,
+  $teams,
+  $toast,
+  $generations,
+  $generationNumber,
+  $isMaster,
+} from './store';
 import * as api from './api';
 import { ACCESS_TOKEN, PATH } from './constants';
 
@@ -36,8 +44,27 @@ interface RequiredAuthProps extends Partial<NavigateProps> {
   isAuth: boolean;
 }
 
+interface MasterOnlyProps extends Partial<NavigateProps> {
+  children: ReactNode;
+  isMaster: boolean;
+}
+
 const RequiredAuth = ({ children, isAuth, to = PATH.LOGIN, ...restProps }: RequiredAuthProps) => {
   if (!isAuth) {
+    return <Navigate {...restProps} to={to} />;
+  }
+
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return <>{children}</>;
+};
+
+const MasterOnly = ({
+  children,
+  isMaster,
+  to = PATH.APPLICATION,
+  ...restProps
+}: MasterOnlyProps) => {
+  if (!isMaster) {
     return <Navigate {...restProps} to={to} />;
   }
 
@@ -51,6 +78,7 @@ const App = () => {
   const isAuthorized = useRecoilValue($isAuthorized) || !!TOKEN;
   const toast = useRecoilValue($toast);
   const generationNumber = useRecoilValue($generationNumber);
+  const isMaster = useRecoilValue($isMaster);
 
   const getTeams = useRecoilCallback(({ set }) => async () => {
     const { data: teams } = await api.getTeams(generationNumber);
@@ -214,7 +242,9 @@ const App = () => {
               path={PATH.ADMIN_MEMBERS}
               element={
                 <RequiredAuth isAuth={isAuthorized}>
-                  <AdminMemberList />
+                  <MasterOnly isMaster={isMaster}>
+                    <AdminMemberList />
+                  </MasterOnly>
                 </RequiredAuth>
               }
             />
