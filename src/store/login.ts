@@ -43,9 +43,7 @@ const MASTER_SCORE_TYPES = [ScoreType.MASHUP_LEADER, ScoreType.MASHUP_SUBLEADER]
 export const $isMaster = selectorWithRefresher<boolean>({
   key: 'isMaster',
   get: ({ get }) => {
-    const {
-      adminMember: { position },
-    } = get($me);
-    return MASTER_SCORE_TYPES.includes(position ?? '');
+    const { adminMember } = get($me);
+    return MASTER_SCORE_TYPES.includes(adminMember?.position ?? '');
   },
 });
