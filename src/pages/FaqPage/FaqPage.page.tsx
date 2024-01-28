@@ -47,7 +47,7 @@ const FaqPage = () => {
       ({ label }) => label.toUpperCase() === myTeamName.toUpperCase(),
     );
     return [myTeamOptionObject ?? commonSelectOption];
-  }, [teamOptions]);
+  }, [teamOptions, myTeamName, isMaster]);
 
   const handleUpdateButtonClick = async () => {
     const originalOutputData = getLocalStorageData(EDITOR_ID);
