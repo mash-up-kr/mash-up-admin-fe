@@ -104,7 +104,7 @@ const CreateHelperAdminMemberDialog = ({ refreshList }: CreateHelperAdminMemberD
         <InputField
           required
           $size="md"
-          label="이름"
+          label="아이디"
           placeholder="내용을 입력해주세요"
           {...register('username', { required: true })}
         />
