@@ -1,18 +1,19 @@
 import React, { ReactElement } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { ValueOf } from '@/types';
 import { colors } from '@/styles';
 
 import * as Styled from './Navigation.styled';
 import { ACCESS_TOKEN, PATH } from '@/constants';
 import LogoutIcon from '@/assets/svg/logout-24.svg';
-import { $me } from '@/store';
+import { $me, $isMaster } from '@/store';
 
 interface Menu {
   label: string;
   to: ValueOf<typeof PATH>;
   icon: ReactElement;
+  isMasterOnly?: boolean;
 }
 
 export interface NavigationItem {
@@ -38,6 +39,7 @@ const Navigation = ({ size, inActiveColor, items, showBottomBorder = true }: Nav
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const resetMe = useResetRecoilState($me);
+  const isMaster = useRecoilValue($isMaster);
 
   const handleLogout = () => {
     localStorage.removeItem(ACCESS_TOKEN);
@@ -51,6 +53,10 @@ const Navigation = ({ size, inActiveColor, items, showBottomBorder = true }: Nav
         <>
           <Styled.NavigationTitle>{item.title}</Styled.NavigationTitle>
           {item.menus.map((menu, menuIdx) => {
+            if (menu.isMasterOnly && !isMaster) {
+              return null;
+            }
+
             const isActive = pathname
               .split('/')
               .some((pathNameItem) => `/${pathNameItem}` === menu.to);
