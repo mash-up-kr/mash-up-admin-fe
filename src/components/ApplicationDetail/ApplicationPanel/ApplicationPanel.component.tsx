@@ -83,6 +83,7 @@ const ControlArea = ({
   const [isDatePickerOpened, setIsDatePickerOpened] = useState(false);
   const outerRef = useRef<HTMLDivElement>(null);
   const selectedApplicationResultStatusRef = useRef<HTMLInputElement>(null);
+  const selectedInterviewStartedAtRef = useRef<HTMLInputElement>(null);
 
   const handleSelectDate = useCallback(
     (clickedDate: Dayjs) => {
@@ -194,6 +195,7 @@ const ControlArea = ({
                   disabled={isInterviewConfirmed}
                   defaultValue={timeOptions.find((option) => option.value === dayjs(date).format())}
                   {...register(`interviewStartedAt`, { required: true })}
+                  ref={selectedInterviewStartedAtRef}
                 />
               </Styled.SelectTimeField>
             </Styled.SelectContainer>
