@@ -27,7 +27,7 @@ import {
   $profile,
   $generationNumber,
 } from '@/store';
-import { useConvertToXlsx, useDirty, usePagination } from '@/hooks';
+import { useConvertToXlsx, useDirty, usePagination, useUnmount } from '@/hooks';
 import { ApplicationRequest, ApplicationResponse } from '@/types';
 import { SortType, TableColumn } from '@/components/common/Table/Table.component';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
@@ -310,6 +310,10 @@ const ApplicationList = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedTableRows]);
+
+  useUnmount(() => {
+    refreshApplications();
+  });
 
   return (
     <Styled.PageWrapper>
