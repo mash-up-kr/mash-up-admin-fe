@@ -29,6 +29,7 @@ const ScheduleDetail = () => {
     publishedAt,
     status,
     eventList: sessionList,
+    location,
   } = useRecoilValue($scheduleDetail({ scheduleId: scheduleId ?? '' }));
 
   const isPublished = status === ScheduleStatus.PUBLIC;
@@ -147,6 +148,7 @@ const ScheduleDetail = () => {
           createdAt={createdAt}
           publishedAt={publishedAt}
           status={status}
+          location={location}
         />
       </Styled.Content>
       <Styled.Content>
