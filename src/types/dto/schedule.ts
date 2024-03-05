@@ -31,6 +31,10 @@ export interface ScheduleCreateRequest {
   name: string;
   startedAt: string;
   eventsCreateRequests: EventCreateRequest[];
+  address?: string;
+  latitude?: number;
+  longitude?: number;
+  placeName?: string;
 }
 
 export interface ScheduleUpdateRequest {
@@ -39,6 +43,10 @@ export interface ScheduleUpdateRequest {
   name: string;
   startedAt: string;
   eventsCreateRequests: EventCreateRequest[];
+  address?: string;
+  latitude?: number;
+  longitude?: number;
+  placeName?: string;
 }
 
 export interface ScheduleResponse {
@@ -51,6 +59,12 @@ export interface ScheduleResponse {
   publishedAt?: string;
   eventList: Session[];
   status: ValueOf<typeof ScheduleStatus>;
+  location: {
+    address: string | null;
+    latitude: number | null;
+    longitude: number | null;
+    placeName: string;
+  };
 }
 
 export interface QRCodeRequest {

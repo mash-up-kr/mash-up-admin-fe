@@ -11,6 +11,10 @@ interface ScheduleInfoListProps {
   startedAt: string;
   publishedAt?: string;
   status: ValueOf<typeof ScheduleStatus>;
+  location: {
+    address: string | null;
+    placeName: string;
+  };
 }
 
 const ScheduleInfoList = ({
@@ -20,6 +24,7 @@ const ScheduleInfoList = ({
   createdAt,
   publishedAt,
   status,
+  location,
 }: ScheduleInfoListProps) => {
   const scheduleInfoListItem = useMemo(() => {
     return [
@@ -40,6 +45,13 @@ const ScheduleInfoList = ({
         value: formatDate(createdAt, 'YYYY년 M월 D일 A hh시 mm분'),
       },
       {
+        label: '장소',
+        value:
+          location.address === null
+            ? location.placeName
+            : `${location.placeName}, ${location.address}`,
+      },
+      {
         label: '배포 일시',
         value: formatDate(publishedAt, 'YYYY년 M월 D일 A hh시 mm분'),
       },
@@ -48,7 +60,7 @@ const ScheduleInfoList = ({
         value: getScheduleStatusText(status),
       },
     ];
-  }, [createdAt, generationNumber, name, publishedAt, startedAt, status]);
+  }, [createdAt, generationNumber, name, publishedAt, startedAt, status, location]);
 
   return (
     <Styled.ScheduleInfoList>

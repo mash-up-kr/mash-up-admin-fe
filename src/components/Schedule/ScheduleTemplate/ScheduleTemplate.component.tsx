@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
-import { DatePickerField, InputField, SelectField } from '@/components';
+import { Button, DatePickerField, InputField, RadioButtonField, SelectField } from '@/components';
 import { InputSize } from '@/components/common/Input/Input.component';
 import * as Styled from './ScheduleTemplate.styled';
 import { $generations } from '@/store';
@@ -9,7 +9,7 @@ import { SelectOption } from '@/components/common/Select/Select.component';
 import { SessionTemplate } from '../SessionTemplate';
 import Plus from '@/assets/svg/plus-20.svg';
 import { EventCreateRequest } from '@/types';
-import { ScheduleFormValues } from '@/utils';
+import { LocationType, ScheduleFormValues } from '@/utils';
 
 const DEFAULT_SESSION: EventCreateRequest = {
   startedAt: '',
@@ -19,8 +19,11 @@ const DEFAULT_SESSION: EventCreateRequest = {
 };
 
 const ScheduleTemplate = () => {
-  const { register, control, formState, getValues } = useFormContext<ScheduleFormValues>();
+  const { register, control, formState, getValues, watch, setValue } =
+    useFormContext<ScheduleFormValues>();
   const generations = useRecoilValue($generations);
+
+  const locationType = watch('locationType');
 
   const { fields, append, remove } = useFieldArray({
     name: 'sessions',
@@ -37,6 +40,31 @@ const ScheduleTemplate = () => {
   const defaultOption = generationOptions.find(
     (option) => option.value === getValues('generationNumber')?.toString(),
   );
+  const handleClickAddressSearch = () => {
+    new window.daum.Postcode({
+      async oncomplete(data: { address: string }) {
+        const res = await fetch(
+          `https://dapi.kakao.com/v2/local/search/address?query=${data.address}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'KakaoAK cc4af66dc10aa1a20830f3cc62c40a87',
+            },
+          },
+        );
+        const json = await res.json();
+        const roadAddress = json.documents[0].road_address;
+        setValue('locationInfo', {
+          address: roadAddress.address_name,
+          latitude: roadAddress.y,
+          longitude: roadAddress.x,
+          placeName: roadAddress.building_name ?? roadAddress.address_name,
+        });
+        setValue('placeName', roadAddress.building_name);
+      },
+    }).open();
+  };
 
   return (
     <>
@@ -66,6 +94,38 @@ const ScheduleTemplate = () => {
           defaultDate={getValues('date')}
           {...register('date', { required: true })}
         />
+        <div>
+          <Styled.InputLabel htmlFor="location">
+            <span>장소</span>
+            <Styled.RequiredDot />
+          </Styled.InputLabel>
+          <Styled.RadioButtonGroup>
+            <RadioButtonField
+              label="오프라인"
+              required
+              value={LocationType.OFFLINE}
+              {...register('locationType', { required: true })}
+            />
+            <RadioButtonField
+              label="온라인"
+              required
+              value={LocationType.ONLINE}
+              {...register('locationType', { required: true })}
+            />
+          </Styled.RadioButtonGroup>
+          {locationType === LocationType.OFFLINE && (
+            <Styled.InputWithButton>
+              <InputField
+                $size="md"
+                placeholder="장소"
+                {...register('placeName', { required: locationType === LocationType.OFFLINE })}
+              />
+              <Button shape="primaryLine" $size="md" onClick={handleClickAddressSearch}>
+                주소 검색
+              </Button>
+            </Styled.InputWithButton>
+          )}
+        </div>
       </Styled.ScheduleContent>
       <Styled.SessionContent>
         <Styled.Title>세션 정보</Styled.Title>
