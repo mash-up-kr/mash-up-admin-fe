@@ -10,6 +10,7 @@ import { SessionTemplate } from '../SessionTemplate';
 import Plus from '@/assets/svg/plus-20.svg';
 import { EventCreateRequest } from '@/types';
 import { LocationType, ScheduleFormValues } from '@/utils';
+import { useScript } from '@/hooks';
 
 const DEFAULT_SESSION: EventCreateRequest = {
   startedAt: '',
@@ -17,6 +18,9 @@ const DEFAULT_SESSION: EventCreateRequest = {
   endedAt: '',
   contentsCreateRequests: [],
 };
+
+const DAUM_POSTCODE_SCRIPT = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+const DAUM_POSTCODE_API_URL = 'https://dapi.kakao.com/v2/local/search/address';
 
 const ScheduleTemplate = () => {
   const { register, control, formState, getValues, watch, setValue } =
@@ -29,6 +33,8 @@ const ScheduleTemplate = () => {
     name: 'sessions',
     control,
   });
+
+  useScript(DAUM_POSTCODE_SCRIPT);
 
   const generationOptions = useMemo<SelectOption[]>(() => {
     return generations.map(({ generationNumber }) => ({
@@ -43,25 +49,30 @@ const ScheduleTemplate = () => {
   const handleClickAddressSearch = () => {
     new window.daum.Postcode({
       async oncomplete(data: { address: string }) {
-        const res = await fetch(
-          `https://dapi.kakao.com/v2/local/search/address?query=${data.address}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: 'KakaoAK cc4af66dc10aa1a20830f3cc62c40a87',
-            },
+        const res = await fetch(`${DAUM_POSTCODE_API_URL}?query=${data.address}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'KakaoAK cc4af66dc10aa1a20830f3cc62c40a87',
           },
-        );
-        const json = await res.json();
-        const roadAddress = json.documents[0].road_address;
-        setValue('locationInfo', {
-          address: roadAddress.address_name,
-          latitude: roadAddress.y,
-          longitude: roadAddress.x,
-          placeName: roadAddress.building_name ?? roadAddress.address_name,
         });
-        setValue('placeName', roadAddress.building_name);
+        const json = await res.json();
+
+        const {
+          address_name: address,
+          x: longitude,
+          y: latitude,
+          building_name: buildingName,
+        } = json.documents[0].road_address;
+        const placeName = buildingName || address;
+
+        setValue('locationInfo', {
+          address,
+          latitude,
+          longitude,
+          placeName,
+        });
+        setValue('placeName', placeName);
       },
     }).open();
   };
