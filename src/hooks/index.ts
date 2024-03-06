@@ -13,3 +13,4 @@ export { default as useHistory } from './useHistory';
 export { default as usePrompt } from './usePrompt';
 export { default as useMyTeam } from './useMyTeam';
 export { default as useRefreshSelectorFamilyByKey } from './useRefreshSelectorFamilyByKey';
+export { default as useScript } from './useScript';
