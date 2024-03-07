@@ -64,10 +64,16 @@ export const RequiredDot = styled.span`
 export const RadioButtonGroup = styled.div`
   display: flex;
   gap: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
 `;
 
 export const InputWithButton = styled.div`
   display: flex;
   gap: 1rem;
+`;
+
+export const LocationWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 `;

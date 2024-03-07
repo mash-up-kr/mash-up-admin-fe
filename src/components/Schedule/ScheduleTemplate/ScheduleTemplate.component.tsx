@@ -125,16 +125,23 @@ const ScheduleTemplate = () => {
             />
           </Styled.RadioButtonGroup>
           {locationType === LocationType.OFFLINE && (
-            <Styled.InputWithButton>
+            <Styled.LocationWrapper>
+              <Styled.InputWithButton>
+                <InputField
+                  $size="md"
+                  placeholder="장소"
+                  {...register('placeName', { required: locationType === LocationType.OFFLINE })}
+                />
+                <Button shape="primaryLine" $size="md" onClick={handleClickAddressSearch}>
+                  주소 검색
+                </Button>
+              </Styled.InputWithButton>
               <InputField
                 $size="md"
-                placeholder="장소"
-                {...register('placeName', { required: locationType === LocationType.OFFLINE })}
+                placeholder="상세 주소를 입력해 주세요 (ex. 동, 호, 층 등)"
+                {...register('detailAddress')}
               />
-              <Button shape="primaryLine" $size="md" onClick={handleClickAddressSearch}>
-                주소 검색
-              </Button>
-            </Styled.InputWithButton>
+            </Styled.LocationWrapper>
           )}
         </div>
       </Styled.ScheduleContent>
