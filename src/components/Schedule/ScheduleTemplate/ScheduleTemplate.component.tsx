@@ -53,7 +53,7 @@ const ScheduleTemplate = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `KakaoAK ${process.env.KAKAO_KEY}`,
+            Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_KEY}`,
           },
         });
         const json = await res.json();
