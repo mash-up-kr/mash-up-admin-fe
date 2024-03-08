@@ -27,6 +27,7 @@ export interface ScheduleFormValues {
     longitude: string;
     placeName: string;
   };
+  detailAddress?: string;
 }
 
 export const getScheduleStatusText = (status: ValueOf<typeof ScheduleStatus>) => {
@@ -43,7 +44,13 @@ export const getScheduleStatusText = (status: ValueOf<typeof ScheduleStatus>) =>
 export const parseScheduleResponseToFormValues = (
   response: ScheduleResponse,
 ): ScheduleFormValues => {
-  const { name, generationNumber, startedAt, eventList, location } = response;
+  const {
+    name,
+    generationNumber,
+    startedAt,
+    eventList,
+    location: { address, placeName, latitude, longitude },
+  } = response;
 
   const date: Dayjs = dayjs(startedAt, 'YYYY-MM-DD').startOf('day');
 
@@ -58,22 +65,41 @@ export const parseScheduleResponseToFormValues = (
     })),
   }));
 
-  const isOffline = !!location.address;
+  if (address) {
+    // address의 형식: 주소 (상세주소)
+    const baseAddress = address.replace(/\s*\(.*?\)\s*/g, '');
+    const [, detailAddress] = address.match(/\(([^)]+)\)/) ?? [];
+    return {
+      name,
+      generationNumber,
+      date,
+      sessions,
+      locationType: LocationType.OFFLINE,
+      placeName,
+      detailAddress,
+      locationInfo: {
+        address: baseAddress,
+        latitude: String(latitude),
+        longitude: String(longitude),
+        placeName,
+      },
+    };
+  }
 
   return {
     name,
     generationNumber,
     date,
     sessions,
-    locationType: isOffline ? LocationType.OFFLINE : LocationType.ONLINE,
-    placeName: isOffline ? location.placeName : undefined,
+    locationType: LocationType.ONLINE,
   };
 };
 
 export const parseFormValuesToScheduleRequest = (
   formValues: ScheduleFormValues,
 ): ScheduleCreateRequest | ScheduleUpdateRequest => {
-  const { generationNumber, date, sessions, name, locationType, locationInfo } = formValues;
+  const { generationNumber, date, sessions, name, locationType, locationInfo, detailAddress } =
+    formValues;
 
   const formattedDate = date.format('YYYY-MM-DD');
 
@@ -99,7 +125,7 @@ export const parseFormValuesToScheduleRequest = (
   };
 
   if (locationType === LocationType.OFFLINE && locationInfo) {
-    scheduleRequest.address = locationInfo.address;
+    scheduleRequest.address = `${locationInfo.address}${detailAddress ? `(${detailAddress})` : ''}`;
     scheduleRequest.latitude = Number(locationInfo.latitude);
     scheduleRequest.longitude = Number(locationInfo.longitude);
     scheduleRequest.placeName = locationInfo.placeName;
