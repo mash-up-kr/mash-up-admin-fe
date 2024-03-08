@@ -6,7 +6,6 @@ export const ScheduleContent = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    height: 36.9rem;
     padding: 2.4rem;
     background-color: ${theme.colors.white};
     border: 0.1rem solid ${theme.colors.gray30};
@@ -42,4 +41,39 @@ export const AddButton = styled.button`
   margin: 0 auto;
   margin-top: 2.4rem;
   background-color: transparent;
+`;
+
+export const InputLabel = styled.label`
+  ${({ theme }) => css`
+    ${theme.fonts.medium15}
+    display: flex;
+    margin-bottom: 0.6rem;
+    color: ${theme.colors.gray70};
+  `}
+`;
+
+export const RequiredDot = styled.span`
+  width: 0.6rem;
+  min-width: 0.6rem;
+  height: 0.6rem;
+  margin: 0.8rem 0 0 0.6rem;
+  background-color: #eb6963;
+  border-radius: 50%;
+`;
+
+export const RadioButtonGroup = styled.div`
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 0.6rem;
+`;
+
+export const InputWithButton = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+export const LocationWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 `;

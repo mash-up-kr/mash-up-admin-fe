@@ -3921,6 +3921,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/daum-postcode@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@types/daum-postcode@npm:2.0.3"
+  checksum: 72283bd2c3bb17073eb1324089e2bc5f5ff6df89c8731e1b9123620328cca0f7b77ac6480a06b5e35c0436c652782af376a896af5044416e2dfb809d040ee728
+  languageName: node
+  linkType: hard
+
 "@types/editorjs__header@npm:^2.6.0":
   version: 2.6.0
   resolution: "@types/editorjs__header@npm:2.6.0"
@@ -12951,6 +12958,7 @@ __metadata:
     "@testing-library/react": ^12.1.2
     "@testing-library/react-hooks": ^7.0.2
     "@testing-library/user-event": ^13.5.0
+    "@types/daum-postcode": ^2.0.3
     "@types/editorjs__header": ^2.6.0
     "@types/jest": ^27.4.0
     "@types/lodash-es": ^4.17.6

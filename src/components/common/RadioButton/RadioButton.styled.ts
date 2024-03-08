@@ -67,6 +67,6 @@ export const RadioButtonMark = styled.span`
 export const RadioButtonText = styled.span`
   ${({ theme }) => css`
     ${theme.fonts.medium14}
-    padding-left: 3.8rem;
+    padding-left: 3rem;
   `}
 `;
