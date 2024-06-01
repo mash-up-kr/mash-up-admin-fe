@@ -64,15 +64,14 @@ const ScheduleTemplate = () => {
           y: latitude,
           building_name: buildingName,
         } = json.documents[0].road_address;
-        const placeName = buildingName || address;
+        const placeName = buildingName || '';
 
         setValue('locationInfo', {
-          address,
+          roadAddress: address,
           latitude,
           longitude,
-          placeName,
+          detailAddress: placeName,
         });
-        setValue('placeName', placeName);
       },
     }).open();
   };
@@ -129,8 +128,11 @@ const ScheduleTemplate = () => {
               <Styled.InputWithButton>
                 <InputField
                   $size="md"
-                  placeholder="장소"
-                  {...register('placeName', { required: locationType === LocationType.OFFLINE })}
+                  placeholder="주소"
+                  disabled={false}
+                  {...register('locationInfo.roadAddress', {
+                    required: locationType === LocationType.OFFLINE,
+                  })}
                 />
                 <Button shape="primaryLine" $size="md" onClick={handleClickAddressSearch}>
                   주소 검색
@@ -139,7 +141,7 @@ const ScheduleTemplate = () => {
               <InputField
                 $size="md"
                 placeholder="상세 주소를 입력해 주세요 (ex. 동, 호, 층 등)"
-                {...register('detailAddress')}
+                {...register('locationInfo.detailAddress')}
               />
             </Styled.LocationWrapper>
           )}
