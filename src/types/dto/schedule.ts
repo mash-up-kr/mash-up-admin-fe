@@ -1,3 +1,4 @@
+import { SchedulePlatformType } from '@/utils';
 import { ValueOf } from '..';
 
 export const ScheduleStatus = {
@@ -10,6 +11,7 @@ export interface ScheduleRequest {
   page?: number;
   size?: number;
   sort?: string;
+  scheduleType: ValueOf<typeof SchedulePlatformType>;
 }
 
 export interface EventCreateRequest {
@@ -34,6 +36,7 @@ interface Location {
 
 export interface ScheduleCreateRequest extends Location {
   generationNumber?: number;
+  scheduleType: ValueOf<typeof SchedulePlatformType>;
   endedAt: string;
   name: string;
   startedAt: string;
@@ -42,6 +45,7 @@ export interface ScheduleCreateRequest extends Location {
 
 export interface ScheduleUpdateRequest extends Location {
   generationNumber?: number;
+  scheduleType: ValueOf<typeof SchedulePlatformType>;
   endedAt: string;
   name: string;
   startedAt: string;
@@ -51,6 +55,7 @@ export interface ScheduleUpdateRequest extends Location {
 export interface ScheduleResponse {
   endedAt: string;
   generationNumber: number;
+  scheduleType: ValueOf<typeof SchedulePlatformType>;
   name: string;
   scheduleId: number;
   createdAt: string;

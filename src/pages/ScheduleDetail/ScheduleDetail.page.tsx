@@ -23,6 +23,7 @@ const ScheduleDetail = () => {
 
   const {
     name,
+    scheduleType,
     generationNumber,
     startedAt,
     createdAt,
@@ -143,6 +144,7 @@ const ScheduleDetail = () => {
         <h3>스케줄 정보</h3>
         <ScheduleInfoList
           name={name}
+          scheduleType={scheduleType}
           generationNumber={generationNumber}
           startedAt={startedAt}
           createdAt={createdAt}

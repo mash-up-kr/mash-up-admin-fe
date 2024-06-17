@@ -1,28 +1,50 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, MouseEvent } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
-import { BottomCTA, Button, Link, Pagination, SearchOptionBar, Table } from '@/components';
+import {
+  BottomCTA,
+  Button,
+  Link,
+  Pagination,
+  SearchOptionBar,
+  Table,
+  TeamNavigationTabs,
+} from '@/components';
 import * as Styled from './ScheduleList.styled';
 import { TableColumn } from '@/components/common/Table/Table.component';
 import { ScheduleRequest, ScheduleResponse, ScheduleStatus } from '@/types/dto/schedule';
 import { formatDate } from '@/utils/date';
 import { getScheduleDetailPage, PATH } from '@/constants';
 import { ButtonShape, ButtonSize } from '@/components/common/Button/Button.component';
-import { usePagination } from '@/hooks';
-import { $generationNumber } from '@/store';
+import { usePagination, useToast } from '@/hooks';
+import { $generationNumber, $isMaster, $profile } from '@/store';
 import { $schedules } from '@/store/schedule';
 import { ValueOf } from '@/types';
-import { getScheduleStatusText } from '@/utils';
+import { getScheduleStatusText, SchedulePlatformType } from '@/utils';
+import { ToastType } from '@/styles';
 
 const ScheduleList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const teamName = searchParams.get('team');
   const generationNumber = useRecoilValue($generationNumber);
+  const [position] = useRecoilValue($profile);
+  const isMaster = useRecoilValue($isMaster);
   const page = searchParams.get('page') || '1';
   const size = searchParams.get('size') || '10';
   const searchWord = searchParams.get('searchWord') || '';
 
   const { pathname, search } = useLocation();
+  const { handleAddToast } = useToast();
+
+  const handleClickLink = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (!isMaster && teamName !== position) {
+      handleAddToast({
+        type: ToastType.error,
+        message: '접근 권한이 없는 플랫폼입니다.',
+      });
+      event.preventDefault();
+    }
+  };
 
   const columns: TableColumn<ScheduleResponse>[] = [
     {
@@ -31,7 +53,11 @@ const ScheduleList = () => {
       widthRatio: '20%',
       idAccessor: 'scheduleId',
       renderCustomCell: ({ cellValue, id }) => (
-        <Styled.TitleLink to={getScheduleDetailPage(id)} state={{ from: `${pathname}${search}` }}>
+        <Styled.TitleLink
+          to={getScheduleDetailPage(id)}
+          state={{ from: `${pathname}${search}` }}
+          onClick={handleClickLink}
+        >
           {cellValue as string}
         </Styled.TitleLink>
       ),
@@ -75,8 +101,9 @@ const ScheduleList = () => {
       size: parseInt(size, 10),
       searchWord,
       generationNumber,
+      scheduleType: (teamName as ValueOf<typeof SchedulePlatformType>) ?? 'ALL',
     }),
-    [generationNumber, page, searchWord, size],
+    [generationNumber, page, searchWord, size, teamName],
   );
 
   const [{ contents }] = useRecoilStateLoadable($schedules(scheduleParams));
@@ -105,6 +132,7 @@ const ScheduleList = () => {
     <Styled.PageWrapper>
       <Styled.Heading>스케줄 정보 </Styled.Heading>
       <Styled.StickyContainer>
+        <TeamNavigationTabs />
         <SearchOptionBar placeholder="스케줄명 검색" />
       </Styled.StickyContainer>
       <Table

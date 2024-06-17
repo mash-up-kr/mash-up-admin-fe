@@ -14,9 +14,26 @@ export const LocationType = {
   ONLINE: 'online',
 } as const;
 
+export const ScheduleType = {
+  PLATFORM: 'PLATFORM',
+  ALL: 'ALL',
+} as const;
+
+export const SchedulePlatformType = {
+  ALL: 'ALL',
+  ANDROID: 'ANDROID',
+  IOS: 'IOS',
+  WEB: 'WEB',
+  SPRING: 'SPRING',
+  NODE: 'NODE',
+  DESIGN: 'DESIGN',
+} as const;
+
 export interface ScheduleFormValues {
   name: string;
   generationNumber: number;
+  scheduleType: ValueOf<typeof ScheduleType>;
+  schedulePlatformType?: ValueOf<typeof SchedulePlatformType>;
   date: Dayjs;
   sessions: EventCreateRequest[];
   locationType: ValueOf<typeof LocationType>;
@@ -27,6 +44,27 @@ export interface ScheduleFormValues {
     detailAddress: string;
   };
 }
+
+export const getScheduleType = (type: ValueOf<typeof SchedulePlatformType>) => {
+  switch (type) {
+    case SchedulePlatformType.ALL:
+      return '전체';
+    case SchedulePlatformType.ANDROID:
+      return 'Android';
+    case SchedulePlatformType.IOS:
+      return 'iOS';
+    case SchedulePlatformType.WEB:
+      return 'Web';
+    case SchedulePlatformType.SPRING:
+      return 'Spring';
+    case SchedulePlatformType.NODE:
+      return 'Node';
+    case SchedulePlatformType.DESIGN:
+      return 'Design';
+    default:
+      return '';
+  }
+};
 
 export const getScheduleStatusText = (status: ValueOf<typeof ScheduleStatus>) => {
   switch (status) {
@@ -45,6 +83,7 @@ export const parseScheduleResponseToFormValues = (
   const {
     name,
     generationNumber,
+    scheduleType: responseScheduleType,
     startedAt,
     eventList,
     location: { roadAddress, detailAddress, latitude, longitude },
@@ -63,10 +102,16 @@ export const parseScheduleResponseToFormValues = (
     })),
   }));
 
+  const isScheduleAll = responseScheduleType === 'ALL';
+  const scheduleType = isScheduleAll ? ScheduleType.ALL : ScheduleType.PLATFORM;
+  const schedulePlatformType = isScheduleAll ? undefined : responseScheduleType;
+
   if (roadAddress) {
     return {
       name,
       generationNumber,
+      scheduleType,
+      schedulePlatformType,
       date,
       sessions,
       locationType: LocationType.OFFLINE,
@@ -82,6 +127,8 @@ export const parseScheduleResponseToFormValues = (
   return {
     name,
     generationNumber,
+    scheduleType,
+    schedulePlatformType,
     date,
     sessions,
     locationType: LocationType.ONLINE,
@@ -91,7 +138,16 @@ export const parseScheduleResponseToFormValues = (
 export const parseFormValuesToScheduleRequest = (
   formValues: ScheduleFormValues,
 ): ScheduleCreateRequest | ScheduleUpdateRequest => {
-  const { generationNumber, date, sessions, name, locationType, locationInfo } = formValues;
+  const {
+    generationNumber,
+    scheduleType: formScheduleType,
+    schedulePlatformType,
+    date,
+    sessions,
+    name,
+    locationType,
+    locationInfo,
+  } = formValues;
 
   const formattedDate = date.format('YYYY-MM-DD');
 
@@ -109,6 +165,7 @@ export const parseFormValuesToScheduleRequest = (
   const endedAt = toUtcFormat(`${formattedDate} ${sessions[sessions.length - 1]?.endedAt}`);
 
   const scheduleRequest: ScheduleCreateRequest | ScheduleUpdateRequest = {
+    scheduleType: formScheduleType === ScheduleType.ALL ? ScheduleType.ALL : schedulePlatformType!,
     generationNumber,
     name,
     startedAt,
