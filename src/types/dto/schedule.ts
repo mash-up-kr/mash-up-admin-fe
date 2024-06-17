@@ -25,28 +25,27 @@ export interface ContentsCreateRequest {
   desc: string;
 }
 
-export interface ScheduleCreateRequest {
-  generationNumber?: number;
-  endedAt: string;
-  name: string;
-  startedAt: string;
-  eventsCreateRequests: EventCreateRequest[];
-  address?: string;
-  latitude?: number;
-  longitude?: number;
-  placeName?: string;
+interface Location {
+  roadAddress?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  detailAddress?: string;
 }
 
-export interface ScheduleUpdateRequest {
+export interface ScheduleCreateRequest extends Location {
   generationNumber?: number;
   endedAt: string;
   name: string;
   startedAt: string;
   eventsCreateRequests: EventCreateRequest[];
-  address?: string;
-  latitude?: number;
-  longitude?: number;
-  placeName?: string;
+}
+
+export interface ScheduleUpdateRequest extends Location {
+  generationNumber?: number;
+  endedAt: string;
+  name: string;
+  startedAt: string;
+  eventsCreateRequests: EventCreateRequest[];
 }
 
 export interface ScheduleResponse {
@@ -59,12 +58,7 @@ export interface ScheduleResponse {
   publishedAt?: string;
   eventList: Session[];
   status: ValueOf<typeof ScheduleStatus>;
-  location: {
-    address: string | null;
-    latitude: number | null;
-    longitude: number | null;
-    placeName: string;
-  };
+  location: { detailAddress: string } & Omit<Location, 'detailAddress'>;
 }
 
 export interface QRCodeRequest {
