@@ -12,8 +12,8 @@ interface ScheduleInfoListProps {
   publishedAt?: string;
   status: ValueOf<typeof ScheduleStatus>;
   location: {
-    address: string | null;
-    placeName: string;
+    roadAddress?: string | null;
+    detailAddress: string;
   };
 }
 
@@ -47,9 +47,11 @@ const ScheduleInfoList = ({
       {
         label: '장소',
         value:
-          location.address === null
-            ? location.placeName
-            : `${location.placeName}, ${location.address}`,
+          location.roadAddress === null
+            ? location.detailAddress // ZOOM
+            : `${location.roadAddress}${
+                location.detailAddress ? `, ${location.detailAddress}` : ''
+              }`,
       },
       {
         label: '배포 일시',
