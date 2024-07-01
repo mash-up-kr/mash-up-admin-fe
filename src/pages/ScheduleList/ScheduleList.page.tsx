@@ -132,7 +132,7 @@ const ScheduleList = () => {
     <Styled.PageWrapper>
       <Styled.Heading>스케줄 정보 </Styled.Heading>
       <Styled.StickyContainer>
-        <TeamNavigationTabs />
+        <TeamNavigationTabs allAltText="All Seminar" />
         <SearchOptionBar placeholder="스케줄명 검색" />
       </Styled.StickyContainer>
       <Table
