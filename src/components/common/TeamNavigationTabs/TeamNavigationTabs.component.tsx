@@ -4,7 +4,11 @@ import * as Styled from './TeamNavigationTabs.styled';
 
 const TEAMS = ['All', 'Design', 'Android', 'iOS', 'Web', 'Node', 'Spring'];
 
-const TeamNavigationTabs = () => {
+interface TeamNavigationTabsProps {
+  allAltText?: string;
+}
+
+const TeamNavigationTabs = ({ allAltText }: TeamNavigationTabsProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleClickTab = (teamParam: string) => {
@@ -23,7 +27,7 @@ const TeamNavigationTabs = () => {
         const teamParam = team === 'All' ? '' : team.toUpperCase();
         const active =
           team === 'All' ? !searchParams.has('team') : searchParams.get('team') === teamParam;
-
+        const isAllAltText = team === 'All' && !!allAltText;
         return (
           <Styled.Tab
             key={index}
@@ -31,9 +35,10 @@ const TeamNavigationTabs = () => {
             aria-label={`${team} tab`}
             aria-current={active}
             active={active}
+            isAllAltText={isAllAltText}
             onClick={() => handleClickTab(teamParam)}
           >
-            {team}
+            {isAllAltText ? allAltText : team}
           </Styled.Tab>
         );
       })}
