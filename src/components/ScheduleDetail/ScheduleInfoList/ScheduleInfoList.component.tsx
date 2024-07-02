@@ -2,10 +2,11 @@ import React, { useMemo } from 'react';
 import { ScheduleStatus, ValueOf } from '@/types';
 
 import * as Styled from './ScheduleInfoList.styled';
-import { formatDate, getScheduleStatusText } from '@/utils';
+import { formatDate, getScheduleStatusText, getScheduleType, SchedulePlatformType } from '@/utils';
 
 interface ScheduleInfoListProps {
   generationNumber: number;
+  scheduleType: ValueOf<typeof SchedulePlatformType>;
   name: string;
   createdAt: string;
   startedAt: string;
@@ -20,6 +21,7 @@ interface ScheduleInfoListProps {
 const ScheduleInfoList = ({
   name,
   generationNumber,
+  scheduleType,
   startedAt,
   createdAt,
   publishedAt,
@@ -35,6 +37,10 @@ const ScheduleInfoList = ({
       {
         label: '기수',
         value: `${generationNumber}기`,
+      },
+      {
+        label: '구분',
+        value: getScheduleType(scheduleType),
       },
       {
         label: '스케줄 일시',
@@ -62,7 +68,7 @@ const ScheduleInfoList = ({
         value: getScheduleStatusText(status),
       },
     ];
-  }, [createdAt, generationNumber, name, publishedAt, startedAt, status, location]);
+  }, [createdAt, generationNumber, name, publishedAt, startedAt, status, location, scheduleType]);
 
   return (
     <Styled.ScheduleInfoList>
