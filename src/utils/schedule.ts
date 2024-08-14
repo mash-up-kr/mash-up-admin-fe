@@ -43,6 +43,7 @@ export interface ScheduleFormValues {
     longitude: string;
     detailAddress: string;
   };
+  notice?: string;
 }
 
 export const getScheduleType = (type: ValueOf<typeof SchedulePlatformType>) => {
@@ -87,6 +88,7 @@ export const parseScheduleResponseToFormValues = (
     startedAt,
     eventList,
     location: { roadAddress, detailAddress, latitude, longitude },
+    notice,
   } = response;
 
   const date: Dayjs = dayjs(startedAt, 'YYYY-MM-DD').startOf('day');
@@ -121,6 +123,7 @@ export const parseScheduleResponseToFormValues = (
         longitude: String(longitude),
         detailAddress: detailAddress ?? '',
       },
+      notice,
     };
   }
 
@@ -132,6 +135,7 @@ export const parseScheduleResponseToFormValues = (
     date,
     sessions,
     locationType: LocationType.ONLINE,
+    notice,
   };
 };
 
@@ -147,6 +151,7 @@ export const parseFormValuesToScheduleRequest = (
     name,
     locationType,
     locationInfo,
+    notice,
   } = formValues;
 
   const formattedDate = date.format('YYYY-MM-DD');
@@ -171,6 +176,7 @@ export const parseFormValuesToScheduleRequest = (
     startedAt,
     endedAt,
     eventsCreateRequests,
+    notice: formScheduleType === ScheduleType.ALL ? '' : notice,
   };
 
   if (locationType === LocationType.OFFLINE && locationInfo) {

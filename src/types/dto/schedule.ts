@@ -41,6 +41,7 @@ export interface ScheduleCreateRequest extends Location {
   name: string;
   startedAt: string;
   eventsCreateRequests: EventCreateRequest[];
+  notice?: string;
 }
 
 export interface ScheduleUpdateRequest extends Location {
@@ -50,6 +51,7 @@ export interface ScheduleUpdateRequest extends Location {
   name: string;
   startedAt: string;
   eventsCreateRequests: EventCreateRequest[];
+  notice?: string;
 }
 
 export interface ScheduleResponse {
@@ -64,6 +66,7 @@ export interface ScheduleResponse {
   eventList: Session[];
   status: ValueOf<typeof ScheduleStatus>;
   location: { detailAddress: string } & Omit<Location, 'detailAddress'>;
+  notice: string;
 }
 
 export interface QRCodeRequest {

@@ -16,6 +16,7 @@ interface ScheduleInfoListProps {
     roadAddress?: string | null;
     detailAddress: string;
   };
+  notice: string | null;
 }
 
 const ScheduleInfoList = ({
@@ -27,48 +28,56 @@ const ScheduleInfoList = ({
   publishedAt,
   status,
   location,
+  notice,
 }: ScheduleInfoListProps) => {
+  const baseScheduleInfoListItem = [
+    {
+      label: '스케줄 명',
+      value: name,
+    },
+    {
+      label: '기수',
+      value: `${generationNumber}기`,
+    },
+    {
+      label: '구분',
+      value: getScheduleType(scheduleType),
+    },
+    {
+      label: '스케줄 일시',
+      value: formatDate(startedAt, 'YYYY년 M월 D일 A hh시 mm분'),
+    },
+    {
+      label: '등록 일시',
+      value: formatDate(createdAt, 'YYYY년 M월 D일 A hh시 mm분'),
+    },
+    {
+      label: '장소',
+      value:
+        location.roadAddress === null
+          ? location.detailAddress // ZOOM
+          : `${location.roadAddress}${location.detailAddress ? `, ${location.detailAddress}` : ''}`,
+    },
+    {
+      label: '공지',
+      value: notice ?? '-',
+    },
+    {
+      label: '배포 일시',
+      value: formatDate(publishedAt, 'YYYY년 M월 D일 A hh시 mm분'),
+    },
+    {
+      label: '배포 상태',
+      value: getScheduleStatusText(status),
+    },
+  ];
+
   const scheduleInfoListItem = useMemo(() => {
-    return [
-      {
-        label: '스케줄 명',
-        value: name,
-      },
-      {
-        label: '기수',
-        value: `${generationNumber}기`,
-      },
-      {
-        label: '구분',
-        value: getScheduleType(scheduleType),
-      },
-      {
-        label: '스케줄 일시',
-        value: formatDate(startedAt, 'YYYY년 M월 D일 A hh시 mm분'),
-      },
-      {
-        label: '등록 일시',
-        value: formatDate(createdAt, 'YYYY년 M월 D일 A hh시 mm분'),
-      },
-      {
-        label: '장소',
-        value:
-          location.roadAddress === null
-            ? location.detailAddress // ZOOM
-            : `${location.roadAddress}${
-                location.detailAddress ? `, ${location.detailAddress}` : ''
-              }`,
-      },
-      {
-        label: '배포 일시',
-        value: formatDate(publishedAt, 'YYYY년 M월 D일 A hh시 mm분'),
-      },
-      {
-        label: '배포 상태',
-        value: getScheduleStatusText(status),
-      },
-    ];
-  }, [createdAt, generationNumber, name, publishedAt, startedAt, status, location, scheduleType]);
+    if (getScheduleType(scheduleType) === '전체') {
+      return baseScheduleInfoListItem.filter((i) => i.label !== '공지');
+    }
+    return baseScheduleInfoListItem;
+  }, [baseScheduleInfoListItem, scheduleType]);
 
   return (
     <Styled.ScheduleInfoList>

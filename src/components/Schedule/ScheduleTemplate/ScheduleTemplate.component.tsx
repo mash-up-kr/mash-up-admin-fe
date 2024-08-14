@@ -1,7 +1,14 @@
 import React, { useMemo } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
-import { Button, DatePickerField, InputField, RadioButtonField, SelectField } from '@/components';
+import {
+  Button,
+  DatePickerField,
+  InputField,
+  RadioButtonField,
+  SelectField,
+  Textarea,
+} from '@/components';
 import { InputSize } from '@/components/common/Input/Input.component';
 import * as Styled from './ScheduleTemplate.styled';
 import { $generations, $profile, $teams } from '@/store';
@@ -197,6 +204,9 @@ const ScheduleTemplate = () => {
             </Styled.LocationWrapper>
           )}
         </div>
+        {scheduleType === ScheduleType.PLATFORM && (
+          <Textarea label="공지" {...register('notice')} />
+        )}
       </Styled.ScheduleContent>
       <Styled.SessionContent>
         <Styled.Title>세션 정보</Styled.Title>
