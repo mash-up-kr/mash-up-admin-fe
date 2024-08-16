@@ -204,9 +204,7 @@ const ScheduleTemplate = () => {
             </Styled.LocationWrapper>
           )}
         </div>
-        {scheduleType === ScheduleType.PLATFORM && (
-          <Textarea label="공지" {...register('notice')} />
-        )}
+        <Textarea label="공지" {...register('notice')} />
       </Styled.ScheduleContent>
       <Styled.SessionContent>
         <Styled.Title>세션 정보</Styled.Title>

@@ -176,7 +176,7 @@ export const parseFormValuesToScheduleRequest = (
     startedAt,
     endedAt,
     eventsCreateRequests,
-    notice: formScheduleType === ScheduleType.ALL ? '' : notice,
+    notice,
   };
 
   if (locationType === LocationType.OFFLINE && locationInfo) {
