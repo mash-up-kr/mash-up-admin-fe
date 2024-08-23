@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 interface StyledNavigationItemProps {
   active: boolean;
+  isAllAltText?: boolean;
 }
 
 export const Tabs = styled.nav`
@@ -15,13 +16,13 @@ export const Tabs = styled.nav`
 `;
 
 export const Tab = styled.button<StyledNavigationItemProps>`
-  ${({ theme, active }) => css`
+  ${({ theme, active, isAllAltText }) => css`
     ${theme.fonts.regular16};
 
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 8rem;
+    width: ${isAllAltText ? '12rem' : '8rem'};
     height: 4rem;
     color: ${active ? theme.colors.purple70 : theme.colors.gray50};
     letter-spacing: -0.08rem;
