@@ -34,13 +34,13 @@ const scoreTypes = [
       },
       {
         value: ScoreType.HACKATHON_COMMITTEE,
-        label: '세미나 활동중 추가 점수',
+        label: '세미나 활동중 추가 점수(0.5)',
         rangeType: RangeType.Plus,
         range: 0.5,
       },
       {
         value: ScoreType.HACKATHON_COMMITTEE,
-        label: '세미나 활동중 추가 점수',
+        label: '세미나 활동중 추가 점수(1)',
         rangeType: RangeType.Plus,
         range: 1,
       },
