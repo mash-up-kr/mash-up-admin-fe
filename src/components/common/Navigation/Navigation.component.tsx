@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { Fragment, ReactElement } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { ValueOf } from '@/types';
@@ -50,7 +50,7 @@ const Navigation = ({ size, inActiveColor, items, showBottomBorder = true }: Nav
   return (
     <Styled.NavigationContainer showBottomBorder={showBottomBorder}>
       {items.map((item) => (
-        <>
+        <Fragment key={item.title}>
           <Styled.NavigationTitle>{item.title}</Styled.NavigationTitle>
           {item.menus.map((menu, menuIdx) => {
             if (menu.isMasterOnly && !isMaster) {
@@ -62,7 +62,7 @@ const Navigation = ({ size, inActiveColor, items, showBottomBorder = true }: Nav
               .some((pathNameItem) => `/${pathNameItem}` === menu.to);
 
             return (
-              <>
+              <Fragment key={menu.label}>
                 <Styled.ItemWrapper>
                   <Styled.NavigationItem
                     key={menu.to}
@@ -76,10 +76,10 @@ const Navigation = ({ size, inActiveColor, items, showBottomBorder = true }: Nav
                   </Styled.NavigationItem>
                 </Styled.ItemWrapper>
                 {item.menus.length === menuIdx + 1 && <Styled.NavigationDivider />}
-              </>
+              </Fragment>
             );
           })}
-        </>
+        </Fragment>
       ))}
       <Styled.ItemWrapper>
         <Styled.LogoutButton size={size} onClick={handleLogout}>
