@@ -60,7 +60,7 @@ const scoreTypes = [
         value: ScoreType.DEPLOY_FAILURE,
         label: '프로젝트 MVP 배포 실패',
         rangeType: RangeType.Minus,
-        range: 1,
+        range: 0.5,
       },
     ],
   },
