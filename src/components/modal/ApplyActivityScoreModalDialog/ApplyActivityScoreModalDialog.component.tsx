@@ -24,28 +24,8 @@ interface FormValues {
 
 const scoreTypes = [
   {
-    label: '출결',
-    items: [
-      { value: ScoreType.ATTENDANCE, label: '출석', rangeType: RangeType.Normal, range: 0 },
-      { value: ScoreType.LATE, label: '지각', rangeType: RangeType.Minus, range: 0.5 },
-      { value: ScoreType.ABSENT, label: '결석', rangeType: RangeType.Minus, range: 1 },
-    ],
-  },
-  {
     label: '활동',
     items: [
-      {
-        value: ScoreType.DEPLOY_FAILURE,
-        label: '프로젝트 배포 실패',
-        rangeType: RangeType.Minus,
-        range: 1,
-      },
-      {
-        value: ScoreType.DEPLOY_SUCCESS,
-        label: '프로젝트 배포 성공',
-        rangeType: RangeType.Plus,
-        range: 1,
-      },
       {
         value: ScoreType.SEMINAR_PRESENTATION,
         label: '전체 세미나 발표',
@@ -53,37 +33,54 @@ const scoreTypes = [
         range: 1,
       },
       {
+        value: ScoreType.ADD_SCORE_DURING_SEMINAR_ACTIVITY_0_5,
+        label: '세미나 활동중 추가 점수(0.5)',
+        rangeType: RangeType.Plus,
+        range: 0.5,
+      },
+      {
+        value: ScoreType.ADD_SCORE_DURING_SEMINAR_ACTIVITY_1,
+        label: '세미나 활동중 추가 점수(1)',
+        rangeType: RangeType.Plus,
+        range: 1,
+      },
+      {
         value: ScoreType.MASHUP_CONTENT_WRITE,
-        label: '매시업 콘텐츠 글 작성',
+        label: 'Mash-Up 콘텐츠 글 작성',
         rangeType: RangeType.Plus,
         range: 0.5,
       },
       {
         value: ScoreType.HACKATHON_COMMITTEE,
-        label: '뭐든준비위원회',
+        label: '준비위원회',
         rangeType: RangeType.Plus,
         range: 1,
+      },
+      {
+        value: ScoreType.DEPLOY_FAILURE,
+        label: '프로젝트 MVP 배포 실패',
+        rangeType: RangeType.Minus,
+        range: 0.5,
       },
     ],
   },
   {
     label: '직위',
     items: [
-      { value: ScoreType.MASHUP_LEADER, label: '회장', rangeType: RangeType.Plus, range: 100 },
-      { value: ScoreType.MASHUP_SUBLEADER, label: '부회장', rangeType: RangeType.Plus, range: 100 },
-      { value: ScoreType.MASHUP_STAFF, label: '스태프', rangeType: RangeType.Plus, range: 99 },
+      { value: ScoreType.MASHUP_STAFF, label: '스태프', rangeType: RangeType.Plus, range: 3 },
       {
         value: ScoreType.PROJECT_LEADER,
-        label: '프로젝트팀 팀장',
+        label: '프로젝트 팀 리더',
         rangeType: RangeType.Plus,
         range: 2,
       },
-      {
-        value: ScoreType.PROJECT_SUBLEADER,
-        label: '프로젝트팀 부팀장',
-        rangeType: RangeType.Plus,
-        range: 2,
-      },
+    ],
+  },
+  {
+    label: '출결',
+    items: [
+      { value: ScoreType.LATE, label: '지각', rangeType: RangeType.Minus, range: 0.5 },
+      { value: ScoreType.ABSENT, label: '결석', rangeType: RangeType.Minus, range: 1 },
     ],
   },
 ];

@@ -51,6 +51,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@testing-library/react", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:12.1.2"],\
             ["@testing-library/react-hooks", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.0.2"],\
             ["@testing-library/user-event", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:13.5.0"],\
+            ["@types/daum-postcode", "npm:2.0.3"],\
             ["@types/editorjs__header", "npm:2.6.0"],\
             ["@types/jest", "npm:27.4.0"],\
             ["@types/lodash-es", "npm:4.17.6"],\
@@ -6662,6 +6663,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/connect-history-api-fallback", "npm:1.3.5"],\
             ["@types/express-serve-static-core", "npm:4.17.28"],\
             ["@types/node", "npm:17.0.13"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/daum-postcode", [\
+        ["npm:2.0.3", {\
+          "packageLocation": "./.yarn/cache/@types-daum-postcode-npm-2.0.3-f480b4f904-72283bd2c3.zip/node_modules/@types/daum-postcode/",\
+          "packageDependencies": [\
+            ["@types/daum-postcode", "npm:2.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17504,6 +17514,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@testing-library/react", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:12.1.2"],\
             ["@testing-library/react-hooks", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:7.0.2"],\
             ["@testing-library/user-event", "virtual:749e5bbf5a36f23b3cf0fe3d04bee14b6518c1a723e8b01df428ddb8189c2ccc0edc216f830d01f6c6953a0ff06606bd469c60fb4212fe27940b27d64078f32d#npm:13.5.0"],\
+            ["@types/daum-postcode", "npm:2.0.3"],\
             ["@types/editorjs__header", "npm:2.6.0"],\
             ["@types/jest", "npm:27.4.0"],\
             ["@types/lodash-es", "npm:4.17.6"],\

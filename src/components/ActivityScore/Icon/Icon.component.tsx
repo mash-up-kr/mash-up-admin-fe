@@ -22,6 +22,8 @@ const scoreIcon = {
   [ScoreType.LATE]: <LATE />,
   [ScoreType.ABSENT]: <Absent />,
   [ScoreType.SEMINAR_PRESENTATION]: <Presentation />,
+  [ScoreType.ADD_SCORE_DURING_SEMINAR_ACTIVITY_0_5]: <Presentation />,
+  [ScoreType.ADD_SCORE_DURING_SEMINAR_ACTIVITY_1]: <Presentation />,
   [ScoreType.DEPLOY_SUCCESS]: <ProjectSuccess />,
   [ScoreType.DEPLOY_FAILURE]: <ProjectFail />,
   [ScoreType.MASHUP_LEADER]: <Leader />,
