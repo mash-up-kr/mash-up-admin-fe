@@ -188,10 +188,10 @@ const TableColumnCell = <T extends object>({
     return (
       <Styled.TableColumn textAlign={column.textAlign}>
         {titles.map((title, index) => (
-          <>
+          <Fragment key={title}>
             {title}
             {index !== titles.length - 1 && <br />}
-          </>
+          </Fragment>
         ))}
       </Styled.TableColumn>
     );
