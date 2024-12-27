@@ -58,7 +58,7 @@ module.exports = {
             loader: '@svgr/webpack',
             options: {
               svgoConfig: {
-                plugins: [{removeViewBox: false}],
+                plugins: [{ removeViewBox: false }],
               },
             },
           },
@@ -78,5 +78,9 @@ module.exports = {
     },
     modules: ['node_modules'],
   },
-  plugins: [new Dotenv()],
+  plugins: [
+    new Dotenv({
+      systemvars: true,
+    }),
+  ],
 };
