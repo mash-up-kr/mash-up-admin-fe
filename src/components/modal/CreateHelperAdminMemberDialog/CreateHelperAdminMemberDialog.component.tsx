@@ -28,7 +28,9 @@ const CreateHelperAdminMemberDialog = ({ refreshList }: CreateHelperAdminMemberD
 
   const getTeams = async () => {
     const { data } = await api.getTeams();
-    const newOptions = data.map((i) => ({ value: i.name, label: i.name }));
+    const newOptions = data.map(({ name }) => {
+      return { value: name === 'iOS' ? name : name.toLocaleUpperCase(), label: name };
+    });
     setOptions(newOptions);
     setValue('platform', newOptions[0].value);
   };
