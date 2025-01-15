@@ -25,7 +25,7 @@ export const createAdminMember = ({
     url: `/admin-members`,
     data: {
       password,
-      position: `${platform.toLocaleUpperCase()}_HELPER`,
+      position: `${platform}_HELPER`,
       username,
     },
   });
