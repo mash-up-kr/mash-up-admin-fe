@@ -45,12 +45,6 @@ const scoreTypes = [
         range: 1,
       },
       {
-        value: ScoreType.MASHUP_CONTENT_WRITE,
-        label: 'Mash-Up 콘텐츠 글 작성',
-        rangeType: RangeType.Plus,
-        range: 0.5,
-      },
-      {
         value: ScoreType.HACKATHON_COMMITTEE,
         label: '준비위원회',
         rangeType: RangeType.Plus,
@@ -65,22 +59,32 @@ const scoreTypes = [
     ],
   },
   {
-    label: '직위',
+    label: '출결',
     items: [
-      { value: ScoreType.MASHUP_STAFF, label: '스태프', rangeType: RangeType.Plus, range: 3 },
       {
-        value: ScoreType.PROJECT_LEADER,
-        label: '프로젝트 팀 리더',
+        value: ScoreType.ATTENDANCE,
+        label: '출석',
         rangeType: RangeType.Plus,
-        range: 2,
+        range: 1,
+      },
+      {
+        value: ScoreType.LATE,
+        label: '지각',
+        rangeType: RangeType.Plus,
+        range: 0.5,
       },
     ],
   },
   {
-    label: '출결',
+    label: '직위',
     items: [
-      { value: ScoreType.LATE, label: '지각', rangeType: RangeType.Minus, range: 0.5 },
-      { value: ScoreType.ABSENT, label: '결석', rangeType: RangeType.Minus, range: 1 },
+      { value: ScoreType.MASHUP_STAFF, label: '운영진', rangeType: RangeType.Plus, range: 2 },
+      {
+        value: ScoreType.PROJECT_LEADER,
+        label: '프로젝트 팀 리더',
+        rangeType: RangeType.Plus,
+        range: 1,
+      },
     ],
   },
 ];
